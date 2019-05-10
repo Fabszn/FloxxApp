@@ -1,35 +1,27 @@
 package org.floxx
 
-import org.floxx.controller.ScanApi
-import org.floxx.service.{ScanService, ScanServiceImpl}
+import org.floxx.controller.CfpApi
+import org.floxx.repository.Keys.SchedulesCfp
+import org.floxx.repository.repo.CfpRepo
+import org.floxx.service.{ CfpService, CfpServiceImpl }
 
 object AppLoader {
 
   trait AppContext {
-    /*def attendeeService: AttendeeService
-    def sponsorService: SponsorService
-    def attendeeApi: AttendeeApi*/
-    def scanApi: ScanApi
+    def cfpApi: CfpApi
   }
 
   private case class ApplicationContext(
-      /*attendeeService: AttendeeService,
-      sponsorService: SponsorService,
-      attendeeApi: AttendeeApi,*/
-      scanApi: ScanApi
+      cfpApi: CfpApi
   ) extends AppContext
 
   final def initialize: AppContext = {
 
-    //val attendeeService: AttendeeService = new AttendeeServiceImpl()
-    //val sponsorService: SponsorService   = new SponsorServiceImpl()
-    val scanService: ScanService   = new ScanServiceImpl()
+    val r                      = new CfpRepo()
+    val cfpService: CfpService = new CfpServiceImpl(r)
 
     ApplicationContext(
-      /*attendeeService,
-      sponsorService,
-      AttendeeApi(attendeeService),*/
-      controller.ScanApi(scanService)
+      controller.CfpApi(cfpService)
     )
   }
 

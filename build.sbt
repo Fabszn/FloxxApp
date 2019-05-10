@@ -20,12 +20,16 @@ lazy val databaseJdbcSetting = Seq(
   "ch.qos.logback"  %  "logback-classic"   % "1.2.3"
 )
 
+lazy val databaseRedisSetting = Seq(
+  "com.github.scredis" %% "scredis" % "2.2.4"
+)
+
 lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging)
   .settings(commonsSettings)
   .settings(
-    name := "floxx",
-    libraryDependencies ++= databaseJdbcSetting,
+    name := "Floxx",
+    libraryDependencies ++= databaseRedisSetting,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http"           % "10.1.4",
       "ch.megard"         %% "akka-http-cors"      % "0.4.0",
@@ -47,7 +51,7 @@ lazy val wartRemoverSettings = Seq(
   wartremoverErrors in (Compile, compile) ++= Seq(
     Wart.Any,
     Wart.AsInstanceOf,
-    Wart.Nothing,
+    //Wart.Nothing,
     Wart.Product,
     Wart.Return,
     //Wart.Var,

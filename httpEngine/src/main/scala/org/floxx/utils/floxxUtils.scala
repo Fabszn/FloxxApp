@@ -8,7 +8,7 @@ import akka.http.scaladsl.util.FastFuture
 import cats.data.EitherT
 
 
-object leadScanUtils {
+object floxxUtils {
 
     implicit class ToFuture[A](val it: A) {
       def future: Future[A] = FastFuture.successful(it)
