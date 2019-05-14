@@ -4,11 +4,14 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives.complete
 import akka.http.scaladsl.server.Route
 import org.floxx
+import org.slf4j.{ Logger, LoggerFactory }
 import play.api.libs.json.Json
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 package object controller {
+
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   case class Link(idAttendee: Long, idSponsor: Long)
 
@@ -28,10 +31,21 @@ package object controller {
             be => complete(floxx.handleError(be)),
             (r: A) => success(r)
           )
-        case Failure(e) => complete(StatusCodes.InternalServerError -> s"An error occurred: ${e.getMessage}")
+        case Failure(e) => {
+          logger.error(s"${e.getCause}")
+          complete(StatusCodes.InternalServerError -> s"An error occurred: ${e.getMessage}")
+        }
       }
       pf.apply(response)
     }
+  }
+
+  def formatRoomVal(value:String):String ={
+
+    val t = value.split("_")
+    s"${t(1)} ${t(2)}"
+
+
   }
 
 }

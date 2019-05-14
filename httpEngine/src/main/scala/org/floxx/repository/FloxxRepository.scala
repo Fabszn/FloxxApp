@@ -2,11 +2,14 @@ package org.floxx.repository
 
 import org.floxx.BusinessVal
 import org.floxx.repository.Keys.RedisKey
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.concurrent.Future
 
 trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
   import org.floxx.utils.floxxUtils._
+
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   val _key: K
   type ResultValue = String
@@ -27,6 +30,13 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
     }
 
     redis.get(key).mapFutureRight
+  }
+
+  protected def cleanKey(composedKey: String): String = {
+    val t = composedKey.replace(s"${_key._root_key}:", "")
+    println(t)
+    t
+
   }
 
 }
