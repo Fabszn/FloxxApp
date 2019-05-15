@@ -19,20 +19,23 @@ object jsonModel {
 
   }
 
-  case class Slot(slotId: String, roomId: String, timeToStart: String, timeToEnd: String, talk: Option[Talk], day: String)
+  case class Slot(slotId: String,
+                  roomId: String,
+                  fromTime: String,
+                  toTime: String,
+                  talk: Option[Talk],
+                  day: String)
   object Slot {
     implicit val w = Json.writes[Slot]
 
     implicit val SlotReader: Reads[Slot] = (
       (JsPath \ "slotId").read[String] and
       (JsPath \ "roomId").read[String] and
-      //(JsPath \ "speaker").read[String] and
       (JsPath \ "fromTime").read[String] and
       (JsPath \ "toTime").read[String] and
       (JsPath \ "talk").readNullable[Talk] and
       (JsPath \ "day").read[String]
     )(Slot.apply _)
   }
-
 
 }

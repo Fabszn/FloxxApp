@@ -7,13 +7,15 @@ import org.floxx.repository.repo.CfpRepo
 import org.floxx.utils.floxxUtils._
 import org.slf4j.{ Logger, LoggerFactory }
 import play.api.libs.json.Json
-
+import cats.instances.future._
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 trait CfpService {
 
   def readDataFromCfpDevoxx(): Future[BusinessVal[Int]]
   def loadSlots: Future[BusinessVal[Set[String]]]
+  def loadSlot(id: String): Future[BusinessVal[Option[Slot]]]
 
 }
 
@@ -40,11 +42,17 @@ class CfpServiceImpl(repo: CfpRepo) extends CfpService {
     })
 
     slots.foreach(s => {
-      val sId = s"${s.day}_${ConfigService.rooms.roomsMapping(s.roomId)}_${s.timeToStart}-${s.timeToEnd}"
+      val sId = s"${s.day}_${ConfigService.rooms.roomsMapping(s.roomId)}_${s.fromTime}-${s.toTime}"
       repo.set(Json.stringify(Json.toJson(s)), Some(sId))
     })
     slots.size.futureRight
   }
 
   override def loadSlots: Future[BusinessVal[Set[String]]] = repo.allSlots
+
+  override def loadSlot(id: String): Future[BusinessVal[Option[Slot]]] =
+    (for {
+      v <- repo.get(id).eitherT
+    } yield v.map(Json.parse(_).as[Slot])).value
+
 }

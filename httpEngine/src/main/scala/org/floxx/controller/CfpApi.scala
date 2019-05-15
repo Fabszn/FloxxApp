@@ -2,7 +2,7 @@ package org.floxx.controller
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
-import akka.http.scaladsl.server.Directives.{ path, _ }
+import akka.http.scaladsl.server.Directives._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.service.CfpService
@@ -18,8 +18,10 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
   val route: server.Route = cors() {
     path("api" / "read") {
       get {
-        onComplete(cfpService.readDataFromCfpDevoxx()) { nbConfImported =>
-          complete(StatusCodes.OK -> s"${nbConfImported} conferences have been imported")
+        onComplete(cfpService.readDataFromCfpDevoxx()) {
+          _.handleResponse { nbConfImported =>
+            complete(StatusCodes.OK -> s"${nbConfImported} conferences have been imported")
+          }
         }
       }
     } ~ path("api" / "slots") {
@@ -30,9 +32,20 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
           }
         }
       }
+
+    } ~ path("api" / "slots" / Segment) { key =>
+      get {
+        onComplete(cfpService.loadSlot(key)) {
+          _.handleResponse {
+            _.fold(complete(StatusCodes.NotFound -> s"None slot found for key ${key}")) { s =>
+              complete(StatusCodes.OK -> Map("slot" -> s))
+            }
+          }
+        }
+      }
+
     }
   }
-
 }
 
 object CfpApi {

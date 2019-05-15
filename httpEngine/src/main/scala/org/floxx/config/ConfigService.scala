@@ -15,6 +15,12 @@ object ConfigService {
     lazy val days: List[String] = configuration.getStringList("cfp.days").toList
   }
 
+  object redis {
+    lazy val host: String     = configuration.getString("redis.host")
+    lazy val port: String     = configuration.getString("redis.port")
+    lazy val password: String = configuration.getString("redis.password")
+  }
+
   object rooms {
 
     lazy val roomsMapping = Map(

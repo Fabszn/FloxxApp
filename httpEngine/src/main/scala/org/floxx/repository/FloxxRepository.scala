@@ -2,7 +2,8 @@ package org.floxx.repository
 
 import org.floxx.BusinessVal
 import org.floxx.repository.Keys.RedisKey
-import org.slf4j.{Logger, LoggerFactory}
+
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.Future
 
@@ -23,7 +24,7 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
     redis.set(_id, value).mapFutureRight
   }
 
-  def get(key: String): Future[BusinessVal[Option[ResultValue]]] = {
+  def get(key: String): Future[BusinessVal[Option[String]]] = {
 
     if (!key.startsWith(_key._root_key)) {
       Left("Key doesn't start with the right root value").future
@@ -32,11 +33,7 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
     redis.get(key).mapFutureRight
   }
 
-  protected def cleanKey(composedKey: String): String = {
-    val t = composedKey.replace(s"${_key._root_key}:", "")
-    println(t)
-    t
-
-  }
+  protected def cleanKey(composedKey: String): String =
+    composedKey.replace(s"${_key._root_key}:", "")
 
 }
