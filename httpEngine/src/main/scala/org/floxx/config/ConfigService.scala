@@ -21,6 +21,10 @@ object ConfigService {
     lazy val password: String = configuration.getString("redis.password")
   }
 
+  object floxx {
+    lazy val floxxPort: Int     = configuration.getInt("floxx.port")
+  }
+
   object rooms {
 
     lazy val roomsMapping = Map(

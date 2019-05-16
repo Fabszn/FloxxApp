@@ -20,6 +20,6 @@ object FloxxMain extends App {
 
   val globalRoute: Route = context.cfpApi.route
 
-  val bindingFuture = Http().bindAndHandle(globalRoute, "0.0.0.0", 8080)
+  val bindingFuture = Http().bindAndHandle(globalRoute, "0.0.0.0", ConfigService.floxx.floxxPort)
 
 }
