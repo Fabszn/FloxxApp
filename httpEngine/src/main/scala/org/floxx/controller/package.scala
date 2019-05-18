@@ -41,8 +41,9 @@ package object controller {
   }
 
   def formatRoomVal(value:String):String ={
-    logger.error(s"${value}")
+    logger.debug(s"${value}")
     val t = value.split("_")
+    logger.debug(s"size ${t.size}")
     s"${t(1)} ${t(2)}"
 
 
