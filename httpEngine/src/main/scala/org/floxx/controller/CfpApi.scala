@@ -3,7 +3,6 @@ package org.floxx.controller
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
-import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.service.CfpService
 import play.api.libs.json.Json
@@ -15,7 +14,7 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
     implicit val format = Json.format[SlotItem]
   }
 
-  val route: server.Route = cors() {
+  val route: server.Route =
     path("api" / "read") {
       get {
         onComplete(cfpService.readDataFromCfpDevoxx()) {
@@ -44,7 +43,7 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
         }
       }
 
-    }
+
   }
 }
 

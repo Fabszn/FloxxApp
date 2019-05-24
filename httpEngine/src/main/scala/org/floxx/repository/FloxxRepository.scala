@@ -33,6 +33,24 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
     redis.get(key).mapFutureRight
   }
 
+  def push(value: String, id: Option[String] = None): Future[BusinessVal[Long]] = {
+    val _id = id match {
+      case Some(i) => s"${_key._root_key}:${i}"
+      case None => _key.next
+    }
+
+    redis.lPush(_id, value).mapFutureRight
+  }
+
+  def list(key: String): Future[BusinessVal[List[String]]] = {
+    if (!key.startsWith(_key._root_key)) {
+      Left("Key doesn't start with the right root value").future
+    }
+
+    redis.lRange[String](key).mapFutureRight
+  }
+
+
   protected def cleanKey(composedKey: String): String =
     composedKey.replace(s"${_key._root_key}:", "")
 

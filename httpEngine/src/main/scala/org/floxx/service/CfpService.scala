@@ -42,8 +42,10 @@ class CfpServiceImpl(repo: CfpRepo) extends CfpService {
     })
 
     slots.foreach(s => {
-      val sId = s"${s.day}_${ConfigService.rooms.roomsMapping(s.roomId)}_${s.fromTime}-${s.toTime}"
-      repo.set(Json.stringify(Json.toJson(s)), Some(sId))
+      ConfigService.rooms.roomsMapping(s.roomId).map { r =>
+        val sId = s"${s.day}_${r}_${s.fromTime}-${s.toTime}"
+        repo.set(Json.stringify(Json.toJson(s)), Some(sId))
+      }
     })
     slots.size.futureRight
   }

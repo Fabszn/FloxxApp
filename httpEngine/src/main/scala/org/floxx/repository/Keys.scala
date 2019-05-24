@@ -15,8 +15,13 @@ object Keys {
 
   case class SchedulesCfp() extends RedisKey {
 
-    override val _root_key: String = "shedulecfp"
+    override val _root_key: String   = "shedulecfp"
     override val description: String = "contains all schedules for 3 days (Json format)"
+  }
+
+  case class Hit() extends RedisKey {
+    override val _root_key: String   = "hit"
+    override val description: String = "contains all percentage"
   }
 
 }
