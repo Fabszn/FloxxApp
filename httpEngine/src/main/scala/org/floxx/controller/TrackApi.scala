@@ -4,10 +4,10 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-import org.floxx.service.CfpService
+import org.floxx.service.TrackService
 import play.api.libs.json.Json
 
-class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
+class TrackApi(cfpService: TrackService) extends PlayJsonSupport {
 
   case class SlotItem(id: String, name: String)
   object SlotItem {
@@ -25,9 +25,11 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
       }
     } ~ path("api" / "slots") {
       get {
-        onComplete(cfpService.loadSlots) {
-          _.handleResponse { slots =>
+        onComplete(cfpService.loadActiveSlotIds) {
+          _.handleResponse { slots => {
+            logger.debug("Hero")
             complete(StatusCodes.OK -> Map("slots" -> slots.map(s => Json.toJson(SlotItem(s, formatRoomVal(s))))))
+          }
           }
         }
       }
@@ -47,6 +49,6 @@ class CfpApi(cfpService: CfpService) extends PlayJsonSupport {
   }
 }
 
-object CfpApi {
-  def apply(cfpService: CfpService): CfpApi = new CfpApi(cfpService)
+object TrackApi {
+  def apply(cfpService: TrackService): TrackApi = new TrackApi(cfpService)
 }

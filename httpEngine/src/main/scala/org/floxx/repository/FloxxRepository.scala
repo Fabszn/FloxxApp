@@ -35,7 +35,8 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
 
   def push(value: String, id: Option[String] = None): Future[BusinessVal[Long]] = {
     val _id = id match {
-      case Some(i) => s"${_key._root_key}:${i}"
+      case Some(i) =>
+        s"${_key._root_key}:${i}"
       case None => _key.next
     }
 
@@ -49,7 +50,6 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
 
     redis.lRange[String](key).mapFutureRight
   }
-
 
   protected def cleanKey(composedKey: String): String =
     composedKey.replace(s"${_key._root_key}:", "")

@@ -1,10 +1,8 @@
 package org.floxx.model
 
-import java.util.Date
-
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
-import play.api.libs.json.{ JsPath, Json, Reads, Writes }
+import play.api.libs.json.{JsPath, Json, Reads}
 
 object jsonModel {
 

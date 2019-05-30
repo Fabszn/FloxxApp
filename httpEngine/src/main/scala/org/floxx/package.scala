@@ -5,6 +5,8 @@ import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 package object floxx {
 
 
+  type SlotId = String
+
   sealed trait BusinessError {
     val code: String
     val message: String

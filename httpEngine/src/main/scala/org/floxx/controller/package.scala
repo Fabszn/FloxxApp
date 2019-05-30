@@ -32,7 +32,7 @@ package object controller {
             (r: A) => success(r)
           )
         case Failure(e) => {
-          logger.error(s"${e.getCause}")
+          logger.error(s"Cause : [${e.getCause}]", e)
           complete(StatusCodes.InternalServerError -> s"An error occurred: ${e.getMessage}")
         }
       }
@@ -40,12 +40,9 @@ package object controller {
     }
   }
 
-  def formatRoomVal(value:String):String ={
-    logger.debug(s"${value}")
+  def formatRoomVal(value: String): String = {
     val t = value.split("_")
-    logger.debug(s"size ${t.size}")
     s"${t(1)} ${t(2)}"
-
 
   }
 
