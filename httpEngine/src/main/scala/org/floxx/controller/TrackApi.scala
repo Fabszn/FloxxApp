@@ -27,7 +27,6 @@ class TrackApi(cfpService: TrackService) extends PlayJsonSupport {
       get {
         onComplete(cfpService.loadActiveSlotIds) {
           _.handleResponse { slots => {
-            logger.debug("Hero")
             complete(StatusCodes.OK -> Map("slots" -> slots.map(s => Json.toJson(SlotItem(s, formatRoomVal(s))))))
           }
           }

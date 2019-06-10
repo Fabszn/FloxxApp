@@ -1,5 +1,6 @@
 package org.floxx.service
 
+import akka.stream.scaladsl.SourceQueue
 import cats.instances.future._
 import org.floxx.model.Hit
 import org.floxx.repository.repo.HitRepo

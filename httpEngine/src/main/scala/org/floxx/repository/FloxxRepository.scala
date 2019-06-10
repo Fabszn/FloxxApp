@@ -2,10 +2,11 @@ package org.floxx.repository
 
 import org.floxx.BusinessVal
 import org.floxx.repository.Keys.RedisKey
-
 import org.slf4j.{ Logger, LoggerFactory }
+import scredis.PubSubMessage
 
-import scala.concurrent.Future
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.util.{ Failure, Success }
 
 trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
   import org.floxx.utils.floxxUtils._
@@ -50,6 +51,20 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
 
     redis.lRange[String](key).mapFutureRight
   }
+
+  def pub[M](channel: String, message: Array[Byte]): Unit =
+    redis.publish(channel, message)
+
+  def sub[M](channel: String, callback: Array[Byte] => Unit)(implicit ec: ExecutionContext): Unit = Unit
+  /* redis.subscriber.subscribe(channel) {
+      case _ @ PubSubMessage.Message(_, msg) => callback(msg)
+    }.onComplete {
+      case Success(channelsCount) => // the client successfully subscribed to both channels
+      case Failure(e) => {
+        // an error occurred while subscribing to the channels, e.g. NOAUTH when trying to subscribe
+        // without being authenticated
+      }
+    }*/
 
   protected def cleanKey(composedKey: String): String =
     composedKey.replace(s"${_key._root_key}:", "")

@@ -26,4 +26,6 @@ class HitRepo extends FloxxRepository[Hit] {
         .future
     } yield hits).mapFutureRight
 
+
+
 }

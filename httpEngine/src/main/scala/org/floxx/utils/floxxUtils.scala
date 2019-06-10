@@ -1,12 +1,12 @@
 package org.floxx.utils
 
-import org.floxx.{ BusinessError, BusinessVal }
+import org.floxx.{BusinessError, BusinessVal}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.http.scaladsl.util.FastFuture
 import cats.data.EitherT
-import play.api.libs.json.{ Json, Writes }
+import play.api.libs.json.{JsValue, Json, Writes}
 
 object floxxUtils {
 
@@ -67,6 +67,7 @@ object floxxUtils {
   implicit class JsonTransformer[J](j: J)(implicit wr: Writes[J]) {
 
     def toJsonStr: String = Json.toJson(j).toString()
+    def toJson: JsValue = Json.toJson(j)
 
   }
 
