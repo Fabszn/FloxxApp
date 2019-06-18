@@ -18,6 +18,7 @@ trait TrackService {
   def readDataFromCfpDevoxx(): Future[BusinessVal[Int]]
   def loadActiveSlotIds: Future[BusinessVal[Set[String]]]
   def loadSlot(id: String): Future[BusinessVal[Option[Slot]]]
+  def roomById(id: String): Future[BusinessVal[Option[String]]]
 
 }
 
@@ -87,5 +88,8 @@ class TrackServiceImpl(repo: CfpRepo) extends TrackService {
     (for {
       v <- repo.get(id).eitherT
     } yield v.map(Json.parse(_).as[Slot])).value
+
+  override def roomById(id: String): Future[BusinessVal[Option[String]]] =
+    ConfigService.rooms.roomsMapping(id).futureRight
 
 }

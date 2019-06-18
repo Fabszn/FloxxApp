@@ -29,10 +29,7 @@ package object floxx {
     }
 
   private def conflictHandle(message: BusinessError): (StatusCode, String) = StatusCodes.Conflict -> message.toString
-  /*private def badRequestHandle(message: BusinessError): (StatusCode, String)      = StatusCodes.BadRequest -> message.toString
-  private def notFoundRequestHandle(message: BusinessError): (StatusCode, String) = StatusCodes.NotFound -> message.toString
-  private def fatalErrorHandle(message: BusinessError): (StatusCode, String) =
-    StatusCodes.InternalServerError -> message.toString*/
+
 
   object Messages {
 
