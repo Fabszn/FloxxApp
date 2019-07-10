@@ -4,9 +4,13 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-import org.floxx.config.ConfigService
 import org.floxx.service.TrackService
 import play.api.libs.json.Json
+
+  /**
+  * This controler provide all endpoints that allow to get information from cfp data
+    * @param cfpService
+    */
 
 class TrackApi(cfpService: TrackService) extends PlayJsonSupport {
 
