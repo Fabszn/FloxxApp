@@ -20,7 +20,7 @@ class HitRepo extends FloxxRepository[Hit] {
         .map(hs => {
           logger.debug(s"current Hit ${hs.head}")
           val h = Json.parse(hs.head).as[model.Hit]
-          (h.slotId, h)
+          (h.hitSlotId, h)
         })
         .toMap[SlotId, model.Hit]
         .future

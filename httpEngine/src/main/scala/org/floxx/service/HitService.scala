@@ -17,7 +17,7 @@ trait HitService {
 }
 
 class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo) extends HitService {
-  override def hit(hit: Hit): Future[BusinessVal[Long]] = hitRepo.push(hit.toJsonStr, Some(hit.slotId))
+  override def hit(hit: Hit): Future[BusinessVal[Long]] = hitRepo.push(hit.toJsonStr, Some(hit.hitSlotId))
 
   override def currentTrack: Future[BusinessVal[Map[SlotId, model.Hit]]] =
     (for {

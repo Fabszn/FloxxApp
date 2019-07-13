@@ -13,14 +13,22 @@ import play.api.libs.json.Json
 
 class HitApi(hitService: HitService) extends PlayJsonSupport {
 
+  case class HitRequest(hitSlotId: String, percentage: String) {
+    def toHit: Hit = Hit(hitSlotId, percentage)
+  }
+
+  object HitRequest {
+    implicit val format = Json.format[HitRequest]
+  }
+
   val route: server.Route =
   path("api" / "hit") {
     post {
-      entity(as[Hit]) { hitItem =>
-        onComplete(hitService.hit(hitItem)) {
+      entity(as[HitRequest]) { hitItem =>
+        onComplete(hitService.hit(hitItem.toHit)) {
 
           _.handleResponse(result => {
-            WsUtils.publish(WsHit(hitItem.toJsonStr))
+            WsUtils.publish(WsHit(hitItem.toHit.toJsonStr))
 
             complete(StatusCodes.Created -> s"hit created ${hitItem} ${result}")
           })
