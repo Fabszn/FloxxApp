@@ -1,9 +1,6 @@
 package org.floxx.config
 
-import java.util
-
 import com.typesafe.config.ConfigFactory
-import org.floxx.model.Room
 
 import scala.collection.JavaConversions._
 
@@ -25,6 +22,9 @@ object ConfigService {
 
   object floxx {
     lazy val floxxPort: Int = configuration.getInt("floxx.port")
+    object security {
+      lazy val secret: String = configuration.getString("floxx.security.secret")
+    }
   }
 
   case class RoomConf(name: String)

@@ -1,9 +1,10 @@
 package org
 
-import akka.http.scaladsl.model.{StatusCode, StatusCodes}
+import akka.http.scaladsl.model.{ StatusCode, StatusCodes }
 
 package object floxx {
 
+  type Token = String
 
   type SlotId = String
 
@@ -21,21 +22,23 @@ package object floxx {
     val code: String = "000"
   }
 
-
+  case class AuthentificationError(message: String) extends BusinessError {
+    val code: String = "001"
+  }
 
   def handleError(businessError: BusinessError): (StatusCode, String) =
     businessError match {
-      case e: InvalidError => conflictHandle(e)
+      case e: InvalidError => internaltHandle(e)
+      case e: AuthentificationError => authHandle(e)
     }
 
-  private def conflictHandle(message: BusinessError): (StatusCode, String) = StatusCodes.Conflict -> message.toString
-
+  private def internaltHandle(message: BusinessError): (StatusCode, String) = StatusCodes.InternalServerError -> message.toString
+  private def authHandle(message: BusinessError): (StatusCode, String)      = StatusCodes.Forbidden -> message.toString
 
   object Messages {
 
     def ofCampaign(campaignId: String): String = s"Reference to non-existent campaign: $campaignId"
 
   }
-
 
 }

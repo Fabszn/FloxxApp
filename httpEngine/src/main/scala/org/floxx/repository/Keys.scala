@@ -13,6 +13,11 @@ object Keys {
 
   }
 
+  case class SecurityInfo() extends RedisKey {
+    override val _root_key: String   = "security"
+    override val description: String = "contains id for role"
+  }
+
   case class SchedulesCfp() extends RedisKey {
 
     override val _root_key: String   = "shedulecfp"

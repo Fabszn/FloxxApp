@@ -3,10 +3,8 @@ package org.floxx.repository
 import org.floxx.BusinessVal
 import org.floxx.repository.Keys.RedisKey
 import org.slf4j.{ Logger, LoggerFactory }
-import scredis.PubSubMessage
 
 import scala.concurrent.{ ExecutionContext, Future }
-import scala.util.{ Failure, Success }
 
 trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
   import org.floxx.utils.floxxUtils._
@@ -30,8 +28,12 @@ trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
     if (!key.startsWith(_key._root_key)) {
       Left("Key doesn't start with the right root value").future
     }
-
     redis.get(key).mapFutureRight
+  }
+
+  def getDefault(key: String): Future[BusinessVal[Option[String]]] = {
+    logger.warn(_key._root_key + ":" + key)
+    redis.get(_key._root_key + ":" + key).mapFutureRight
   }
 
   def push(value: String, id: Option[String] = None): Future[BusinessVal[Long]] = {

@@ -39,7 +39,8 @@ lazy val httpEngine = (project in file("httpEngine"))
       "com.lihaoyi"       %% "requests"            % "0.1.7",
       "org.typelevel"     %% "cats-core"           % "1.6.0",
       "de.heikoseeberger" %% "akka-http-play-json" % "1.25.2",
-      "com.github.nscala-time" %% "nscala-time" % "2.22.0"
+      "com.github.nscala-time" %% "nscala-time" % "2.22.0",
+      "com.pauldijou" %% "jwt-core" % "3.0.1"
     )
   )
   .dependsOn(model)

@@ -23,7 +23,8 @@ object FloxxMain extends App {
 
   val globalRoute: Route = cors(CorsSettings.defaultSettings.withAllowedOrigins(HttpOriginMatcher.*)) {
     context.hitApi.route ~
-      context.cfpApi.route
+    context.cfpApi.route ~
+    context.securityApi.route
   }
 
   val bindingFuture = Http().bindAndHandle(
