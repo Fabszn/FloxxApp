@@ -1,12 +1,11 @@
-package org.floxx.repository.repo
+package org.floxx.repository.redis
 
-import org.floxx.{ model, BusinessVal, SlotId }
-import org.floxx.repository.FloxxRepository
-import org.floxx.repository.Keys.Hit
+import org.floxx.repository.redis.Keys.Hit
 import org.floxx.utils.floxxUtils._
+import org.floxx.{BusinessVal, SlotId, model}
 import play.api.libs.json.Json
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 class HitRepo extends FloxxRepository[Hit] {
   override val _key: Hit = Hit()

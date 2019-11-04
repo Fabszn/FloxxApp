@@ -20,6 +20,13 @@ object ConfigService {
     lazy val password: String = configuration.getString("redis.password")
   }
 
+  object postgres {
+    lazy val driver: String   = configuration.getString("postgres.driver")
+    lazy val url: String      = configuration.getString("postgres.url")
+    lazy val user: String     = configuration.getString("postgres.user")
+    lazy val password: String = configuration.getString("postgres.password")
+  }
+
   object floxx {
     lazy val floxxPort: Int = configuration.getInt("floxx.port")
     object security {

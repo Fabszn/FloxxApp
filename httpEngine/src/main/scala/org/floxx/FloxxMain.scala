@@ -7,13 +7,17 @@ import akka.stream.ActorMaterializer
 import org.floxx.AppLoader.AppContext
 import org.floxx.config.ConfigService
 import akka.http.scaladsl.server.Directives._
+import cats.effect.{ExitCode, IO, IOApp}
 import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 
 import scala.concurrent.ExecutionContextExecutor
 
-object FloxxMain extends App {
+object FloxxMain extends IOApp {
+
+
+  override def run(args: List[String]): IO[ExitCode] = {
 
   implicit val system: ActorSystem = ActorSystem("floxx", ConfigService.configuration)
   sys.addShutdownHook(system.terminate())
@@ -32,5 +36,9 @@ object FloxxMain extends App {
     "0.0.0.0",
     ConfigService.floxx.floxxPort
   )
+
+
+
+  }
 
 }

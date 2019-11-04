@@ -1,10 +1,10 @@
-package org.floxx.repository
+package org.floxx.repository.redis
 
 import org.floxx.BusinessVal
-import org.floxx.repository.Keys.RedisKey
-import org.slf4j.{ Logger, LoggerFactory }
+import org.floxx.repository.redis.Keys.RedisKey
+import org.slf4j.{Logger, LoggerFactory}
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
   import org.floxx.utils.floxxUtils._

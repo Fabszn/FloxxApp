@@ -1,6 +1,4 @@
-package org.floxx.repository
-
-import org.floxx.config.ConfigService
+package org.floxx.repository.redis
 
 
 trait GlobalRepository {

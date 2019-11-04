@@ -8,13 +8,14 @@ import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.controller.security.WithSecurity
 import org.floxx.service.{ SecurityService, TrackService }
 import play.api.libs.json.Json
+import cats.effect.IO
 
 /**
   * This controler provide all endpoints that allow to get information from cfp data
   *
   * @param cfpService
   */
-class TrackApi(cfpService: TrackService, securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
+class TrackApi(cfpService: TrackService[IO], securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
 
   case class SlotItem(id: String, name: String)
   object SlotItem {

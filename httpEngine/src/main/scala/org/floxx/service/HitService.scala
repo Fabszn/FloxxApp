@@ -2,7 +2,7 @@ package org.floxx.service
 
 import cats.instances.future._
 import org.floxx.model.Hit
-import org.floxx.repository.repo.HitRepo
+import org.floxx.repository.redis.HitRepo
 import org.floxx.utils.floxxUtils._
 import org.floxx.{ model, BusinessVal, SlotId }
 

@@ -2,7 +2,7 @@ package org.floxx.service
 
 import cats.instances.future._
 import org.floxx.config.ConfigService
-import org.floxx.repository.repo.SecurityRepo
+import org.floxx.repository.redis.SecurityRepo
 import org.floxx.utils.floxxUtils._
 import org.floxx.{ AuthentificationError, BusinessVal, Token }
 import org.slf4j.{ Logger, LoggerFactory }

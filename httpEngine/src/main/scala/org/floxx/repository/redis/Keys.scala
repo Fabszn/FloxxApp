@@ -1,4 +1,4 @@
-package org.floxx.repository
+package org.floxx.repository.redis
 
 import java.util.UUID
 

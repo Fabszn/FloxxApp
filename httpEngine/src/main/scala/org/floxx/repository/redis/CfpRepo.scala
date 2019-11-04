@@ -1,13 +1,12 @@
-package org.floxx.repository.repo
+package org.floxx.repository.redis
 
 import org.floxx.BusinessVal
 import org.floxx.model.jsonModel.Slot
-import org.floxx.repository.FloxxRepository
-import org.floxx.repository.Keys.SchedulesCfp
+import org.floxx.repository.redis.Keys.SchedulesCfp
 import org.floxx.utils.floxxUtils._
 import play.api.libs.json.Json
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 class CfpRepo extends FloxxRepository[SchedulesCfp] {
   override val _key: SchedulesCfp = SchedulesCfp()
