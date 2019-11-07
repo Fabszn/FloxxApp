@@ -15,7 +15,7 @@ import cats.effect.IO
   *
   * @param cfpService
   */
-class TrackApi(cfpService: TrackService[IO], securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
+class TrackApi(cfpService: TrackService, securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
 
   case class SlotItem(id: String, name: String)
   object SlotItem {
@@ -25,7 +25,7 @@ class TrackApi(cfpService: TrackService[IO], securityService: SecurityService) e
   val route: server.Route =
     path("api" / "read") {
       get {
-        onComplete(cfpService.readDataFromCfpDevoxx()) {
+        onComplete(cfpService.readDataFromCfpDevoxx().unsafeToFuture()) {
           _.handleResponse { nbConfImported =>
             complete(StatusCodes.OK -> s"${nbConfImported} conferences have been imported")
           }
@@ -37,7 +37,9 @@ class TrackApi(cfpService: TrackService[IO], securityService: SecurityService) e
           onComplete(cfpService.loadActiveSlotIds) {
             _.handleResponse { slots =>
               {
-                complete(StatusCodes.OK -> Map("slots" -> slots.map(s => Json.toJson(SlotItem(s, formatRoomVal(s))))))
+                complete(
+                  StatusCodes.OK -> Map("slots" -> slots.map(s => Json.toJson(SlotItem(s.slotId, formatRoomVal(s.slotId)))))
+                )
               }
             }
           }

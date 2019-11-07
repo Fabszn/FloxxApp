@@ -4,7 +4,7 @@ import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConversions._
 
-object ConfigService {
+object Config {
 
   private val configName = "application.conf"
   lazy val configuration = ConfigFactory.load(configName)

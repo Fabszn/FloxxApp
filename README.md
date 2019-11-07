@@ -14,3 +14,9 @@ On clever-cloud,
 Locally : 
 
 From the root on the projet, run the following command : **sbt httpEngine/run** (sbt should be installed) 
+
+
+-----
+
+Docker posgres : 
+docker run -d -e POSTGRES_USER=floxxUser -e POSTGRES_PASSWORD= -e POSTGRES_DB=floxx -p 5432:5432  postgres

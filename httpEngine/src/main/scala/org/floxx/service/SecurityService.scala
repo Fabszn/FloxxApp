@@ -1,7 +1,7 @@
 package org.floxx.service
 
 import cats.instances.future._
-import org.floxx.config.ConfigService
+import org.floxx.config.Config
 import org.floxx.repository.redis.SecurityRepo
 import org.floxx.utils.floxxUtils._
 import org.floxx.{ AuthentificationError, BusinessVal, Token }
@@ -43,7 +43,7 @@ class SecurityServiceImpl(securityRepo: SecurityRepo) extends SecurityService {
     Try(
       Jwt.validate(
         token,
-        ConfigService.floxx.security.secret,
+        Config.floxx.security.secret,
         Seq(JwtAlgorithm.HS256)
       )
     ) match {
@@ -76,7 +76,7 @@ class SecurityServiceImpl(securityRepo: SecurityRepo) extends SecurityService {
   private def tokenGenerator(user: String): Token =
     Jwt.encode(
       s"""{"user":$user}""",
-      ConfigService.floxx.security.secret,
+      Config.floxx.security.secret,
       JwtAlgorithm.HS256
     )
 

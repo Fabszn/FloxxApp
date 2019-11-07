@@ -2,7 +2,7 @@ package org.floxx.service
 
 import cats.effect.{ IO, IOApp }
 import doobie.{ ConnectionIO, Transactor }
-import org.floxx.config.ConfigService
+import org.floxx.config.Config
 
 import scala.concurrent.ExecutionContext
 
@@ -21,13 +21,18 @@ trait WithTransact {
   implicit val cs = IO.contextShift(ExecutionContexts.synchronous)
 
   val xa = Transactor.fromDriverManager[IO](
-    ConfigService.postgres.driver,
-    ConfigService.postgres.url,
-    ConfigService.postgres.user,
-    ConfigService.postgres.password
+    Config.postgres.driver,
+    Config.postgres.url,
+    Config.postgres.user,
+    Config.postgres.password
   )
 
   def run[A](r: ConnectionIO[A]): IO[A] =
     r.transact(xa)
+
+  import cats.implicits._
+
+  def run[A](r: List[ConnectionIO[A]]): IO[List[A]] =
+    r.sequence.transact(xa)
 
 }

@@ -40,6 +40,27 @@ package object controller {
     }
   }
 
+  implicit class handleRespIOVal[A](response: Try[IOVal[A]]) {
+
+    def handleResponse(
+        success: A => Route
+    ): Route = {
+
+      val pf: PartialFunction[Try[IOVal[A]], Route] = {
+        case Success(v) =>
+          v.fold(
+            be => complete(floxx.handleError(be)),
+            (r: A) => success(r)
+          )
+        case Failure(e) => {
+          logger.error(s"Cause : [${e.getCause}]", e)
+          complete(StatusCodes.InternalServerError -> s"An error occurred: ${e.getMessage}")
+        }
+      }
+      pf.apply(response)
+    }
+  }
+
   def formatRoomVal(value: String): String = {
     val t = value.split("_")
     s"${t(1)} ${t(2)}"

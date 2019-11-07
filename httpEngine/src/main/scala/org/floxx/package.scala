@@ -17,6 +17,7 @@ package object floxx {
   }
 
   type BusinessVal[T] = Either[BusinessError, T]
+  type IOVal[T] = Either[Throwable, T]
 
   case class InvalidError(message: String) extends BusinessError {
     val code: String = "000"
@@ -32,13 +33,11 @@ package object floxx {
       case e: AuthentificationError => authHandle(e)
     }
 
+  def handleError(exception: Throwable): (StatusCode, String) =
+    StatusCodes.InternalServerError -> exception.getMessage
+
   private def internaltHandle(message: BusinessError): (StatusCode, String) = StatusCodes.InternalServerError -> message.toString
   private def authHandle(message: BusinessError): (StatusCode, String)      = StatusCodes.Forbidden -> message.toString
 
-  object Messages {
-
-    def ofCampaign(campaignId: String): String = s"Reference to non-existent campaign: $campaignId"
-
-  }
 
 }

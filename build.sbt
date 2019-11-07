@@ -23,6 +23,14 @@ lazy val databaseJdbcSetting = Seq(
   "ch.qos.logback"  % "logback-classic" % "1.2.3"
 )
 
+val http4sVersion = "0.20.13"
+
+lazy val http4s = Seq(
+  "org.http4s" %% "http4s-dsl" % http4sVersion,
+  "org.http4s" %% "http4s-blaze-server" % http4sVersion,
+  "org.http4s" %% "http4s-blaze-client" % http4sVersion
+)
+
 lazy val doobie = Seq( // Start with this one
   "org.tpolecat" %% "doobie-core"      % "0.8.4",
   "org.tpolecat" %% "doobie-postgres"  % "0.8.4", // Postgres driver 42.2.8 + type mappings.
@@ -41,6 +49,7 @@ lazy val httpEngine = (project in file("httpEngine"))
   .settings(
     name := "Floxx",
     libraryDependencies ++= databaseRedisSetting,
+    libraryDependencies ++= http4s,
     libraryDependencies ++= doobie,
     libraryDependencies ++= Seq(
         "com.typesafe.akka"      %% "akka-http"           % "10.1.4",

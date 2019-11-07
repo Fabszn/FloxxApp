@@ -22,7 +22,7 @@ class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo) extends HitSe
   override def currentTrack: Future[BusinessVal[Map[SlotId, model.Hit]]] =
     (for {
       currentSloIds <- trackService.loadActiveSlotIds.eitherT
-      hits <- hitRepo.loadHitBy(currentSloIds).eitherT
+      hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId)).eitherT
 
     } yield hits).value
 

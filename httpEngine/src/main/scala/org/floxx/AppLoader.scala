@@ -26,7 +26,7 @@ object AppLoader {
     val rpg                              = new CfpRepoPg()
     val h                                = new HitRepo()
     val s                                = new SecurityRepo()
-    val trackService: TrackService[IO]   = new TrackServiceImpl(rpg, r)
+    val trackService: TrackService   = new TrackServiceImpl(rpg, r)
     val hitService: HitService           = new HitServiceImpl(trackService, h)
     val securityService: SecurityService = new SecurityServiceImpl(s)
 
