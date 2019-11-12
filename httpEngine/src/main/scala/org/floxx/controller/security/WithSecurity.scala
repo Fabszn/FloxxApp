@@ -1,12 +1,13 @@
 package org.floxx.controller.security
 
 import akka.http.scaladsl.server.Directives.authenticateOAuth2
-import akka.http.scaladsl.server.directives.{ AuthenticationDirective, Credentials }
+import akka.http.scaladsl.server.directives.{AuthenticationDirective, Credentials}
+import cats.effect.IO
 import org.floxx.service.SecurityService
 
 trait WithSecurity {
 
-  def auth(ss: SecurityService): AuthenticationDirective[String] = authenticateOAuth2[String](
+  def auth(ss: SecurityService[IO]): AuthenticationDirective[String] = authenticateOAuth2[String](
     "floxx",
     d => {
       val r = d match {

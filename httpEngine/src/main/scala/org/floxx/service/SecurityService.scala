@@ -1,18 +1,20 @@
 package org.floxx.service
 
+import cats.effect.IO
 import cats.instances.future._
 import org.floxx.config.Config
+import org.floxx.repository.postgres.AuthRepoPg
 import org.floxx.repository.redis.SecurityRepo
 import org.floxx.utils.floxxUtils._
-import org.floxx.{ AuthentificationError, BusinessVal, Token }
-import org.slf4j.{ Logger, LoggerFactory }
-import pdi.jwt.{ Jwt, JwtAlgorithm }
+import org.floxx.{AuthentificationError, BusinessVal, IOVal, Token}
+import org.slf4j.{Logger, LoggerFactory}
+import pdi.jwt.{Jwt, JwtAlgorithm}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import org.floxx.utils.floxxUtils._
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 sealed trait SecurityUser {
   def isAuthenticated: Boolean
   def token: Option[Token]
@@ -29,14 +31,14 @@ case object UserUnAuthenticated extends SecurityUser {
   override def token: Option[Token] = None
 }
 
-trait SecurityService {
+trait SecurityService[F[_]] {
 
-  def authentification(user: String, mdp: String): Future[BusinessVal[SecurityUser]]
+  def authentification(user: String, mdp: String): F[IOVal[SecurityUser]]
   def checkAuthentification(token: String): Option[String]
 
 }
 
-class SecurityServiceImpl(securityRepo: SecurityRepo) extends SecurityService {
+class SecurityServiceImpl(securityRepo: AuthRepoPg) extends SecurityService[IO] with WithTransact {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   override def checkAuthentification(token: String): Option[String] =
@@ -57,18 +59,18 @@ class SecurityServiceImpl(securityRepo: SecurityRepo) extends SecurityService {
       }
     }
 
-  override def authentification(user: String, mdp: String): Future[BusinessVal[SecurityUser]] = {
-    logger.debug(s"${securityRepo._key}:$user")
+  override def authentification(user: String, mdp: String): IO[IOVal[SecurityUser]] = {
+    //logger.debug(s"${securityRepo._key}:$user")
     (for {
-      userFound <- Option("sd").futureRightT //securityRepo.getDefault(user).eitherT //TODO /!\/!\/!\
+      userFound <- run(securityRepo.userByLogin(user)).eitherT
       auth <- {
         logger.debug(s"user found $userFound")
-        val s = userFound match {
-          case Some(u) => Right(UserAuthenticated(u, Some(tokenGenerator(u))))
-          case None => Left(AuthentificationError("login or pass is invalid"))
-        }
-        s.future.eitherT
-      }
+       IO(userFound match {
+          case Some(u) if u.mdp == mdp => Right(UserAuthenticated(u.login, Some(tokenGenerator(u.login))))
+          case None => Left((new SecurityException("login or pass is invalid")))
+        })
+
+      }.eitherT
 
     } yield auth).value
   }

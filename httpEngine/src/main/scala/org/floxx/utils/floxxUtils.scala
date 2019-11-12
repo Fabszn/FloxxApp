@@ -1,11 +1,12 @@
 package org.floxx.utils
 
-import org.floxx.{BusinessError, BusinessVal}
+import org.floxx.{BusinessError, BusinessVal, IOVal}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.http.scaladsl.util.FastFuture
 import cats.data.EitherT
+import cats.effect.IO
 import play.api.libs.json.{JsValue, Json, Writes}
 
 object floxxUtils {
@@ -36,6 +37,10 @@ object floxxUtils {
 
   implicit class ToEitherT[A](val it: Future[BusinessVal[A]]) extends AnyVal {
     def eitherT: EitherT[Future, BusinessError, A] = EitherT[Future, BusinessError, A](it)
+  }
+
+  implicit class ToIOEitherT[A](val it: IO[IOVal[A]]) extends AnyVal {
+    def eitherT: EitherT[IO, Throwable, A] = EitherT[IO, Throwable, A](it)
   }
 
   implicit class ToEitherRight[A](val it: Future[A]) {

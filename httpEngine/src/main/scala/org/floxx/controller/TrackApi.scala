@@ -15,7 +15,7 @@ import cats.effect.IO
   *
   * @param cfpService
   */
-class TrackApi(cfpService: TrackService, securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
+class TrackApi(cfpService: TrackService, securityService: SecurityService[IO]) extends PlayJsonSupport with WithSecurity {
 
   case class SlotItem(id: String, name: String)
   object SlotItem {
@@ -34,7 +34,7 @@ class TrackApi(cfpService: TrackService, securityService: SecurityService) exten
     } ~ path("api" / "slots") {
       get {
         auth(securityService) { _ =>
-          onComplete(cfpService.loadActiveSlotIds) {
+          onComplete(cfpService.loadActiveSlotIds.unsafeToFuture()) {
             _.handleResponse { slots =>
               {
                 complete(
@@ -49,7 +49,7 @@ class TrackApi(cfpService: TrackService, securityService: SecurityService) exten
     } ~ path("api" / "slots" / Segment) { key =>
       get {
         auth(securityService) { _ =>
-          onComplete(cfpService.loadSlot(key)) {
+          onComplete(cfpService.loadSlot(key).unsafeToFuture) {
             _.handleResponse {
               _.fold(complete(StatusCodes.NotFound -> s"None slot found for key ${key}")) { s =>
                 complete(StatusCodes.OK -> Map("slot" -> s))
@@ -74,5 +74,5 @@ class TrackApi(cfpService: TrackService, securityService: SecurityService) exten
 }
 
 object TrackApi {
-  def apply(cfpService: TrackService, securityService: SecurityService): TrackApi = new TrackApi(cfpService, securityService)
+  def apply(cfpService: TrackService, securityService: SecurityService[IO]): TrackApi = new TrackApi(cfpService, securityService)
 }

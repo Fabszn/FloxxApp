@@ -1,9 +1,10 @@
 package org.floxx.controller
 
-import akka.http.scaladsl.model.{ ContentTypes, HttpEntity, StatusCodes }
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.directives.Credentials
+import cats.effect.IO
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.controller.stream.Ws.WsHit
 import org.floxx.controller.stream.WsUtils
@@ -14,10 +15,10 @@ import play.api.libs.json.Json
 import org.floxx.controller.security.WithSecurity
 import org.floxx.service.SecurityService
 
-class HitApi(hitService: HitService, securityService: SecurityService) extends PlayJsonSupport with WithSecurity {
+class HitApi(hitService: HitService[IO], securityService: SecurityService[IO]) extends PlayJsonSupport with WithSecurity {
 
-  case class HitRequest(hitSlotId: String, percentage: String) {
-    def toHit: Hit = Hit(hitSlotId, percentage)
+  case class HitRequest(hitSlotId: String, percentage: Int) {
+    def toHit: Hit = Hit(None, hitSlotId, percentage)
   }
 
   object HitRequest {
@@ -30,7 +31,7 @@ class HitApi(hitService: HitService, securityService: SecurityService) extends P
       post {
         auth(securityService) { _ =>
           entity(as[HitRequest]) { hitItem =>
-            onComplete(hitService.hit(hitItem.toHit)) {
+            onComplete(hitService.hit(hitItem.toHit).unsafeToFuture()) {
 
               _.handleResponse(result => {
                 WsUtils.publish(WsHit(hitItem.toHit.toJsonStr))
@@ -45,7 +46,7 @@ class HitApi(hitService: HitService, securityService: SecurityService) extends P
     path("api" / "tracks") {
       get {
         auth(securityService) { _ =>
-          onComplete(hitService.currentTrack) {
+          onComplete(hitService.currentTrack.unsafeToFuture()) {
             _.handleResponse(result => complete(StatusCodes.OK -> Json.toJson(result)))
           }
         }
@@ -68,6 +69,6 @@ class HitApi(hitService: HitService, securityService: SecurityService) extends P
 }
 
 object HitApi {
-  def apply(hitService: HitService, securityService: SecurityService): HitApi = new HitApi(hitService, securityService)
+  def apply(hitService: HitService[IO], securityService: SecurityService[IO]): HitApi = new HitApi(hitService, securityService)
 
 }

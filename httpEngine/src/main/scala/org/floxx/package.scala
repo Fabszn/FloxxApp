@@ -16,6 +16,7 @@ package object floxx {
 
   }
 
+  @deprecated("please use IOVal type")
   type BusinessVal[T] = Either[BusinessError, T]
   type IOVal[T] = Either[Throwable, T]
 

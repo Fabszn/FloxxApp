@@ -7,6 +7,7 @@ import play.api.libs.json.Json
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@deprecated
 class HitRepo extends FloxxRepository[Hit] {
   override val _key: Hit = Hit()
 
