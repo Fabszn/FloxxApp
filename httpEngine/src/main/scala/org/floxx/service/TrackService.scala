@@ -1,29 +1,25 @@
 package org.floxx.service
 
 import cats.effect.IO
-import cats.instances.future._
 import com.github.nscala_time.time.StaticForwarderImports._
+import org.floxx.IOVal
 import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.floxx.repository.postgres.CfpRepoPg
-import org.floxx.repository.redis.CfpRepo
 import org.floxx.utils.floxxUtils._
-import org.floxx.{ BusinessVal, IOVal }
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.{Logger, LoggerFactory}
 import play.api.libs.json.Json
 
-import scala.concurrent.Future
+trait TrackService[F[_]] {
 
-trait TrackService {
-
-  def readDataFromCfpDevoxx(): IO[IOVal[Int]]
-  def loadActiveSlotIds: IO[IOVal[Set[Slot]]]
-  def loadSlot(id: String): IO[IOVal[Option[Slot]]]
-  def roomById(id: String): Future[BusinessVal[Option[String]]]
+  def readDataFromCfpDevoxx(): F[IOVal[Int]]
+  def loadActiveSlotIds: F[IOVal[Set[Slot]]]
+  def loadSlot(id: String): F[IOVal[Option[Slot]]]
+  def roomById(id: String): F[IOVal[Option[String]]]
 
 }
 
-class TrackServiceImpl(repoPg: CfpRepoPg, repo: CfpRepo) extends TrackService with WithTransact {
+class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTransact {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
@@ -98,7 +94,7 @@ class TrackServiceImpl(repoPg: CfpRepoPg, repo: CfpRepo) extends TrackService wi
       slot <- run(repoPg.getSlotById(id)).eitherT
     } yield slot).value
 
-  override def roomById(id: String): Future[BusinessVal[Option[String]]] =
-    Config.rooms.roomsMapping(id).futureRight
+  override def roomById(id: String): IO[IOVal[Option[String]]] =
+    IO(Right(Config.rooms.roomsMapping(id)))
 
 }

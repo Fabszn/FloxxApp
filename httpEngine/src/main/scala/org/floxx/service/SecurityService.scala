@@ -1,18 +1,12 @@
 package org.floxx.service
 
 import cats.effect.IO
-import cats.instances.future._
 import org.floxx.config.Config
 import org.floxx.repository.postgres.AuthRepoPg
-import org.floxx.repository.redis.SecurityRepo
 import org.floxx.utils.floxxUtils._
-import org.floxx.{AuthentificationError, BusinessVal, IOVal, Token}
+import org.floxx.{IOVal, Token}
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import org.floxx.utils.floxxUtils._
 
 import scala.util.{Failure, Success, Try}
 sealed trait SecurityUser {

@@ -1,10 +1,9 @@
 package org.floxx
 
+import cats.effect.IO
 import org.floxx.controller.{HitApi, SecurityApi, TrackApi}
 import org.floxx.repository.postgres.{AuthRepoPg, CfpRepoPg, HitRepoCfg}
-import org.floxx.repository.redis.{CfpRepo, HitRepo, SecurityRepo}
-import org.floxx.service.{HitService, HitServiceImpl, SecurityService, SecurityServiceImpl, TrackService, TrackServiceImpl}
-import cats.effect.IO
+import org.floxx.service._
 
 object AppLoader {
 
@@ -22,13 +21,10 @@ object AppLoader {
 
   final def initialize: AppContext = {
 
-    val r                                = new CfpRepo()
     val rpg                              = new CfpRepoPg()
-    val h                                = new HitRepo()
     val hrpg                             = new HitRepoCfg()
-    val s                                = new SecurityRepo()
     val srpg                                = new AuthRepoPg()
-    val trackService: TrackService       = new TrackServiceImpl(rpg, r)
+    val trackService: TrackService[IO]       = new TrackServiceImpl(rpg)
     val hitService: HitService[IO]       = new HitServiceImpl(trackService, hrpg)
     val securityService: SecurityService[IO] = new SecurityServiceImpl(srpg)
 
