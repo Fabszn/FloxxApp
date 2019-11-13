@@ -1,6 +1,7 @@
 package org.floxx.repository.redis
 
 
+@deprecated
 trait GlobalRepository {
 
   import scredis._

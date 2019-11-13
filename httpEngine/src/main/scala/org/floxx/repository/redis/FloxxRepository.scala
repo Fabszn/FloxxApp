@@ -6,6 +6,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@deprecated
 trait FloxxRepository[K <: RedisKey] extends GlobalRepository {
   import org.floxx.utils.floxxUtils._
 

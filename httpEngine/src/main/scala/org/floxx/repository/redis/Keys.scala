@@ -2,6 +2,7 @@ package org.floxx.repository.redis
 
 import java.util.UUID
 
+@deprecated
 object Keys {
 
   sealed trait RedisKey {

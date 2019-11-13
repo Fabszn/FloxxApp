@@ -25,7 +25,5 @@ class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo[ConnectionIO])
     (for {
       currentSloIds <- trackService.loadActiveSlotIds.eitherT
       hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
-
-    } yield hits).value
-
+    } yield hits.map(h => (h.hitSlotId, h)).toMap).value
 }
