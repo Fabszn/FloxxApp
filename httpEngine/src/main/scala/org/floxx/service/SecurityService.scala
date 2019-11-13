@@ -4,11 +4,11 @@ import cats.effect.IO
 import org.floxx.config.Config
 import org.floxx.repository.postgres.AuthRepoPg
 import org.floxx.utils.floxxUtils._
-import org.floxx.{IOVal, Token}
-import org.slf4j.{Logger, LoggerFactory}
-import pdi.jwt.{Jwt, JwtAlgorithm}
+import org.floxx.{ IOVal, Token }
+import org.slf4j.{ Logger, LoggerFactory }
+import pdi.jwt.{ Jwt, JwtAlgorithm }
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 sealed trait SecurityUser {
   def isAuthenticated: Boolean
   def token: Option[Token]
@@ -53,21 +53,21 @@ class SecurityServiceImpl(securityRepo: AuthRepoPg) extends SecurityService[IO] 
       }
     }
 
-  override def authentification(user: String, mdp: String): IO[IOVal[SecurityUser]] = {
+  override def authentification(user: String, mdp: String): IO[IOVal[SecurityUser]] =
     //logger.debug(s"${securityRepo._key}:$user")
     (for {
       userFound <- run(securityRepo.userByLogin(user)).eitherT
       auth <- {
         logger.debug(s"user found $userFound")
-       IO(userFound match {
+        IO(userFound match {
           case Some(u) if u.mdp == mdp => Right(UserAuthenticated(u.login, Some(tokenGenerator(u.login))))
-          case None => Left((new SecurityException("login or pass is invalid")))
+          case Some(_) => Left(new SecurityException("login or pass is invalid"))
+          case None => Left(new SecurityException("login or pass is invalid"))
         })
 
       }.eitherT
 
     } yield auth).value
-  }
 
   private def tokenGenerator(user: String): Token =
     Jwt.encode(

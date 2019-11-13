@@ -32,10 +32,8 @@ class HitApi(hitService: HitService[IO], securityService: SecurityService[IO]) e
         auth(securityService) { _ =>
           entity(as[HitRequest]) { hitItem =>
             onComplete(hitService.hit(hitItem.toHit).unsafeToFuture()) {
-
               _.handleResponse(result => {
                 WsUtils.publish(WsHit(hitItem.toHit.toJsonStr))
-
                 complete(StatusCodes.Created -> s"hit created ${hitItem} ${result}")
               })
             }

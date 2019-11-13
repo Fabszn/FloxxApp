@@ -26,8 +26,6 @@ class SecurityApi(securityService: SecurityService[IO]) extends PlayJsonSupport 
     path("api" / "login") {
       post {
         entity(as[LoginResquest]) { loginInfo =>
-          logger.debug(s"login ${loginInfo}")
-
           onComplete(securityService.authentification(loginInfo.login, loginInfo.mdp).unsafeToFuture) {
             _.handleResponse(
               r => complete(StatusCodes.OK -> r.token.getOrElse(invalideToken))
