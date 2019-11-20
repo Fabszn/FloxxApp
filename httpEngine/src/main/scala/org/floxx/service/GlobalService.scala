@@ -27,8 +27,9 @@ trait WithTransact {
     Config.postgres.password
   )
 
-  def run[A](r: ConnectionIO[A]): IO[A] =
+  def run[A](r: ConnectionIO[A]): IO[A] = {
     r.transact(xa)
+  }
 
   import cats.implicits._
 

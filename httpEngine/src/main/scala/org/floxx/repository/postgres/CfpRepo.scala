@@ -31,7 +31,8 @@ class CfpRepoPg extends CfpRepo[ConnectionIO] {
 
   }
 
-  override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] = sql"""select * from slot""".query[Slot].to[Set].attempt
+  override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] ={
+    sql"""select * from slot""".query[Slot].to[Set].attempt}
 
   override def getSlotById(id: String): doobie.ConnectionIO[IOVal[Option[Slot]]] =
     sql"""select * from slot where slotid=$id""".query[Slot].option.attempt

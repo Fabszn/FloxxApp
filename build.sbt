@@ -25,8 +25,18 @@ lazy val databaseJdbcSetting = Seq(
 
 val http4sVersion = "0.20.13"
 
+lazy val scalamockTest= Seq(
+  "org.scalamock" %% "scalamock" % "4.4.0" % Test,
+  "org.scalatest" %% "scalatest" % "3.0.4" % Test
+)
+
+lazy val dockertest = Seq(
+  "com.whisk" %% "docker-testkit-scalatest"    % "0.9.9" % "test",
+  "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
+)
+
 lazy val http4s = Seq(
-  "org.http4s" %% "http4s-dsl" % http4sVersion,
+  "org.http4s" %% "http4s-dsl"          % http4sVersion,
   "org.http4s" %% "http4s-blaze-server" % http4sVersion,
   "org.http4s" %% "http4s-blaze-client" % http4sVersion
 )
@@ -50,6 +60,8 @@ lazy val httpEngine = (project in file("httpEngine"))
     name := "Floxx",
     libraryDependencies ++= databaseRedisSetting,
     libraryDependencies ++= http4s,
+    libraryDependencies ++= dockertest,
+    libraryDependencies ++= scalamockTest,
     libraryDependencies ++= doobie,
     libraryDependencies ++= Seq(
         "com.typesafe.akka"      %% "akka-http"           % "10.1.4",

@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.directives.Credentials
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.controller.security.WithSecurity
-import org.floxx.service.{ SecurityService, TrackService }
+import org.floxx.service.{SecurityService, TrackService, timeUtils}
 import play.api.libs.json.Json
 import cats.effect.IO
 
@@ -34,7 +34,7 @@ class TrackApi(cfpService: TrackService[IO], securityService: SecurityService[IO
     } ~ path("api" / "slots") {
       get {
         auth(securityService) { _ =>
-          onComplete(cfpService.loadActiveSlotIds.unsafeToFuture()) {
+          onComplete(cfpService.loadActiveSlotIds(timeUtils.extractDayAndStartTime()).unsafeToFuture()) {
             _.handleResponse { slots =>
               {
                 complete(

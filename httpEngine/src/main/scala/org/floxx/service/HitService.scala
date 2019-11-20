@@ -22,7 +22,7 @@ class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[Connection
 
   override def currentTrack: IO[IOVal[Map[SlotId, model.Hit]]] =
     (for {
-      currentSloIds <- trackService.loadActiveSlotIds.eitherT
+      currentSloIds <- trackService.loadActiveSlotIds(timeUtils.extractDayAndStartTime()).eitherT
       hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
       filtered <- transform(hits).eitherT
     } yield {

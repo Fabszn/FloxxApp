@@ -7,13 +7,13 @@ import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.floxx.repository.postgres.CfpRepoPg
 import org.floxx.utils.floxxUtils._
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import play.api.libs.json.Json
 
 trait TrackService[F[_]] {
 
   def readDataFromCfpDevoxx(): F[IOVal[Int]]
-  def loadActiveSlotIds: F[IOVal[Set[Slot]]]
+  def loadActiveSlotIds(isActiveFunction: Slot => Boolean): F[IOVal[Set[Slot]]]
   def loadSlot(id: String): F[IOVal[Option[Slot]]]
   def roomById(id: String): F[IOVal[Option[String]]]
 
@@ -62,32 +62,10 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
 
   }
 
-  override def loadActiveSlotIds: IO[IOVal[Set[Slot]]] =
+  override def loadActiveSlotIds(isActiveFilter: Slot => Boolean): IO[IOVal[Set[Slot]]] =
     (for {
       slots <- run(repoPg.allSlotIds).eitherT
-    } yield slots.filter(extractDayAndStartTime)).value
-
-  private def extractDayAndStartTime(slot: Slot): Boolean = {
-
-    val currentDay = "thursday" //DateTime.now(DateTimeZone.UTC).dayOfWeek().getAsText
-
-    val currentTime = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("14:00:00").toLocalTime //DateTime.now().toLocalTime
-
-    val trackStartTime = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.fromTime}:00").toLocalTime
-    val trackEndTime   = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.toTime}:00").toLocalTime
-
-    //filters
-    val b = (currentDay == slot.day) &&
-      currentTime.isAfter(trackStartTime) &&
-      currentTime.isBefore(trackEndTime) &&
-      !(slot.roomId.startsWith("22") ||
-      slot.roomId.startsWith("23") ||
-      slot.roomId.startsWith("21") ||
-      slot.roomId.startsWith("20"))
-    logger.info(s"${slot.roomId} $b")
-    b
-
-  }
+    } yield slots.filter(isActiveFilter)).value
 
   override def loadSlot(id: String): IO[IOVal[Option[Slot]]] =
     (for {

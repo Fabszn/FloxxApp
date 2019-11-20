@@ -36,6 +36,11 @@ object Config {
 
   case class RoomConf(name: String)
 
+  object track {
+
+    lazy val delayBefore: Int = configuration.getInt("track.delay-before")
+
+  }
   object rooms {
 
     lazy val roomsMapping = Map(
