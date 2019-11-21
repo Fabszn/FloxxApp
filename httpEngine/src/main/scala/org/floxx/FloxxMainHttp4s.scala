@@ -18,8 +18,8 @@ object FloxxMainHttp4s extends IOApp{
   val helloWorldService = HttpRoutes.of[IO] {
     case GET -> Root / "hello" / name =>
       Ok(s"Hello, $name.")
-    case POST -> Root / "hello" / name =>
-      Ok(s"Hello, $name.")
+    case POST -> Root / "api" / "login" =>
+      Ok(s"Hello, ")
   }.orNotFound
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
@@ -31,3 +31,18 @@ object FloxxMainHttp4s extends IOApp{
     .drain
     .as(ExitCode.Success)
 }
+
+
+/**
+val route: server.Route =
+    path("api" / "login") {
+      post {
+        entity(as[LoginResquest]) { loginInfo =>
+          onComplete(securityService.authentification(loginInfo.login, loginInfo.mdp).unsafeToFuture) {
+            _.handleResponse(
+              r => complete(StatusCodes.OK -> r.token.getOrElse(invalideToken))
+            )
+          }
+        }
+      }
+    }*/
