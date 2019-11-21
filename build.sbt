@@ -78,7 +78,8 @@ lazy val httpEngine = (project in file("httpEngine"))
   )
   .dependsOn(model)
 
-mainClass := Some("org.floxx.FloxxMain")
+//mainClass := Some("org.floxx.FloxxMainAkkaHttp")
+mainClass := Some("org.floxx.FloxxMainHttp4s")
 
 mappings in (Compile, packageDoc) := Seq()
 
