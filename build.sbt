@@ -24,6 +24,17 @@ lazy val databaseJdbcSetting = Seq(
 )
 
 val http4sVersion = "0.20.13"
+val circeVersion = "0.11.1"
+
+lazy val circe = Seq(
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
+
+lazy val circe4Http4s = Seq(
+  "org.http4s" %% "http4s-circe" % http4sVersion
+)
 
 lazy val scalamockTest= Seq(
   "org.scalamock" %% "scalamock" % "4.4.0" % Test,
@@ -63,6 +74,8 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= dockertest,
     libraryDependencies ++= scalamockTest,
     libraryDependencies ++= doobie,
+    libraryDependencies ++= circe4Http4s,
+    libraryDependencies ++= circe,
     libraryDependencies ++= Seq(
         "com.typesafe.akka"      %% "akka-http"           % "10.1.4",
         "ch.megard"              %% "akka-http-cors"      % "0.4.0",

@@ -1,48 +1,54 @@
 package org.floxx
 
-import cats.effect.{ExitCode, IO, IOApp}
-import org.http4s.HttpRoutes
+import cats.effect.{ ExitCode, IO, IOApp }
+import cats.implicits._
+import io.circe.generic.auto._
+import org.floxx.AppLoader.AppContext
+import org.floxx.controller.handleRespIO2Val
+import org.http4s.circe._
 import org.http4s.dsl.impl.Root
 import org.http4s.dsl.io._
 import org.http4s.implicits._
-import cats.effect._
-import cats.implicits._
-import org.http4s.HttpRoutes
-import org.http4s.syntax._
-import org.http4s.dsl.io._
-import org.http4s.implicits._
 import org.http4s.server.blaze._
+import org.http4s.server.middleware.{ CORS, CORSConfig }
+import org.http4s.{ HttpRoutes }
+import handleRespIO2Val._
 
-object FloxxMainHttp4s extends IOApp{
+import scala.concurrent.duration._
 
-  val helloWorldService = HttpRoutes.of[IO] {
-    case GET -> Root / "hello" / name =>
-      Ok(s"Hello, $name.")
-    case POST -> Root / "api" / "login" =>
-      Ok(s"Hello, ")
-  }.orNotFound
+object FloxxMainHttp4s extends IOApp {
 
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  override def run(args: List[String]): IO[ExitCode] = BlazeServerBuilder[IO]
-    .bindHttp(8080, "0.0.0.0")
-    .withHttpApp(helloWorldService)
-    .serve
-    .compile
-    .drain
-    .as(ExitCode.Success)
-}
+  case class LoginResquest(login: String, mdp: String)
+  val context: AppContext = AppLoader.initialize
+  implicit val decoder    = jsonOf[IO, LoginResquest]
+  implicit val d          = jsonEncoderOf[IO, org.floxx.service.SecurityUser]
 
-
-/**
-val route: server.Route =
-    path("api" / "login") {
-      post {
-        entity(as[LoginResquest]) { loginInfo =>
-          onComplete(securityService.authentification(loginInfo.login, loginInfo.mdp).unsafeToFuture) {
-            _.handleResponse(
-              r => complete(StatusCodes.OK -> r.token.getOrElse(invalideToken))
-            )
-          }
+  val helloWorldService = CORS(
+    HttpRoutes
+      .of[IO] {
+        case req @ POST -> Root / "api" / "login" => {
+          for {
+            loginInfo <- req.as[LoginResquest]
+            resp <- handleResponse(context.securityService.authentification(loginInfo.login, loginInfo.mdp))
+          } yield resp
         }
       }
-    }*/
+      .orNotFound,
+    CORSConfig(
+      anyOrigin        = true,
+      anyMethod        = true,
+      allowedMethods   = None,
+      allowCredentials = true,
+      maxAge           = 1.day.toSeconds
+    )
+  )
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  override def run(args: List[String]): IO[ExitCode] =
+    BlazeServerBuilder[IO]
+      .bindHttp(8081, "0.0.0.0")
+      .withHttpApp(helloWorldService)
+      .serve
+      .compile
+      .drain
+      .as(ExitCode.Success)
+}

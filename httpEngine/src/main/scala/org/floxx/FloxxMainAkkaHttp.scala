@@ -7,7 +7,6 @@ import akka.stream.ActorMaterializer
 import org.floxx.AppLoader.AppContext
 import org.floxx.config.Config
 import akka.http.scaladsl.server.Directives._
-import cats.effect.{ExitCode, IO, IOApp}
 import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors

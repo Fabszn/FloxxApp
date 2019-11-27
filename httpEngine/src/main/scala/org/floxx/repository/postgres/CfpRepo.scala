@@ -27,13 +27,13 @@ class CfpRepoPg extends CfpRepo[ConnectionIO] {
           s.copy(slotId = sId, roomId = r)
         }
       })
-    Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)").updateMany(ioSlots).attempt
+    Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)").updateMany(ioSlots).map(Right(_))
 
   }
 
   override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] ={
-    sql"""select * from slot""".query[Slot].to[Set].attempt}
+    sql"""select * from slot""".query[Slot].to[Set].map(Right(_)) }
 
   override def getSlotById(id: String): doobie.ConnectionIO[IOVal[Option[Slot]]] =
-    sql"""select * from slot where slotid=$id""".query[Slot].option.attempt
+    sql"""select * from slot where slotid=$id""".query[Slot].option.map(Right(_))
 }

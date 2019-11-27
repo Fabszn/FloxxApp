@@ -1,6 +1,6 @@
 package org.floxx.utils
 
-import org.floxx.{BusinessError, BusinessVal, IOVal}
+import org.floxx.{FloxxError, BusinessVal, IOVal}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,7 +21,7 @@ object floxxUtils {
       * @return Future[Right[A]]
       *
       */
-    def futureRight: Future[BusinessVal[A]] = FastFuture.successful(Right[BusinessError, A](it))
+    def futureRight: Future[BusinessVal[A]] = FastFuture.successful(Right[FloxxError, A](it))
 
     /**
       * this wrapper function is based on FastFuture from AKKA.
@@ -30,21 +30,21 @@ object floxxUtils {
       * @return EitherT[Future, BusinessError, A]
       *
       */
-    def futureRightT: EitherT[Future, BusinessError, A] =
-      EitherT[Future, BusinessError, A](FastFuture.successful(Right[BusinessError, A](it)))
+    def futureRightT: EitherT[Future, FloxxError, A] =
+      EitherT[Future, FloxxError, A](FastFuture.successful(Right[FloxxError, A](it)))
 
   }
 
   implicit class ToEitherT[A](val it: Future[BusinessVal[A]]) extends AnyVal {
-    def eitherT: EitherT[Future, BusinessError, A] = EitherT[Future, BusinessError, A](it)
+    def eitherT: EitherT[Future, FloxxError, A] = EitherT[Future, FloxxError, A](it)
   }
 
   implicit class ToIOEitherT[A](val it: IO[IOVal[A]]) extends AnyVal {
-    def eitherT: EitherT[IO, Throwable, A] = EitherT[IO, Throwable, A](it)
+    def eitherT: EitherT[IO, FloxxError, A] = EitherT[IO, FloxxError, A](it)
   }
 
   implicit class ToEitherRight[A](val it: Future[A]) {
-    def mapFutureRight: Future[BusinessVal[A]] = it.map(v => Right[BusinessError, A](v))
+    def mapFutureRight: Future[BusinessVal[A]] = it.map(v => Right[FloxxError, A](v))
   }
 
   /**
@@ -54,7 +54,7 @@ object floxxUtils {
     * @return Future[Left[B, A]]
     *
     */
-  implicit class ToFutureLeft[B <: BusinessError](val be: B) {
+  implicit class ToFutureLeft[B <: FloxxError](val be: B) {
     def futureLeft[A]: Future[Left[B, A]] = FastFuture.successful(Left[B, A](be))
   }
 
@@ -65,8 +65,8 @@ object floxxUtils {
     * @tparam T
     */
   implicit class toFutureEitherT[T](val fut: Future[T]) extends AnyVal {
-    def mapEitherTRight: EitherT[Future, BusinessError, T] =
-      EitherT[Future, BusinessError, T](fut.map(Right[BusinessError, T](_)))
+    def mapEitherTRight: EitherT[Future, FloxxError, T] =
+      EitherT[Future, FloxxError, T](fut.map(Right[FloxxError, T](_)))
   }
 
   implicit class JsonTransformer[J](j: J)(implicit wr: Writes[J]) {
