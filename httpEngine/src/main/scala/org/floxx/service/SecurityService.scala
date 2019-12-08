@@ -1,7 +1,6 @@
 package org.floxx.service
 
 import cats.effect.IO
-import io.circe.Encoder
 import org.floxx.config.Config
 import org.floxx.repository.postgres.AuthRepoPg
 import org.floxx.utils.floxxUtils._
@@ -10,27 +9,19 @@ import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
 
 import scala.util.{Failure, Success, Try}
-sealed trait SecurityUser {
-  def isAuthenticated: Boolean
-  def token: Option[Token]
-}
 
-case class UserAuthenticated(login: String, token: Option[Token]) extends SecurityUser {
-  override def isAuthenticated: Boolean = true
+case class UserAuth(login: String, token: Option[Token], isAuthenticated: Boolean = false)
 
-}
+object UserAuth {
+  import io.circe.generic.auto._
+  import org.http4s.circe.jsonOf
 
-
-
-case object UserUnAuthenticated extends SecurityUser {
-  override def isAuthenticated: Boolean = false
-
-  override def token: Option[Token] = None
+  implicit val format = jsonOf[IO, UserAuth]
 }
 
 trait SecurityService[F[_]] {
 
-  def authentification(user: String, mdp: String): F[IOVal[SecurityUser]]
+  def authentification(user: String, mdp: String): F[IOVal[UserAuth]]
   def checkAuthentification(token: String): Option[String]
 
 }
@@ -56,14 +47,14 @@ class SecurityServiceImpl(securityRepo: AuthRepoPg) extends SecurityService[IO] 
       }
     }
 
-  override def authentification(user: String, mdp: String): IO[IOVal[SecurityUser]] =
+  override def authentification(user: String, mdp: String): IO[IOVal[UserAuth]] =
     //logger.debug(s"${securityRepo._key}:$user")
     (for {
       userFound <- run(securityRepo.userByLogin(user)).eitherT
       auth <- {
         logger.debug(s"user found $userFound")
         IO(userFound match {
-          case Some(u) if u.mdp == mdp => Right(UserAuthenticated(u.login, Some(tokenGenerator(u.login))))
+          case Some(u) if u.mdp == mdp => Right(UserAuth(u.login, Some(tokenGenerator(u.login))))
           case Some(_) => Left(new AuthentificationError("login or pass is invalid"))
           case None => Left(new AuthentificationError("login or pass is invalid"))
         })

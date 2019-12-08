@@ -1,6 +1,6 @@
 package org.floxx.controller
 
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
+import akka.http.scaladsl.model.{ ContentTypes, HttpEntity, StatusCodes }
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.directives.Credentials
@@ -26,22 +26,22 @@ class HitApi(hitService: HitService[IO], securityService: SecurityService[IO]) e
   }
 
   val route: server.Route =
-    path("api" / "hit") {
+    /*path("api" / "hit") { //OK
 
-      post {
-        auth(securityService) { _ =>
-          entity(as[HitRequest]) { hitItem =>
-            onComplete(hitService.hit(hitItem.toHit).unsafeToFuture()) {
-              _.handleResponse(result => {
-                WsUtils.publish(WsHit(hitItem.toHit.toJsonStr))
-                complete(StatusCodes.Created -> s"hit created ${hitItem} ${result}")
-              })
-            }
-          }
-        }
-      }
-    } ~
-    path("api" / "tracks") {
+  post {
+     auth(securityService) { _ =>
+       entity(as[HitRequest]) { hitItem =>
+         onComplete(hitService.hit(hitItem.toHit).unsafeToFuture()) {
+           _.handleResponse(result => {
+             WsUtils.publish(WsHit(hitItem.toHit.toJsonStr))
+             complete(StatusCodes.Created -> s"hit created ${hitItem} ${result}")
+           })
+         }
+       }
+     }
+   }
+    } ~ */
+    path("api" / "tracks") { // OK
       get {
         auth(securityService) { _ =>
           onComplete(hitService.currentTrack.unsafeToFuture()) {

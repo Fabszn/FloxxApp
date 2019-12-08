@@ -6,7 +6,9 @@ import akka.http.scaladsl.server.Route
 import cats.effect.IO
 import org.floxx
 import org.http4s.Response
+
 import org.slf4j.{Logger, LoggerFactory}
+
 
 import scala.util.{Failure, Success, Try}
 
@@ -38,12 +40,13 @@ package object controller {
   object handleRespIO2Val {
 
     import org.http4s.dsl.io._
+
     def handleResponse[A](
                         response: IO[IOVal[A]]
-    ): IO[Response[IO]] =
+    )(success : A => IO[Response[IO]]): IO[Response[IO]] =
       response
         .flatMap({
-          case Right(v) => Ok("")
+          case Right(v) => success(v)
           case Left(fe) =>
             floxx.handleError2(fe)
         })

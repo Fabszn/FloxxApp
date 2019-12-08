@@ -18,23 +18,23 @@ object FloxxMainAkkaHttp extends App {
 
   //override def run(args: List[String]): IO[ExitCode] = {
 
-  implicit val system: ActorSystem = ActorSystem("floxx", Config.configuration)
+  /*implicit val system: ActorSystem = ActorSystem("floxx", Config.configuration)
   sys.addShutdownHook(system.terminate())
   implicit val materializer: ActorMaterializer            = ActorMaterializer()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
   val context: AppContext                                 = AppLoader.initialize
 
   val globalRoute: Route = cors(CorsSettings.defaultSettings.withAllowedOrigins(HttpOriginMatcher.*)) {
-    context.hitApi.route ~
+    /*context.hitApi.route ~
     context.cfpApi.route ~
-    context.securityApi.route
+    context.securityApi.route*/
   }
 
   val bindingFuture = Http().bindAndHandle(
     globalRoute,
     "0.0.0.0",
     Config.floxx.floxxPort
-  )
+  )*/
 
 
 

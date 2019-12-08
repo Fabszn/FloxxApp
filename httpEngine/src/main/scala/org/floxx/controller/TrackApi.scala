@@ -3,7 +3,6 @@ package org.floxx.controller
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.directives.Credentials
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.floxx.controller.security.WithSecurity
 import org.floxx.service.{SecurityService, TrackService, timeUtils}

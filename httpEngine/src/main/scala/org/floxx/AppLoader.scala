@@ -1,8 +1,8 @@
 package org.floxx
 
 import cats.effect.IO
-import org.floxx.controller.{ HitApi, SecurityApi, TrackApi }
-import org.floxx.repository.postgres.{ AuthRepoPg, CfpRepoPg, HitRepoCfg }
+import org.floxx.controller.io._
+import org.floxx.repository.postgres.{AuthRepoPg, CfpRepoPg, HitRepoCfg}
 import org.floxx.service._
 
 object AppLoader {
@@ -31,9 +31,9 @@ object AppLoader {
     val securityService: SecurityService[IO] = new SecurityServiceImpl(srpg)
 
     ApplicationContext(
-      controller.TrackApi(trackService, securityService),
-      controller.HitApi(hitService, securityService),
-      controller.SecurityApi(securityService),
+      TrackApi(trackService, securityService),
+      HitApi(hitService),
+      SecurityApi(securityService),
       securityService
     )
   }
