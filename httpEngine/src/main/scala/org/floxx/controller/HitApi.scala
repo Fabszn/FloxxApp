@@ -15,6 +15,7 @@ import play.api.libs.json.Json
 import org.floxx.controller.security.WithSecurity
 import org.floxx.service.SecurityService
 
+@deprecated
 class HitApi(hitService: HitService[IO], securityService: SecurityService[IO]) extends PlayJsonSupport with WithSecurity {
 
   case class HitRequest(hitSlotId: String, percentage: Int) {

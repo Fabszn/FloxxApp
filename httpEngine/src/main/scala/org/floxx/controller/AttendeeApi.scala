@@ -1,5 +1,6 @@
 package org.floxx.controller
 
+@deprecated
 class AttendeeApi {
 
 }

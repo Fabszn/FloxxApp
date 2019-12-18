@@ -5,6 +5,8 @@ import org.http4s.{ Request, Response }
 
 trait Api {
 
-  def api: PartialFunction[Request[IO], IO[Response[IO]]]
+  type HandleQuery = PartialFunction[Request[IO], IO[Response[IO]]]
+
+  def api: HandleQuery
 
 }

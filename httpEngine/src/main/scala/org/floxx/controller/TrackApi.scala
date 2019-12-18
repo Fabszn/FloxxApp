@@ -14,6 +14,7 @@ import cats.effect.IO
   *
   * @param cfpService
   */
+@deprecated
 class TrackApi(cfpService: TrackService[IO], securityService: SecurityService[IO]) extends PlayJsonSupport with WithSecurity {
 
   case class SlotItem(id: String, name: String)

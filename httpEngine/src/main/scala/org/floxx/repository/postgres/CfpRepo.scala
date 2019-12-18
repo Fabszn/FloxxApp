@@ -12,27 +12,24 @@ trait CfpRepo[F[_]] {
   def addSlots(slot: List[Slot]): F[IOVal[Int]]
   def allSlotIds: F[IOVal[Set[Slot]]]
   def getSlotById(id: String): F[IOVal[Option[Slot]]]
+  def drop: ConnectionIO[IOVal[Int]]
 
 }
 
 class CfpRepoPg extends CfpRepo[ConnectionIO] {
 
-  override def addSlots(slots: List[Slot]): ConnectionIO[IOVal[Int]] = {
+  override def drop: ConnectionIO[IOVal[Int]] =
+    sql"truncate table slot cascade".update.run.map(Right(_))
 
-    val ioSlots = slots
-      .filter(_.talk.isDefined)
-      .flatMap(s => {
-        Config.rooms.roomsMapping(s.roomId).map { r =>
-          val sId = s"${s.day}_${r}_${s.fromTime}-${s.toTime}"
-          s.copy(slotId = sId, roomId = r)
-        }
-      })
-    Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)").updateMany(ioSlots).map(Right(_))
+  override def addSlots(slots: List[Slot]): ConnectionIO[IOVal[Int]] = {
+    Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
+      .updateMany(slots)
+      .map(Right(_))
 
   }
 
-  override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] ={
-    sql"""select * from slot""".query[Slot].to[Set].map(Right(_)) }
+  override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] =
+    sql"""select * from slot""".query[Slot].to[Set].map(Right(_))
 
   override def getSlotById(id: String): doobie.ConnectionIO[IOVal[Option[Slot]]] =
     sql"""select * from slot where slotid=$id""".query[Slot].option.map(Right(_))

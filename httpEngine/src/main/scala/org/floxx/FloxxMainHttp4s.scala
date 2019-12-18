@@ -20,12 +20,14 @@ object FloxxMainHttp4s extends IOApp {
   implicit val decoder = jsonOf[IO, LoginResquest]
   implicit val d       = jsonEncoderOf[IO, org.floxx.service.UserAuth]
 
-  val helloWorldService = CORS(
+  val floxxdService = CORS(
     HttpRoutes
       .of[IO] {
-        context.securityApi.api
-        context.cfpApi.api
-        context.hitApi.api
+        context.securityApi.api orElse
+        context.cfpApi.api orElse
+        context.hitApi.api orElse
+        context.technicalApi.api
+
       }
       .orNotFound,
     CORSConfig(
@@ -40,7 +42,7 @@ object FloxxMainHttp4s extends IOApp {
   override def run(args: List[String]): IO[ExitCode] =
     BlazeServerBuilder[IO]
       .bindHttp(8081, "0.0.0.0")
-      .withHttpApp(helloWorldService)
+      .withHttpApp(floxxdService)
       .serve
       .compile
       .drain

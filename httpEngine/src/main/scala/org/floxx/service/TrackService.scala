@@ -1,7 +1,6 @@
 package org.floxx.service
 
 import cats.effect.IO
-import com.github.nscala_time.time.StaticForwarderImports._
 import org.floxx.IOVal
 import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
@@ -56,7 +55,7 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
 
       slots <- urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))
 
-      nbLine <- run(repoPg.addSlots(slots))
+      nbLine <- run(repoPg.addSlots(computeRoomKey(slots)))
 
     } yield nbLine
 
@@ -74,5 +73,15 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
 
   override def roomById(id: String): IO[IOVal[Option[String]]] =
     IO(Right(Config.rooms.roomsMapping(id)))
+
+  private def computeRoomKey(slots: List[Slot]): List[Slot] =
+    slots
+      .filter(_.talk.isDefined)
+      .flatMap(s => {
+        Config.rooms.roomsMapping(s.roomId).map { r =>
+          val sId = s"${s.day}_${s.roomId}_${s.fromTime}-${s.toTime}"
+          s.copy(slotId = sId, roomId = r)
+        }
+      })
 
 }

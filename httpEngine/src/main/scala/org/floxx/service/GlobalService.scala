@@ -1,7 +1,8 @@
 package org.floxx.service
 
-import cats.effect.{ IO, IOApp }
-import doobie.{ ConnectionIO, Transactor }
+import cats.effect.{IO, IOApp}
+import doobie.{ConnectionIO, Transactor}
+import org.floxx.IOVal
 import org.floxx.config.Config
 
 import scala.concurrent.ExecutionContext

@@ -30,17 +30,4 @@ class HitRepoCfg extends HitRepo[ConnectionIO] {
     (root ++ criteria).query[Hit].to[Set].map(Right(_))
   }
 
-  /*(for {
-      sIds <- slotIds.future
-      allHits <- Future.sequence(sIds.map(id => redis.lRange(s"${_key._root_key}:${id}")))
-      hits <- allHits
-        .filter(_.nonEmpty)
-        .map(hs => {
-          logger.debug(s"current Hit ${hs.head}")
-          val h = Json.parse(hs.head).as[model.Hit]
-          (h.hitSlotId, h)
-        })
-        .toMap[SlotId, model.Hit]
-        .future
-    } yield hits).mapFutureRight*/
 }

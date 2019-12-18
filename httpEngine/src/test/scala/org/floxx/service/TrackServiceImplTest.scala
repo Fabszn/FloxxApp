@@ -1,12 +1,12 @@
 package org.floxx.service
 
 import cats.effect.IO
-import org.floxx.IOVal
-import org.floxx.model.jsonModel.{Slot, Talk}
+import org.floxx.model.jsonModel.{ Slot, Talk }
 import org.floxx.repository.postgres.CfpRepoPg
+import org.floxx.{ FloxxError, IOVal }
 import org.joda.time.format.DateTimeFormat
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Assertion, Matchers, OneInstancePerTest, WordSpec}
+import org.scalatest.{ Matchers, OneInstancePerTest, WordSpec }
 
 class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with OneInstancePerTest {
 
@@ -66,13 +66,13 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
 
 object initData {
 
+  import cats.implicits._
   import doobie._
   import doobie.implicits._
-  import cats.implicits._
 
   def slots: ConnectionIO[IOVal[Set[Slot]]] = {
     Either
-      .right[Throwable, Set[Slot]](
+      .right[FloxxError, Set[Slot]](
         Set(
           Slot(
             "wednesday_Amphi bleu_09:30-12:30",

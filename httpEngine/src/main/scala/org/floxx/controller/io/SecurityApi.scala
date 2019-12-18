@@ -8,12 +8,10 @@ import org.floxx.service.SecurityService
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.dsl.impl.Root
 import org.http4s.dsl.io._
-import org.http4s.{Request, Response}
-
 
 class SecurityApi(securityService: SecurityService[IO]) extends Api {
 
-  def api: PartialFunction[Request[IO], IO[Response[IO]]] = {
+  def api: HandleQuery = {
     case req @ POST -> Root / "api" / "login" => {
       for {
         loginInfo <- req.as[LoginResquest]

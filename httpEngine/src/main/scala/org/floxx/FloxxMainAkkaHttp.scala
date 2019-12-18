@@ -13,7 +13,7 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 
 import scala.concurrent.ExecutionContextExecutor
 
-object FloxxMainAkkaHttp extends App {
+object FloxxMainAkkaHttp {//extends App {
 
 
   //override def run(args: List[String]): IO[ExitCode] = {

@@ -20,7 +20,7 @@ FOREIGN KEY (hitslotid) REFERENCES slot(slotid)
 
 CREATE TABLE auth (
 
-userid        varchar CONSTRAINT pk_hit PRIMARY KEY,
+userid        varchar CONSTRAINT pk_auth PRIMARY KEY,
 login        VARCHAR not null,
 mdp int not null
 );

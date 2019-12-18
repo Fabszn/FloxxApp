@@ -10,6 +10,7 @@ import org.floxx.service.SecurityService
 import org.slf4j.{Logger, LoggerFactory}
 import play.api.libs.json.Json
 
+@deprecated
 class SecurityApi(securityService: SecurityService[IO]) extends PlayJsonSupport {
 
   case class LoginResquest(login: String, mdp: String)
