@@ -22,11 +22,11 @@ class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Ap
 
   def api: HandleQuery = {
     case req @ GET -> Root / "api" / "read" =>
-      authIO(req, ss) { _ =>
+      //authIO(req, ss) { _ =>
         handleResponse(cfpService.readDataFromCfpDevoxx()) { nb =>
           Ok(s"${nb} conferences have been imported")
         }
-      }
+      //}
 
     case req @ GET -> Root / "api" / "slots" =>
       authIO(req, ss) { _ =>

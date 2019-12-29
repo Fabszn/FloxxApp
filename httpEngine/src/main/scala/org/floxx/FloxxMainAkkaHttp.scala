@@ -13,6 +13,7 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 
 import scala.concurrent.ExecutionContextExecutor
 
+@deprecated("old fashion")
 object FloxxMainAkkaHttp {//extends App {
 
 
