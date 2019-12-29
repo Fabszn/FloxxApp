@@ -4,6 +4,7 @@ import cats.effect.{ExitCode, IO, IOApp}
 import cats.implicits._
 import io.circe.generic.auto._
 import org.floxx.AppLoader.AppContext
+import org.floxx.config.Config
 import org.http4s.HttpRoutes
 import org.http4s.circe._
 import org.http4s.implicits._
@@ -41,7 +42,7 @@ object FloxxMainHttp4s extends IOApp {
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   override def run(args: List[String]): IO[ExitCode] =
     BlazeServerBuilder[IO]
-      .bindHttp(8081, "0.0.0.0")
+      .bindHttp(Config.floxx.floxxPort, "0.0.0.0")
       .withHttpApp(floxxdService)
       .serve
       .compile
