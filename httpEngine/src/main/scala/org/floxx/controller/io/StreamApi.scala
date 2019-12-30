@@ -27,7 +27,7 @@ class StreamApi(ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame]) ext
             receive = stream => {
               stream.evalMap {
                 case Text(data, _) => {
-                  IO(Unit)
+                  IO(logger.info(s"Unknown type: $data"))
                 }
                 case unknown => IO(logger.error(s"Unknown type: $unknown"))
               }
