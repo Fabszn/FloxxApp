@@ -44,9 +44,9 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
       }
 
     case req @ GET -> Root / "api" / "tracks" => {
-      authIO(req, ss) { _ =>
+      //authIO(req, ss) { _ => this endpoint is free from auth
         handleResponse(hitService.currentTrack) { Ok(_) }
-      }
+      //}
     }
   }
 }

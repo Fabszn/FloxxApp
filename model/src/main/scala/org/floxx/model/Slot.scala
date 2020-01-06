@@ -30,11 +30,7 @@ object jsonModel {
 
   case class Slot(slotId: String, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
 
-  /*case class Slot2(slotId: String,
-                  roomId: String,
-                  fromTime: String,
-                  toTime: String,
-                  day: String)*/
+
   object Slot {
 
     implicit val w = Json.writes[Slot]
@@ -50,16 +46,6 @@ object jsonModel {
 
   }
 
-  /*object Slot2 {
-    implicit val w2 = Json.writes[Slot2]
-
-    implicit val Slot2Reader: Reads[Slot2] = (
-      (JsPath \ "slotId").read[String] and
-        (JsPath \ "roomId").read[String] and
-        (JsPath \ "fromTime").read[String] and
-        (JsPath \ "toTime").read[String] and
-        (JsPath \ "day").read[String]
-      )(Slot2.apply _)
-  }*/
+ 
 
 }

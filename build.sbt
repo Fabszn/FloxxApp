@@ -1,3 +1,5 @@
+import sbt.Keys.libraryDependencies
+
 val akkaVersion = "2.5.19"
 
 version := "1.0-SNAPSHOT"
@@ -8,15 +10,6 @@ scalacOptions += "-Ypartial-unification" // 2.11.9+
 
 lazy val commonsSettings = wartRemoverSettings
 
-lazy val model = (project in file("model"))
-  .settings(commonsSettings)
-  .settings(
-    libraryDependencies ++= doobie,
-    libraryDependencies ++= Seq(
-        "com.typesafe.play" %% "play-json" % "2.7.2"
-      )
-  )
-
 lazy val databaseJdbcSetting = Seq(
   "org.scalikejdbc" %% "scalikejdbc"    % "3.3.2",
   "org.postgresql"  % "postgresql"      % "42.2.5",
@@ -24,7 +17,7 @@ lazy val databaseJdbcSetting = Seq(
 )
 
 val http4sVersion = "0.20.13"
-val circeVersion = "0.11.1"
+val circeVersion  = "0.11.1"
 
 lazy val circe = Seq(
   "io.circe" %% "circe-core",
@@ -36,7 +29,7 @@ lazy val circe4Http4s = Seq(
   "org.http4s" %% "http4s-circe" % http4sVersion
 )
 
-lazy val scalamockTest= Seq(
+lazy val scalamockTest = Seq(
   "org.scalamock" %% "scalamock" % "4.4.0" % Test,
   "org.scalatest" %% "scalatest" % "3.0.4" % Test
 )
@@ -63,6 +56,17 @@ lazy val doobie = Seq( // Start with this one
 lazy val databaseRedisSetting = Seq(
   "com.github.scredis" %% "scredis" % "2.2.4"
 )
+
+lazy val model = (project in file("model"))
+  .settings(commonsSettings)
+  .settings(
+    libraryDependencies ++= doobie,
+    libraryDependencies ++= Seq(
+        "com.typesafe.play" %% "play-json" % "2.7.2"
+      ),
+    libraryDependencies ++= circe4Http4s,
+    libraryDependencies ++= circe
+  )
 
 lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging)
