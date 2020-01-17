@@ -6,8 +6,7 @@ import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.floxx.repository.postgres.CfpRepoPg
 import org.floxx.utils.floxxUtils._
-import org.slf4j.{ Logger, LoggerFactory }
-import play.api.libs.json.Json
+import org.slf4j.{Logger, LoggerFactory}
 
 trait TrackService[F[_]] {
 
@@ -36,13 +35,25 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
 
     def s(url: String): IO[List[Slot]] =
       BlazeClientBuilder[IO](global).resource.use { client =>
+        import io.circe.parser._
         import org.floxx.model.jsonModel._
 
         client.get(url) { r =>
           r.as[String].map { rt =>
-            val j = Json.parse(rt)
-
-            (j \ "slots").as[List[Slot]]
+            parse(rt) match {
+              case Left(e) => {
+                logger.error(s"Parsing Error", e)
+                List.empty[Slot]
+              }
+              case Right(j) => {
+                j.hcursor.downField("slots").as[Seq[Slot]] match {
+                  case Right(l) => l.toList
+                  case Left(e) =>
+                    logger.error("No slot found", e)
+                    List.empty[Slot]
+                }
+              }
+            }
           }
         }
       }

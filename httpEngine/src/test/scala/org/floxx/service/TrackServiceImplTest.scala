@@ -51,7 +51,6 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
 
         results.unsafeRunSync() match {
           case Right(slots) => {
-            println(slots)
             slots.map(_.slotId).contains("wednesday_Amphi bleu_09:30-12:30") shouldEqual true
           }
           case _ => fail("one slot should be found")

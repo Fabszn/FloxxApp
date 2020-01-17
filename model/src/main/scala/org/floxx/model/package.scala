@@ -4,4 +4,5 @@ package object model {
 
   val notInitializedId: Long = -1
 
+
 }

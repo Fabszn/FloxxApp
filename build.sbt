@@ -61,9 +61,6 @@ lazy val model = (project in file("model"))
   .settings(commonsSettings)
   .settings(
     libraryDependencies ++= doobie,
-    libraryDependencies ++= Seq(
-        "com.typesafe.play" %% "play-json" % "2.7.2"
-      ),
     libraryDependencies ++= circe4Http4s,
     libraryDependencies ++= circe
   )
@@ -81,14 +78,9 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= circe4Http4s,
     libraryDependencies ++= circe,
     libraryDependencies ++= Seq(
-        "com.typesafe.akka"      %% "akka-http"           % "10.1.4",
-        "ch.megard"              %% "akka-http-cors"      % "0.4.0",
         "ch.qos.logback"         % "logback-classic"      % "1.1.7",
-        "com.typesafe.akka"      %% "akka-actor"          % akkaVersion,
-        "com.typesafe.akka"      %% "akka-stream"         % akkaVersion,
         "com.lihaoyi"            %% "requests"            % "0.1.7",
         "org.typelevel"          %% "cats-core"           % "1.6.0",
-        "de.heikoseeberger"      %% "akka-http-play-json" % "1.25.2",
         "com.github.nscala-time" %% "nscala-time"         % "2.22.0",
         "com.pauldijou"          %% "jwt-core"            % "3.0.1"
       )

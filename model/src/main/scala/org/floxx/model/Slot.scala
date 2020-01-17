@@ -1,9 +1,8 @@
 package org.floxx.model
 
 import doobie.util.{ Get, Put }
-import play.api.libs.functional.syntax._
-import play.api.libs.json.Reads._
-import play.api.libs.json.{ JsPath, Json, Reads }
+import io.circe.generic.semiauto._
+import io.circe.{ Decoder, Encoder, HCursor }
 
 object jsonModel {
 
@@ -19,33 +18,29 @@ object jsonModel {
     implicit val talkGet: Get[Talk] = Get[String].map(toString)
     implicit val talkPut: Put[Talk] = Put[String].contramap(fromString)
 
-    implicit val w = Json.writes[Talk]
-
-    implicit val TalkReader: Reads[Talk] = (
-      (JsPath \ "talkType").read[String] and
-      (JsPath \ "title").read[String]
-    )(Talk.apply _)
+    implicit val fooDecoder: Decoder[Talk] = deriveDecoder[Talk]
+    implicit val fooEncoder: Encoder[Talk] = deriveEncoder[Talk]
 
   }
 
   case class Slot(slotId: String, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
 
-
   object Slot {
 
-    implicit val w = Json.writes[Slot]
-
-    implicit val SlotReader: Reads[Slot] = (
-      (JsPath \ "slotId").read[String] and
-      (JsPath \ "roomId").read[String] and
-      (JsPath \ "fromTime").read[String] and
-      (JsPath \ "toTime").read[String] and
-      (JsPath \ "talk").readNullable[Talk] and
-      (JsPath \ "day").read[String]
-    )(Slot.apply _)
+    implicit val decodeFoo: Decoder[Slot] = new Decoder[Slot] {
+      final def apply(c: HCursor): Decoder.Result[Slot] =
+        for {
+          slotId <- c.downField("slotId").as[String]
+          roomId <- c.downField("roomId").as[String]
+          fromTime <- c.downField("fromTime").as[String]
+          toTime <- c.downField("toTime").as[String]
+          talk <- c.downField("talk").as[Option[Talk]]
+          day <- c.downField("day").as[String]
+        } yield {
+          new Slot(slotId, roomId, fromTime, toTime, talk, day)
+        }
+    }
 
   }
-
- 
 
 }

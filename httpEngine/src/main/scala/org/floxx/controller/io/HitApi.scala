@@ -7,13 +7,14 @@ import io.circe.generic.auto._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.model.Hit
-import org.floxx.service.{HitService, SecurityService}
+import org.floxx.service.{ HitService, SecurityService }
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import org.http4s.websocket.WebSocketFrame
 import org.http4s.websocket.WebSocketFrame.Text
 import io.circe.syntax._
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
+
 class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame])
     extends Api
     with WithSecurity {
@@ -44,9 +45,12 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
       }
 
     case req @ GET -> Root / "api" / "tracks" => {
-      //authIO(req, ss) { _ => this endpoint is free from auth
-        handleResponse(hitService.currentTrack) { Ok(_) }
-      //}
+      authIO(req, ss) { _ =>
+        handleResponse(hitService.currentTracks) { Ok(_) }
+      }
+    }
+    case req @ GET -> Root / "api" / "attendees" => {
+      handleResponse(hitService.currentTracksForAttendee) { Ok(_) }
     }
   }
 }
