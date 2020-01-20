@@ -50,7 +50,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
       }
     }
     case req @ GET -> Root / "api" / "attendees" => {
-      handleResponse(hitService.currentTracksForAttendee) { Ok(_) }
+      handleResponse(hitService.currentTracksForAttendee) {Ok(_) }
     }
   }
 }
