@@ -38,7 +38,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
             Created(s"Hit created")
           }
           _ <- {
-            logger.debug("hit hit channel")
+            logger.debug("hit channel")
             channel.enqueue1(Text(hitItem.toHit.asJson.noSpaces))
           }
         } yield r
