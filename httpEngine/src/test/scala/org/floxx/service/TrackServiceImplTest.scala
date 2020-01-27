@@ -23,7 +23,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
         val results: IO[IOVal[Set[Slot]]] = trackService.loadActiveSlotIds(
           timeUtils.extractDayAndStartTime(
             "wednesday",
-            DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:00:00").toLocalTime
+            DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:05:00").toLocalTime
           )
         )
 
@@ -45,7 +45,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
         val results: IO[IOVal[Set[Slot]]] = trackService.loadActiveSlotIds(
           timeUtils.extractDayAndStartTime(
             "wednesday",
-            DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:30:00").toLocalTime
+            DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:35:00").toLocalTime
           )
         )
 

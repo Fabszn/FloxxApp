@@ -39,6 +39,7 @@ object Config {
   object track {
 
     lazy val delayBefore: Int = configuration.getInt("track.delay-before")
+    lazy val delayAfter: Int = configuration.getInt("track.delay-after")
 
   }
   object rooms {
