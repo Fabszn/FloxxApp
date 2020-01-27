@@ -6,7 +6,6 @@ CREATE TABLE slot (
     toTime         varchar NOT NULL,
     talk varchar,
     day         varchar NOT NULL
-
 );
 
 CREATE TABLE hit (
