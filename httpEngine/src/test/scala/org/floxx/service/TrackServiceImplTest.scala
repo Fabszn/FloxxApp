@@ -20,7 +20,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
     "day and time minus 30mn is wednesday (9h00)" should {
 
       "have one occurence" in {
-        val results: IO[IOVal[Set[Slot]]] = trackService.loadActiveSlotIds(
+        val results: IO[IOVal[Set[Slot]]] = trackService.loadSlotByCriterias(
           timeUtils.extractDayAndStartTime(
             "wednesday",
             DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:05:00").toLocalTime
@@ -42,7 +42,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
     "day and time oclock is wednesday (9h30)" should {
 
       "have also one occurence" in {
-        val results: IO[IOVal[Set[Slot]]] = trackService.loadActiveSlotIds(
+        val results: IO[IOVal[Set[Slot]]] = trackService.loadSlotByCriterias(
           timeUtils.extractDayAndStartTime(
             "wednesday",
             DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("9:35:00").toLocalTime

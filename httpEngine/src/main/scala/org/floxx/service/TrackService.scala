@@ -11,7 +11,7 @@ import org.slf4j.{Logger, LoggerFactory}
 trait TrackService[F[_]] {
 
   def readDataFromCfpDevoxx(): F[IOVal[Int]]
-  def loadActiveSlotIds(isActiveFunction: Slot => Boolean): F[IOVal[Set[Slot]]]
+  def loadSlotByCriterias(isActiveFunction: Slot => Boolean): F[IOVal[Set[Slot]]]
   def loadSlot(id: String): F[IOVal[Option[Slot]]]
   def roomById(id: String): F[IOVal[Option[String]]]
 
@@ -72,7 +72,7 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
 
   }
 
-  override def loadActiveSlotIds(isActiveFilter: Slot => Boolean): IO[IOVal[Set[Slot]]] =
+  override def loadSlotByCriterias(isActiveFilter: Slot => Boolean): IO[IOVal[Set[Slot]]] =
     (for {
       slots <- run(repoPg.allSlotIds).eitherT
     } yield slots.filter(isActiveFilter)).value
