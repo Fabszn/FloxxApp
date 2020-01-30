@@ -23,7 +23,7 @@ class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[Connection
 
   override def currentTracks: IO[IOVal[Map[SlotId, model.Hit]]] =
     (for {
-      currentSloIds <- trackService.loadActiveSlotIds(timeUtils.extractDayAndStartTime()).eitherT
+      currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime()).eitherT
       hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
       filtered <- transform(hits).eitherT
 
@@ -33,12 +33,15 @@ class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[Connection
 
   override def currentTracksForAttendee: IO[IOVal[Map[SlotId, AttendeeInformation]]] =
     (for {
-      currentSloIds <- trackService.loadActiveSlotIds(timeUtils.extractDayAndStartTime()).eitherT
+      currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime()).eitherT
       hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
+      filteredHits <- transform(hits).eitherT
       filtered <- {
+
+
         IO(Right(currentSloIds.map { s =>
           {
-            val hitInfo = hits.find(h => h.hitSlotId == s.slotId)
+            val hitInfo = filteredHits.get(s.slotId)//.find(h => h.hitSlotId == s.slotId)
 
             (s.slotId -> AttendeeInformation(s.slotId, s, hitInfo))
           }

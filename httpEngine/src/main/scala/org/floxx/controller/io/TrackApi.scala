@@ -30,7 +30,7 @@ class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Ap
 
     case req @ GET -> Root / "api" / "slots" =>
       authIO(req, ss) { _ =>
-        handleResponse(cfpService.loadActiveSlotIds(timeUtils.extractDayAndStartTime())) { activeSlots =>
+        handleResponse(cfpService.loadSlotByCriterias(timeUtils.extractDayAndStartTime())) { activeSlots =>
           Ok(
             Map(
               "slots" -> activeSlots.map(

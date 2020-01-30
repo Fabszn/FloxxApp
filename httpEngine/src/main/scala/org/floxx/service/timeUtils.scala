@@ -20,8 +20,6 @@ object timeUtils {
     val trackStartTime = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.fromTime}:00").toLocalTime
     val trackEndTime   = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.toTime}:00").toLocalTime
 
-    logger.info(s"${trackStartTime.plusMinutes(Config.track.delayAfter)}")
-
     //filters
     (currentDay == slot.day) &&
     (currentTime.isAfter(trackStartTime.minusMinutes(Config.track.delayBefore))
