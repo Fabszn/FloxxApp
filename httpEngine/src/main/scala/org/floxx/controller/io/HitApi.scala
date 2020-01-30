@@ -49,8 +49,8 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
         handleResponse(hitService.currentTracks) { Ok(_) }
       }
     }
-    case req @ GET -> Root / "api" / "attendees" => {
-      handleResponse(hitService.currentTracksForAttendee) {Ok(_) }
+    case req @ GET -> Root / "api" / "tracks-infos" => {
+      handleResponse(hitService.currentTracksWithHitInfo) {Ok(_) }
     }
   }
 }
