@@ -2,16 +2,17 @@ package org.floxx.service
 
 import cats.effect.IO
 import doobie.free.connection.ConnectionIO
-import org.floxx.model.{TrackHitInfo, Hit}
+import org.floxx.model.{ Hit, TrackHitInfo }
 import org.floxx.repository.postgres.HitRepo
 import org.floxx.utils.floxxUtils._
-import org.floxx.{IOVal, SlotId, model}
+import org.floxx.{ model, IOVal, SlotId }
 
 trait HitService[F[_]] {
 
   def hit(hit: Hit): F[IOVal[Int]]
   def currentTracks: F[IOVal[Map[SlotId, model.Hit]]]
   def currentTracksWithHitInfo: F[IOVal[Map[SlotId, model.TrackHitInfo]]]
+  def allTracksWithHitInfo: F[IOVal[Map[SlotId, model.TrackHitInfo]]]
 
 }
 
@@ -38,10 +39,9 @@ class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[Connection
       filteredHits <- transform(hits).eitherT
       filtered <- {
 
-
         IO(Right(currentSloIds.map { s =>
           {
-            val hitInfo = filteredHits.get(s.slotId)//.find(h => h.hitSlotId == s.slotId)
+            val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
 
             (s.slotId -> TrackHitInfo(s.slotId, s, hitInfo))
           }
@@ -51,4 +51,22 @@ class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[Connection
       filtered
     }).value
 
+  override def allTracksWithHitInfo: IO[IOVal[Map[SlotId, TrackHitInfo]]] =
+    (for {
+      currentSloIds <- trackService.loadSlotByCriterias(_ => true).eitherT
+      hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
+      filteredHits <- transform(hits).eitherT
+      filtered <- {
+
+        IO(Right(currentSloIds.map { s =>
+          {
+            val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
+
+            (s.slotId -> TrackHitInfo(s.slotId, s, hitInfo))
+          }
+        }.toMap))
+      }.eitherT
+    } yield {
+      filtered
+    }).value
 }

@@ -3,6 +3,8 @@ package org.floxx.controller.io
 import cats.effect.IO
 import cats.effect.concurrent.MVar
 import fs2.concurrent.Queue
+import io.circe.Json.JString
+import io.circe._
 import io.circe.generic.auto._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
@@ -13,6 +15,7 @@ import org.http4s.circe.jsonOf
 import org.http4s.websocket.WebSocketFrame
 import org.http4s.websocket.WebSocketFrame.Text
 import io.circe.syntax._
+import org.floxx.SlotId
 import org.slf4j.{ Logger, LoggerFactory }
 
 class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame])
@@ -43,14 +46,40 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
           }
         } yield r
       }
-
-    case req @ GET -> Root / "api" / "tracks" => {
-      authIO(req, ss) { _ =>
-        handleResponse(hitService.currentTracks) { Ok(_) }
+    case req @GET -> Root / "api" / "tracks-infos" => {
+      authIO(req, ss) { req =>
+        handleResponse(hitService.currentTracksWithHitInfo) {
+          Ok(_)
+        }
       }
     }
-    case req @ GET -> Root / "api" / "tracks-infos" => {
-      handleResponse(hitService.currentTracksWithHitInfo) {Ok(_) }
+    case req @GET -> Root / "api" / "all-tracks-infos" => {
+      authIO(req, ss) { _ =>
+        handleResponse(hitService.allTracksWithHitInfo) {
+          Ok(_)
+        }
+      }
+    }
+    case req @GET -> Root / "api" / "all-tracks-infos-for-attendees" => {
+        handleResponse(hitService.allTracksWithHitInfo) {
+          Ok(_)
+        }
+    }
+    case req @GET -> Root / "api" / "list-tracks" => {
+      authIO(req, ss) { req =>
+      handleResponse(hitService.allTracksWithHitInfo) { r =>
+        {
+          Ok(r.map {
+            case (k, v) =>
+              Map(
+                ("Id", k.toString),
+                ("Title", v.slot.talk.fold("no")(t => t.title))
+              )
+          })
+        }
+
+      }
+      }
     }
   }
 }
