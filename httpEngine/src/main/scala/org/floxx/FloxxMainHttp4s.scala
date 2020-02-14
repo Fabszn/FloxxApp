@@ -17,9 +17,7 @@ object FloxxMainHttp4s extends IOApp {
 
   val context: AppContext = AppLoader.initialize
 
-  case class LoginResquest(login: String, mdp: String)
-  implicit val decoder = jsonOf[IO, LoginResquest]
-  implicit val d       = jsonEncoderOf[IO, org.floxx.service.UserAuth]
+
 
   val floxxdService = CORS(
     HttpRoutes

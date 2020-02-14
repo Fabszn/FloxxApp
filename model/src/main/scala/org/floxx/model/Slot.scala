@@ -12,7 +12,7 @@ object jsonModel {
     def fromString(t: Talk): String = s"${t.talkType}%${t.title}"
     def toString(t: String): Talk = {
       val vs = t.split("%")
-      Talk(vs(1), vs(0))
+      Talk(vs(0), vs(1))
     }
 
     implicit val talkGet: Get[Talk] = Get[String].map(toString)
