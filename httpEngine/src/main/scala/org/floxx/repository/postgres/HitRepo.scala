@@ -6,7 +6,7 @@ import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.fragment
 import org.floxx.model.Hit
-import org.floxx.{ model, IOVal, SlotId }
+import org.floxx.{IOVal, model}
 
 trait HitRepo[F[_]] {
   def loadHitBy(slotIds: Set[String]): ConnectionIO[IOVal[Set[model.Hit]]]

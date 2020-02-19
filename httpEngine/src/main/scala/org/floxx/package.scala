@@ -9,8 +9,6 @@ package object floxx {
 
   type Token = String
 
-  type SlotId = String
-
   sealed trait FloxxError {
     val code: String
     val message: String

@@ -14,5 +14,5 @@ trait AuthRepo[F[_]] {
 
 class AuthRepoPg extends AuthRepo[ConnectionIO] {
   override def userByLogin(login: String): ConnectionIO[IOVal[Option[AuthUser]]] =
-    sql"SELECT userid, login, mdp from auth where login=$login".query[AuthUser].option.map(Right(_))
+    sql"SELECT userid, login, mdp from users where login=$login".query[AuthUser].option.map(Right(_))
 }
