@@ -30,7 +30,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
 
   def api: HandleQuery = {
     case req @ POST -> Root / "api" / "hit" =>
-      authIO(req, ss) { req =>
+      authIOu(req, ss) { (req,u) =>
         for {
           hitItem <- req.as[HitRequest]
           r <- handleResponse(hitService.hit(hitItem.toHit)) { nb =>
@@ -43,14 +43,14 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
         } yield r
       }
     case req @GET -> Root / "api" / "tracks-infos" => {
-      authIO(req, ss) { req =>
+      authIOu(req, ss) { (req,u) =>
         handleResponse(hitService.currentTracksWithHitInfo) {
           Ok(_)
         }
       }
     }
     case req @GET -> Root / "api" / "all-tracks-infos" => {
-      authIO(req, ss) { _ =>
+      authIOu(req, ss) { (req,u) =>
         handleResponse(hitService.allTracksWithHitInfo) {
           Ok(_)
         }
@@ -62,7 +62,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
         }
     }
     case req @GET -> Root / "api" / "list-tracks" => {
-      authIO(req, ss) { req =>
+      authIOu(req, ss) { (req,u) =>
       handleResponse(hitService.allTracksWithHitInfo) { r =>
         {
           Ok(r.map {

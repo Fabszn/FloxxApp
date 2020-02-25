@@ -22,7 +22,7 @@ package object controller {
         .flatMap({
           case Right(v) => success(v)
           case Left(fe) =>
-            floxx.handleError2(fe)
+            floxx.handleError(fe)
         })
         .handleErrorWith(internalError => {
           logger.error(s"Error : ${internalError.getCause} - ${internalError.getMessage}")

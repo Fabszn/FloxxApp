@@ -1,17 +1,21 @@
 package org.floxx.service
 
+import java.time.LocalDateTime
+
 import cats.effect.IO
-import org.floxx.IOVal
+import doobie.`enum`.JdbcType.Timestamp
+import org.floxx.{ IOVal, IllegalStateError }
 import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.floxx.repository.postgres.CfpRepoPg
 import org.floxx.utils.floxxUtils._
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 trait TrackService[F[_]] {
 
   def readDataFromCfpDevoxx(): F[IOVal[Int]]
   def loadSlotByCriterias(isActiveFunction: Slot => Boolean): F[IOVal[Set[Slot]]]
+  def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): F[IOVal[Option[Slot]]]
   def loadSlot(id: String): F[IOVal[Option[Slot]]]
   def roomById(id: String): F[IOVal[Option[String]]]
 
@@ -77,6 +81,12 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
       slots <- run(repoPg.allSlotIds).eitherT
     } yield slots.filter(isActiveFilter)).value
 
+  override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): IO[IOVal[Option[Slot]]] =
+    (for {
+      slots <- run(repoPg.allSlotIdsWithUserId(userId)).eitherT
+      slot <- currentSlotForUser(slots.filter(isActiveFilter), userId).eitherT
+    } yield slot).value
+
   override def loadSlot(id: String): IO[IOVal[Option[Slot]]] =
     (for {
       slot <- run(repoPg.getSlotById(id)).eitherT
@@ -94,5 +104,16 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
           s.copy(slotId = sId, roomId = r)
         }
       })
+
+  private def currentSlotForUser(s: Set[Slot], userId: String): IO[IOVal[Option[Slot]]] = {
+    logger.info(s"${s.size} - $userId")
+    IO(s.toSeq match {
+      case s if (s.size > 1) => {
+        logger.warn(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}")
+        Left(IllegalStateError(s"Too much slots selectec for the following user ${userId} at ${LocalDateTime.now}"))
+      }
+      case s => Right(s.headOption)
+    })
+  }
 
 }
