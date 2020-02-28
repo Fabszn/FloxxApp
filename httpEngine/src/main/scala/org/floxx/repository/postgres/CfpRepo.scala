@@ -33,7 +33,7 @@ class CfpRepoPg extends CfpRepo[ConnectionIO] {
       .updateMany(m)
       .map(Right(_))
 
-  override def allSlotIds: doobie.ConnectionIO[IOVal[Set[Slot]]] =
+  override def allSlotIds(): doobie.ConnectionIO[IOVal[Set[Slot]]] =
     sql"""select * from slot""".query[Slot].to[Set].map(Right(_))
 
 

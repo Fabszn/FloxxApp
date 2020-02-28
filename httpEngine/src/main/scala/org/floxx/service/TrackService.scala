@@ -106,11 +106,10 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
       })
 
   private def currentSlotForUser(s: Set[Slot], userId: String): IO[IOVal[Option[Slot]]] = {
-    logger.info(s"${s.size} - $userId")
     IO(s.toSeq match {
       case s if (s.size > 1) => {
         logger.warn(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}")
-        Left(IllegalStateError(s"Too much slots selectec for the following user ${userId} at ${LocalDateTime.now}"))
+        Left(IllegalStateError(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}"))
       }
       case s => Right(s.headOption)
     })
