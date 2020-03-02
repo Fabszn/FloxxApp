@@ -1,17 +1,21 @@
 package org.floxx.controller.io
 
 import cats.effect.IO
+import io.circe.generic.auto._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
+import org.floxx.model.{ SlotId, UserId }
 import org.floxx.service.{ AdminService, SecurityService }
-import org.http4s.{ Request, Response }
 import org.http4s.circe.jsonOf
-import io.circe.generic.auto._
 
 case class Env(days: Map[String, String])
 
 object Env {
   implicit val format = jsonOf[IO, Env]
+}
+case class Mapping(userSlots: Map[UserId, Set[SlotId]])
+object Mapping {
+  implicit val format = jsonOf[IO, Mapping]
 }
 
 class TechnicalApi(as: AdminService[IO], ss: SecurityService[IO]) extends Api with WithSecurity {
@@ -20,7 +24,6 @@ class TechnicalApi(as: AdminService[IO], ss: SecurityService[IO]) extends Api wi
     case req @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setEnv" =>
       authIO(req, ss) { req =>
         {
-          println(req.as[Env])
           for {
             env <- req.as[Env]
             r <- handleResponse(as.updateEnv(env.days)) { _ =>
@@ -29,6 +32,16 @@ class TechnicalApi(as: AdminService[IO], ss: SecurityService[IO]) extends Api wi
           } yield r
         }
       }
+    case req @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setUsers" =>
+      authIO(req, ss) { req =>
+        for {
+          mapping <- req.as[Mapping]
+          r <- handleResponse(as.insertUserSlotMapping(mapping.userSlots)) { _ =>
+            Created(s"Mapping has been inserted")
+          }
+        } yield r
+      }
+
   }
 }
 

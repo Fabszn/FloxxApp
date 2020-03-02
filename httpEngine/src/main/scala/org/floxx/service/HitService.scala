@@ -2,10 +2,10 @@ package org.floxx.service
 
 import cats.effect.IO
 import doobie.free.connection.ConnectionIO
-import org.floxx.model.{ Hit, TrackHitInfo }
+import org.floxx.model.{Hit, SlotId, TrackHitInfo}
 import org.floxx.repository.postgres.HitRepo
 import org.floxx.utils.floxxUtils._
-import org.floxx.{ model, IOVal, SlotId }
+import org.floxx.{IOVal, model}
 
 trait HitService[F[_]] {
 

@@ -2,6 +2,7 @@ package org.floxx.controller.io
 
 import cats.effect.IO
 import io.circe.generic.auto._
+import io.circe.syntax._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.model.Hit
@@ -22,13 +23,13 @@ class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Ap
 
   def api: HandleQuery = {
     case req @ GET -> Root / "api" / "read" =>
-      //authIO(req, ss) { _ =>
+      authIO(req, ss) { _ =>
         handleResponse(cfpService.readDataFromCfpDevoxx()) { nb =>
           Ok(s"${nb} conferences have been imported")
         }
-      //}
+      }
 
-    case req @ GET -> Root / "api" / "slots" =>
+    case req @ GET -> Root / "api" / "slots" / "_current" =>
       authIO(req, ss) { _ =>
         handleResponse(cfpService.loadSlotByCriterias(timeUtils.extractDayAndStartTime())) { activeSlots =>
           Ok(
@@ -38,10 +39,28 @@ class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Ap
                   SlotItem(
                     s.slotId,
                     s"${s.roomId} ${s.fromTime} - ${s.toTime}"
-                  )
+                  ).asJson
               )
             )
           )
+        }
+      }
+
+    case req @ GET -> Root / "api" / "slots" =>
+      authIOu(req, ss) { (_, u) =>
+        {
+          handleResponse(cfpService.loadSlotByCriterias(u.userId, timeUtils.extractDayAndStartTime())) { slot =>
+            {
+              slot match {
+                case Some(s) =>
+                  Ok(
+                    s.asJson
+                  )
+                case None => NotFound("None active slot has been found")
+              }
+
+            }
+          }
         }
       }
 

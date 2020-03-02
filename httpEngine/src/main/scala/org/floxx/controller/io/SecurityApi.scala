@@ -12,8 +12,8 @@ class SecurityApi(securityService: SecurityService[IO]) extends Api {
 
   case class LoginResquest(login: String, mdp: String)
   implicit val decoder = jsonOf[IO, LoginResquest]
-  implicit val d       = jsonEncoderOf[IO, org.floxx.service.UserAuth]
-
+  implicit val d       = jsonEncoderOf[IO, org.floxx.service.AuthenticatedUser]
+  case class User(name:String,token:String, isAdmin:Boolean)
 
   def api: HandleQuery = {
     case req @ POST -> Root / "api" / "login" => {

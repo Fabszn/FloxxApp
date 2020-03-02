@@ -11,13 +11,16 @@ import org.scalatest.{ Matchers, OneInstancePerTest, WordSpec }
 class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with OneInstancePerTest {
 
   val cfpRepoMock = mock[CfpRepoPg]
-
-  (cfpRepoMock.allSlotIds _).expects().returning(initData.slots)
+  (cfpRepoMock.allSlotIds _).expects().returning(initData.slots).anyNumberOfTimes()//.repeated(2)
+  (cfpRepoMock.allSlotIdsWithUserId _).expects("user2").returning(initData.slots).anyNumberOfTimes()//.once()
 
   val trackService = new TrackServiceImpl(cfpRepoMock)
 
+
+
   "A slot" when {
-    "day and time minus 30mn is wednesday (9h00)" should {
+
+    "day and time minus 25mn is wednesday (9h05)" should {
 
       "have one occurence" in {
         val results: IO[IOVal[Set[Slot]]] = trackService.loadSlotByCriterias(
@@ -29,7 +32,6 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
 
         results.unsafeRunSync() match {
           case Right(slots) => {
-            println(slots)
             slots.map(_.slotId).contains("wednesday_Amphi bleu_09:30-12:30") shouldEqual true
           }
           case _ => fail("one slot should be found")
@@ -39,7 +41,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
 
     }
 
-    "day and time oclock is wednesday (9h30)" should {
+    "day and time o'clock is wednesday (9h30)" should {
 
       "have also one occurence" in {
         val results: IO[IOVal[Set[Slot]]] = trackService.loadSlotByCriterias(
@@ -59,6 +61,27 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
       }
 
     }
+
+    "day and time minus 25mn is wednesday (11h05)" should {
+      "have one occurence" in  {
+        val results: IO[IOVal[Option[Slot]]] = trackService.loadSlotByCriterias(
+          "user2",
+          timeUtils.extractDayAndStartTime(
+            "wednesday",
+            DateTimeFormat.forPattern("kk:mm:ss").parseDateTime("11:05:00").toLocalTime
+          )
+        )
+
+        val r = results.unsafeRunSync()
+        r match {
+          case Right(Some(slot)) => {
+            slot.slotId.contains("wednesday_253_11:30-12:30") shouldEqual true
+          }
+          case _ => fail("One slot should be found")
+        }
+      }
+    }
+
   }
 
 }
@@ -158,6 +181,19 @@ object initData {
             "wednesday_253_09:30-12:30",
             "253",
             "09:30",
+            "12:30",
+            Some(
+              Talk(
+                "University",
+                "Deep Learning pour le traitement du Langage avec Pytorch"
+              )
+            ),
+            "wednesday"
+          ),
+          Slot(
+            "wednesday_253_11:30-12:30",
+            "253",
+            "11:30",
             "12:30",
             Some(
               Talk(

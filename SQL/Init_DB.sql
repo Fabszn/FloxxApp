@@ -17,9 +17,23 @@ datetime bigint not null,
 FOREIGN KEY (hitslotid) REFERENCES slot(slotid)
 );
 
-CREATE TABLE auth (
+drop table user_slots
 
-userid        varchar CONSTRAINT pk_auth PRIMARY KEY,
+CREATE table user_slots (
+	slotid varchar not null,
+	userid varchar not null,
+	FOREIGN KEY (slotid) REFERENCES slot(slotid),
+	FOREIGN KEY (userid) REFERENCES users(userid),
+	PRIMARY KEY (slotid,userid)
+)
+
+alter table users add isAdmin boolean  default false
+
+CREATE TABLE users (
+userid        varchar CONSTRAINT pk_user PRIMARY KEY,
+firstname VARCHAR not null,
+lastname VARCHAR not null,
 login        VARCHAR not null,
-mdp int not null
+mdp int not null,
+isAdmin boolean default false
 );
