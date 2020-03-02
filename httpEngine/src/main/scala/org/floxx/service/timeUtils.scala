@@ -11,7 +11,7 @@ object timeUtils {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   def extractDayAndStartTime(
-      currentDay: String     = DateTime.now(DateTimeZone.UTC).dayOfWeek().getAsText.toLowerCase,
+      currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
       currentTime: LocalTime = DateTime.now().toLocalTime
   )(
       slot: Slot
