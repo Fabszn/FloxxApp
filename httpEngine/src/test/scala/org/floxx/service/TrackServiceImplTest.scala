@@ -11,17 +11,15 @@ import org.scalatest.{ Matchers, OneInstancePerTest, WordSpec }
 class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with OneInstancePerTest {
 
   val cfpRepoMock = mock[CfpRepoPg]
-  (cfpRepoMock.allSlotIds _).when().returning(initData.slots).anyNumberOfTimes()//.repeated(2)
-  (cfpRepoMock.allSlotIdsWithUserId _).when("user2").returning(initData.slots).anyNumberOfTimes()//.once()
+  (cfpRepoMock.allSlotIds _).expects().returning(initData.slots).anyNumberOfTimes()//.repeated(2)
+  (cfpRepoMock.allSlotIdsWithUserId _).expects("user2").returning(initData.slots).anyNumberOfTimes()//.once()
 
   val trackService = new TrackServiceImpl(cfpRepoMock)
 
 
 
   "A slot" when {
-    val cfpRepoMock = mock[CfpRepoPg]
 
-    (cfpRepoMock.allSlotIds _).expects().returning(initData.slots)
     "day and time minus 25mn is wednesday (9h05)" should {
 
       "have one occurence" in {
@@ -65,7 +63,7 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
     }
 
     "day and time minus 25mn is wednesday (11h05)" should {
-      "have one occurence" ignore  {
+      "have one occurence" in  {
         val results: IO[IOVal[Option[Slot]]] = trackService.loadSlotByCriterias(
           "user2",
           timeUtils.extractDayAndStartTime(
@@ -75,7 +73,6 @@ class TrackServiceImplTest extends WordSpec with Matchers with MockFactory with 
         )
 
         val r = results.unsafeRunSync()
-        println(r)
         r match {
           case Right(Some(slot)) => {
             slot.slotId.contains("wednesday_253_11:30-12:30") shouldEqual true
