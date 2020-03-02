@@ -1,23 +1,22 @@
 package org.floxx
 
-import cats.effect.{ExitCode, IO, IOApp}
+import java.util.TimeZone
+
+import cats.effect.{ ExitCode, IO, IOApp }
 import cats.implicits._
-import io.circe.generic.auto._
 import org.floxx.AppLoader.AppContext
 import org.floxx.config.Config
 import org.http4s.HttpRoutes
-import org.http4s.circe._
 import org.http4s.implicits._
 import org.http4s.server.blaze._
-import org.http4s.server.middleware.{CORS, CORSConfig}
+import org.http4s.server.middleware.{ CORS, CORSConfig }
 
 import scala.concurrent.duration._
 
 object FloxxMainHttp4s extends IOApp {
 
   val context: AppContext = AppLoader.initialize
-
-
+  TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"))
 
   val floxxdService = CORS(
     HttpRoutes
