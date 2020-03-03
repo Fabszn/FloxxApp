@@ -26,7 +26,8 @@ object timeUtils {
     println(s"trackEndTime ${trackEndTime}")
     println("----------------------------------")
 
-    logger.info(s"${trackStartTime.plusMinutes(Config.track.delayAfter)}")
+
+    logger.info(s"${LocalTime.now()}")
 
 
     //filters
