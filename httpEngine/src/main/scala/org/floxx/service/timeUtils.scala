@@ -1,5 +1,7 @@
 package org.floxx.service
 
+import java.util.TimeZone
+
 import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.joda.time.format.DateTimeFormat
@@ -26,8 +28,9 @@ object timeUtils {
     println(s"trackEndTime ${trackEndTime}")
     println("----------------------------------")
 
+    DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
-    logger.info(s"${LocalTime.now()}")
+    logger.info(s">>>>>>>>>>>>>>>>>>>>>>${LocalTime.now(DateTimeZone.getDefault)}")
 
 
     //filters
