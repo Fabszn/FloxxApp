@@ -84,7 +84,8 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
   override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): IO[IOVal[Option[Slot]]] =
     (for {
       slots <- run(repoPg.allSlotIdsWithUserId(userId)).eitherT
-      slot <- currentSlotForUser(slots.filter(isActiveFilter), userId).eitherT
+      slot <-
+        currentSlotForUser(slots.filter(isActiveFilter), userId).eitherT
     } yield slot).value
 
   override def loadSlot(id: String): IO[IOVal[Option[Slot]]] =

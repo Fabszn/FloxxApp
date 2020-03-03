@@ -12,23 +12,16 @@ object timeUtils {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
+
   def extractDayAndStartTime(
-      currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
-      currentTime: LocalTime = DateTime.now().toLocalTime
+  currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
+  currentTime: LocalTime = DateTime.now(DateTimeZone.getDefault).toLocalTime
   )(
-      slot: Slot
+  slot: Slot
   ): Boolean = {
 
     val trackStartTime = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.fromTime}:00").toLocalTime
     val trackEndTime   = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.toTime}:00").toLocalTime
-
-
-    println("----------------------------------")
-    println(s"trackStartTime ${trackStartTime}")
-    println(s"trackEndTime ${trackEndTime}")
-    println("----------------------------------")
-
-    DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
     logger.info(s">>>>>>>>>>>>>>>>>>>>>>${LocalTime.now(DateTimeZone.getDefault)}")
 
