@@ -12,15 +12,15 @@ trait HitService[F[_]] {
   def hit(hit: Hit): F[IOVal[Int]]
   def currentTracks: F[IOVal[Map[SlotId, model.Hit]]]
   def currentTracksWithHitInfo: F[IOVal[Map[SlotId, model.TrackHitInfo]]]
-  def allTracksWithHitInfo: F[IOVal[Map[SlotId, model.TrackHitInfo]]]
+  def allTracksWithHitInfo: F[IOVal[Map[SlotId , model.TrackHitInfo]]]
 
 }
 
 class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[ConnectionIO]) extends HitService[IO] with WithTransact {
   override def hit(hit: Hit): IO[IOVal[Int]] = run(hitRepo.save(hit))
 
-  def transform(hits: Set[Hit]): IO[IOVal[Map[String, Hit]]] =
-    IO(Right(hits.groupBy(_.hitSlotId).map { case (k, vs) => (k, vs.maxBy(_.dateTime)) }))
+  def transform(hits: Set[Hit]): IO[IOVal[Map[SlotId, Hit]]] =
+    IO(Right(hits.groupBy(_.hitSlotId).map { case (k, vs) => (SlotId(k), vs.maxBy(_.dateTime)) }))
 
   override def currentTracks: IO[IOVal[Map[SlotId, model.Hit]]] =
     (for {

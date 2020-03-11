@@ -12,7 +12,7 @@ object jsonModel {
     def fromString(t: Talk): String = s"${t.talkType}%${t.title}"
     def toString(t: String): Talk = {
       val vs = t.split("%")
-      Talk(vs(1), vs(0))
+      Talk(vs(0), vs(1))
     }
 
     implicit val talkGet: Get[Talk] = Get[String].map(toString)
@@ -23,7 +23,7 @@ object jsonModel {
 
   }
 
-  case class Slot(slotId: String, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
+  case class Slot(slotId: SlotId, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
 
   object Slot {
 
@@ -37,9 +37,11 @@ object jsonModel {
           talk <- c.downField("talk").as[Option[Talk]]
           day <- c.downField("day").as[String]
         } yield {
-          new Slot(slotId, roomId, fromTime, toTime, talk, day)
+          new Slot(SlotId(slotId), roomId, fromTime, toTime, talk, day)
         }
     }
+
+    implicit val enc: Encoder[Slot] = deriveEncoder[Slot]
 
   }
 

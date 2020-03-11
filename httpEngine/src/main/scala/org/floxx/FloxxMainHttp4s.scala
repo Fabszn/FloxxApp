@@ -26,7 +26,8 @@ object FloxxMainHttp4s extends IOApp {
         context.cfpApi.api orElse
         context.hitApi.api orElse
         context.technicalApi.api orElse
-        context.streamApi.api
+        context.streamApi.api orElse
+        context.statsApi.api
       }
       .orNotFound,
     CORSConfig(

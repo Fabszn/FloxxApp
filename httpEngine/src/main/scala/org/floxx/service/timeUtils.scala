@@ -5,26 +5,24 @@ import java.util.TimeZone
 import org.floxx.config.Config
 import org.floxx.model.jsonModel.Slot
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTime, DateTimeZone, LocalTime}
-import org.slf4j.{Logger, LoggerFactory}
+import org.joda.time.{ DateTime, DateTimeZone, LocalTime }
+import org.slf4j.{ Logger, LoggerFactory }
 
 object timeUtils {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-
   def extractDayAndStartTime(
-  currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
-  currentTime: LocalTime = DateTime.now(DateTimeZone.getDefault).toLocalTime
+      currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
+      currentTime: LocalTime = DateTime.now(DateTimeZone.getDefault).toLocalTime
   )(
-  slot: Slot
+      slot: Slot
   ): Boolean = {
 
     val trackStartTime = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.fromTime}:00").toLocalTime
     val trackEndTime   = DateTimeFormat.forPattern("kk:mm:ss").parseDateTime(s"${slot.toTime}:00").toLocalTime
 
-    logger.info(s">>>>>>>>>>>>>>>>>>>>>>${LocalTime.now(DateTimeZone.getDefault)}")
-
+    logger.debug(s">>>>>>>>>>>>>>>>>>>>>>${LocalTime.now(DateTimeZone.getDefault)}")
 
     //filters
     (currentDay == slot.day) &&

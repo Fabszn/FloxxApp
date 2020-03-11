@@ -1,17 +1,18 @@
 package org.floxx.service
 
 import cats.effect.IO
+import doobie.free.connection.ConnectionIO
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
 import org.floxx.config.Config
-import org.floxx.repository.postgres.AuthRepoPg
+import org.floxx.repository.postgres.{AuthRepo, AuthRepoPg}
 import org.floxx.utils.floxxUtils._
-import org.floxx.{ AuthentificationError, IOVal, UserInfo }
-import org.slf4j.{ Logger, LoggerFactory }
-import pdi.jwt.{ Jwt, JwtAlgorithm }
+import org.floxx.{AuthentificationError, IOVal, UserInfo}
+import org.slf4j.{Logger, LoggerFactory}
+import pdi.jwt.{Jwt, JwtAlgorithm}
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 //utilisateur déjà identifier TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
 case class AuthenticatedUser(login: String, token: String, isAdmin: Boolean = false)
@@ -30,7 +31,7 @@ trait SecurityService[F[_]] {
 
 }
 
-class SecurityServiceImpl(securityRepo: AuthRepoPg) extends SecurityService[IO] with WithTransact {
+class SecurityServiceImpl(securityRepo: AuthRepo[ConnectionIO]) extends SecurityService[IO] with WithTransact {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   override def checkAuthentification(token: String): Option[UserInfo] =

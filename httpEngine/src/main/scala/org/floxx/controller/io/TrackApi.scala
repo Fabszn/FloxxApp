@@ -5,12 +5,12 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
-import org.floxx.model.Hit
+import org.floxx.model.{Hit, SlotId}
 import org.floxx.service.{SecurityService, TrackService, timeUtils}
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 
-case class SlotItem(id: String, name: String)
+case class SlotItem(id: SlotId, name: String)
 
 object SlotItem {
   implicit val format = jsonOf[IO, SlotItem]
@@ -23,11 +23,11 @@ class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Ap
 
   def api: HandleQuery = {
     case req @ GET -> Root / "api" / "read" =>
-      authIO(req, ss) { _ =>
+      //authIO(req, ss) { _ =>
         handleResponse(cfpService.readDataFromCfpDevoxx()) { nb =>
           Ok(s"${nb} conferences have been imported")
         }
-      }
+      //}
 
     case req @ GET -> Root / "api" / "slots" / "_current" =>
       authIO(req, ss) { _ =>
