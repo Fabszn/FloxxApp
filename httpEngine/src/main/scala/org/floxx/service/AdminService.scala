@@ -1,10 +1,11 @@
 package org.floxx.service
 
 import cats.effect.IO
+import doobie.free.connection.ConnectionIO
 import org.floxx.IOVal
 import org.floxx.model.jsonModel.Slot
 import org.floxx.model.{MappingUserSlot, SlotId, UserId}
-import org.floxx.repository.postgres.CfpRepoPg
+import org.floxx.repository.postgres.{CfpRepo, CfpRepoPg}
 import org.floxx.utils.floxxUtils._
 
 trait AdminService[F[_]] {
@@ -12,7 +13,7 @@ trait AdminService[F[_]] {
   def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]):IO[IOVal[Int]]
 }
 
-class AdminServiceImpl(cfpRepo: CfpRepoPg) extends AdminService[IO] with WithTransact {
+class AdminServiceImpl(cfpRepo: CfpRepo[ConnectionIO]) extends AdminService[IO] with WithTransact {
   override def updateEnv(days: Map[String, String]): IO[IOVal[Int]] =
     (for {
       slots <- run(cfpRepo.allSlotIds).eitherT
@@ -31,8 +32,8 @@ class AdminServiceImpl(cfpRepo: CfpRepoPg) extends AdminService[IO] with WithTra
 
   private def updateSlots(slots: Set[Slot], env: Map[String, String]): IO[IOVal[Set[Slot]]] = {
 
-    def updateId(id: String, oldDay: String, newDay: String): String =
-      id.replace(oldDay, newDay)
+    def updateId(id: SlotId, oldDay: String, newDay: String): SlotId =
+      SlotId(id.id.replace(oldDay, newDay))
 
     val t: Set[Slot] = slots.map(s => {
       val oldDay = s.day

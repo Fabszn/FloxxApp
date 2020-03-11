@@ -3,13 +3,14 @@ package org.floxx.service
 import java.time.LocalDateTime
 
 import cats.effect.IO
-import doobie.`enum`.JdbcType.Timestamp
-import org.floxx.{ IOVal, IllegalStateError }
+import doobie.free.connection.ConnectionIO
 import org.floxx.config.Config
+import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Slot
-import org.floxx.repository.postgres.CfpRepoPg
+import org.floxx.repository.postgres.{CfpRepo, CfpRepoPg}
 import org.floxx.utils.floxxUtils._
-import org.slf4j.{ Logger, LoggerFactory }
+import org.floxx.{IOVal, IllegalStateError}
+import org.slf4j.{Logger, LoggerFactory}
 
 trait TrackService[F[_]] {
 
@@ -21,7 +22,7 @@ trait TrackService[F[_]] {
 
 }
 
-class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTransact {
+class TrackServiceImpl(repoPg: CfpRepo[ConnectionIO]) extends TrackService[IO] with WithTransact {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
@@ -102,7 +103,7 @@ class TrackServiceImpl(repoPg: CfpRepoPg) extends TrackService[IO] with WithTran
       .flatMap(s => {
         Config.rooms.roomsMapping(s.roomId).map { r =>
           val sId = s"${s.day}_${s.roomId}_${s.fromTime}-${s.toTime}"
-          s.copy(slotId = sId, roomId = r)
+          s.copy(slotId = SlotId(sId), roomId = r)
         }
       })
 
