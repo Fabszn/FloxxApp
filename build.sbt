@@ -3,6 +3,14 @@ import sbt.Keys.libraryDependencies
 import scala.sys.process.Process
 
 lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
+lazy val yarnInstall = taskKey[Unit]("install front project")
+
+
+def yarnInstall(file: File) = {
+  Process("yarn install", file) !
+
+}
+
 
 def runWebpack(file: File) = {
   Process("yarn webpack --mode=development --NODE_ENV=development", file) !
@@ -10,10 +18,12 @@ def runWebpack(file: File) = {
 }
 
 front / webpack := {
-
   if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
+front /yarnInstall := {
+  if(yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
+}
 
 
 
