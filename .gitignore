@@ -6,3 +6,5 @@
 .metals
 floxxBack.code-workspace
 dd.sc
+front/node_modules
+front/dist

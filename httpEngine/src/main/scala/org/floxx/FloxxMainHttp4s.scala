@@ -1,6 +1,5 @@
 package org.floxx
 
-import java.util.TimeZone
 
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.implicits._

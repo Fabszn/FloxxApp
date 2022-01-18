@@ -1,10 +1,25 @@
 import sbt.Keys.libraryDependencies
 
-val akkaVersion = "2.5.19"
+import scala.sys.process.Process
+
+lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
+
+def runWebpack(file: File) = {
+  Process("yarn webpack --mode=development --NODE_ENV=development", file) !
+
+}
+
+front / webpack := {
+
+  if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
+}
+
+
+
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion in ThisBuild := "2.12.8"
+scalaVersion in ThisBuild := "2.13.8"
 
 scalacOptions += "-Ypartial-unification" // 2.11.9+
 
@@ -16,8 +31,8 @@ lazy val databaseJdbcSetting = Seq(
   "ch.qos.logback"  % "logback-classic" % "1.2.3"
 )
 
-val http4sVersion = "0.20.13"
-val circeVersion  = "0.11.1"
+val http4sVersion = "1.0-232-85dadc2"
+val circeVersion  = "0.14.1"
 
 lazy val circe = Seq(
   "io.circe" %% "circe-core",
@@ -31,7 +46,7 @@ lazy val circe4Http4s = Seq(
 
 lazy val scalamockTest = Seq(
   "org.scalamock" %% "scalamock" % "4.4.0" % Test,
-  "org.scalatest" %% "scalatest" % "3.0.4" % Test
+  "org.scalatest" %% "scalatest" % "3.2.10" % Test
 )
 
 lazy val dockertest = Seq(
@@ -45,7 +60,7 @@ lazy val http4s = Seq(
   "org.http4s" %% "http4s-blaze-client" % http4sVersion
 )
 
-lazy val doobie = Seq( // Start with this one
+lazy val doobie = Seq(
   "org.tpolecat" %% "doobie-core"      % "0.8.4",
   "org.tpolecat" %% "doobie-postgres"  % "0.8.4", // Postgres driver 42.2.8 + type mappings.
   "org.tpolecat" %% "doobie-hikari"     % "0.8.4",
@@ -53,9 +68,6 @@ lazy val doobie = Seq( // Start with this one
   "org.tpolecat" %% "doobie-scalatest" % "0.8.4" % "test"
 )
 
-lazy val databaseRedisSetting = Seq(
-  "com.github.scredis" %% "scredis" % "2.2.4"
-)
 
 lazy val model = (project in file("model"))
   .settings(commonsSettings)
@@ -70,7 +82,6 @@ lazy val httpEngine = (project in file("httpEngine"))
   .settings(commonsSettings)
   .settings(
     name := "Floxx",
-    libraryDependencies ++= databaseRedisSetting,
     libraryDependencies ++= http4s,
     libraryDependencies ++= dockertest,
     libraryDependencies ++= scalamockTest,
@@ -79,15 +90,14 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= circe,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic"      % "1.1.7",
-        "com.lihaoyi"            %% "requests"            % "0.1.7",
-        "org.typelevel"          %% "cats-core"           % "1.6.0",
+        "com.lihaoyi"            %% "requests"            % "0.7.0",
+        "org.typelevel"          %% "cats-core"           % "2.7.0",
         "com.github.nscala-time" %% "nscala-time"         % "2.22.0",
         "com.pauldijou"          %% "jwt-core"            % "3.0.1"
       )
   )
   .dependsOn(model)
 
-//mainClass := Some("org.floxx.FloxxMainAkkaHttp")
 mainClass := Some("org.floxx.FloxxMainHttp4s")
 
 mappings in (Compile, packageDoc) := Seq()
@@ -106,3 +116,11 @@ lazy val wartRemoverSettings = Seq(
       Wart.StringPlusAny
     )
 )
+
+
+lazy val front = (project in file("front"))
+
+
+
+
+

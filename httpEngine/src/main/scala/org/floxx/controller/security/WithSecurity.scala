@@ -11,7 +11,6 @@ trait WithSecurity extends Http4sDsl[IO] {
 
   def authIOu(req: Request[IO], ss: SecurityService[IO])(success: (Request[IO], UserInfo) => IO[Response[IO]]): IO[Response[IO]] =
     {
-
       //println(s"header ${req.headers.get(CaseInsensitiveString("Cookie"))}")
       //req.headers.get(CaseInsensitiveString("Cookie")) match {
       println(s"header ${req.headers.get(Authorization.name)}")
