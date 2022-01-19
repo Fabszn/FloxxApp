@@ -41,7 +41,7 @@ lazy val databaseJdbcSetting = Seq(
   "ch.qos.logback"  % "logback-classic" % "1.2.3"
 )
 
-val http4sVersion = "1.0-232-85dadc2"
+val http4sVersion = "1.0.0-M30"
 val circeVersion  = "0.14.1"
 
 lazy val circe = Seq(
