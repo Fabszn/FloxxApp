@@ -19,22 +19,17 @@ trait WithTransact {
 
   implicit val cs = IO.contextShift(ExecutionContexts.synchronous)
 
-  /*val xa = Transactor.fromDriverManager[IO](
-    Config.postgres.driver,
-    Config.postgres.url,
-    Config.postgres.user,
-    Config.postgres.password
-  )*/
+
 
   val transactor : Resource[IO, HikariTransactor[IO]] =
     for {
       ce <- ExecutionContexts.fixedThreadPool[IO](32) // our connect EC
       be <- Blocker[IO]    // our blocking EC
       xa <- HikariTransactor.newHikariTransactor[IO](
-        Config.postgres.driver,                       // driver classname
-        Config.postgres.url,   // connect URL
-        Config.postgres.user,                                   // username
-        Config.postgres.password,                                     // password
+        Config.db.driver,                       // driver classname
+        Config.db.url,   // connect URL
+        Config.db.user,                                   // username
+        Config.db.password,                                     // password
         ce,                                     // await connection here
         be                                      // execute JDBC operations here
       )

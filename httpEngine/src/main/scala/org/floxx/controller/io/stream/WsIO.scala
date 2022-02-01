@@ -1,7 +1,7 @@
 package org.floxx.controller.io.stream
 
-import cats.effect.concurrent.MVar
-import cats.effect.{ContextShift, IO}
+import cats.effect._
+import cats.effect.IO
 import fs2.concurrent.Queue
 import org.http4s.websocket.WebSocketFrame
 
@@ -9,7 +9,7 @@ import scala.concurrent.ExecutionContext
 
 object WsIO {
 
-  implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+  //implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   val wsChan: MVar[IO, WebSocketFrame] = cats.effect.concurrent.MVar[IO].empty[WebSocketFrame].unsafeRunSync()
 

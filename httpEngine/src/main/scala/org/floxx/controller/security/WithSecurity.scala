@@ -6,10 +6,11 @@ import org.floxx.service.SecurityService
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization
 import org.http4s.{Challenge, Request, Response}
+import zio.Task
 
-trait WithSecurity extends Http4sDsl[IO] {
+trait WithSecurity extends Http4sDsl[Task] {
 
-  def authIOu(req: Request[IO], ss: SecurityService[IO])(success: (Request[IO], UserInfo) => IO[Response[IO]]): IO[Response[IO]] =
+  def authIOu(req: Request[Task], ss: SecurityService[IO])(success: (Request[Task], UserInfo) => Task[Response[Task]]): Task[Response[Task]]    =
     {
       //println(s"header ${req.headers.get(CaseInsensitiveString("Cookie"))}")
       //req.headers.get(CaseInsensitiveString("Cookie")) match {

@@ -38,7 +38,7 @@ class SecurityServiceImpl(securityRepo: AuthRepo[ConnectionIO]) extends Security
     Try(
       Jwt.decode(
         token,
-        Config.floxx.security.secret,
+        Config.floxx.secret,
         Seq(JwtAlgorithm.HS256)
       )
     ) match {
@@ -82,7 +82,7 @@ class SecurityServiceImpl(securityRepo: AuthRepo[ConnectionIO]) extends Security
   private def tokenGenerator(info: UserInfo): String =
     Jwt.encode(
       info.asJson.noSpaces,
-      Config.floxx.security.secret,
+      Config.floxx.secret,
       JwtAlgorithm.HS256
     )
 

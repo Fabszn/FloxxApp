@@ -8,6 +8,7 @@ import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.model.Hit
 import org.floxx.service.{HitService, SecurityService}
+import org.http4s.HttpRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.websocket.WebSocketFrame
@@ -15,8 +16,7 @@ import org.http4s.websocket.WebSocketFrame.Text
 import org.slf4j.{Logger, LoggerFactory}
 
 class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame])
-    extends Api
-    with WithSecurity {
+  extends WithSecurity {
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
     def toHit: Hit = Hit(None, hitSlotId, percentage)
@@ -28,7 +28,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
     implicit val format = jsonOf[IO, HitRequest]
   }
 
-  def api: HandleQuery = {
+  def api = HttpRoutes.of[IO] {
     case req @ POST -> Root / "api" / "hit" =>
       authIOu(req, ss) { (req, u) =>
         for {

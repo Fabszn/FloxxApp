@@ -1,18 +1,29 @@
 package org.floxx
 
-import cats.effect.{ ContextShift, IO }
-import cats.effect.concurrent.MVar
+import cats.effect._
 import doobie.free.connection.ConnectionIO
 import fs2.concurrent.Queue
 import org.floxx.controller.io.stream.WsIO
-import org.floxx.controller.io.{ TechnicalApi, _ }
-import org.floxx.repository.postgres.{ AuthRepo, AuthRepoPg, CfpRepo, CfpRepoPg, HitRepo, HitRepoCfg, StatsRepo, StatsRepoPg }
+import org.floxx.controller.io.{TechnicalApi, _}
+import org.floxx.env.configuration.config
+import org.floxx.env.configuration.config.Configuration
+import org.floxx.repository.postgres.{AuthRepo, AuthRepoPg, CfpRepo, CfpRepoPg, HitRepo, HitRepoCfg, StatsRepo, StatsRepoPg}
 import org.floxx.service._
 import org.http4s.websocket.WebSocketFrame
+import zio.Has
+import zio.blocking.Blocking
+import zio.clock.Clock
 
 import scala.concurrent.ExecutionContext
 
 object AppLoader {
+
+
+  object appEnv{
+
+    type AppEnvironment = Clock with Blocking with Has[Configuration]
+    val appEnvironnement = Clock.live ++ Blocking.live ++ config.layer
+  }
 
   trait AppContext {
     def cfpApi: TrackApi
@@ -46,8 +57,8 @@ object AppLoader {
     val adminService: AdminService[IO]       = new AdminServiceImpl(rpg)
     val statsService: StatsService[IO]       = new StatsServiceImpl(statsRepo)
 
-    implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
-    val channel: Queue[IO, WebSocketFrame]      = WsIO.wsQueue
+    //implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+    val channel: Queue[IO, WebSocketFrame]      = ???//WsIO.wsQueue
 
     ApplicationContext(
       TrackApi(trackService, securityService),
@@ -55,7 +66,7 @@ object AppLoader {
       SecurityApi(securityService),
       TechnicalApi(adminService, securityService),
       securityService,
-      StreamApi(securityService, channel),
+      StreamApi(channel),
       StatsApi(statsService, securityService)
     )
   }

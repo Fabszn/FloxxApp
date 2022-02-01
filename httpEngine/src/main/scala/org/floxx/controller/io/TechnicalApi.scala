@@ -4,8 +4,9 @@ import cats.effect.IO
 import io.circe.generic.auto._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
-import org.floxx.model.{ SlotId, UserId }
-import org.floxx.service.{ AdminService, SecurityService }
+import org.floxx.model.{SlotId, UserId}
+import org.floxx.service.{AdminService, SecurityService}
+import org.http4s.HttpRoutes
 import org.http4s.circe.jsonOf
 
 case class Env(days: Map[String, String])
@@ -18,8 +19,8 @@ object Mapping {
   implicit val format = jsonOf[IO, Mapping]
 }
 
-class TechnicalApi(as: AdminService[IO], ss: SecurityService[IO]) extends Api with WithSecurity {
-  override def api: HandleQuery = {
+class TechnicalApi(as: AdminService[IO], ss: SecurityService[IO]) extends  WithSecurity {
+  override def api = HttpRoutes.of{
 
     case req @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setEnv" =>
       authIO(req, ss) { req =>

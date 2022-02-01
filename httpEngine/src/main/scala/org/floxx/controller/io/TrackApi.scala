@@ -7,6 +7,7 @@ import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.model.{Hit, SlotId}
 import org.floxx.service.{SecurityService, TrackService, timeUtils}
+import org.http4s.HttpRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 
@@ -15,13 +16,13 @@ case class SlotItem(id: SlotId, name: String)
 object SlotItem {
   implicit val format = jsonOf[IO, SlotItem]
 }
-class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends Api with WithSecurity {
+class TrackApi(cfpService: TrackService[IO], ss: SecurityService[IO]) extends WithSecurity {
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
     def toHit: Hit = Hit(None, hitSlotId, percentage)
   }
 
-  def api: HandleQuery = {
+  def api = HttpRoutes.of[IO] {
     case req @ GET -> Root / "api" / "read" =>
       //authIO(req, ss) { _ =>
         handleResponse(cfpService.readDataFromCfpDevoxx()) { nb =>
