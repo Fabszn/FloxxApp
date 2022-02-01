@@ -46,13 +46,6 @@ lazy val dockertest = Seq(
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
 
-lazy val doobie = Seq(
-  "org.tpolecat" %% "doobie-core"      % "0.8.4",
-  "org.tpolecat" %% "doobie-postgres"  % "0.8.4", // Postgres driver 42.2.8 + type mappings.
-  "org.tpolecat" %% "doobie-hikari"    % "0.8.4",
-  "org.tpolecat" %% "doobie-specs2"    % "0.8.4" % "test", // Specs2 support for typechecking statements.
-  "org.tpolecat" %% "doobie-scalatest" % "0.8.4" % "test"
-)
 
 lazy val model = (project in file("model"))
   .settings(commonsSettings)

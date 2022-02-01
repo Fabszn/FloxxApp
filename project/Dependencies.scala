@@ -11,6 +11,7 @@ object Dependencies {
     lazy val circeVersion      = "0.14.1"
     lazy val catsCoreVersion = "2.7.0"
     lazy val catsEffectVersion = "3.3.5"
+    lazy val doobieVersion = "1.0.0-RC2"
   }
 
   lazy val circe = Seq(
@@ -18,6 +19,15 @@ object Dependencies {
     "io.circe" %% "circe-generic" % Version.circeVersion,
     "io.circe" %% "circe-parser"  % Version.circeVersion
   )
+
+  lazy val doobie = Seq(
+    "org.tpolecat" %% "doobie-core"      % doobieVersion,
+    "org.tpolecat" %% "doobie-postgres"  % doobieVersion, // Postgres driver 42.2.8 + type mappings.
+    "org.tpolecat" %% "doobie-hikari"    % doobieVersion,
+    "org.tpolecat" %% "doobie-specs2"    % doobieVersion % "test", // Specs2 support for typechecking statements.
+    "org.tpolecat" %% "doobie-scalatest" % doobieVersion % "test"
+  )
+
 
   lazy val chimney = "io.scalaland" %% "chimney" % chimneyVersion
 

@@ -1,12 +1,12 @@
 package org.floxx.service
 
 import java.util.TimeZone
-
 import org.floxx.config.Config
+import org.floxx.env.configuration.config.GlobalConfig
 import org.floxx.model.jsonModel.Slot
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{ DateTime, DateTimeZone, LocalTime }
-import org.slf4j.{ Logger, LoggerFactory }
+import org.joda.time.{DateTime, DateTimeZone, LocalTime}
+import org.slf4j.{Logger, LoggerFactory}
 
 object timeUtils {
 
@@ -14,7 +14,8 @@ object timeUtils {
 
   def extractDayAndStartTime(
       currentDay: String     = DateTime.now(DateTimeZone.getDefault).dayOfWeek().getAsText.toLowerCase,
-      currentTime: LocalTime = DateTime.now(DateTimeZone.getDefault).toLocalTime
+      currentTime: LocalTime = DateTime.now(DateTimeZone.getDefault).toLocalTime,
+      config:GlobalConfig
   )(
       slot: Slot
   ): Boolean = {
@@ -26,10 +27,10 @@ object timeUtils {
 
     //filters
     (currentDay == slot.day) &&
-    (currentTime.isAfter(trackStartTime.minusMinutes(Config.track.delayBefore))
-    || currentTime.isEqual(trackStartTime.minusMinutes(Config.track.delayBefore))) &&
-    (currentTime.isBefore(trackStartTime.plusMinutes(Config.track.delayAfter))
-    || currentTime.isEqual(trackStartTime.plusMinutes(Config.track.delayAfter))) &&
+    (currentTime.isAfter(trackStartTime.minusMinutes(config.track.delayBefore))
+    || currentTime.isEqual(trackStartTime.minusMinutes(config.track.delayBefore))) &&
+    (currentTime.isBefore(trackStartTime.plusMinutes(config.track.delayAfter))
+    || currentTime.isEqual(trackStartTime.plusMinutes(config.track.delayAfter))) &&
     (currentTime.isBefore(trackEndTime)
     || currentTime.isEqual(trackEndTime)) &&
     !(slot.roomId.startsWith("22") ||

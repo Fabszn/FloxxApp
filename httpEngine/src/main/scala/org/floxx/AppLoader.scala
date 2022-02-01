@@ -3,7 +3,6 @@ package org.floxx
 import cats.effect._
 import doobie.free.connection.ConnectionIO
 import fs2.concurrent.Queue
-import org.floxx.controller.io.stream.WsIO
 import org.floxx.controller.io.{TechnicalApi, _}
 import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.Configuration
@@ -14,7 +13,6 @@ import zio.Has
 import zio.blocking.Blocking
 import zio.clock.Clock
 
-import scala.concurrent.ExecutionContext
 
 object AppLoader {
 

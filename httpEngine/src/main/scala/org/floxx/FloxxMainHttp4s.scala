@@ -1,15 +1,11 @@
 package org.floxx
 
-import cats.effect._
 import org.floxx.AppLoader.AppContext
 import org.floxx.AppLoader.appEnv.{AppEnvironment, appEnvironnement}
-import org.floxx.env.configuration.config
-import org.floxx.env.configuration.config.{Configuration, getConf}
+import org.floxx.env.configuration.config.getConf
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.joda.time.DateTimeZone
 import zio.{ExitCode, _}
-import zio.blocking.Blocking
-import zio.clock.Clock
 import zio.interop.catz._
 
 object FloxxMainHttp4s extends zio.App {

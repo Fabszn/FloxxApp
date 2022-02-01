@@ -1,44 +1,37 @@
 package org.floxx.env
 
-import cats.effect.Blocker
+
 import doobie.hikari.HikariTransactor
-import org.floxx.env.configuration.config.{Configuration, getConf}
+import org.floxx.env.configuration.config.getConf
 import zio._
 import zio.blocking.Blocking
+import zio.clock.Clock
 import zio.interop.catz._
 
 package object repository {
 
   object DbTransactor {
 
-    val postgres: ZLayer[Blocking with Has[Configuration], Throwable, Has[Resource]] = {
+    val postgres: ZLayer[Clock with Blocking, Throwable, Has[TxResource]] = {
 
       ZLayer.fromManaged(
-        ZIO.runtime[Blocking].toManaged_.flatMap { implicit rt =>
+        ZIO.runtime[Clock with Blocking].toManaged_.flatMap { implicit rt =>
           for {
-            blockingEC <- Managed.succeed(
-              rt.environment
-                .get[Blocking.Service]
-                .blockingExecutor
-                .asEC
-            )
-            connectEC = rt.platform.executor.asEC
             conf <- getConf.toManaged_
             trans <- HikariTransactor.newHikariTransactor[Task](
               conf.db.driver,
               conf.db.url,
               conf.db.user,
               conf.db.password,
-              connectEC,
-              Blocker.liftExecutionContext(blockingEC)
+              rt.platform.executor.asEC
             ).toManaged
-          } yield new Resource {
-            override val xa: HikariTransactor[Task] =trans
+          } yield new TxResource {
+            override val xa: HikariTransactor[Task] = trans
           }
         })
     }
 
-    trait Resource {
+    trait TxResource {
       val xa: HikariTransactor[Task]
     }
   }

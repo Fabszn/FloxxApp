@@ -8,11 +8,14 @@ import org.floxx.model.{MappingUserSlot, SlotId, UserId}
 import org.floxx.repository.postgres.{CfpRepo, CfpRepoPg}
 import org.floxx.utils.floxxUtils._
 
+@deprecated
 trait AdminService[F[_]] {
   def updateEnv(days: Map[String, String]): IO[IOVal[Int]]
   def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]):IO[IOVal[Int]]
 }
 
+
+@deprecated
 class AdminServiceImpl(cfpRepo: CfpRepo[ConnectionIO]) extends AdminService[IO] with WithTransact {
   override def updateEnv(days: Map[String, String]): IO[IOVal[Int]] =
     (for {

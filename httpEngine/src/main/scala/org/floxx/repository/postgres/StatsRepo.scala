@@ -4,12 +4,12 @@ import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import org.floxx.IOVal
 import org.floxx.model.stats.StatItem
-
+@deprecated
 trait StatsRepo[F[_]] {
 
   def hitsListWithPercentage(): ConnectionIO[IOVal[Seq[StatItem]]]
 }
-
+@deprecated
 class StatsRepoPg extends StatsRepo[ConnectionIO] {
 
   override def hitsListWithPercentage(): ConnectionIO[IOVal[Seq[StatItem]]] =
