@@ -1,17 +1,16 @@
 package org.floxx.env.service
 
 import org.floxx.env.repository.cfpRepository.CfpRepo
-import org.floxx.model.{MappingUserSlot, SlotId, UserId}
 import org.floxx.model.jsonModel.Slot
+import org.floxx.model.{ MappingUserSlot, SlotId, UserId }
 import org.floxx.service.WithTransact
 import zio._
-import zio.interop.catz._
 
 object adminService {
 
   trait AdminService {
     def updateEnv(days: Map[String, String]): Task[Int]
-    def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]):Task[Int]
+    def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int]
   }
 
   case class AdminServiceLive(cfpRepo: CfpRepo) extends AdminService with WithTransact {
@@ -22,7 +21,6 @@ object adminService {
         _ <- cfpRepo.drop
         r <- cfpRepo.addSlots(updatedSlots.toList)
       } yield r
-
 
     override def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int] = {
       val transformed: List[MappingUserSlot] = mapping.flatMap { case (k, vs) => vs.map(v => MappingUserSlot(k, v)) }.toList
@@ -36,7 +34,7 @@ object adminService {
       def updateId(id: SlotId, oldDay: String, newDay: String): SlotId =
         SlotId(id.id.replace(oldDay, newDay))
 
-      Task( slots.map(s => {
+      Task(slots.map(s => {
         val oldDay = s.day
         val newDay = env(oldDay)
         s.copy(
@@ -48,7 +46,11 @@ object adminService {
 
   }
 
-  val layer:RLayer[Has[CfpRepo], Has[AdminService]]=(AdminServiceLive(_)).toLayer
+  val layer: RLayer[Has[CfpRepo], Has[AdminService]] = (AdminServiceLive(_)).toLayer
 
+  def updateEnv(days: Map[String, String]): RIO[Has[AdminService], Int] =
+    ZIO.serviceWith[AdminService](_.updateEnv(days))
 
+  def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): RIO[Has[AdminService], Set[Slot]] =
+    ZIO.serviceWith[AdminService](_.insertUserSlotMapping(mapping))
 }
