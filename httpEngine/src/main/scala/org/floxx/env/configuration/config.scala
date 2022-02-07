@@ -10,7 +10,7 @@ object config {
   final case class Floxx(port: Int, secret: String)
   final case class Track(delayBefore: Int, delayAfter: Int)
 
-  case class GlobalConfig(cfp: Cfp, db: Db, floxx: Floxx, track: Track)
+  case class GlobalConfig(cfp: Cfp, db: Db, floxx: Floxx, track: Track, roomsMapping:Map[String,String])
 
   final case class RoomConf(name: String) extends AnyVal
 
@@ -59,5 +59,7 @@ object config {
   val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationLive())
 
   def getConf: URIO[Has[Configuration], GlobalConfig] = ZIO.serviceWith[Configuration](_.getConf)
+
+  def getRooms:URIO[Has[Configuration],Map[String,String]]= ZIO.serviceWith[Configuration](_.getRooms)
 
 }

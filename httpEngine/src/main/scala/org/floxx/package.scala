@@ -43,6 +43,10 @@ package object floxx {
     val code: String = "003"
   }
 
+  case class DatabaseError(message: String) extends FloxxError {
+    val code: String = "003"
+  }
+
   def handleError(error: FloxxError): IO[Response[IO]] = {
     logger.error(s"An error has been detected : ${error.message}")
     error match {

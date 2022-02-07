@@ -15,6 +15,8 @@ import cats.effect.IO
 import doobie._
 import doobie.implicits._
 
+
+@deprecated
 trait WithTransact {
 
   implicit val cs = IO.contextShift(ExecutionContexts.synchronous)

@@ -2,6 +2,7 @@ package org.floxx.env
 
 
 import doobie.hikari.HikariTransactor
+import org.floxx.DatabaseError
 import org.floxx.env.configuration.config.getConf
 import zio._
 import zio.blocking.Blocking
@@ -9,6 +10,13 @@ import zio.clock.Clock
 import zio.interop.catz._
 
 package object repository {
+
+
+  trait WithHandleError{
+
+    val errorProc:Throwable => DatabaseError = t => DatabaseError(s"cause :${t.getCause} - message :${t.getMessage}")
+
+  }
 
   object DbTransactor {
 

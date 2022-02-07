@@ -3,8 +3,8 @@ package org.floxx.env.repository
 import doobie.implicits._
 import doobie.util.fragment
 import org.floxx.env.repository.DbTransactor.TxResource
-import org.floxx.model
-import org.floxx.model.{ Hit, SlotId }
+import org.floxx.{FloxxError, model}
+import org.floxx.model.{Hit, SlotId}
 import zio._
 import zio.interop.catz._
 
@@ -13,24 +13,24 @@ import java.util.UUID
 object hitRepository {
 
   trait HitRepo {
-    def loadHitBy(slotIds: Set[SlotId]): Task[Set[model.Hit]]
-    def save(hit: Hit): Task[Int]
+    def loadHitBy(slotIds: Set[SlotId]): IO[FloxxError,Set[model.Hit]]
+    def save(hit: Hit): IO[FloxxError,Int]
 
   }
 
-  case class HitRepoCfg(r: TxResource) extends HitRepo {
+  case class HitRepoCfg(r: TxResource) extends HitRepo with WithHandleError {
 
-    def save(hit: Hit): Task[Int] =
+    def save(hit: Hit): IO[FloxxError,Int] =
       sql"insert into hit (hitid,hitslotid,percentage,datetime) values (${UUID
         .randomUUID()
-        .toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime} )".update.run.transact(r.xa)
+        .toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime} )".update.run.transact(r.xa).mapError(errorProc)
 
-    def loadHitBy(slotIds: Set[SlotId]): Task[Set[Hit]] = {
+    def loadHitBy(slotIds: Set[SlotId]): IO[FloxxError,Set[Hit]] = {
 
       val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime from hit where"
       val criteria                = fr"${slotIds.map(id => s"hitslotid=$id").mkString(",")}"
 
-      (root ++ criteria).query[Hit].to[Set].transact(r.xa)
+      (root ++ criteria).query[Hit].to[Set].transact(r.xa).mapError(errorProc)
     }
 
   }
