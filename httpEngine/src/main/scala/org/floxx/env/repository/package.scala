@@ -12,11 +12,11 @@ import zio.interop.catz._
 package object repository {
 
 
-  trait WithHandleError{
+
 
     val errorProc:Throwable => DatabaseError = t => DatabaseError(s"cause :${t.getCause} - message :${t.getMessage}")
 
-  }
+
 
   object DbTransactor {
 

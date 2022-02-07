@@ -18,7 +18,7 @@ object hitRepository {
 
   }
 
-  case class HitRepoCfg(r: TxResource) extends HitRepo with WithHandleError {
+  case class HitRepoCfg(r: TxResource) extends HitRepo  {
 
     def save(hit: Hit): IO[FloxxError,Int] =
       sql"insert into hit (hitid,hitslotid,percentage,datetime) values (${UUID

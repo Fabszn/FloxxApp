@@ -20,7 +20,7 @@ package object floxx {
     def empty: UserInfo = UserInfo("-","-",isAdmin = false)
   }
 
-  sealed trait FloxxError {
+  sealed trait FloxxError  {
     val code: String
     val message: String
 
@@ -28,6 +28,11 @@ package object floxx {
 
   }
 
+  object FloxxError{
+    val errorProc:Throwable => String = t => s"cause :${t.getCause} - message :${t.getMessage}"
+  }
+
+  @deprecated
   type IOVal[T] = Either[FloxxError, T]
 
 
@@ -45,6 +50,10 @@ package object floxx {
 
   case class DatabaseError(message: String) extends FloxxError {
     val code: String = "003"
+  }
+
+  case class ConfigurationError(message: String) extends FloxxError {
+    val code: String = "004"
   }
 
   def handleError(error: FloxxError): IO[Response[IO]] = {

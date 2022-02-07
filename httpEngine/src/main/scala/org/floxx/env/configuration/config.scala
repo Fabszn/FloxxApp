@@ -1,7 +1,8 @@
 package org.floxx.env.configuration
 
+import org.floxx.{ConfigurationError, FloxxError}
 import pureconfig._
-import zio.{ Has, Task, ULayer, URIO, ZIO, ZLayer }
+import zio.{Has, IO, Task, ULayer, URIO, ZIO, ZLayer}
 
 object config {
 
@@ -44,16 +45,16 @@ object config {
   }
 
   trait Configuration {
-    def getConf: Task[GlobalConfig]
-    def getRooms: Task[Map[String, Option[String]]]
+    def getConf: IO[FloxxError,GlobalConfig]
+    def getRooms: IO[FloxxError,Map[String, Option[String]]]
   }
 
   case class ConfigurationLive() extends Configuration {
-    override def getConf: Task[GlobalConfig] = ZIO.effect(
+    override def getConf: IO[FloxxError,GlobalConfig] = IO.effect(
       ConfigSource.default.loadOrThrow[GlobalConfig]
-    )
+    ).mapError(ex => ConfigurationError(FloxxError.errorProc(ex)))
 
-    override def getRooms: Task[Map[String, Option[String]]] = Task.effect(rooms.roomsMapping)
+    override def getRooms: IO[FloxxError,Map[String, Option[String]]] = IO.succeed(rooms.roomsMapping)
   }
 
   val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationLive())

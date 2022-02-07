@@ -21,7 +21,7 @@ object cfpRepository {
     def addMapping(m: List[MappingUserSlot]): IO[FloxxError, Int]
   }
 
-  case class CfpRepoPg(r: TxResource) extends CfpRepo with WithHandleError {
+  case class CfpRepoPg(r: TxResource) extends CfpRepo  {
 
     override def drop: IO[FloxxError, Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa).mapError(errorProc)
@@ -30,7 +30,7 @@ object cfpRepository {
       Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
         .updateMany(slots)
         .transact(r.xa).mapError(errorProc)
-        .mapError(errorProc)
+
 
     override def addMapping(m: List[MappingUserSlot]): IO[FloxxError,Int] =
       Update[MappingUserSlot]("insert into user_slots (userId,slotId) values(?,?)")

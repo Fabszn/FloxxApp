@@ -10,7 +10,7 @@ import zio.Task
 
 trait WithSecurity extends Http4sDsl[Task] {
 
-  def authIOu(req: Request[Task], ss: SecurityService[IO])(success: (Request[Task], UserInfo) => Task[Response[Task]]): Task[Response[Task]]    =
+  def authIOu(req: Request[Task], ss: SecurityService[IO])(success: (Request[Task], UserInfo) => IO[FloxxError,Response[Task]]): IO[FloxxError,Response[Task]]    =
     {
       //println(s"header ${req.headers.get(CaseInsensitiveString("Cookie"))}")
       //req.headers.get(CaseInsensitiveString("Cookie")) match {

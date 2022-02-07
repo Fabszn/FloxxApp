@@ -9,12 +9,12 @@ import zio._
 object adminService {
 
   trait AdminService {
-    def updateEnv(days: Map[String, String]): Task[Int]
-    def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int]
+    def updateEnv(days: Map[String, String]): IO[FloxxError,Int]
+    def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): IO[FloxxError,Int]
   }
 
   case class AdminServiceLive(cfpRepo: CfpRepo) extends AdminService with WithTransact {
-    override def updateEnv(days: Map[String, String]): Task[Int] =
+    override def updateEnv(days: Map[String, String]): IO[FloxxError,Int] =
       for {
         slots <- cfpRepo.allSlotIds
         updatedSlots <- updateSlots(slots, days)
@@ -22,14 +22,14 @@ object adminService {
         r <- cfpRepo.addSlots(updatedSlots.toList)
       } yield r
 
-    override def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int] = {
+    override def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): IO[FloxxError,Int] = {
       val transformed: List[MappingUserSlot] = mapping.flatMap { case (k, vs) => vs.map(v => MappingUserSlot(k, v)) }.toList
       for {
         s <- cfpRepo.addMapping(transformed)
       } yield s
     }
 
-    private def updateSlots(slots: Set[Slot], env: Map[String, String]): Task[Set[Slot]] = {
+    private def updateSlots(slots: Set[Slot], env: Map[String, String]): IO[FloxxError,Set[Slot]] = {
 
       def updateId(id: SlotId, oldDay: String, newDay: String): SlotId =
         SlotId(id.id.replace(oldDay, newDay))

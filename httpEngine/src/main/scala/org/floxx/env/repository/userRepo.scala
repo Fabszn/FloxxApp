@@ -15,9 +15,10 @@ object userRepo {
 
   }
 
-  case class AuthRepoPg(r: TxResource) extends AuthRepo with WithHandleError {
-    override def userByLogin(login: String): IO[FloxxError,[Option[AuthUser]] =
-      sql"SELECT userid, login, mdp, isAdmin from users where login=$login".query[AuthUser].option.transact(r.xa).mapError(errorProc)
+  case class AuthRepoPg(r: TxResource) extends AuthRepo {
+    override def userByLogin(login: String): IO[FloxxError,Option[AuthUser]] =
+      sql"SELECT userid, login, mdp, isAdmin from users where login=$login".query[AuthUser].option.transact(r.xa)
+        .mapError(errorProc)
   }
 
   val layer: RLayer[Has[TxResource], Has[AuthRepo]] = (AuthRepoPg(_)).toLayer

@@ -14,11 +14,11 @@ object trackService {
 
   trait TrackService {
 
-    def readDataFromCfpDevoxx(): Task[Int]
-    def loadSlotByCriterias(isActiveFunction: Slot => Boolean): Task[Set[Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): Task[Option[Slot]]
-    def loadSlot(id: String): Task[Option[Slot]]
-    def roomById(id: String): Task[Option[String]]
+    def readDataFromCfpDevoxx(): IO[FloxxError,Int]
+    def loadSlotByCriterias(isActiveFunction: Slot => Boolean): IO[FloxxError,Set[Slot]]
+    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): IO[FloxxError,Option[Slot]]
+    def loadSlot(id: String): IO[FloxxError,Option[Slot]]
+    def roomById(id: String): IO[FloxxError,Option[String]]
 
   }
 
@@ -26,9 +26,9 @@ object trackService {
 
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-    override def readDataFromCfpDevoxx(): Task[Int] = {
+    override def readDataFromCfpDevoxx(): IO[FloxxError,Int] = {
 
-      def s(url: String): Task[List[Slot]] = ???
+      def s(url: String): IO[FloxxError,List[Slot]] = ???
         /*BlazeClientBuilder[IO](global).resource.use { client =>
           import io.circe.parser._
           import org.floxx.model.jsonModel._
@@ -73,23 +73,23 @@ object trackService {
 
     }
 
-    override def loadSlotByCriterias(isActiveFilter: Slot => Boolean): Task[Set[Slot]] =
+    override def loadSlotByCriterias(isActiveFilter: Slot => Boolean): IO[FloxxError,Set[Slot]] =
       for {
         slots <-repoPg.allSlotIds
       } yield slots.filter(isActiveFilter)
 
-    override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): Task[Option[Slot]] =
+    override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): IO[FloxxError,Option[Slot]] =
       for {
         slots <- repoPg.allSlotIdsWithUserId(userId)
         slot <- currentSlotForUser(slots.filter(isActiveFilter), userId)
       } yield slot
 
-    override def loadSlot(id: String): Task[Option[Slot]] =
+    override def loadSlot(id: String): IO[FloxxError,Option[Slot]] =
       for {
         slot <- repoPg.getSlotById(id)
       } yield slot
 
-    override def roomById(id: String): Task[Option[String]] =
+    override def roomById(id: String): IO[FloxxError,Option[String]] =
       IO(config.rooms.roomsMapping(id)))
 
     private def computeRoomKey(slots: List[Slot]): List[Slot] =

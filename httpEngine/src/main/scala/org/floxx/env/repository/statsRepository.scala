@@ -14,7 +14,7 @@ object statsRepository {
     def hitsListWithPercentage(): IO[FloxxError,Seq[StatItem]]
   }
 
-  case class StatsRepoPg(r:TxResource) extends StatsRepo with WithHandleError {
+  case class StatsRepoPg(r:TxResource) extends StatsRepo {
 
     override def hitsListWithPercentage(): IO[FloxxError,Seq[StatItem]] =
       sql"""select s.slotId, talk, percentage, roomid, fromtime,totime, s.day  from
