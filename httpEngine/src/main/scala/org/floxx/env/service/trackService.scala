@@ -1,12 +1,15 @@
 package org.floxx.env.service
 
+import org.floxx.AppLoader.appEnv.AppEnvironment
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.CfpRepo
 import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Slot
 import org.floxx.{FloxxError, IllegalStateError}
+import org.http4s.client.blaze.BlazeClientBuilder
 import org.slf4j.{Logger, LoggerFactory}
 import zio._
+import zio.interop.catz._
 
 import java.time.LocalDateTime
 
@@ -29,7 +32,11 @@ object trackService {
     override def readDataFromCfpDevoxx(): IO[FloxxError,Int] = {
 
       def s(url: String): IO[FloxxError,List[Slot]] = ???
-        /*BlazeClientBuilder[IO](global).resource.use { client =>
+
+ZIO.runtime[AppEnvironment].flatMap(r => r.)
+
+        Task{
+          BlazeClientBuilder[Task](global).resource.use { client =>
           import io.circe.parser._
           import org.floxx.model.jsonModel._
 
@@ -51,7 +58,7 @@ object trackService {
               }
             }
           }
-        }*/
+        }}
 
       logger.debug("read from CFP")
 
@@ -67,7 +74,7 @@ object trackService {
 
         slots <- urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))
 
-        nbLine <- repoPg.addSlots(computeRoomKey(slots))
+        nbLine <- computeRoomKey(slots) >>= repoPg.addSlots
 
       } yield nbLine
 
@@ -90,17 +97,19 @@ object trackService {
       } yield slot
 
     override def roomById(id: String): IO[FloxxError,Option[String]] =
-      IO(config.rooms.roomsMapping(id)))
+      config.getRooms.map(_(id))
 
-    private def computeRoomKey(slots: List[Slot]): List[Slot] =
-      slots
+    private def computeRoomKey(slots: List[Slot]): IO[FloxxError,List[Slot]] = {
+      config.getConf >>= (conf =>
+      IO.succeed(slots
         .filter(_.talk.isDefined)
         .flatMap(s => {
-          Config.rooms.roomsMapping(s.roomId).map { r =>
+          conf.roomsMapping.get(s.roomId).map { r =>
             val sId = s"${s.day}_${s.roomId}_${s.fromTime}-${s.toTime}"
             s.copy(slotId = SlotId(sId), roomId = r)
           }
-        })
+        })))
+    }
 
     private def currentSlotForUser(s: Set[Slot], userId: String): IO[FloxxError, Option[Slot]] = {
       s.toSeq match {

@@ -7,6 +7,7 @@ import org.floxx.repository.postgres.HitRepo
 import org.floxx.utils.floxxUtils._
 import org.floxx.{IOVal, model}
 
+@deprecated
 trait HitService[F[_]] {
 
   def hit(hit: Hit): F[IOVal[Int]]
@@ -16,6 +17,7 @@ trait HitService[F[_]] {
 
 }
 
+@deprecated
 class HitServiceImpl(trackService: TrackService[IO], hitRepo: HitRepo[ConnectionIO]) extends HitService[IO] with WithTransact {
   override def hit(hit: Hit): IO[IOVal[Int]] = run(hitRepo.save(hit))
 

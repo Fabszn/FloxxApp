@@ -1,11 +1,13 @@
 package org.floxx.env.service
 
-import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
+import org.floxx.env.configuration.config
+import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
+import org.floxx.env.service.trackService.TrackService
 import org.floxx.{FloxxError, IOVal, model}
 import org.floxx.model.{Hit, SlotId, TrackHitInfo}
-import org.floxx.service.{TrackService, timeUtils}
-import zio.{IO, Task}
+import org.floxx.service.timeUtils
+import zio.IO
 
 object hitService {
 
@@ -26,53 +28,54 @@ object hitService {
       IO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (SlotId(k), vs.maxBy(_.dateTime)) })
 
     override def currentTracks: IO[FloxxError,Map[SlotId, model.Hit]] =
-      (for {
+      for {
         conf <- config.getConf
-        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf)
-        hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
-        filtered <- transform(hits).eitherT
+        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
+        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
+        filtered <- transform(hits)
 
       } yield {
         filtered
-      }).value
+      }
 
-    override def currentTracksWithHitInfo: IO[IOVal[Map[SlotId, TrackHitInfo]]] =
-      (for {
-        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime()).eitherT
-        hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
-        filteredHits <- transform(hits).eitherT
+    override def currentTracksWithHitInfo: IO[FloxxError,Map[SlotId, TrackHitInfo]] =
+      for {
+        conf <- config.getConf
+        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config=conf))
+        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
+        filteredHits <- transform(hits)
         filtered <- {
 
-          IO(Right(currentSloIds.map { s =>
+          IO.succeed(currentSloIds.map { s =>
           {
             val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
 
             (s.slotId -> TrackHitInfo(s.slotId, s, hitInfo))
           }
-          }.toMap))
-        }.eitherT
+          }.toMap)
+        }
       } yield {
         filtered
-      }).value
+      }
 
-    override def allTracksWithHitInfo: IO[IOVal[Map[SlotId, TrackHitInfo]]] =
-      (for {
-        currentSloIds <- trackService.loadSlotByCriterias(_ => true).eitherT
-        hits <- run(hitRepo.loadHitBy(currentSloIds.map(_.slotId))).eitherT
-        filteredHits <- transform(hits).eitherT
+    override def allTracksWithHitInfo: IO[FloxxError,Map[SlotId, TrackHitInfo]] =
+      for {
+        currentSloIds <- trackService.loadSlotByCriterias(_ => true)
+        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
+        filteredHits <- transform(hits)
         filtered <- {
 
-          IO(Right(currentSloIds.map { s =>
+          IO.succeed(currentSloIds.map { s =>
           {
             val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
 
             (s.slotId -> TrackHitInfo(s.slotId, s, hitInfo))
           }
-          }.toMap))
-        }.eitherT
+          }.toMap)
+        }
       } yield {
         filtered
-      }).value
+      }
   }
 
 }
