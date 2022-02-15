@@ -2,7 +2,6 @@ package org.floxx.controller.io
 
 import cats.effect.IO
 import cats.effect.IO._
-import fs2.concurrent.Queue
 import org.floxx.controller.security.WithSecurity
 import org.http4s.headers.`Content-Type`
 import org.http4s.server.websocket.WebSocketBuilder
@@ -12,9 +11,9 @@ import org.http4s.{ Header, Headers, HttpRoutes }
 import org.slf4j.{ Logger, LoggerFactory }
 
 @SuppressWarnings(Array("org.wartremover.warts.Any"))
-class StreamApi(channel: Queue[IO, WebSocketFrame]) extends WithSecurity {
+class StreamApi extends WithSecurity {
 
-  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+  /*val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   def api = HttpRoutes.of {
     case req @ GET -> Root / "api" / "stream" / "hit" => {
@@ -36,9 +35,9 @@ class StreamApi(channel: Queue[IO, WebSocketFrame]) extends WithSecurity {
         }
       } yield webSocket
     }
-  }
+  }*/
 }
 
 object StreamApi {
-  def apply(channel: Queue[IO, WebSocketFrame]): StreamApi = new StreamApi(channel)
+  def apply(): StreamApi = new StreamApi()
 }

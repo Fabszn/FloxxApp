@@ -1,6 +1,5 @@
 package org.floxx.env.service
 
-import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
 import org.floxx.env.service.trackService.TrackService

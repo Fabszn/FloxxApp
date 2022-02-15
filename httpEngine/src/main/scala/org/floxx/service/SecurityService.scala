@@ -23,7 +23,7 @@ object AuthenticatedUser {
 
   implicit val format = jsonOf[IO, AuthenticatedUser]
 }
-
+@deprecated
 trait SecurityService[F[_]] {
 
   def authentification(user: String, mdp: String): F[IOVal[AuthenticatedUser]]
@@ -31,6 +31,7 @@ trait SecurityService[F[_]] {
 
 }
 
+@deprecated
 class SecurityServiceImpl(securityRepo: AuthRepo[ConnectionIO]) extends SecurityService[IO] with WithTransact {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 

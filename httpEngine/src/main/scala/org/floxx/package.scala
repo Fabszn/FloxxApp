@@ -21,10 +21,9 @@ package object floxx {
   }
 
   sealed trait FloxxError  {
-    val code: String
-    val message: String
 
-    override def toString: String = s"$code - $message"
+    val message: String
+    override def toString: String = message
 
   }
 
@@ -36,25 +35,17 @@ package object floxx {
   type IOVal[T] = Either[FloxxError, T]
 
 
-  case class InvalidError(message: String) extends FloxxError {
-    val code: String = "000"
-  }
+  case class InvalidError(message: String) extends FloxxError
 
-  case class AuthentificationError(message: String) extends FloxxError {
-    val code: String = "001"
-  }
+  case class AuthentificationError(message: String) extends FloxxError
 
-  case class IllegalStateError(message: String) extends FloxxError {
-    val code: String = "003"
-  }
+  case class IllegalStateError(message: String) extends FloxxError
 
-  case class DatabaseError(message: String) extends FloxxError {
-    val code: String = "003"
-  }
+  case class DatabaseError(message: String) extends FloxxError
 
-  case class ConfigurationError(message: String) extends FloxxError {
-    val code: String = "004"
-  }
+  case class ConfigurationError(message: String) extends FloxxError
+
+  case class HttpExternalCallError(message:String) extends FloxxError
 
   def handleError(error: FloxxError): IO[Response[IO]] = {
     logger.error(s"An error has been detected : ${error.message}")

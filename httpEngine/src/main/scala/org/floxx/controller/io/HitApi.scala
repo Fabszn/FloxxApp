@@ -1,21 +1,20 @@
 package org.floxx.controller.io
 
-import cats.effect.IO
-import fs2.concurrent.Queue
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.security.WithSecurity
+import org.floxx.env.service.hitService.HitService
+import org.floxx.env.service.securityService.SecurityService
 import org.floxx.model.Hit
-import org.floxx.service.{HitService, SecurityService}
 import org.http4s.HttpRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
-import org.http4s.websocket.WebSocketFrame
-import org.http4s.websocket.WebSocketFrame.Text
 import org.slf4j.{Logger, LoggerFactory}
+import zio.IO
+import zio.interop.catz._
 
-class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame])
+class HitApi(hitService: HitService, ss: SecurityService /*, channel: Queue[IO, WebSocketFrame]*/)
   extends WithSecurity {
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
@@ -36,10 +35,10 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
           r <- handleResponse(hitService.hit(hitItem.toHit)) { nb =>
             Created(s"Hit created")
           }
-          _ <- {
+          /*_ <- {
             logger.debug("hit channel")
-            channel.enqueue1(Text(hitItem.toHit.asJson.noSpaces))
-          }
+          //  channel.enqueue1(Text(hitItem.toHit.asJson.noSpaces))
+          }*/
         } yield r
       }
     case req @ GET -> Root / "api" / "tracks-infos" => {
@@ -81,7 +80,7 @@ class HitApi(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue
 }
 
 object HitApi {
-  def apply(hitService: HitService[IO], ss: SecurityService[IO], channel: Queue[IO, WebSocketFrame]): HitApi =
-    new HitApi(hitService, ss, channel)
+  def apply(hitService: HitService[IO], ss: SecurityService[IO]/*, channel: Queue[IO, WebSocketFrame]*/): HitApi =
+    new HitApi(hitService, ss/*, channel*/)
 
 }

@@ -1,8 +1,8 @@
 package org.floxx.controller.security
 
-import cats.effect.IO
-import org.floxx.UserInfo
-import org.floxx.service.SecurityService
+import org.floxx.env.service.securityService.SecurityService
+import zio.IO
+import org.floxx.{FloxxError, UserInfo}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization
 import org.http4s.{Challenge, Request, Response}
@@ -10,7 +10,7 @@ import zio.Task
 
 trait WithSecurity extends Http4sDsl[Task] {
 
-  def authIOu(req: Request[Task], ss: SecurityService[IO])(success: (Request[Task], UserInfo) => IO[FloxxError,Response[Task]]): IO[FloxxError,Response[Task]]    =
+  def authIOu(req: Request[Task], ss: SecurityService)(success: (Request[Task], UserInfo) => IO[FloxxError,Response[Task]]): IO[FloxxError,Response[Task]]    =
     {
       //println(s"header ${req.headers.get(CaseInsensitiveString("Cookie"))}")
       //req.headers.get(CaseInsensitiveString("Cookie")) match {

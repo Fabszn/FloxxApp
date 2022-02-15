@@ -2,7 +2,6 @@ package org.floxx
 
 import cats.effect._
 import doobie.free.connection.ConnectionIO
-import fs2.concurrent.Queue
 import org.floxx.controller.io.{TechnicalApi, _}
 import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.Configuration
@@ -56,15 +55,14 @@ object AppLoader {
     val statsService: StatsService[IO]       = new StatsServiceImpl(statsRepo)
 
     //implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
-    val channel: Queue[IO, WebSocketFrame]      = ???//WsIO.wsQueue
 
     ApplicationContext(
       TrackApi(trackService, securityService),
-      HitApi(hitService, securityService, channel),
+      HitApi(hitService, securityService),
       SecurityApi(securityService),
       TechnicalApi(adminService, securityService),
       securityService,
-      StreamApi(channel),
+      StreamApi(),
       StatsApi(statsService, securityService)
     )
   }
