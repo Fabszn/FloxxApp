@@ -1,21 +1,26 @@
 package org
 
-import cats.effect.IO
+import org.floxx.AppLoader.appEnv.AppEnvironment
 import org.http4s.Response
+import org.http4s.dsl.Http4sDsl
 import org.http4s.dsl.io._
 import org.slf4j.{Logger, LoggerFactory}
+import zio._
+import zio.interop.catz._
+import zio.interop.catz.implicits.rts
 
 package object floxx {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
+
   case class UserInfo(userId: String, firstname: String, isAdmin: Boolean)
 
   object UserInfo {
-    import cats.effect.IO
+
     import org.http4s.circe.jsonOf
     import io.circe.generic.auto._
-    implicit val format = jsonOf[IO, UserInfo]
+    implicit val format = jsonOf[Task, UserInfo]
 
     def empty: UserInfo = UserInfo("-","-",isAdmin = false)
   }
@@ -47,16 +52,7 @@ package object floxx {
 
   case class HttpExternalCallError(message:String) extends FloxxError
 
-  def handleError(error: FloxxError): IO[Response[IO]] = {
-    logger.error(s"An error has been detected : ${error.message}")
-    error match {
-      case e: InvalidError => internaltHandle(e)
-      case e: IllegalStateError => internaltHandle(e)
-      case e: AuthentificationError => authHandle(e)
-    }
-  }
 
-  private def internaltHandle(message: FloxxError): IO[Response[IO]] = InternalServerError(message.toString)
-  private def authHandle(message: FloxxError): IO[Response[IO]]      = Forbidden(message.toString)
+
 
 }

@@ -3,16 +3,18 @@ package org.floxx.controller.io
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.floxx.controller.handleRespIO2Val.handleResponse
+import org.floxx.controller.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.env.service.hitService.HitService
 import org.floxx.env.service.securityService.SecurityService
 import org.floxx.model.Hit
-import org.http4s.HttpRoutes
+import org.http4s.{HttpRoutes, Response}
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.slf4j.{Logger, LoggerFactory}
-import zio.IO
+import zio._
 import zio.interop.catz._
+import zio.interop.catz.implicits.rts
 
 class HitApi(hitService: HitService, ss: SecurityService /*, channel: Queue[IO, WebSocketFrame]*/)
   extends WithSecurity {
@@ -24,23 +26,18 @@ class HitApi(hitService: HitService, ss: SecurityService /*, channel: Queue[IO, 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   object HitRequest {
-    implicit val format = jsonOf[IO, HitRequest]
+    implicit val format = jsonOf[Task, HitRequest]
   }
 
-  def api = HttpRoutes.of[IO] {
+  def api = HttpRoutes.of[Task] {
     case req @ POST -> Root / "api" / "hit" =>
-      authIOu(req, ss) { (req, u) =>
+
         for {
           hitItem <- req.as[HitRequest]
-          r <- handleResponse(hitService.hit(hitItem.toHit)) { nb =>
-            Created(s"Hit created")
-          }
-          /*_ <- {
-            logger.debug("hit channel")
-          //  channel.enqueue1(Text(hitItem.toHit.asJson.noSpaces))
-          }*/
+          r: Response[Task] <- handleResponse(hitService.hit(hitItem.toHit)) { _ => Created("Hit created")}
+
         } yield r
-      }
+
     case req @ GET -> Root / "api" / "tracks-infos" => {
       authIOu(req, ss) { (req, u) =>
         handleResponse(hitService.currentTracksWithHitInfo) {
