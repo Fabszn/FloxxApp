@@ -2,13 +2,12 @@ package org.floxx.controller.io
 
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.floxx.controller.handleRespIO2Val.handleResponse
 import org.floxx.controller.handleResponse
 import org.floxx.controller.security.WithSecurity
 import org.floxx.env.service.hitService.HitService
 import org.floxx.env.service.securityService.SecurityService
 import org.floxx.model.Hit
-import org.http4s.{HttpRoutes, Response}
+import org.http4s.HttpRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.slf4j.{Logger, LoggerFactory}
@@ -34,7 +33,7 @@ class HitApi(hitService: HitService, ss: SecurityService /*, channel: Queue[IO, 
 
         for {
           hitItem <- req.as[HitRequest]
-          r: Response[Task] <- handleResponse(hitService.hit(hitItem.toHit)) { _ => Created("Hit created")}
+          r <- handleResponse(hitService.hit(hitItem.toHit)) { _ => Created("Hit created")}
 
         } yield r
 
