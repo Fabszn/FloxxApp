@@ -1,13 +1,11 @@
-package org.floxx.service
+package org.floxx.env.service
 
-import java.util.TimeZone
 import org.floxx.env.configuration.config.GlobalConfig
 import org.floxx.model.jsonModel.Slot
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone, LocalTime}
 import org.slf4j.{Logger, LoggerFactory}
 
-@deprecated
 object timeUtils {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
