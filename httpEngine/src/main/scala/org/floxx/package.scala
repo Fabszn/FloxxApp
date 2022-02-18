@@ -42,7 +42,7 @@ package object floxx {
 
   case class InvalidError(message: String) extends FloxxError
 
-  case class AuthentificationError(message: String) extends FloxxError
+  case class AuthentificationError(message: String) extends Throwable
 
   case class IllegalStateError(message: String) extends FloxxError
 

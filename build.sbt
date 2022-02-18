@@ -20,7 +20,7 @@ version := "1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.8"
 
-scalacOptions += "-Ypartial-unification" // 2.11.9+
+scalacOptions += "-Ypartial-unification"// 2.11.9+
 
 lazy val commonsSettings = wartRemoverSettings
 

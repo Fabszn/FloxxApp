@@ -6,10 +6,10 @@ import io.circe.syntax.EncoderOps
 import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.env.repository.userRepo.AuthRepo
 import org.floxx.service.AuthenticatedUser
-import org.floxx.{AuthentificationError, FloxxError, UserInfo}
+import org.floxx.{AuthentificationError, UserInfo}
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
-import zio.{IO, Task}
+import zio.Task
 
 import scala.util.{Failure, Success}
 
@@ -17,15 +17,15 @@ object securityService {
 
   trait SecurityService {
 
-    def authentification(user: String, mdp: String): IO[FloxxError, AuthenticatedUser]
-    def checkAuthentification(token: String): IO[FloxxError, Option[UserInfo]]
+    def authentification(user: String, mdp: String): Task[AuthenticatedUser]
+    def checkAuthentification(token: String): Task[Option[UserInfo]]
 
   }
 
   class SecurityServiceImpl(securityRepo: AuthRepo, conf: Configuration) extends SecurityService {
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-    override def checkAuthentification(token: String): IO[FloxxError, Option[UserInfo]] =
+    override def checkAuthentification(token: String): Task[Option[UserInfo]] =
       conf.getConf >>= (
             config =>
               Task(
@@ -51,7 +51,7 @@ object securityService {
               )
           )
 
-    override def authentification(user: String, mdp: String): IO[FloxxError, AuthenticatedUser] =
+    override def authentification(user: String, mdp: String): Task[AuthenticatedUser] =
       for {
         config <- conf.getConf
         userFound <- securityRepo.userByLogin(user)
@@ -59,15 +59,15 @@ object securityService {
           logger.debug(s"user found $userFound")
           userFound match {
             case Some(u) if u.mdp == mdp =>
-              IO.succeed(
+              Task.succeed(
                 AuthenticatedUser(
                   u.login,
                   tokenGenerator(UserInfo(u.userId.getOrElse("no ID"), u.login, u.isAdmin),config),
                   u.isAdmin
                 )
               )
-            case Some(_) => IO.fail(new AuthentificationError("login or pass is invalid"))
-            case None => IO.fail(new AuthentificationError("login or pass is invalid"))
+            case Some(_) => Task.fail(new AuthentificationError("login or pass is invalid"))
+            case None => Task.fail(new AuthentificationError("login or pass is invalid"))
           }
 
         }

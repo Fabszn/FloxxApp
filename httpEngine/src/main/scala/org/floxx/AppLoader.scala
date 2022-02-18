@@ -5,6 +5,7 @@ import doobie.free.connection.ConnectionIO
 import org.floxx.controller.io.{TechnicalApi, _}
 import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.Configuration
+import org.floxx.env.service.hitService
 import org.floxx.repository.postgres.{AuthRepo, AuthRepoPg, CfpRepo, CfpRepoPg, HitRepo, HitRepoCfg, StatsRepo, StatsRepoPg}
 import org.floxx.service._
 import org.http4s.websocket.WebSocketFrame
@@ -18,8 +19,8 @@ object AppLoader {
 
   object appEnv{
 
-    type AppEnvironment = Clock with Blocking with Has[Configuration]
-    val appEnvironnement = Clock.live ++ Blocking.live ++ config.layer
+    type AppEnvironment = Clock with Blocking with Has[Configuration] with Has[hitService.HitService]
+    val appEnvironnement = Clock.live ++ Blocking.live ++ config.layer ++ hitService.layer
   }
 
   trait AppContext {

@@ -11,13 +11,6 @@ import zio.interop.catz._
 
 package object repository {
 
-
-
-
-    val errorProc:Throwable => DatabaseError = t => DatabaseError(s"cause :${t.getCause} - message :${t.getMessage}")
-
-
-
   object DbTransactor {
 
     val postgres: ZLayer[Clock with Blocking, Throwable, Has[TxResource]] = {

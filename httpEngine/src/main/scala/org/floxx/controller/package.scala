@@ -19,11 +19,7 @@ package object controller {
 
 
 
-    def handleResponse[A](response: IO[FloxxError,A])(success: A => Response[Task]): Task[Response[Task]]= {
-      (for(
-        content <- response
-      )yield success(content)).catchAll(handleError)
-    }
+    def handleResponse[A](response: Task[A])(success: A => Task[Response[Task]]): Task[Response[Task]]= ???
 
 
   def handleError(error: FloxxError): Task[Response[Task]] = {

@@ -45,16 +45,16 @@ object config {
   }
 
   trait Configuration {
-    def getConf: IO[FloxxError,GlobalConfig]
-    def getRooms: IO[FloxxError,Map[String, Option[String]]]
+    def getConf: Task[GlobalConfig]
+    def getRooms: Task[Map[String, Option[String]]]
   }
 
   case class ConfigurationLive() extends Configuration {
-    override def getConf: IO[FloxxError,GlobalConfig] = IO.effect(
+    override def getConf: Task[GlobalConfig] = IO.effect(
       ConfigSource.default.loadOrThrow[GlobalConfig]
-    ).mapError(ex => ConfigurationError(FloxxError.errorProc(ex)))
+    )
 
-    override def getRooms: IO[FloxxError,Map[String, Option[String]]] = IO.succeed(rooms.roomsMapping)
+    override def getRooms: Task[Map[String, Option[String]]] = IO.succeed(rooms.roomsMapping)
   }
 
   val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationLive())

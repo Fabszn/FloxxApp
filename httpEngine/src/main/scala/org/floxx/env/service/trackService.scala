@@ -18,11 +18,11 @@ object trackService {
 
   trait TrackService {
 
-    def readDataFromCfpDevoxx(): IO[FloxxError, Int]
-    def loadSlotByCriterias(isActiveFunction: Slot => Boolean): IO[FloxxError, Set[Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): IO[FloxxError, Option[Slot]]
-    def loadSlot(id: String): IO[FloxxError, Option[Slot]]
-    def roomById(id: String): IO[FloxxError, Option[String]]
+    def readDataFromCfpDevoxx(): Task[ Int]
+    def loadSlotByCriterias(isActiveFunction: Slot => Boolean): Task[Set[Slot]]
+    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): Task[ Option[Slot]]
+    def loadSlot(id: String): Task[Option[Slot]]
+    def roomById(id: String): Task[Option[String]]
 
   }
 
@@ -30,7 +30,7 @@ object trackService {
 
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-    override def readDataFromCfpDevoxx(): IO[FloxxError, Int] = {
+    override def readDataFromCfpDevoxx(): Task[Int] = {
 
       def s(url: String) =
 
@@ -75,7 +75,7 @@ object trackService {
 
     }
 
-    override def loadSlotByCriterias(isActiveFilter: Slot => Boolean): IO[FloxxError, Set[Slot]] =
+    override def loadSlotByCriterias(isActiveFilter: Slot => Boolean): Task[Set[Slot]] =
       for {
         slots <- repoPg.allSlotIds
       } yield slots.filter(isActiveFilter)
@@ -91,7 +91,7 @@ object trackService {
         slot <- repoPg.getSlotById(id)
       } yield slot
 
-    override def roomById(id: String): IO[FloxxError, Option[String]] =
+    override def roomById(id: String): Task[ Option[String]] =
       config.getRooms.map(_(id))
 
     private def computeRoomKey(slots: List[Slot]): IO[FloxxError, List[Slot]] =
@@ -109,7 +109,7 @@ object trackService {
               )
           )
 
-    private def currentSlotForUser(s: Set[Slot], userId: String): IO[FloxxError, Option[Slot]] =
+    private def currentSlotForUser(s: Set[Slot], userId: String): Task[Option[Slot]] =
       s.toSeq match {
         case s if (s.size > 1) => {
           logger.warn(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}")

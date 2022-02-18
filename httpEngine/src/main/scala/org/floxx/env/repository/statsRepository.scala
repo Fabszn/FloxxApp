@@ -11,16 +11,16 @@ object statsRepository {
 
   trait StatsRepo {
 
-    def hitsListWithPercentage(): IO[FloxxError,Seq[StatItem]]
+    def hitsListWithPercentage(): Task[Seq[StatItem]]
   }
 
   case class StatsRepoPg(r:TxResource) extends StatsRepo {
 
-    override def hitsListWithPercentage(): IO[FloxxError,Seq[StatItem]] =
+    override def hitsListWithPercentage(): Task[Seq[StatItem]] =
       sql"""select s.slotId, talk, percentage, roomid, fromtime,totime, s.day  from
       ( select max(datetime) as md, hitslotid from hit group by hitslotid) r
       inner join hit h on r.md=h.datetime and r.hitslotid=h.hitslotid
-      right join slot s on h.hitslotid=s.slotid""".query[StatItem].to[Seq].transact(r.xa).mapError(errorProc)
+      right join slot s on h.hitslotid=s.slotid""".query[StatItem].to[Seq].transact(r.xa)
 
   }
 
