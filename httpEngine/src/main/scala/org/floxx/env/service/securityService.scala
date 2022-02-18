@@ -9,7 +9,7 @@ import org.floxx.service.AuthenticatedUser
 import org.floxx.{AuthentificationError, UserInfo}
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
-import zio.Task
+import zio.{Has, RLayer, Task, _}
 
 import scala.util.{Failure, Success}
 
@@ -22,7 +22,7 @@ object securityService {
 
   }
 
-  class SecurityServiceImpl(securityRepo: AuthRepo, conf: Configuration) extends SecurityService {
+  case class SecurityServiceImpl(securityRepo: AuthRepo, conf: Configuration) extends SecurityService {
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def checkAuthentification(token: String): Task[Option[UserInfo]] =
@@ -80,7 +80,12 @@ object securityService {
         conf.floxx.secret,
         JwtAlgorithm.HS256
       )
-
   }
+
+  def layer:RLayer[Has[AuthRepo] with Has[Configuration], Has[SecurityService]] = (SecurityServiceImpl(_,_)).toLayer
+
+  def authentification(user: String, mdp: String):RIO[Has[SecurityService], AuthenticatedUser] = ZIO.serviceWith[SecurityService](_.authentification(user, mdp))
+  def checkAuthentification(token: String):RIO[Has[SecurityService], Option[UserInfo]] = ZIO.serviceWith[SecurityService](_.checkAuthentification(token))
+
 
 }

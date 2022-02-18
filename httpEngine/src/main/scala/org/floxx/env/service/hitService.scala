@@ -82,6 +82,6 @@ object hitService {
   def hit(hit: Hit): RIO[Has[HitService],Int] = ZIO.serviceWith[HitService](_.hit(hit))
   def currentTracks: RIO[Has[HitService],Map[SlotId, model.Hit]] = ZIO.serviceWith[HitService](_.currentTracks)
   def currentTracksWithHitInfo:RIO[Has[HitService],Map[SlotId, model.TrackHitInfo]] = ZIO.serviceWith[HitService](_.currentTracksWithHitInfo)
-  def allTracksWithHitInfo:RIO[Has[HitService],Map[SlotId , model.TrackHitInfo]] = ZIO.serviceWith[HitService](_.allTracksWithHitInfo
+  def allTracksWithHitInfo:RIO[Has[HitService],Map[SlotId , model.TrackHitInfo]] = ZIO.serviceWith[HitService](_.allTracksWithHitInfo)
 
 }

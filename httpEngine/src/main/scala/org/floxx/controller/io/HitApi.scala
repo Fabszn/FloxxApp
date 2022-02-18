@@ -2,8 +2,7 @@ package org.floxx.controller.io
 
 import io.circe.generic.auto._
 import org.floxx.AppLoader.appEnv.AppEnvironment
-import org.floxx.controller.handleResponse
-import org.floxx.controller.security.WithSecurity
+
 import org.floxx.env.service.hitService
 import org.floxx.env.service.hitService.HitService
 import org.floxx.env.service.securityService.SecurityService
@@ -17,6 +16,7 @@ import zio.{Task, _}
 import zio.interop.catz._
 import zio.interop.catz.implicits.rts
 
+@deprecated
 class HitApi  {
 
   type ApiTask[A] = RIO[AppEnvironment, A]
@@ -46,21 +46,14 @@ class HitApi  {
     case GET -> Root / "api" / "tracks-infos" =>
       hitService.currentTracksWithHitInfo >>= (r => Ok(r))
 
+    case GET -> Root / "api" / "all-tracks-infos" =>
+      hitService.allTracksWithHitInfo  >>=  (r => Ok(r))
 
-    case GET -> Root / "api" / "all-tracks-infos" => {
-      handleResponse(hitService.allTracksWithHitInfo) {
-        Ok(_)
-      }
+    case GET -> Root / "api" / "all-tracks-infos-for-attendees" =>
+      hitService.allTracksWithHitInfo >>=  (r => Ok(r))
 
-    }
-    case GET -> Root / "api" / "all-tracks-infos-for-attendees" => {
-      handleResponse(hitService.allTracksWithHitInfo) {
-        Ok(_)
-      }
-    }
     case  GET -> Root / "api" / "list-tracks" => {
-
-      handleResponse(hitService.allTracksWithHitInfo) { r =>
+      hitService.allTracksWithHitInfo >>= (r =>
         {
           Ok(r.map {
             case (k, v) =>
@@ -69,14 +62,14 @@ class HitApi  {
                 ("Title", v.slot.talk.fold("no")(t => t.title))
               )
           })
-        }
+        })
       }
-    }
   }
 }
 
+@deprecated
 object HitApi {
   def apply(hitService: HitService, ss: SecurityService /*, channel: Queue[IO, WebSocketFrame]*/ ): HitApi =
-    new HitApi(hitService, ss /*, channel*/ )
+    new HitApi( )
 
 }

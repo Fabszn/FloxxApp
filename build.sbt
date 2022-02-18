@@ -20,7 +20,29 @@ version := "1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.8"
 
-scalacOptions += "-Ypartial-unification"// 2.11.9+
+
+/*
+* Seq(
+  "-feature",
+  "-deprecation",
+  "-explaintypes",
+  "-unchecked",
+  "-encoding",
+  "UTF-8",
+  "-language:implicitConversions",
+  "-language:higherKinds",
+  "-language:existentials",
+  "-language:postfixOps",
+  "-Xfatal-warnings",
+  "-Xlint:-infer-any,-byname-implicit,_",
+  "-Xlog-reflective-calls",
+  "-Ywarn-dead-code",
+  "-Ywarn-value-discard",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-extra-implicit",
+  "-Ywarn-unused:_"
+)*/
+scalacOptions := Seq("-Ypartial-unification","-Ywarn-unused:_","-Ywarn-dead-code")
 
 lazy val commonsSettings = wartRemoverSettings
 
