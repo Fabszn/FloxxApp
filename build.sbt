@@ -111,14 +111,14 @@ mappings in (Compile, packageDoc) := Seq()
 
 lazy val wartRemoverSettings = Seq(
   wartremoverErrors in (Compile, compile) ++= Seq(
-      Wart.Any,
+      /*Wart.Any,*/
       Wart.AsInstanceOf,
       Wart.Product,
       Wart.Return,
       Wart.Null,
       Wart.OptionPartial,
-      Wart.EitherProjectionPartial,
-      Wart.StringPlusAny
+      Wart.EitherProjectionPartial
+      /*,Wart.StringPlusAny*/
     )
 )
 

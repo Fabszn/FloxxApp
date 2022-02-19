@@ -2,7 +2,7 @@ package org.floxx.env
 
 
 import doobie.hikari.HikariTransactor
-import org.floxx.env.configuration.config.getConf
+import org.floxx.env.configuration.config.{Configuration, getConf}
 import zio._
 import zio.blocking.Blocking
 import zio.clock.Clock
@@ -12,10 +12,11 @@ package object repository {
 
   object DbTransactor {
 
-    val postgres: RLayer[Clock with Blocking, Has[TxResource]] = {
+
+    val postgres: RLayer[Has[Configuration] with Clock with Blocking, Has[TxResource]] = {
 
       ZLayer.fromManaged(
-        ZIO.runtime[Clock with Blocking].toManaged_.flatMap { implicit rt =>
+        ZIO.runtime[Has[Configuration] with Clock with Blocking].toManaged_.flatMap { implicit rt =>
           for {
             conf <- getConf.toManaged_
             trans <- HikariTransactor.newHikariTransactor[Task](
@@ -24,7 +25,7 @@ package object repository {
               conf.db.user,
               conf.db.password,
               rt.platform.executor.asEC
-            ).toManaged
+            ).toManagedZIO
           } yield new TxResource {
             override val xa: HikariTransactor[Task] = trans
           }
