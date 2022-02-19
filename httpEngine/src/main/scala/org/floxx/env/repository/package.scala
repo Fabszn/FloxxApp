@@ -2,7 +2,6 @@ package org.floxx.env
 
 
 import doobie.hikari.HikariTransactor
-import org.floxx.DatabaseError
 import org.floxx.env.configuration.config.getConf
 import zio._
 import zio.blocking.Blocking
@@ -13,7 +12,7 @@ package object repository {
 
   object DbTransactor {
 
-    val postgres: ZLayer[Clock with Blocking, Throwable, Has[TxResource]] = {
+    val postgres: RLayer[Clock with Blocking, Has[TxResource]] = {
 
       ZLayer.fromManaged(
         ZIO.runtime[Clock with Blocking].toManaged_.flatMap { implicit rt =>

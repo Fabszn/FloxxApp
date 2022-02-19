@@ -1,6 +1,6 @@
 package org.floxx.env
 
-import org.floxx.AppLoader.appEnv.AppEnvironment
+import org.floxx.Environment.AppEnvironment
 import zio.RIO
 
 package object api {

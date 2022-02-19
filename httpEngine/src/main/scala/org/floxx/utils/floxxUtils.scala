@@ -7,6 +7,7 @@ import org.floxx.{FloxxError, IOVal}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+@deprecated
 object floxxUtils {
 
   implicit class ToFuture[A](val it: A) {

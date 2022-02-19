@@ -6,18 +6,18 @@ import zio._
 
 object statService {
 
-
   trait StatsService {
 
-    def slotsStatus: Task[Seq[StatItem]]]
+    def slotsStatus: Task[Seq[StatItem]]
 
   }
 
-  case class StatsServiceImpl(statRepo: StatsRepo) extends StatsService{
+  case class StatsServiceImpl(statRepo: StatsRepo) extends StatsService {
     override def slotsStatus: Task[Seq[StatItem]] = statRepo.hitsListWithPercentage()
   }
 
+  def layer: RLayer[Has[StatsRepo], Has[StatsService]] = (StatsServiceImpl(_)).toLayer
 
-  def layer:RLayer[Has[StatsRepo], Has[StatsService]] = (StatsServiceImpl(_)).toLayer
+  def slotsStatus: RIO[Has[StatsService], Seq[StatItem]] = ZIO.serviceWith[StatsService](_.slotsStatus)
 
 }

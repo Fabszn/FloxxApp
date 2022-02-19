@@ -1,17 +1,14 @@
 package org.floxx
 
-import org.floxx.AppLoader.AppContext
-import org.floxx.AppLoader.appEnv.{AppEnvironment, appEnvironnement}
+import org.floxx.Environment.{AppEnvironment, appEnvironnement}
 import org.floxx.env.configuration.config.getConf
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.joda.time.DateTimeZone
 import zio.{ExitCode, _}
+import zio._
 import zio.interop.catz._
 
 object FloxxMainHttp4s extends zio.App {
-
-
-
 
   val server = {
     ZIO.runtime[AppEnvironment].flatMap { implicit r =>
@@ -31,7 +28,6 @@ object FloxxMainHttp4s extends zio.App {
     }
   }
 
-  val context: AppContext = AppLoader.initialize
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
   val floxxdService = ??? /*CORS(
@@ -55,6 +51,6 @@ object FloxxMainHttp4s extends zio.App {
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] =
     server
-      .provideSomeLayer(appEnvironnement)
+      .provideLayer(appEnvironnement)
       .fold[ExitCode](_ => ExitCode.failure, _ => ExitCode.success)
 }

@@ -1,9 +1,6 @@
 package org
 
-import org.floxx.AppLoader.appEnv.AppEnvironment
-import org.http4s.Response
-import org.http4s.dsl.Http4sDsl
-import org.http4s.dsl.io._
+
 import org.slf4j.{Logger, LoggerFactory}
 import zio._
 import zio.interop.catz._
@@ -44,13 +41,13 @@ package object floxx {
 
   case class AuthentificationError(message: String) extends Throwable
 
-  case class IllegalStateError(message: String) extends FloxxError
+  case class IllegalStateError(message: String) extends Throwable
 
   case class DatabaseError(message: String) extends FloxxError
 
   case class ConfigurationError(message: String) extends FloxxError
 
-  case class HttpExternalCallError(message:String) extends FloxxError
+  case class HttpExternalCallError(message:String) extends Throwable
 
 
 

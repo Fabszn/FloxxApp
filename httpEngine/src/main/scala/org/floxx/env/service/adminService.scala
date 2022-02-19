@@ -12,7 +12,7 @@ object adminService {
     def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int]
   }
 
-  case class AdminServiceLive(cfpRepo: CfpRepo) extends AdminService  {
+  case class AdminServiceImpl(cfpRepo: CfpRepo) extends AdminService  {
     override def updateEnv(days: Map[String, String]): Task[Int] =
       for {
         slots <- cfpRepo.allSlotIds
@@ -45,11 +45,11 @@ object adminService {
 
   }
 
-  val layer: RLayer[Has[CfpRepo], Has[AdminService]] = (AdminServiceLive(_)).toLayer
+  val layer: RLayer[Has[CfpRepo], Has[AdminService]] = (AdminServiceImpl(_)).toLayer
 
   def updateEnv(days: Map[String, String]): RIO[Has[AdminService], Int] =
     ZIO.serviceWith[AdminService](_.updateEnv(days))
 
-  def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): RIO[Has[AdminService], Set[Slot]] =
+  def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): RIO[Has[AdminService], Int] =
     ZIO.serviceWith[AdminService](_.insertUserSlotMapping(mapping))
 }

@@ -1,8 +1,8 @@
 package org.floxx.env.configuration
 
-import org.floxx.{ConfigurationError, FloxxError}
 import pureconfig._
-import zio.{Has, IO, Task, ULayer, URIO, ZIO, ZLayer}
+import pureconfig.generic.auto._
+import zio._
 
 object config {
 
@@ -49,7 +49,7 @@ object config {
     def getRooms: Task[Map[String, Option[String]]]
   }
 
-  case class ConfigurationLive() extends Configuration {
+  case class ConfigurationImpl() extends Configuration {
     override def getConf: Task[GlobalConfig] = IO.effect(
       ConfigSource.default.loadOrThrow[GlobalConfig]
     )
@@ -57,10 +57,10 @@ object config {
     override def getRooms: Task[Map[String, Option[String]]] = IO.succeed(rooms.roomsMapping)
   }
 
-  val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationLive())
+  val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationImpl())
 
-  def getConf: URIO[Has[Configuration], GlobalConfig] = ZIO.serviceWith[Configuration](_.getConf)
+  def getConf: RIO[Has[Configuration], GlobalConfig] = ZIO.serviceWith[Configuration](_.getConf)
 
-  def getRooms:URIO[Has[Configuration],Map[String,String]]= ZIO.serviceWith[Configuration](_.getRooms)
+  def getRooms:RIO[Has[Configuration],Map[String, Option[String]]]= ZIO.serviceWith[Configuration](_.getRooms)
 
 }

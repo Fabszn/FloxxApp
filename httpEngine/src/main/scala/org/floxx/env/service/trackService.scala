@@ -1,13 +1,12 @@
 package org.floxx.env.service
 
-import org.floxx.AppLoader.appEnv.{AppEnvironment, appEnvironnement}
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.CfpRepo
 import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Slot
-import org.floxx.{FloxxError, HttpExternalCallError, IllegalStateError}
+import org.floxx.{ HttpExternalCallError, IllegalStateError }
 import org.http4s.blaze.client.BlazeClientBuilder
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import zio._
 import zio.interop.catz._
 import zio.interop.catz.implicits.rts
@@ -17,44 +16,45 @@ import java.time.LocalDateTime
 object trackService {
 
   trait TrackService {
-
-    def readDataFromCfpDevoxx(): Task[ Int]
+    def readDataFromCfpDevoxx(): Task[Int]
     def loadSlotByCriterias(isActiveFunction: Slot => Boolean): Task[Set[Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): Task[ Option[Slot]]
+    def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): Task[Option[Slot]]
     def loadSlot(id: String): Task[Option[Slot]]
     def roomById(id: String): Task[Option[String]]
-
   }
 
-  class TrackServiceImpl(repoPg: CfpRepo, config: Configuration) extends TrackService {
+  case class TrackServiceImpl(repoPg: CfpRepo, config: Configuration) extends TrackService {
 
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def readDataFromCfpDevoxx(): Task[Int] = {
-
       def s(url: String) =
+        BlazeClientBuilder[Task].resource
+          .use { client =>
+            import io.circe.parser._
+            import org.floxx.model.jsonModel._
 
-              BlazeClientBuilder[Task].resource.use { client =>
-                import io.circe.parser._
-                import org.floxx.model.jsonModel._
-
-                client.get(url) { r =>
-                  r.as[String].map { rt =>
-                    parse(rt).fold(e => {
-                        logger.error(s"Parsing Error", e)
+            client.get(url) { r =>
+              r.as[String].map { rt =>
+                parse(rt).fold(
+                  e => {
+                    logger.error(s"Parsing Error", e)
+                    List.empty[Slot]
+                  },
+                  j => {
+                    j.hcursor.downField("slots").as[Seq[Slot]] match {
+                      case Right(l) => l.toList
+                      case Left(e) =>
+                        logger.error("No slot found", e)
                         List.empty[Slot]
-                      },j => {
-                        j.hcursor.downField("slots").as[Seq[Slot]] match {
-                          case Right(l) => l.toList
-                          case Left(e) =>
-                            logger.error("No slot found", e)
-                            List.empty[Slot]
-                        }
+                    }
 
-                    })
                   }
-                }
-              }.mapError(t => HttpExternalCallError( s"cause :${t.getCause} - message :${t.getMessage}"))
+                )
+              }
+            }
+          }
+          .mapError(t => HttpExternalCallError(s"cause :${t.getCause} - message :${t.getMessage}"))
       logger.debug("read from CFP")
 
       import cats.implicits._
@@ -66,8 +66,7 @@ object trackService {
           val url = s"${urlCfp}${d}"
           url
         })
-        slots <-
-          urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))
+        slots <- urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))
 
         nbLine <- computeRoomKey(slots) >>= repoPg.addSlots
 
@@ -80,24 +79,24 @@ object trackService {
         slots <- repoPg.allSlotIds
       } yield slots.filter(isActiveFilter)
 
-    override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): IO[FloxxError, Option[Slot]] =
+    override def loadSlotByCriterias(userId: String, isActiveFilter: Slot => Boolean): Task[Option[Slot]] =
       for {
         slots <- repoPg.allSlotIdsWithUserId(userId)
         slot <- currentSlotForUser(slots.filter(isActiveFilter), userId)
       } yield slot
 
-    override def loadSlot(id: String): IO[FloxxError, Option[Slot]] =
+    override def loadSlot(id: String): Task[Option[Slot]] =
       for {
         slot <- repoPg.getSlotById(id)
       } yield slot
 
-    override def roomById(id: String): Task[ Option[String]] =
+    override def roomById(id: String): Task[Option[String]] =
       config.getRooms.map(_(id))
 
-    private def computeRoomKey(slots: List[Slot]): IO[FloxxError, List[Slot]] =
+    private def computeRoomKey(slots: List[Slot]): Task[List[Slot]] =
       config.getConf >>= (
             conf =>
-              IO.succeed(
+              Task.succeed(
                 slots
                   .filter(_.talk.isDefined)
                   .flatMap(s => {
@@ -113,11 +112,21 @@ object trackService {
       s.toSeq match {
         case s if (s.size > 1) => {
           logger.warn(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}")
-          IO.fail(IllegalStateError(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}"))
+          Task.fail(IllegalStateError(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}"))
         }
         case s => IO.succeed(s.headOption)
       }
 
   }
+
+  def layer: RLayer[Has[CfpRepo] with Has[Configuration], Has[TrackService]] = (TrackServiceImpl(_, _)).toLayer
+
+  def readDataFromCfpDevoxx(): RIO[Has[TrackService], Int] = ZIO.serviceWith[TrackService](_.readDataFromCfpDevoxx())
+  def loadSlotByCriterias(isActiveFunction: Slot => Boolean): RIO[Has[TrackService], Set[Slot]] =
+    ZIO.serviceWith[TrackService](_.loadSlotByCriterias(isActiveFunction))
+  def loadSlotByCriterias(userID: String, isActiveFunction: Slot => Boolean): RIO[Has[TrackService], Option[Slot]] =
+    ZIO.serviceWith[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
+  def loadSlot(id: String): RIO[Has[TrackService], Option[Slot]]   = ZIO.serviceWith[TrackService](_.loadSlot(id))
+  def roomById(id: String): RIO[Has[TrackService], Option[String]] = ZIO.serviceWith[TrackService](_.roomById(id))
 
 }

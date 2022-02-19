@@ -3,9 +3,8 @@ package org.floxx.env.service
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
 import org.floxx.env.service.trackService.TrackService
-import org.floxx.{FloxxError, IOVal, model}
+import org.floxx.model
 import org.floxx.model.{Hit, SlotId, TrackHitInfo}
-import org.floxx.service.timeUtils
 import zio._
 
 object hitService {

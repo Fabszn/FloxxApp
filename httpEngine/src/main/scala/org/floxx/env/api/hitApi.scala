@@ -12,8 +12,6 @@ import zio.interop.catz._
 
 object hitApi {
 
-
-
   val dsl =  Http4sDsl[ApiTask]
 
   import dsl._

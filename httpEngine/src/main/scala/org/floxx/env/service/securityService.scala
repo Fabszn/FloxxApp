@@ -3,17 +3,29 @@ package org.floxx.env.service
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
+import org.floxx.env.api.ApiTask
 import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
-import org.floxx.env.repository.userRepo.AuthRepo
-import org.floxx.service.AuthenticatedUser
+import org.floxx.env.repository.userRepository.AuthRepo
 import org.floxx.{AuthentificationError, UserInfo}
+import org.http4s.circe.jsonOf
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
 import zio.{Has, RLayer, Task, _}
+import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
+import zio.interop.catz._
 
 import scala.util.{Failure, Success}
 
 object securityService {
+
+
+  //utilisateur déjà identifier TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
+  case class AuthenticatedUser(login: String, token: String, isAdmin: Boolean = false)
+
+  object AuthenticatedUser {
+
+    implicit val format = jsonOf[ApiTask, AuthenticatedUser]
+  }
 
   trait SecurityService {
 

@@ -3,7 +3,6 @@ package org.floxx.env.repository
 import org.floxx.model.stats.StatItem
 import zio._
 import doobie.implicits._
-import org.floxx.FloxxError
 import zio.interop.catz._
 import org.floxx.env.repository.DbTransactor.TxResource
 
@@ -14,7 +13,7 @@ object statsRepository {
     def hitsListWithPercentage(): Task[Seq[StatItem]]
   }
 
-  case class StatsRepoPg(r:TxResource) extends StatsRepo {
+  case class StatsRepository(r:TxResource) extends StatsRepo {
 
     override def hitsListWithPercentage(): Task[Seq[StatItem]] =
       sql"""select s.slotId, talk, percentage, roomid, fromtime,totime, s.day  from
@@ -24,9 +23,9 @@ object statsRepository {
 
   }
 
-  val layer:RLayer[Has[TxResource], Has[StatsRepoPg]]= (StatsRepoPg(_)).toLayer
+  val layer:RLayer[Has[TxResource], Has[StatsRepo]]= (StatsRepository(_)).toLayer
 
-  def hitsListWithPercentage:URIO[Has[StatsRepo], Seq[StatItem]] = ZIO.serviceWith[StatsRepo](_.hitsListWithPercentage())
+  def hitsListWithPercentage:RIO[Has[StatsRepo], Seq[StatItem]] = ZIO.serviceWith[StatsRepo](_.hitsListWithPercentage())
 
 
 }

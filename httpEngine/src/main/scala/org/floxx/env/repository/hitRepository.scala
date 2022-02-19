@@ -37,8 +37,8 @@ object hitRepository {
 
   val layer: RLayer[Has[TxResource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
 
-  def save(hit: Hit): URIO[Has[HitRepo], Int] = ZIO.serviceWith[HitRepo](_.save(hit))
-  def loadHitBy(slotIds: Set[SlotId]): URIO[Has[HitRepo], Set[Hit]] =
+  def save(hit: Hit): RIO[Has[HitRepo], Int] = ZIO.serviceWith[HitRepo](_.save(hit))
+  def loadHitBy(slotIds: Set[SlotId]): RIO[Has[HitRepo], Set[Hit]] =
     ZIO.serviceWith[HitRepo](_.loadHitBy(slotIds))
 
 }
