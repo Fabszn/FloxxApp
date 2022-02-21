@@ -11,7 +11,7 @@ object config {
   final case class Floxx(port: Int, secret: String)
   final case class Track(delayBefore: Int, delayAfter: Int)
 
-  case class GlobalConfig(cfp: Cfp, db: Db, floxx: Floxx, track: Track, roomsMapping:Map[String,String])
+  case class GlobalConfig(cfp: Cfp, db: Db, floxx: Floxx, track: Track, roomsMapping:Map[String,Option[String]] = rooms.roomsMapping)
 
   final case class RoomConf(name: String) extends AnyVal
 

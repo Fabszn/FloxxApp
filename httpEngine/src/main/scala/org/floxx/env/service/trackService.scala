@@ -102,7 +102,7 @@ object trackService {
                   .flatMap(s => {
                     conf.roomsMapping.get(s.roomId).map { r =>
                       val sId = s"${s.day}_${s.roomId}_${s.fromTime}-${s.toTime}"
-                      s.copy(slotId = SlotId(sId), roomId = r)
+                      s.copy(slotId = SlotId(sId), roomId = r.getOrElse(""))
                     }
                   })
               )
