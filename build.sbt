@@ -46,6 +46,9 @@ scalacOptions := Seq("-Ypartial-unification","-Ywarn-unused:_","-Ywarn-dead-code
 
 lazy val commonsSettings = wartRemoverSettings
 
+
+
+
 lazy val databaseJdbcSetting = Seq(
   "org.scalikejdbc" %% "scalikejdbc"    % "3.3.2",
   "org.postgresql"  % "postgresql"      % "42.2.5",
@@ -68,6 +71,15 @@ lazy val dockertest = Seq(
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
 
+lazy val db = (project in file("db"))
+  .enablePlugins(FlywayPlugin)
+  .settings(
+    libraryDependencies += "org.postgresql" % "postgresql" % "42.2.23",
+    flywayUrl                               := "jdbc:postgresql://localhost/floxx",
+    flywayUser                              := "floxxuser",
+    flywayPassword                          := "pwduser",
+    flywayLocations += "db/migration"
+  )
 
 lazy val model = (project in file("model"))
   .settings(commonsSettings)

@@ -7,7 +7,7 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._
 
-object statApi {
+object statsApi {
 
   val dsl =  Http4sDsl[ApiTask]
 
