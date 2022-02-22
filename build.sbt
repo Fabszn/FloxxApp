@@ -1,10 +1,12 @@
 import Dependencies._
 import sbt.Keys.libraryDependencies
+import sbt.io.{ IO, CopyOptions }
 
 import scala.sys.process.Process
 
 lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
 lazy val yarnInstall = taskKey[Unit]("install front project")
+lazy val testDire = taskKey[Unit]("testDir")
 
 
 def yarnInstall(file: File) = {
@@ -13,14 +15,23 @@ def yarnInstall(file: File) = {
 }
 
 
-def runWebpack(file: File) =
+def runWebpack(file: File) = {
   Process(
     "yarn webpack --mode=development --NODE_ENV=development",
     file
   ) !
 
+
+}
+
+
+
+
 front / webpack := {
   if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
+  IO.delete(List((baseDirectory.value / "assets/index.html"),(baseDirectory.value / "assets/floxx.js") ) )
+  IO.copyFile((front / baseDirectory).value / "dist/index.html", (baseDirectory.value / "assets/index.html")  )
+  IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (baseDirectory.value / "assets/floxx.js")  )
 }
 
 front /yarnInstall := {
