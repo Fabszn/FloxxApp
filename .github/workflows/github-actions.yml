@@ -1,4 +1,4 @@
-name: Floxx GitHub Actions Demo
+name: Floxx GitHub Actions
 on: [push]
 jobs:
   Explore-GitHub-Actions:
