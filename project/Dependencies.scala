@@ -6,11 +6,9 @@ object Dependencies {
   object Version {
     lazy val zioVersion        = "1.0.13"
     lazy val `zio-interop`     = "3.2.9.0"
-    lazy val Http4sVersion     = "0.23.9"
+    lazy val Http4sVersion     = "0.23.10"
     lazy val chimneyVersion    = "0.6.1"
     lazy val circeVersion      = "0.14.1"
-    lazy val catsCoreVersion = "2.7.0"
-    lazy val catsEffectVersion = "3.3.5"
     lazy val doobieVersion = "1.0.0-RC2"
   }
 
@@ -32,8 +30,6 @@ object Dependencies {
   lazy val chimney = "io.scalaland" %% "chimney" % chimneyVersion
 
   lazy val zio  = "dev.zio"       %% "zio"       % zioVersion
-  lazy val catsCore = "org.typelevel" %% "cats-core" % catsCoreVersion
-  lazy val catsEffect = "org.typelevel" %% "cats-effect" % catsEffectVersion
   lazy val http4sBlazeServer =
     "org.http4s" %% "http4s-blaze-server" % Http4sVersion
   lazy val http4sBlazeClient =

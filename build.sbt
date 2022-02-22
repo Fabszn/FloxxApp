@@ -21,32 +21,9 @@ version := "1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "2.13.8"
 
 
-/*
-* Seq(
-  "-feature",
-  "-deprecation",
-  "-explaintypes",
-  "-unchecked",
-  "-encoding",
-  "UTF-8",
-  "-language:implicitConversions",
-  "-language:higherKinds",
-  "-language:existentials",
-  "-language:postfixOps",
-  "-Xfatal-warnings",
-  "-Xlint:-infer-any,-byname-implicit,_",
-  "-Xlog-reflective-calls",
-  "-Ywarn-dead-code",
-  "-Ywarn-value-discard",
-  "-Ywarn-numeric-widen",
-  "-Ywarn-extra-implicit",
-  "-Ywarn-unused:_"
-)*/
 scalacOptions := Seq("-Ypartial-unification","-Ywarn-unused:_","-Ywarn-dead-code")
 
 lazy val commonsSettings = wartRemoverSettings
-
-
 
 
 lazy val databaseJdbcSetting = Seq(
@@ -55,11 +32,9 @@ lazy val databaseJdbcSetting = Seq(
   "ch.qos.logback"  % "logback-classic" % "1.2.3"
 )
 
-val http4sVersion = "1.0-232-85dadc2"
 
-lazy val circe4Http4s = Seq(
-  "org.http4s" %% "http4s-circe" % http4sVersion
-)
+
+
 
 lazy val scalamockTest = Seq(
   "org.scalamock" %% "scalamock" % "4.4.0"  % Test,
@@ -85,7 +60,7 @@ lazy val model = (project in file("model"))
   .settings(commonsSettings)
   .settings(
     libraryDependencies ++= doobie,
-    libraryDependencies ++= circe4Http4s,
+    libraryDependencies += http4sCircle,
     libraryDependencies ++= circe
   )
 
@@ -93,24 +68,21 @@ lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging)
   .settings(commonsSettings)
   .settings(
-    name := "Floxx",
+    name := "FloxxServer",
     libraryDependencies += http4sBlazeServer,
     libraryDependencies += http4sBlazeClient,
     libraryDependencies += http4sDsl,
     libraryDependencies += zio,
     libraryDependencies += pureConfig,
     libraryDependencies += `zio-interop-cats`,
-    libraryDependencies += catsEffect,
-    libraryDependencies += catsCore,
     libraryDependencies ++= dockertest,
     libraryDependencies ++= scalamockTest,
     libraryDependencies ++= doobie,
-    libraryDependencies ++= circe4Http4s,
+    libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",
-
         "com.github.nscala-time" %% "nscala-time"    % "2.22.0",
         "com.pauldijou"          %% "jwt-core"       % "3.0.1"
       )
