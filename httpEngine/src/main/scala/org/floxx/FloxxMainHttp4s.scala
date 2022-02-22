@@ -45,7 +45,10 @@ object FloxxMainHttp4s extends zio.App {
 
 
 
-val floxxApp = Router("/api" -> floxxServices, "/" -> fileService(FileService.Config("./assets"))).orNotFound
+val floxxApp = Router[ApiTask](
+  "/api" -> floxxServices,
+  "/" -> fileService(FileService.Config("assets"))
+).orNotFound
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
     logger.info("server starting..")
