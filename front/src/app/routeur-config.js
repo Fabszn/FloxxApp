@@ -11,7 +11,7 @@ import redcoatmng from './components/admins/redcoatmng.vue'
 import statistiques from './components/admins/statistiques.vue'
 
 export const routes = [{
-    path: '/',
+    path: '/index.html',
     component: login,
     children: []
 }, {
