@@ -1,50 +1,58 @@
 package org.floxx
 
-
-import cats.effect.{ExitCode, IO, IOApp}
-import cats.implicits._
-import org.floxx.AppLoader.AppContext
-import org.floxx.config.Config
-import org.http4s.HttpRoutes
+import cats.syntax.all._
 import org.http4s.implicits._
-import org.http4s.server.blaze._
-import org.http4s.server.middleware.{CORS, CORSConfig}
+import org.floxx.Environment.{AppEnvironment, appEnvironnement}
+import org.floxx.env.api._
+import org.floxx.env.configuration.config.getConf
+import org.http4s.blaze.server.BlazeServerBuilder
 import org.joda.time.DateTimeZone
+import org.slf4j.{Logger, LoggerFactory}
+import zio.{ExitCode, _}
+import zio.interop.catz._
 
-import scala.concurrent.duration._
+object FloxxMainHttp4s extends zio.App {
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-object FloxxMainHttp4s extends IOApp {
+  val server: ZIO[AppEnvironment, Throwable, Unit] = {
+    ZIO.runtime[AppEnvironment].flatMap { implicit r =>
+      {
+        for {
+          conf <- getConf
+          server <- BlazeServerBuilder[ApiTask]
+            .bindHttp(conf.floxx.port, "0.0.0.0")
+            .withHttpApp(floxxdService)
+            .serve
+            .compile
+            .drain
+        } yield {
+          server
+        }
+      }
+    }
+  }
 
-  val context: AppContext = AppLoader.initialize
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
-  val floxxdService = CORS(
-    HttpRoutes
-      .of[IO] {
-        context.securityApi.api orElse
-        context.cfpApi.api orElse
-        context.hitApi.api orElse
-        context.technicalApi.api orElse
-        context.streamApi.api orElse
-        context.statsApi.api
-      }
-      .orNotFound,
-    CORSConfig(
-      anyOrigin        = true,
-      anyMethod        = true,
-      allowedMethods   = None,
-      allowCredentials = true,
-      maxAge           = 1.day.toSeconds
-    )
-  )
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  override def run(args: List[String]): IO[ExitCode] =
-    BlazeServerBuilder[IO]
-      .bindHttp(Config.floxx.floxxPort, "0.0.0.0")
-      .withHttpApp(floxxdService)
-      .serve
-      .compile
-      .drain
-      .as(ExitCode.Success)
+  val floxxdService =
+    (
+        trackApi.api <+>
+        hitApi.api <+>
+        technicalApi.api <+>
+        statsApi.api)
+      .orNotFound
 
+
+  override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
+    logger.info("server starting..")
+    server
+      .provideLayer(appEnvironnement)
+      .fold[ExitCode](ex =>
+        {
+          logger.error(s"failure ${ex.getMessage}",ex)
+          ExitCode.failure},
+        _ =>{
+        logger.info("success")
+        ExitCode.success})
+  }
 }

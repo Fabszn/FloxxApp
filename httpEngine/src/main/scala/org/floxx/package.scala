@@ -1,58 +1,55 @@
 package org
 
-import cats.effect.IO
-import org.http4s.Response
-import org.http4s.dsl.io._
+
 import org.slf4j.{Logger, LoggerFactory}
+import zio._
+import zio.interop.catz._
+import zio.interop.catz.implicits.rts
 
 package object floxx {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
+
   case class UserInfo(userId: String, firstname: String, isAdmin: Boolean)
 
   object UserInfo {
-    import cats.effect.IO
+
     import org.http4s.circe.jsonOf
     import io.circe.generic.auto._
-    implicit val format = jsonOf[IO, UserInfo]
+    implicit val format = jsonOf[Task, UserInfo]
 
     def empty: UserInfo = UserInfo("-","-",isAdmin = false)
   }
 
-  sealed trait FloxxError {
-    val code: String
-    val message: String
+  sealed trait FloxxError  {
 
-    override def toString: String = s"$code - $message"
+    val message: String
+    override def toString: String = message
 
   }
 
+  object FloxxError{
+    val errorProc:Throwable => String = t => s"cause :${t.getCause} - message :${t.getMessage}"
+  }
+
+  @deprecated
   type IOVal[T] = Either[FloxxError, T]
 
 
-  case class InvalidError(message: String) extends FloxxError {
-    val code: String = "000"
-  }
+  case class InvalidError(message: String) extends FloxxError
 
-  case class AuthentificationError(message: String) extends FloxxError {
-    val code: String = "001"
-  }
+  case class AuthentificationError(message: String) extends Throwable
 
-  case class IllegalStateError(message: String) extends FloxxError {
-    val code: String = "003"
-  }
+  case class IllegalStateError(message: String) extends Throwable
 
-  def handleError(error: FloxxError): IO[Response[IO]] = {
-    logger.error(s"An error has been detected : ${error.message}")
-    error match {
-      case e: InvalidError => internaltHandle(e)
-      case e: IllegalStateError => internaltHandle(e)
-      case e: AuthentificationError => authHandle(e)
-    }
-  }
+  case class DatabaseError(message: String) extends FloxxError
 
-  private def internaltHandle(message: FloxxError): IO[Response[IO]] = InternalServerError(message.toString)
-  private def authHandle(message: FloxxError): IO[Response[IO]]      = Forbidden(message.toString)
+  case class ConfigurationError(message: String) extends FloxxError
+
+  case class HttpExternalCallError(message:String) extends Throwable
+
+
+
 
 }

@@ -7,6 +7,7 @@ import org.floxx.IOVal
 import org.floxx.model.MappingUserSlot
 import org.floxx.model.jsonModel.Slot
 
+@deprecated
 trait CfpRepo[F[_]] {
 
   def addSlots(slot: List[Slot]): F[IOVal[Int]]
@@ -17,7 +18,7 @@ trait CfpRepo[F[_]] {
   def addMapping(m: List[MappingUserSlot]): ConnectionIO[IOVal[Int]]
 
 }
-
+@deprecated
 class CfpRepoPg extends CfpRepo[ConnectionIO] {
 
   override def drop: ConnectionIO[IOVal[Int]] =

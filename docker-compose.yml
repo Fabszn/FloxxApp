@@ -1,0 +1,17 @@
+---
+version: '2'
+services:
+  postgres:
+    image: postgres:10.17-alpine
+    environment:
+      - POSTGRES_PASSWORD=pwduser
+      - POSTGRES_USER=floxxuser
+      - POSTGRES_DB=floxx
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "log_statement=all"
+    ports:
+      - "5432:5432"

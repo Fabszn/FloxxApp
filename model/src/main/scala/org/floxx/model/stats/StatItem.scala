@@ -20,4 +20,5 @@ object StatItem {
   implicit val dec: Decoder[StatItem] = deriveDecoder[StatItem]
   implicit val enc: Encoder[StatItem] = deriveEncoder[StatItem]
 
+
 }

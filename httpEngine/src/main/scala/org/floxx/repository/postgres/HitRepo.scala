@@ -7,13 +7,14 @@ import doobie.implicits._
 import doobie.util.fragment
 import org.floxx.model.{Hit, SlotId}
 import org.floxx.{IOVal, model}
-
+@deprecated
 trait HitRepo[F[_]] {
   def loadHitBy(slotIds: Set[SlotId]): ConnectionIO[IOVal[Set[model.Hit]]]
   def save(hit: Hit): ConnectionIO[IOVal[Int]]
 
 }
 
+@deprecated
 class HitRepoCfg extends HitRepo[ConnectionIO] {
 
   def save(hit: Hit): ConnectionIO[IOVal[Int]] =
