@@ -6,6 +6,7 @@ import org.floxx.Environment.{AppEnvironment, appEnvironnement}
 import org.floxx.env.api._
 import org.floxx.env.configuration.config.getConf
 import org.http4s.blaze.server.BlazeServerBuilder
+import org.http4s.server.Router
 import org.joda.time.DateTimeZone
 import org.slf4j.{Logger, LoggerFactory}
 import zio.{ExitCode, _}
@@ -21,7 +22,7 @@ object FloxxMainHttp4s extends zio.App {
           conf <- getConf
           server <- BlazeServerBuilder[ApiTask]
             .bindHttp(conf.floxx.port, "0.0.0.0")
-            .withHttpApp(floxxdService)
+            .withHttpApp(floxxApp)
             .serve
             .compile
             .drain
@@ -34,14 +35,15 @@ object FloxxMainHttp4s extends zio.App {
 
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
-  val floxxdService =
+  val floxxServices =
     (
         trackApi.api <+>
         hitApi.api <+>
         technicalApi.api <+>
         statsApi.api)
-      .orNotFound
 
+
+val floxxApp = Router("/api" -> floxxServices).orNotFound
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
     logger.info("server starting..")

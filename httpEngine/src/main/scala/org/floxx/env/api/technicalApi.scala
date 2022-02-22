@@ -42,6 +42,7 @@ object technicalApi {
         _ <- adminService.insertUserSlotMapping(mapping.userSlots)
         r <- Created(s"Mapping has been inserted")
       } yield r
+    case GET  -> Root /"healthCheck"  => Ok("up and go")
 
   }
 
