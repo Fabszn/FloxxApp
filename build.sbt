@@ -29,7 +29,8 @@ def runWebpack(file: File) = {
 
 front / webpack := {
   if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
-  IO.delete(List((baseDirectory.value / "assets/index.html"),(baseDirectory.value / "assets/floxx.js") ) )
+  IO.delete((baseDirectory.value / "assets"))
+  IO.createDirectory((baseDirectory.value / "assets"))
   IO.copyFile((front / baseDirectory).value / "dist/index.html", (baseDirectory.value / "assets/index.html")  )
   IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (baseDirectory.value / "assets/floxx.js")  )
 }
@@ -126,3 +127,9 @@ lazy val wartRemoverSettings = Seq(
 )
 
 lazy val front = (project in file("front"))
+
+lazy val runDev = TaskKey[Unit]("all", ";a;b;c")
+
+lazy val taskSettings = Seq(
+  runDev <<= Seq(webpack,(httpEngine/run)).dependOn
+)

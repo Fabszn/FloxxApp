@@ -24,7 +24,7 @@ object securityApi {
   case class User(name:String,token:String, isAdmin:Boolean)
 
   def api=  HttpRoutes.of[ApiTask] {
-    case req @ POST -> Root / "api" / "login" =>
+    case req @ POST -> Root / "login" =>
       for {
         loginInfo <- req.as[LoginResquest]
         auth <- securityService.authentification(loginInfo.login, loginInfo.mdp)

@@ -39,6 +39,7 @@ object FloxxMainHttp4s extends zio.App {
   val floxxServices =
     (
         trackApi.api <+>
+        securityApi.api <+>
         hitApi.api <+>
         technicalApi.api <+>
         statsApi.api)

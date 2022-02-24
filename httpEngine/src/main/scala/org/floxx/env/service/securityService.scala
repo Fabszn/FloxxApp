@@ -78,8 +78,8 @@ object securityService {
                   u.isAdmin
                 )
               )
-            case Some(_) => Task.fail(new AuthentificationError("login or pass is invalid"))
-            case None => Task.fail(new AuthentificationError("login or pass is invalid"))
+            case Some(_) => Task.fail(AuthentificationError("login or pass is invalid"))
+            case None => Task.fail(AuthentificationError("login or pass is invalid"))
           }
 
         }
