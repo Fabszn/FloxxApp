@@ -4,9 +4,10 @@ import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.CfpRepo
 import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Slot
-import org.floxx.{ HttpExternalCallError, IllegalStateError }
+import org.floxx.{HttpExternalCallError, IllegalStateError}
+import org.http4s.Response
 import org.http4s.blaze.client.BlazeClientBuilder
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.{Logger, LoggerFactory}
 import zio._
 import zio.interop.catz._
 import zio.interop.catz.implicits.rts
@@ -33,12 +34,13 @@ object trackService {
           .use { client =>
             import io.circe.parser._
             import org.floxx.model.jsonModel._
-
-            client.get(url) { r =>
+            logger.info(s"URL resquested ${url}")
+            client.get(url) { r: Response[Task] =>
+             // logger.error(s"Parsing Error :  ${rt}", e)
               r.as[String].map { rt =>
                 parse(rt).fold(
                   e => {
-                    logger.error(s"Parsing Error", e)
+                    logger.error(s"Parsing Error :  ${rt}", e)
                     List.empty[Slot]
                   },
                   j => {

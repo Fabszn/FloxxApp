@@ -128,8 +128,5 @@ lazy val wartRemoverSettings = Seq(
 
 lazy val front = (project in file("front"))
 
-lazy val runDev = TaskKey[Unit]("all", ";a;b;c")
 
-lazy val taskSettings = Seq(
-  runDev <<= Seq(webpack,(httpEngine/run)).dependOn
-)
+addCommandAlias("runDev",";webpack;httpEngine/run")

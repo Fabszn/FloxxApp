@@ -25,7 +25,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">
-        Submit &nbsp;
+        Submit
         <font-awesome-icon icon="sign-in-alt" />
       </button>
     </form>

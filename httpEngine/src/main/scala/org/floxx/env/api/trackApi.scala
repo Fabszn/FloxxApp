@@ -32,10 +32,10 @@ object trackApi {
   }
 
   def api = HttpRoutes.of[ApiTask] {
-    case GET -> Root / "api" / "read" =>
+    case GET -> Root / "read" =>
       trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
 
-    case GET -> Root / "api" / "slots" / "_current" =>
+    case GET -> Root / "slots" / "_current" =>
       for {
         conf <- config.getConf
         activeSlots <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
@@ -52,7 +52,7 @@ object trackApi {
         )
       } yield rep
 
-    case GET -> Root / "api" / "slots" => {
+    case GET -> Root  / "slots" => {
       val u: UserInfo = ???
       for {
         conf <- config.getConf
@@ -73,7 +73,7 @@ object trackApi {
 
     }
 
-    case GET -> Root / "api" / "slots" / idSlot =>
+    case GET -> Root / "slots" / idSlot =>
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
@@ -82,7 +82,7 @@ object trackApi {
         }
       }
 
-    case GET -> Root / "api" / "rooms" / roomId =>
+    case GET -> Root / "rooms" / roomId =>
       trackService.roomById(roomId) >>= {
         _.fold(
           NotFound(s"None room found for key ${roomId}")
