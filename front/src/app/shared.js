@@ -11,12 +11,14 @@ function cc(p) {
     }
 }
 
+var tokenKey = "X-Auth-Token"
+
 export default {
     colorByPercentage: function chooseColor(percentage) {
         cc(percentage)
     },
     securityAccess: function sa(router, run) {
-        var token = sessionStorage.getItem("token");
+        var token = sessionStorage.getItem(tokenKey);
         if (_.isNull(token)) {
             router.push("/?authenticate=no")
         } else {
@@ -24,12 +26,12 @@ export default {
         }
     },
     cleanToken: function ch() {
-        sessionStorage.clear("token");
+        sessionStorage.clear(tokenKey);
         sessionStorage.clear("isAdmin");
         sessionStorage.clear("name");
     },
     tokenHandle: function th() {
-        var token = sessionStorage.getItem("token");
+        var token = sessionStorage.getItem(tokenKey);
         return {
             Authorization: "Bearer " + token,
             Accept: "application/json"

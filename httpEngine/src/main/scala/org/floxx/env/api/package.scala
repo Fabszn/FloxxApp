@@ -1,12 +1,14 @@
 package org.floxx.env
 
-import cats.data.{Kleisli, OptionT}
+import cats.data.{Kleisli, NonEmptyList}
 import org.floxx.Environment.AppEnvironment
+import org.floxx.UserInfo
 import org.floxx.env.configuration.config.Configuration
-import org.floxx.env.service.securityService.AuthenticatedUser
-import org.http4s.Request
-import org.http4s.util.CaseInsensitiveString
-import zio.RIO
+import org.floxx.env.service.securityService
+import org.floxx.env.service.securityService.{AuthenticatedUser, SecurityService}
+import org.http4s.{Header, Request}
+import org.typelevel.ci.CIString
+import zio.{Has, RIO, ZIO}
 
 package object api {
   type ApiTask[A] = RIO[AppEnvironment, A]
@@ -17,24 +19,22 @@ package object api {
 
   }
 
+  object keys {
+    val tokenHeader = "X-Auth-Token"
+  }
 
-  def authUser(conf: Configuration): Kleisli[ApiTask, Request[ApiTask], AuthenticatedUser] =
+  def authUser: Kleisli[ApiTask, Request[ApiTask], UserInfo] =
     Kleisli(
-      r =>
-        OptionT(
-          RIO {
-            r.headers
-              .get(CaseInsensitiveString(Keys.tokenHeader))
-              .fold(Option.empty[AuthenticatedUser])(
-                token =>
-                  if (JwtUtils.isValidToken(token.value, conf)) {
+      _.headers
+        .get(CIString(keys.tokenHeader))
+        .fold(RIO(Option.empty[UserInfo]))(
+          token => securityService.checkAuthentification(token.show)
+          /*if (JwtUtils.isValidToken(token.value, conf)) {
                     //todo Decode Token to get user Info
                     Some(AuthenticatedUser("To be completed"))
                   } else {
                     None
-                  }
-
-              )}
+                  }*/
         )
     )
 
