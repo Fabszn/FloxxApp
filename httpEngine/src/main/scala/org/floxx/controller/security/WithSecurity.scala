@@ -8,6 +8,7 @@ import org.http4s.headers.Authorization
 import org.http4s.{Challenge, Request, Response}
 import zio.Task
 
+@deprecated
 trait WithSecurity extends Http4sDsl[Task] {
 
   def authIOu(req: Request[Task], ss: SecurityService)(success: (Request[Task], UserInfo) => IO[FloxxError,Response[Task]]): Task[Response[Task]]    =
