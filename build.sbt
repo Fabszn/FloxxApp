@@ -7,6 +7,7 @@ import scala.sys.process.Process
 lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
 lazy val yarnInstall = taskKey[Unit]("install front project")
 lazy val testDire = taskKey[Unit]("testDir")
+lazy val httpResourceDir=settingKey[File]("resource directory of http engine")
 
 
 def yarnInstall(file: File) = {
@@ -25,14 +26,14 @@ def runWebpack(file: File) = {
 }
 
 
-
+httpResourceDir := (httpEngine /Compile/ resourceDirectory).value
 
 front / webpack := {
   if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
-  IO.delete((baseDirectory.value / "assets"))
-  IO.createDirectory((baseDirectory.value / "assets"))
-  IO.copyFile((front / baseDirectory).value / "dist/index.html", (baseDirectory.value / "assets/index.html")  )
-  IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (baseDirectory.value / "assets/floxx.js")  )
+  IO.delete((httpResourceDir.value / "assets"))
+  IO.createDirectory((httpResourceDir.value / "assets"))
+  IO.copyFile((front / baseDirectory).value / "dist/index.html", (httpResourceDir.value / "assets/index.html")  )
+  IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (httpResourceDir.value / "assets/floxx.js")  )
 }
 
 front /yarnInstall := {
@@ -65,6 +66,8 @@ lazy val dockertest = Seq(
   "com.whisk" %% "docker-testkit-scalatest"    % "0.9.9" % "test",
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
+
+//lazy val staticFiles = (project in file("staticFiles"))
 
 lazy val db = (project in file("db"))
   .enablePlugins(FlywayPlugin)

@@ -5,6 +5,7 @@ import org.http4s.implicits._
 import org.floxx.Environment.{AppEnvironment, appEnvironnement}
 import org.floxx.env.api._
 import org.floxx.env.configuration.config.{GlobalConfig, getConf}
+import org.http4s.StaticFile
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.{AuthMiddleware, Router}
 import org.joda.time.DateTimeZone
@@ -49,10 +50,14 @@ object FloxxMainHttp4s extends zio.App {
 
 
 
+
+
 def floxxApp(conf:GlobalConfig) = Router[ApiTask](
   "/api" -> floxxServices(conf),
-  "/" -> fileService(FileService.Config("assets/index.html")),
-  "/floxx.js" -> fileService(FileService.Config("assets/floxx.js"))
+  "/" -> {
+    logger.info("load static part of app")
+    StaticApi.api
+  }
 ).orNotFound
   
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
