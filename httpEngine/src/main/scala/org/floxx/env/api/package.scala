@@ -1,12 +1,17 @@
 package org.floxx.env
 
-import cats.data.{Kleisli, OptionT}
+import cats.data.{ Kleisli, OptionT }
+import io.circe.generic.auto._
+import io.circe.parser.decode
 import org.floxx.Environment.AppEnvironment
-import org.floxx.UserInfo
-import org.floxx.env.service.securityService
+import org.floxx.env.configuration.config.GlobalConfig
+import org.floxx.{ logger, UserInfo }
 import org.http4s.Request
 import org.typelevel.ci.CIString
-import zio.RIO
+import pdi.jwt.{ Jwt, JwtAlgorithm }
+import zio.{ RIO, Task }
+
+import scala.util.{ Failure, Success }
 
 package object api {
   type ApiTask[A] = RIO[AppEnvironment, A]
@@ -23,17 +28,38 @@ package object api {
 
   type OT[A] = OptionT[ApiTask, A]
 
-  def authUser: Kleisli[OT, Request[ApiTask], UserInfo] =
-    Kleisli(request =>
-      request.headers
-        .get(CIString(keys.tokenHeader))
-        .map(token => securityService.checkAuthentification(token.show)
-          /*if (JwtUtils.isValidToken(token.value, conf)) {
-                    //todo Decode Token to get user Info
-                    Some(AuthenticatedUser("To be completed"))
-                  } else {
-                    None
-                  }*/
+  def authUser(conf: GlobalConfig): Kleisli[OT, Request[ApiTask], UserInfo] =
+    Kleisli(
+      request =>
+        OptionT(
+          Task(
+            request.headers
+              .get(CIString(keys.tokenHeader))
+              .map(
+                token =>
+                  Jwt.decode(
+                    token.show,
+                    conf.floxx.secret,
+                    Seq(JwtAlgorithm.HS256)
+                  )
+              )
+              .fold {
+                logger.error(s"None token has been found in header")
+                Option.empty[UserInfo]
+              } {
+                case Failure(e) => {
+                  logger.error(s"Authentification error : ${e.getMessage}")
+                  Option.empty[UserInfo]
+                }
+                case Success(jw) => {
+                  decode[UserInfo](jw.content).fold(
+                    _ => Option.empty[UserInfo],
+                    (user: UserInfo) => Option(user)
+                  )
+                }
+
+              }
+          )
         )
     )
 

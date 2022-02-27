@@ -71,7 +71,7 @@ object trackApi {
 
     }
 
-    case GET -> Root / "slots" / idSlot =>
+    case req@GET -> Root / "slots" / idSlot as user =>
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
@@ -80,7 +80,7 @@ object trackApi {
         }
       }
 
-    case GET -> Root / "rooms" / roomId =>
+    case GET -> Root / "rooms" / roomId as user=>
       trackService.roomById(roomId) >>= {
         _.fold(
           NotFound(s"None room found for key ${roomId}")

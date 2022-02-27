@@ -1,8 +1,9 @@
 package org.floxx.env.api
 
+import org.floxx.UserInfo
 import org.floxx.env.service.statService
 import org.slf4j.{Logger, LoggerFactory}
-import org.http4s.HttpRoutes
+import org.http4s.{AuthedRoutes, HttpRoutes}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._
@@ -17,8 +18,8 @@ object statsApi {
 
 
 
-  def api = HttpRoutes.of[ApiTask] {
-    case GET -> Root / "api" / "stats" / "slots" =>
+  def api = AuthedRoutes.of[ UserInfo,ApiTask] {
+    case GET -> Root / "api" / "stats" / "slots" as _ =>
         statService.slotsStatus >>= (statItems =>
           Ok(statItems)
           )

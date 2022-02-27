@@ -6,7 +6,7 @@ import org.floxx.Environment.{AppEnvironment, appEnvironnement}
 import org.floxx.env.api._
 import org.floxx.env.configuration.config.{GlobalConfig, getConf}
 import org.http4s.blaze.server.BlazeServerBuilder
-import org.http4s.server.Router
+import org.http4s.server.{AuthMiddleware, Router}
 import org.joda.time.DateTimeZone
 import org.slf4j.{Logger, LoggerFactory}
 import zio.{ExitCode, _}
@@ -37,11 +37,14 @@ object FloxxMainHttp4s extends zio.App {
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
  def floxxServices(conf:GlobalConfig) = {
-        trackApi.api <+>
+   val authMiddleware: AuthMiddleware[ApiTask, UserInfo] = AuthMiddleware(authUser(conf))
+
+
         securityApi.api <+>
-        hitApi.api <+>
-        technicalApi.api <+>
-        statsApi.api
+   authMiddleware(trackApi.api) <+>
+     authMiddleware(hitApi.api) <+>
+     authMiddleware(technicalApi.api) <+>
+     authMiddleware(statsApi.api)
 }
 
 
