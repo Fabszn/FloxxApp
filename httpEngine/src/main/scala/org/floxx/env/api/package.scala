@@ -1,17 +1,17 @@
 package org.floxx.env
 
-import cats.data.{ Kleisli, OptionT }
+import cats.data.{Kleisli, OptionT}
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import org.floxx.Environment.AppEnvironment
 import org.floxx.env.configuration.config.GlobalConfig
-import org.floxx.{ logger, UserInfo }
+import org.floxx.{UserInfo, logger}
 import org.http4s.Request
-import org.typelevel.ci.CIString
-import pdi.jwt.{ Jwt, JwtAlgorithm }
-import zio.{ RIO, Task }
+import org.http4s.headers.Authorization
+import pdi.jwt.{Jwt, JwtAlgorithm}
+import zio.{RIO, Task}
 
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
 package object api {
   type ApiTask[A] = RIO[AppEnvironment, A]
@@ -34,21 +34,22 @@ package object api {
         OptionT(
           Task(
             request.headers
-              .get(CIString(keys.tokenHeader))
+              .get(Authorization.name)
               .map(
-                token =>
+                token => {
                   Jwt.decode(
-                    token.show,
+                    token.head.value,
                     conf.floxx.secret,
                     Seq(JwtAlgorithm.HS256)
                   )
+                }
               )
               .fold {
                 logger.error(s"None token has been found in header")
                 Option.empty[UserInfo]
               } {
                 case Failure(e) => {
-                  logger.error(s"Authentification error : ${e.getMessage}")
+                  logger.error(s"Authentification error : ${e.getMessage} ${e.getCause}")
                   Option.empty[UserInfo]
                 }
                 case Success(jw) => {

@@ -33,7 +33,7 @@
 </template>
 <script>
 import _ from "lodash";
-
+import shared from "../shared";
 export default {
   data: function() {
     return {
@@ -53,7 +53,7 @@ export default {
     processForm: function() {
       this.$http
         .post(
-          BACKEND_URL + "api/login",
+          "/api/login",
           JSON.stringify({
             login: this.email,
             mdp: this.password
@@ -61,9 +61,7 @@ export default {
         )
         .then(
           r => {
-            sessionStorage.setItem("token", r.body.token);
-            sessionStorage.setItem("name", r.body.name);
-            sessionStorage.setItem("isAdmin", r.body.isAdmin);
+            shared.storeToken(r.body.token,r.body.isAdmin,r.body.name);
             this.$router.push("/menu");
           },
           r => {

@@ -25,6 +25,11 @@ export default {
             run()
         }
     },
+    storeToken: function st(token, isAdmin, name) {
+        sessionStorage.setItem(tokenKey, token);
+        sessionStorage.setItem("name", name);
+        sessionStorage.setItem("isAdmin", isAdmin);
+    },
     cleanToken: function ch() {
         sessionStorage.clear(tokenKey);
         sessionStorage.clear("isAdmin");
@@ -33,7 +38,7 @@ export default {
     tokenHandle: function th() {
         var token = sessionStorage.getItem(tokenKey);
         return {
-            Authorization: "Bearer " + token,
+            Authorization: token,
             Accept: "application/json"
         }
     },

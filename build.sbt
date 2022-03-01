@@ -103,6 +103,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= doobie,
     libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",

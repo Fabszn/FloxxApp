@@ -11,7 +11,6 @@ import org.http4s.circe.jsonOf
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
 import zio.{Has, RLayer, Task, _}
-import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._
 
 import scala.util.{Failure, Success}
