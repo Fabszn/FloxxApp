@@ -107,7 +107,7 @@
             type="button"
             class="btn btn-secondary btn-lg block-red"
             v-on:click="hit(100)"
-          >Full&nbsp;</button>
+          >Full</button>
         </div>
       </div>
     </div>

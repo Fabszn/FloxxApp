@@ -11,7 +11,6 @@ import org.http4s.circe.jsonOf
 import org.slf4j.{Logger, LoggerFactory}
 import pdi.jwt.{Jwt, JwtAlgorithm}
 import zio.{Has, RLayer, Task, _}
-import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._
 
 import scala.util.{Failure, Success}
@@ -78,8 +77,8 @@ object securityService {
                   u.isAdmin
                 )
               )
-            case Some(_) => Task.fail(new AuthentificationError("login or pass is invalid"))
-            case None => Task.fail(new AuthentificationError("login or pass is invalid"))
+            case Some(_) => Task.fail(AuthentificationError("login or pass is invalid"))
+            case None => Task.fail(AuthentificationError("login or pass is invalid"))
           }
 
         }

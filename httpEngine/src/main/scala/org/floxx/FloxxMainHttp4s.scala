@@ -4,12 +4,15 @@ import cats.syntax.all._
 import org.http4s.implicits._
 import org.floxx.Environment.{AppEnvironment, appEnvironnement}
 import org.floxx.env.api._
-import org.floxx.env.configuration.config.getConf
+import org.floxx.env.configuration.config.{GlobalConfig, getConf}
+import org.http4s.StaticFile
 import org.http4s.blaze.server.BlazeServerBuilder
+import org.http4s.server.{AuthMiddleware, Router}
 import org.joda.time.DateTimeZone
 import org.slf4j.{Logger, LoggerFactory}
 import zio.{ExitCode, _}
 import zio.interop.catz._
+import org.http4s.server.staticcontent._
 
 object FloxxMainHttp4s extends zio.App {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
@@ -21,7 +24,7 @@ object FloxxMainHttp4s extends zio.App {
           conf <- getConf
           server <- BlazeServerBuilder[ApiTask]
             .bindHttp(conf.floxx.port, "0.0.0.0")
-            .withHttpApp(floxxdService)
+            .withHttpApp(floxxApp(conf))
             .serve
             .compile
             .drain
@@ -34,15 +37,29 @@ object FloxxMainHttp4s extends zio.App {
 
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
-  val floxxdService =
-    (
-        trackApi.api <+>
-        hitApi.api <+>
-        technicalApi.api <+>
-        statsApi.api)
-      .orNotFound
+ def floxxServices(conf:GlobalConfig) = {
+   val authMiddleware: AuthMiddleware[ApiTask, UserInfo] = AuthMiddleware(authUser(conf))
 
 
+        securityApi.api <+>
+   authMiddleware(trackApi.api) <+>
+     authMiddleware(hitApi.api) <+>
+     authMiddleware(technicalApi.api) <+>
+     authMiddleware(statsApi.api)
+}
+
+
+
+
+
+def floxxApp(conf:GlobalConfig) = Router[ApiTask](
+  "/api" -> floxxServices(conf),
+  "/" -> {
+    logger.info("load static part of app")
+    StaticApi.api
+  }
+).orNotFound
+  
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
     logger.info("server starting..")
     server

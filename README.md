@@ -13,10 +13,10 @@ On clever-cloud,
       
 Locally : 
 
-From the root on the projet, run the following command : **sbt httpEngine/run** (sbt should be installed) 
-
+1) from the root directory run docker-compose up (should start postgres DB)
+2) sbt db/flywayMigrate (setup DB)
+3) sbt runDev
+4) from browser : http://localhost:8081
 
 -----
 
-Docker posgres : 
-docker run -d -e POSTGRES_USER=floxxUser -e POSTGRES_PASSWORD= -e POSTGRES_DB=floxx -p 5432:5432  postgres

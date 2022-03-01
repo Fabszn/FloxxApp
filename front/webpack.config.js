@@ -22,9 +22,9 @@ var setupEnv = function(env) {
             wsHost = JSON.stringify("ws://localhost:8081")
             break;
         default:
-            apiHost = JSON.stringify("Not defined")
-            wsHost = ""
-            break;
+             apiHost = JSON.stringify("http://localhost:8081/")
+                        wsHost = JSON.stringify("ws://localhost:8081")
+                        break;
     }
 }
 

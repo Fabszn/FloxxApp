@@ -7,21 +7,18 @@
         </button>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      &nbsp;
-      &nbsp;
-    </div>
+    <div class="d-flex justify-content-center"></div>
 
     <div class="d-flex align-items-center justify-content-center flex-column">
-      <div class="space">&nbsp;</div>
+      <div class="space"></div>
       <div v-if="isTalk">
         <div v-if="slotId != ''" class="text-justify title separate">{{title}}</div>
 
         <div v-if="slotId != ''">{{talkType}}</div>
 
-        <div class="space">&nbsp;</div>
+        <div class="space"></div>
         <div v-if="slotId != ''">{{room}}</div>
-        <div class="space">&nbsp;</div>
+        <div class="space"></div>
         <div v-if="slotId != ''">
           <button v-on:click="selectSlot" class="btn btn-primary">Select</button>
         </div>

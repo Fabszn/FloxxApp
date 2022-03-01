@@ -4,13 +4,12 @@ import org.floxx.UserInfo
 import org.floxx.env.configuration.config
 import org.floxx.env.service.{timeUtils, trackService}
 import org.floxx.model.{Hit, SlotId}
-import org.http4s.HttpRoutes
+import org.http4s.{AuthedRoutes, HttpRoutes}
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
 import org.http4s.dsl.Http4sDsl
 import org.slf4j.{Logger, LoggerFactory}
-
 import zio.interop.catz._
 
 object trackApi {
@@ -31,11 +30,11 @@ object trackApi {
     def toHit: Hit = Hit(None, hitSlotId, percentage)
   }
 
-  def api = HttpRoutes.of[ApiTask] {
-    case GET -> Root / "api" / "read" =>
+  def api = AuthedRoutes.of[UserInfo, ApiTask] {
+    case GET -> Root / "read" as user=>
       trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
 
-    case GET -> Root / "api" / "slots" / "_current" =>
+    case GET -> Root / "slots" / "_current" as user =>
       for {
         conf <- config.getConf
         activeSlots <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
@@ -52,12 +51,11 @@ object trackApi {
         )
       } yield rep
 
-    case GET -> Root / "api" / "slots" => {
-      val u: UserInfo = ???
+    case GET -> Root  / "slots" as user=> {
       for {
         conf <- config.getConf
         slot <- trackService.loadSlotByCriterias(
-          u.userId,
+          user.userId,
           timeUtils.extractDayAndStartTime(config = conf)
         )
 
@@ -73,7 +71,7 @@ object trackApi {
 
     }
 
-    case GET -> Root / "api" / "slots" / idSlot =>
+    case req@GET -> Root / "slots" / idSlot as user =>
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
@@ -82,7 +80,7 @@ object trackApi {
         }
       }
 
-    case GET -> Root / "api" / "rooms" / roomId =>
+    case GET -> Root / "rooms" / roomId as user=>
       trackService.roomById(roomId) >>= {
         _.fold(
           NotFound(s"None room found for key ${roomId}")

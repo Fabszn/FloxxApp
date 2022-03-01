@@ -1,13 +1,13 @@
 package org.floxx.env.api
 
 import io.circe.generic.auto._
+import org.floxx.UserInfo
 import org.floxx.env.service.adminService
-import org.floxx.model.{ SlotId, UserId }
-import org.http4s.HttpRoutes
+import org.floxx.model.{SlotId, UserId}
+import org.http4s.{AuthedRoutes, HttpRoutes}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
-
 import zio.interop.catz._
 
 object technicalApi {
@@ -26,22 +26,23 @@ object technicalApi {
     implicit val format = jsonOf[ApiTask, Mapping]
   }
 
-  def api = HttpRoutes.of[ApiTask] {
+  def api = AuthedRoutes.of[UserInfo,ApiTask] {
 
-    case req @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setEnv" =>
+    case ct @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setEnv" as user =>
       for {
-        env <- req.as[Env]
+        env <- ct.req.as[Env]
         _ <- adminService.updateEnv(env.days)
         r <- Created(s"Db has been updated")
 
       } yield r
 
-    case req @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setUsers" =>
+    case ct @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setUsers" as user =>
       for {
-        mapping <- req.as[Mapping]
+        mapping <- ct.req.as[Mapping]
         _ <- adminService.insertUserSlotMapping(mapping.userSlots)
         r <- Created(s"Mapping has been inserted")
       } yield r
+    case GET  -> Root /"healthCheck" as _  => Ok("up and go")
 
   }
 

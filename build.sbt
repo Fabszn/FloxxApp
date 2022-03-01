@@ -1,10 +1,13 @@
 import Dependencies._
 import sbt.Keys.libraryDependencies
+import sbt.io.{ IO, CopyOptions }
 
 import scala.sys.process.Process
 
 lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
 lazy val yarnInstall = taskKey[Unit]("install front project")
+lazy val testDire = taskKey[Unit]("testDir")
+lazy val httpResourceDir=settingKey[File]("resource directory of http engine")
 
 
 def yarnInstall(file: File) = {
@@ -13,14 +16,24 @@ def yarnInstall(file: File) = {
 }
 
 
-def runWebpack(file: File) =
+def runWebpack(file: File) = {
   Process(
     "yarn webpack --mode=development --NODE_ENV=development",
     file
   ) !
 
+
+}
+
+
+httpResourceDir := (httpEngine /Compile/ resourceDirectory).value
+
 front / webpack := {
   if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
+  IO.delete((httpResourceDir.value / "assets"))
+  IO.createDirectory((httpResourceDir.value / "assets"))
+  IO.copyFile((front / baseDirectory).value / "dist/index.html", (httpResourceDir.value / "assets/index.html")  )
+  IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (httpResourceDir.value / "assets/floxx.js")  )
 }
 
 front /yarnInstall := {
@@ -53,6 +66,8 @@ lazy val dockertest = Seq(
   "com.whisk" %% "docker-testkit-scalatest"    % "0.9.9" % "test",
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
+
+//lazy val staticFiles = (project in file("staticFiles"))
 
 lazy val db = (project in file("db"))
   .enablePlugins(FlywayPlugin)
@@ -88,6 +103,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= doobie,
     libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",
@@ -115,3 +131,6 @@ lazy val wartRemoverSettings = Seq(
 )
 
 lazy val front = (project in file("front"))
+
+
+addCommandAlias("runDev",";webpack;httpEngine/run")

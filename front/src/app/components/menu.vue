@@ -8,8 +8,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      &nbsp;
-      &nbsp;
+      
     </div>
     <div>
       <p>What do you want do to ?</p>
@@ -20,7 +19,7 @@
           <button type="button" class="btn btn-secondary btn-lg block" v-on:click="navToConf">Conf.</button>
         </div>
       </div>
-      <div class="row">&nbsp;</div>
+      <div class="row"></div>
       <div class="row">
         <div class="col-12">
           <button
@@ -32,7 +31,7 @@
       </div>
       <!-- add admin rules for displaying-->
 
-      <div class="row">&nbsp;</div>
+      <div class="row"></div>
       <div class="row">
         <div class="col-12">
           <button type="button" class="btn btn-secondary btn-lg block" v-on:click="navToStat">admin.</button>
