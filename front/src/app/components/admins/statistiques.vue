@@ -75,7 +75,7 @@ export default {
   created: function() {
     shared.securityAccess(this.$router, p => {
       this.$http
-        .get(BACKEND_URL + "api/stats/slots", {
+        .get("api/stats/slots", {
           headers: shared.tokenHandle()
         })
         .then(p => {

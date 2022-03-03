@@ -211,7 +211,7 @@ import shared from "../../shared";
 
 function currentTracksWitHitInfo(refComponent) {
   refComponent.$http
-    .get(BACKEND_URL + "api/tracks-infos", {
+    .get("api/tracks-infos", {
       headers: shared.tokenHandle()
     })
     .then(p => {

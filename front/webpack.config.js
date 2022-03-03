@@ -31,7 +31,6 @@ var setupEnv = function(env) {
 var gitRevisionPlugin = new GitRevisionPlugin();
 
 module.exports = env => {
-    setupEnv(env);
     return {
         entry: __dirname + "/src/app/index.js", // webpack entry point. Module to start building dependency graph
         output: {
@@ -46,8 +45,6 @@ module.exports = env => {
             }),
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
-                BACKEND_URL: apiHost,
-                WS_BACKEND_HOST: wsHost,
                 FLOXX_VERSION: JSON.stringify(gitRevisionPlugin.version())
             })
         ],
