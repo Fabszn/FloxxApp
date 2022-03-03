@@ -185,7 +185,7 @@ import shared from "../shared";
 
 function currentTracksWitHitInfo(refComponent) {
   refComponent.$http
-    .get(BACKEND_URL + "api/all-tracks-infos-for-attendees")
+    .get("api/all-tracks-infos-for-attendees")
     .then(p => {
       console.log(p.data);
       refComponent.hits = p.data;

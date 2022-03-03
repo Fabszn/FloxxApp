@@ -46,7 +46,7 @@ export default {
   created() {
     shared.securityAccess(this.$router, p => {
       this.$http
-        .get(BACKEND_URL + "api/slots", {
+        .get("api/slots", {
           headers: shared.tokenHandle()
         })
         .then(
@@ -73,7 +73,7 @@ export default {
     validateSelection: function(item) {
       var token = sessionStorage.getItem("token");
       this.$http
-        .get(BACKEND_URL + "api/slots/" + item.id, {
+        .get("api/slots/" + item.id, {
           headers: shared.tokenHandle()
         })
         .then(p => {
@@ -87,7 +87,7 @@ export default {
       console.log("refresh");
       var token = sessionStorage.getItem("token");
       this.$http
-        .get(BACKEND_URL + "api/slots", {
+        .get("api/slots", {
           headers: shared.tokenHandle()
         })
         .then(p => {

@@ -1,10 +1,15 @@
 import Dependencies._
 import sbt.Keys.libraryDependencies
-import sbt.io.{ IO, CopyOptions }
+import sbt.io.{CopyOptions, IO}
 
 import scala.sys.process.Process
+import scala.util.{Failure, Try}
 
-lazy val webpack = taskKey[Unit]("Run webpack when packaging the application")
+maintainer := "Fabrice Sznajderman"
+
+lazy val webpackDev = taskKey[Unit]("package Dev mode")
+lazy val webpackProd = taskKey[Unit]("package Prod mode")
+lazy val floxxCopyFile = taskKey[Unit]("prepare and copy file to engine directory")
 lazy val yarnInstall = taskKey[Unit]("install front project")
 lazy val testDire = taskKey[Unit]("testDir")
 lazy val httpResourceDir=settingKey[File]("resource directory of http engine")
@@ -16,24 +21,38 @@ def yarnInstall(file: File) = {
 }
 
 
-def runWebpack(file: File) = {
+def runWebpack(file: File, mode : String) = {
   Process(
-    "yarn webpack --mode=development --NODE_ENV=development",
+    s"yarn webpack --mode=${mode}",
     file
   ) !
-
-
 }
+
+
+
 
 
 httpResourceDir := (httpEngine /Compile/ resourceDirectory).value
 
-front / webpack := {
-  if(runWebpack(front.base) != 0) throw new Exception("Something went wrong when running webpack.")
-  IO.delete((httpResourceDir.value / "assets"))
-  IO.createDirectory((httpResourceDir.value / "assets"))
-  IO.copyFile((front / baseDirectory).value / "dist/index.html", (httpResourceDir.value / "assets/index.html")  )
-  IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (httpResourceDir.value / "assets/floxx.js")  )
+floxxCopyFile := {
+ Try {
+    IO.delete((httpResourceDir.value / "assets"))
+    IO.createDirectory((httpResourceDir.value / "assets"))
+    IO.copyFile((front / baseDirectory).value / "dist/index.html", (httpResourceDir.value / "assets/index.html"))
+    IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (httpResourceDir.value / "assets/floxx.js"))
+  } match {
+    case Failure(exception) => throw exception
+    case _ => ()
+  }
+
+}
+
+front / webpackDev := {
+  if(runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+}
+
+front / webpackProd := {
+  if(runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front /yarnInstall := {
@@ -133,4 +152,6 @@ lazy val wartRemoverSettings = Seq(
 lazy val front = (project in file("front"))
 
 
-addCommandAlias("runDev",";webpack;httpEngine/run")
+addCommandAlias("runDev",";webpackDev;httpEngine/run")
+addCommandAlias("runProd",";webpackProd;httpEngine/run")
+addCommandAlias("build2Prod",";clean;webpackProd;dist")
