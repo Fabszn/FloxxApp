@@ -2,11 +2,12 @@ package org.floxx.model
 
 import io.circe.parser._
 import org.floxx.model.jsonModel.Slot
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.io.Source
 
-class jsonModelTest extends WordSpec with Matchers {
+class jsonModelTest extends AnyWordSpec with Matchers {
 
   "A slots' list" when {
     "json is parsed" should {
