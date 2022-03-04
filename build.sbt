@@ -202,7 +202,7 @@ addCommandAlias(
 
 addCommandAlias(
   "goToProd",
-  ";webpackProd;floxxCopyFile;handleFrontFile,release,deliveryTask"
+  ";webpackProd;floxxCopyFile;handleFrontFile;release;deliveryTask"
 )
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
