@@ -1,45 +1,81 @@
 import Dependencies._
 import sbt.Keys.libraryDependencies
-import sbt.io.{CopyOptions, IO}
+import sbt.io.IO
 
 import scala.sys.process.Process
-import scala.util.{Failure, Try}
+import scala.util.{ Failure, Try }
 
 maintainer := "Fabrice Sznajderman"
 
-lazy val webpackDev = taskKey[Unit]("package Dev mode")
-lazy val webpackProd = taskKey[Unit]("package Prod mode")
-lazy val floxxCopyFile = taskKey[Unit]("prepare and copy file to engine directory")
-lazy val yarnInstall = taskKey[Unit]("install front project")
-lazy val testDire = taskKey[Unit]("testDir")
-lazy val httpResourceDir=settingKey[File]("resource directory of http engine")
+lazy val webpackDev      = taskKey[Unit]("package Dev mode")
+lazy val webpackProd     = taskKey[Unit]("package Prod mode")
+lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine directory")
+lazy val yarnInstall     = taskKey[Unit]("install front project")
+lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
+lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
+lazy val deliveryTask = taskKey[Unit]("push last version to prod")
 
-
-def yarnInstall(file: File) = {
+def yarnInstall(file: File) =
   Process("yarn install", file) !
 
-}
-
-
-def runWebpack(file: File, mode : String) = {
+def runWebpack(file: File, mode: String) =
   Process(
     s"yarn webpack --mode=${mode}",
     file
   ) !
+
+def addFrontFile =
+  Process(
+    "git add ."
+  ) !
+
+def commitFrontFile =
+  Process(
+    "git commit -m 'release front files'"
+  ) !
+
+def delivery =
+  Process(
+    "git push origin prod"
+  ) !
+
+handleFrontFile := {
+  addFrontFile
+  commitFrontFile
 }
 
+def checkoutProd ={
+  Process(
+    "git checkout prod"
+  ) !
+}
 
+def rebaseMaster = {
+  Process(
+    "git rebase master"
+  ) !
+}
 
+deliveryTask := {
+  checkoutProd
+  rebaseMaster
+  delivery
+}
 
-
-httpResourceDir := (httpEngine /Compile/ resourceDirectory).value
+httpResourceDir := (httpEngine / Compile / resourceDirectory).value
 
 floxxCopyFile := {
- Try {
+  Try {
     IO.delete((httpResourceDir.value / "assets"))
     IO.createDirectory((httpResourceDir.value / "assets"))
-    IO.copyFile((front / baseDirectory).value / "dist/index.html", (httpResourceDir.value / "assets/index.html"))
-    IO.copyFile((front / baseDirectory).value / "dist/floxx.js", (httpResourceDir.value / "assets/floxx.js"))
+    IO.copyFile(
+      (front / baseDirectory).value / "dist/index.html",
+      (httpResourceDir.value / "assets/index.html")
+    )
+    IO.copyFile(
+      (front / baseDirectory).value / "dist/floxx.js",
+      (httpResourceDir.value / "assets/floxx.js")
+    )
   } match {
     case Failure(exception) => throw exception
     case _ => ()
@@ -48,32 +84,32 @@ floxxCopyFile := {
 }
 
 front / webpackDev := {
-  if(runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / webpackProd := {
-  if(runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
-front /yarnInstall := {
-  if(yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
+front / yarnInstall := {
+  if (yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
 }
-
 
 ThisBuild / scalaVersion := "2.13.8"
 
-
-scalacOptions := Seq("-Ypartial-unification","-Ywarn-unused:_","-Ywarn-dead-code")
+scalacOptions := Seq(
+  "-Ypartial-unification",
+  "-Ywarn-unused:_",
+  "-Ywarn-dead-code"
+)
 
 lazy val commonsSettings = wartRemoverSettings
-
 
 lazy val databaseJdbcSetting = Seq(
   "org.scalikejdbc" %% "scalikejdbc"    % "3.3.2",
   "org.postgresql"  % "postgresql"      % "42.2.5",
   "ch.qos.logback"  % "logback-classic" % "1.2.3"
 )
-
 
 lazy val scalamockTest = Seq(
   "org.scalamock" %% "scalamock" % "4.4.0"  % Test,
@@ -91,9 +127,9 @@ lazy val db = (project in file("db"))
   .enablePlugins(FlywayPlugin)
   .settings(
     libraryDependencies += "org.postgresql" % "postgresql" % "42.2.23",
-    flywayUrl                               := "jdbc:postgresql://localhost/floxx",
-    flywayUser                              := "floxxuser",
-    flywayPassword                          := "pwduser",
+    flywayUrl := "jdbc:postgresql://localhost/floxx",
+    flywayUser := "floxxuser",
+    flywayPassword := "pwduser",
     flywayLocations += "db/migration"
   )
 
@@ -151,23 +187,35 @@ lazy val wartRemoverSettings = Seq(
 
 lazy val front = (project in file("front"))
 
+addCommandAlias(
+  "runDev",
+  ";webpackDev;floxxCopyFile;httpEngine/run"
+)
+addCommandAlias(
+  "runProd",
+  ";webpackProd;floxxCopyFile;httpEngine/run"
+)
+addCommandAlias(
+  "build2Prod",
+  ";clean;webpackProd;floxxCopyFile;dist"
+)
 
-addCommandAlias("runDev",";webpackDev;floxxCopyFile;httpEngine/run")
-addCommandAlias("runProd",";webpackProd;floxxCopyFile;httpEngine/run")
-addCommandAlias("build2Prod",";clean;webpackProd;floxxCopyFile;dist")
+addCommandAlias(
+  "goToProd",
+  ";webpackProd;floxxCopyFile;handleFrontFile,release,deliveryTask"
+)
 
-import ReleaseTransformations._
-
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
 releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,              // : ReleaseStep
-  inquireVersions,                        // : ReleaseStep
-  runClean,                               // : ReleaseStep
-  runTest,                                // : ReleaseStep
-  setReleaseVersion,                      // : ReleaseStep
-  commitReleaseVersion,                   // : ReleaseStep, performs the initial git checks
-  tagRelease,                             // : ReleaseStep
-  setNextVersion,                         // : ReleaseStep
-  commitNextVersion,                      // : ReleaseStep
-  pushChanges                             // : ReleaseStep, also checks that an upstream branch is properly configured
+  checkSnapshotDependencies, // : ReleaseStep
+  inquireVersions, // : ReleaseStep
+  runClean, // : ReleaseStep
+  runTest, // : ReleaseStep
+  setReleaseVersion, // : ReleaseStep
+  commitReleaseVersion, // : ReleaseStep, performs the initial git checks
+  tagRelease, // : ReleaseStep
+  setNextVersion, // : ReleaseStep
+  commitNextVersion, // : ReleaseStep
+  pushChanges // : ReleaseStep, also checks that an upstream branch is properly configured
 )
