@@ -4,10 +4,11 @@ import io.circe.generic.auto._
 import org.floxx.UserInfo
 import org.floxx.env.service.adminService
 import org.floxx.model.{SlotId, UserId}
-import org.http4s.{AuthedRoutes, HttpRoutes}
+import org.http4s.{AuthedRoutes, HttpRoutes, Response}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
+import zio.Task
 import zio.interop.catz._
 
 object technicalApi {
@@ -28,15 +29,17 @@ object technicalApi {
 
   def api = AuthedRoutes.of[UserInfo,ApiTask] {
 
-    case ct @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setEnv" as user =>
-      for {
-        env <- ct.req.as[Env]
-        _ <- adminService.updateEnv(env.days)
-        r <- Created(s"Db has been updated")
+    case ct @ POST -> Root / "api" / "setEnv" as user =>
+      if(user.isAdmin) {
+        for {
+          env <- ct.req.as[Env]
+          _ <- adminService.updateEnv(env.days)
+          r <- Created(s"Db has been updated")
 
-      } yield r
+        } yield r
+      } else Task.succeed(Response(Unauthorized))
 
-    case ct @ POST -> Root / "api" / "124GDvffgfnjcktdlkkjbt00KKDJQzejjkuhlbhvuuertjl" / "setUsers" as user =>
+    case ct @ POST -> Root / "api" / "setUsers" as user =>
       for {
         mapping <- ct.req.as[Mapping]
         _ <- adminService.insertUserSlotMapping(mapping.userSlots)

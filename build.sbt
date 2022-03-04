@@ -152,6 +152,6 @@ lazy val wartRemoverSettings = Seq(
 lazy val front = (project in file("front"))
 
 
-addCommandAlias("runDev",";webpackDev;httpEngine/run")
-addCommandAlias("runProd",";webpackProd;httpEngine/run")
-addCommandAlias("build2Prod",";clean;webpackProd;dist")
+addCommandAlias("runDev",";webpackDev;floxxCopyFile;httpEngine/run")
+addCommandAlias("runProd",";webpackProd;floxxCopyFile;httpEngine/run")
+addCommandAlias("build2Prod",";clean;webpackProd;floxxCopyFile;dist")

@@ -26,6 +26,7 @@
       <div v-if="!isTalk">
         <div class="text-justify title separate">{{title}}</div>
       </div>
+      <div class="text-justify title separate">{{slotId.id}}</div>
     </div>
   </div>
 </template>
@@ -68,7 +69,8 @@ export default {
   },
   methods: {
     selectSlot: function() {
-      this.$router.push("fill/" + this.slotId);
+    console.log(this.slotId.id);
+      this.$router.push("fill/" + this.slotId.id);
     },
     validateSelection: function(item) {
       var token = sessionStorage.getItem("token");

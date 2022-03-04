@@ -135,7 +135,7 @@ export default {
     shared.securityAccess(this.$router, p => {
       var itemId = this.$route.params.slotid;
       this.$http
-        .get("api/slots/" + itemId, {
+        .get("/api/slots/" + itemId, {
           headers: shared.tokenHandle()
         })
         .then(p => {
@@ -151,7 +151,7 @@ export default {
     hit: function(perc) {
       this.$http
         .post(
-          "api/hit",
+          "/api/hit",
           {
             hitSlotId: this.$route.params.slotid,
             percentage: perc

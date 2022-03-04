@@ -8,7 +8,7 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import zio.interop.catz._
 
-object securityApi {
+object loginApi {
 
   val dsl =  Http4sDsl[ApiTask]
 

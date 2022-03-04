@@ -4,7 +4,7 @@ import io.circe.generic.auto._
 import org.floxx.UserInfo
 import org.floxx.env.service.hitService
 import org.floxx.model.Hit
-import org.http4s.{AuthedRequest, AuthedRoutes}
+import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
@@ -28,23 +28,23 @@ object hitApi {
   }
 
   def api = AuthedRoutes.of[UserInfo,ApiTask] {
-    case ct@POST -> Root / "api" / "hit" as user  =>
+    case ct@POST -> Root / "hit" as user  =>
       for {
         hitItem <- ct.req.as[HitRequest]
         _ <- hitService.hit(hitItem.toHit)
         r <- Created("Hit created")
       } yield r
 
-    case GET -> Root / "api" / "tracks-infos" as usesr=>
+    case GET -> Root / "tracks-infos" as usesr=>
       hitService.currentTracksWithHitInfo >>= (r => Ok(r))
 
-    case GET -> Root / "api" / "all-tracks-infos" as user =>
+    case GET -> Root /  "all-tracks-infos" as user =>
       hitService.allTracksWithHitInfo  >>=  (r => Ok(r))
 
-    case GET -> Root / "api" / "all-tracks-infos-for-attendees" as user =>
+    case GET -> Root /  "all-tracks-infos-for-attendees" as user =>
       hitService.allTracksWithHitInfo >>=  (r => Ok(r))
 
-    case  GET -> Root / "api" / "list-tracks" as user=> {
+    case  GET -> Root /  "list-tracks" as user=> {
       hitService.allTracksWithHitInfo >>= (r =>
       {
         Ok(r.map {

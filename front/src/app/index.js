@@ -41,9 +41,6 @@ Vue.use(BootstrapVue)
 Vue.component('dropdown', Dropdown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-console.log(BACKEND_URL)
-console.log(process.env["NODE_ENV"])
-
 
 const router = new Router({
     routes,

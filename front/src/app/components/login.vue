@@ -53,7 +53,7 @@ export default {
     processForm: function() {
       this.$http
         .post(
-          "/api/login",
+          "/login",
           JSON.stringify({
             login: this.email,
             mdp: this.password
