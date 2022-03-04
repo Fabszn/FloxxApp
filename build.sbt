@@ -59,7 +59,6 @@ front /yarnInstall := {
   if(yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
 }
 
-version := "1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.8"
 
@@ -103,7 +102,8 @@ lazy val model = (project in file("model"))
   .settings(
     libraryDependencies ++= doobie,
     libraryDependencies += http4sCircle,
-    libraryDependencies ++= circe
+    libraryDependencies ++= circe,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
   )
 
 lazy val httpEngine = (project in file("httpEngine"))
