@@ -156,4 +156,18 @@ addCommandAlias("runDev",";webpackDev;floxxCopyFile;httpEngine/run")
 addCommandAlias("runProd",";webpackProd;floxxCopyFile;httpEngine/run")
 addCommandAlias("build2Prod",";clean;webpackProd;floxxCopyFile;dist")
 
-publish / skip := true
+import ReleaseTransformations._
+
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,              // : ReleaseStep
+  inquireVersions,                        // : ReleaseStep
+  runClean,                               // : ReleaseStep
+  runTest,                                // : ReleaseStep
+  setReleaseVersion,                      // : ReleaseStep
+  commitReleaseVersion,                   // : ReleaseStep, performs the initial git checks
+  tagRelease,                             // : ReleaseStep
+  setNextVersion,                         // : ReleaseStep
+  commitNextVersion,                      // : ReleaseStep
+  pushChanges                             // : ReleaseStep, also checks that an upstream branch is properly configured
+)
