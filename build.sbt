@@ -14,6 +14,7 @@ lazy val yarnInstall     = taskKey[Unit]("install front project")
 lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
 lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
 lazy val deliveryTask = taskKey[Unit]("push last version to prod")
+lazy val gotToMaster = taskKey[Unit]("put index on master")
 
 def yarnInstall(file: File) =
   Process("yarn install", file) !
@@ -44,11 +45,21 @@ handleFrontFile := {
   commitFrontFile
 }
 
-def checkoutProd ={
+def checkout(branch:String) ={
   Process(
-    "git checkout prod"
+    s"git checkout ${branch}"
   ) !
 }
+
+def pull(branch:String) ={
+  Process(
+    s"git pull origin ${branch}"
+  ) !
+}
+
+
+
+
 
 def rebaseMaster = {
   Process(
@@ -56,8 +67,13 @@ def rebaseMaster = {
   ) !
 }
 
+gotToMaster := {
+  checkout("master")
+  pull("master")
+}
+
 deliveryTask := {
-  checkoutProd
+  checkout("prod")
   rebaseMaster
   delivery
 }
@@ -202,7 +218,7 @@ addCommandAlias(
 
 addCommandAlias(
   "goToProd",
-  ";webpackProd;floxxCopyFile;handleFrontFile;release;deliveryTask"
+  ";gotToMaster;webpackProd;floxxCopyFile;handleFrontFile;release;deliveryTask"
 )
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
