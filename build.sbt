@@ -155,3 +155,5 @@ lazy val front = (project in file("front"))
 addCommandAlias("runDev",";webpackDev;floxxCopyFile;httpEngine/run")
 addCommandAlias("runProd",";webpackProd;floxxCopyFile;httpEngine/run")
 addCommandAlias("build2Prod",";clean;webpackProd;floxxCopyFile;dist")
+
+publish / skip := true
