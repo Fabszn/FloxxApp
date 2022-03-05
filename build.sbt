@@ -57,10 +57,6 @@ def pull(branch:String) ={
   ) !
 }
 
-
-
-
-
 def rebaseMaster = {
   Process(
     "git rebase master"
@@ -218,8 +214,23 @@ addCommandAlias(
 
 addCommandAlias(
   "goToProd",
-  ";gotToMaster;webpackProd;floxxCopyFile;handleFrontFile;release;deliveryTask"
+  ";gotToMaster;webpackProd;floxxCopyFile;handleFrontFile;release"
 )
+
+val pushVersionToProd = ReleaseStep(action = st => {
+  val log = streams.value.log
+  // extract the build state
+  val extracted = Project.extract(st)
+  val releaseVersion = extracted.get(Keys.version)
+  log.info(s">>> pushing new version ${releaseVersion} in production")
+  checkout("prod")
+  rebaseMaster
+  delivery
+  log.info(s">>> new version ${releaseVersion} has been roll out")
+  checkout("master")
+  st
+})
+
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
@@ -231,6 +242,8 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion, // : ReleaseStep
   commitReleaseVersion, // : ReleaseStep, performs the initial git checks
   tagRelease, // : ReleaseStep
+  pushChanges,
+  pushVersionToProd,
   setNextVersion, // : ReleaseStep
   commitNextVersion, // : ReleaseStep
   pushChanges // : ReleaseStep, also checks that an upstream branch is properly configured

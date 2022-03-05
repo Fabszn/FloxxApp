@@ -4,7 +4,7 @@
     <div id="errorUnthorized" class="errorMsg" :hidden="notAuthrized">Authentification required</div>
     <form id="signup-form" @submit.prevent="processForm">
       <div class="form-group">
-        <label for="login">Email address</label>
+        <label for="login">Email address New version !!!</label>
         <input
           id="login"
           type="email"
