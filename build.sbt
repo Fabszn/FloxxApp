@@ -57,9 +57,9 @@ def pull(branch:String) ={
   ) !
 }
 
-def rebaseMaster = {
+def mergeMaster = {
   Process(
-    "git rebase master"
+    "git merge master"
   ) !
 }
 
@@ -70,7 +70,7 @@ gotToMaster := {
 
 deliveryTask := {
   checkout("prod")
-  rebaseMaster
+  mergeMaster
   delivery
 }
 
@@ -222,7 +222,7 @@ val pushVersionToProd = ReleaseStep(action = st => {
   val extracted = Project.extract(st)
   val releaseVersion = extracted.get(Keys.version)
   checkout("prod")
-  rebaseMaster
+  mergeMaster
   delivery
   checkout("master")
   st
