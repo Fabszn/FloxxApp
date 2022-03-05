@@ -218,15 +218,12 @@ addCommandAlias(
 )
 
 val pushVersionToProd = ReleaseStep(action = st => {
-  val log = streams.value.log
   // extract the build state
   val extracted = Project.extract(st)
   val releaseVersion = extracted.get(Keys.version)
-  log.info(s">>> pushing new version ${releaseVersion} in production")
   checkout("prod")
   rebaseMaster
   delivery
-  log.info(s">>> new version ${releaseVersion} has been roll out")
   checkout("master")
   st
 })
