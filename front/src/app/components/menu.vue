@@ -7,35 +7,31 @@
         </button>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      
-    </div>
     <div>
       <p>What do you want do to ?</p>
     </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <button type="button" class="btn btn-secondary btn-lg block" v-on:click="navToConf">Conf.</button>
-        </div>
+
+      <div>
+          <button
+          type="button"
+          class="btn btn-secondary btn-lg block"
+          v-on:click="navToConf"
+          >Conf.</button>
       </div>
-      <div class="row"></div>
-      <div class="row">
-        <div class="col-12">
+      <div>
           <button
             type="button"
             class="btn btn-secondary btn-lg block"
             v-on:click="navToOverf"
           >Overflow</button>
-        </div>
       </div>
       <!-- add admin rules for displaying-->
 
-      <div class="row"></div>
-      <div class="row">
-        <div class="col-12">
-          <button type="button" class="btn btn-secondary btn-lg block" v-on:click="navToStat">admin.</button>
-        </div>
+      <div>
+          <button type="button"
+          class="btn btn-secondary btn-lg block"
+          v-on:click="navToStat"
+          >admin.</button>
       </div>
     </div>
   </div>
@@ -67,14 +63,18 @@ export default {
 
 <style  scoped>
 .block {
-  display: block;
   width: 100%;
-  border: none;
   background-color: #4caf50;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
   text-align: center;
+}
+
+.main-menu {
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 </style>
 
