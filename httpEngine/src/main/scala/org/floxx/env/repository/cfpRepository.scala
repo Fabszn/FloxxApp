@@ -25,6 +25,7 @@ object cfpRepository {
     override def drop: Task[Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa)
 
+
     override def addSlots(slots: List[Slot]): Task[Int] =
       Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
         .updateMany(slots)
