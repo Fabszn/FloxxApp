@@ -3,6 +3,7 @@ import sbt._
 
 object Dependencies {
 
+  
   object Version {
     lazy val zioVersion        = "1.0.13"
     lazy val `zio-interop`     = "3.2.9.0"
