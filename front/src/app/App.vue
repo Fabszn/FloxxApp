@@ -1,9 +1,7 @@
 <template>
   <div class="d-flex flex-column">
-    <div>
-      <router-view></router-view>
-    </div>
-    <div class="version">v.{{version}}</div>
+    <router-view></router-view>
+    <div class="version">{{version}}</div>
     <notifications group="foo"/>
   </div>
 </template>

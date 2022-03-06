@@ -1,45 +1,36 @@
 <template>
   <div>
-    <div class="d-flex justify-content-center separate-headfooter">
-      <div>
-        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      &nbsp;
-      &nbsp;
-    </div>
-    <div>
-      <p>What do you want do to ?</p>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
+        <div class="d-flex justify-content-center separate-headfooter">
+          <div>
+            <button v-on:click="backMenu" type="button" class="btn btn-secondary">
+              <font-awesome-icon icon="arrow-circle-left" />
+            </button>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          &nbsp;
+          &nbsp;
+        </div>
+        <div>
+          <p>What do you want do to ?</p>
+        </div>
+        <div>
           <button
             type="button"
             v-on:click="navToList"
             class="btn btn-primary btn-lg block"
           >Tops Lists</button>
         </div>
-      </div>
-      <div class="row">&nbsp;</div>
-      <div class="row">
-        <div class="col-12">
+        <div>
           <button
             type="button"
             v-on:click="navToStats"
             class="btn btn-primary btn-lg block"
           >Statistiques</button>
         </div>
-      </div>
-      <div class="row">&nbsp;</div>
-      <div class="row">
-        <div class="col-12">
+        <div>
           <button type="button" v-on:click="navToRCMng" class="btn btn-primary block">RedCoats</button>
         </div>
-      </div>
     </div>
   </div>
 </template>

@@ -139,9 +139,9 @@ lazy val db = (project in file("db"))
   .enablePlugins(FlywayPlugin)
   .settings(
     libraryDependencies += "org.postgresql" % "postgresql" % "42.2.23",
-    flywayUrl := "jdbc:postgresql://localhost/floxx",
+    /*flywayUrl := "jdbc:postgresql://localhost/floxx",
     flywayUser := "floxxuser",
-    flywayPassword := "pwduser",
+    flywayPassword := "pwduser",*/
     flywayLocations += "db/migration"
   )
 
