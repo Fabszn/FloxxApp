@@ -34,10 +34,6 @@ package object repository {
               config
             }.toManaged_
             trans <- HikariTransactor.fromHikariConfig[Task](hikariConf,rt.platform.executor.asEC
-              /*conf.db.driver,
-              conf.db.url,
-              conf.db.user,
-              conf.db.password,*/
             ).toManagedZIO
           } yield new TxResource {
             override val xa: HikariTransactor[Task] = trans
