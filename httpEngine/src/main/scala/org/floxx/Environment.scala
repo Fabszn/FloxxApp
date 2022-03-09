@@ -22,6 +22,7 @@ object Environment {
   val cfpRepo   = dbTransactor >>> cfpRepository.layer
   val statsRepo = dbTransactor >>> statsRepository.layer
   val userRepo  = dbTransactor >>> userRepository.layer
+  val technicalRepo  = dbTransactor >>> repository.layer
 
   //services
   val adminSer = cfpRepo >>> adminService.layer
@@ -46,6 +47,7 @@ object Environment {
     securitySer ++
     statsSer ++
     trackSer ++
+    technicalRepo ++
     adminSer
 
 }

@@ -4,12 +4,12 @@ import sbt._
 object Dependencies {
 
   object Version {
-    lazy val zioVersion        = "1.0.13"
-    lazy val `zio-interop`     = "3.2.9.0"
-    lazy val Http4sVersion     = "0.23.10"
-    lazy val chimneyVersion    = "0.6.1"
-    lazy val circeVersion      = "0.14.1"
-    lazy val doobieVersion = "1.0.0-RC2"
+    lazy val zioVersion     = "1.0.13"
+    lazy val `zio-interop`  = "3.2.9.0"
+    lazy val Http4sVersion  = "0.23.10"
+    lazy val chimneyVersion = "0.6.1"
+    lazy val circeVersion   = "0.14.1"
+    lazy val doobieVersion  = "1.0.0-RC2"
   }
 
   lazy val circe = Seq(
@@ -26,10 +26,9 @@ object Dependencies {
     "org.tpolecat" %% "doobie-scalatest" % doobieVersion % "test"
   )
 
-
   lazy val chimney = "io.scalaland" %% "chimney" % chimneyVersion
 
-  lazy val zio  = "dev.zio"       %% "zio"       % zioVersion
+  lazy val zio = "dev.zio" %% "zio" % zioVersion
   lazy val http4sBlazeServer =
     "org.http4s" %% "http4s-blaze-server" % Http4sVersion
   lazy val http4sBlazeClient =

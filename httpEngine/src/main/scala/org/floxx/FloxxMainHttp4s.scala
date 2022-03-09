@@ -58,6 +58,8 @@ object FloxxMainHttp4s extends zio.App {
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
     logger.info("server starting..")
+
+
     server
       .provideLayer(appEnvironnement)
       .fold[ExitCode](
@@ -71,4 +73,7 @@ object FloxxMainHttp4s extends zio.App {
         }
       )
   }
+
+
+
 }
