@@ -155,7 +155,7 @@ lazy val model = (project in file("model"))
   )
 
 lazy val httpEngine = (project in file("httpEngine"))
-  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(JavaAppPackaging,BuildInfoPlugin)
   .settings(commonsSettings)
   .settings(
     name := "FloxxServer",
@@ -176,7 +176,11 @@ lazy val httpEngine = (project in file("httpEngine"))
         "com.lihaoyi"            %% "requests"       % "0.7.0",
         "com.github.nscala-time" %% "nscala-time"    % "2.22.0",
         "com.pauldijou"          %% "jwt-core"       % "3.0.1"
-      )
+      ),
+
+      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := "org.floxx "
+
   )
   .dependsOn(model)
 

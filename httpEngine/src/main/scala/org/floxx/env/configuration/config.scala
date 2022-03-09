@@ -7,11 +7,17 @@ import zio._
 object config {
 
   final case class Cfp(url: String, days: List[String])
-  final case class Db(driver: String, url: String, user: String, password: String)
+  final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
   final case class Track(delayBefore: Int, delayAfter: Int)
 
-  case class GlobalConfig(cfp: Cfp, db: Db, floxx: Floxx, track: Track, roomsMapping:Map[String,Option[String]] = rooms.roomsMapping)
+  case class GlobalConfig(
+      cfp: Cfp,
+      db: Db,
+      floxx: Floxx,
+      track: Track,
+      roomsMapping: Map[String, Option[String]] = rooms.roomsMapping
+  )
 
   final case class RoomConf(name: String) extends AnyVal
 
@@ -61,6 +67,6 @@ object config {
 
   def getConf: RIO[Has[Configuration], GlobalConfig] = ZIO.serviceWith[Configuration](_.getConf)
 
-  def getRooms:RIO[Has[Configuration],Map[String, Option[String]]]= ZIO.serviceWith[Configuration](_.getRooms)
+  def getRooms: RIO[Has[Configuration], Map[String, Option[String]]] = ZIO.serviceWith[Configuration](_.getRooms)
 
 }
