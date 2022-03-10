@@ -12,10 +12,6 @@
         </button>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      &nbsp;
-      &nbsp;
-    </div>
     <b-input-group size="sm">
       <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Type to Search"></b-form-input>
       <b-input-group-append>
@@ -26,7 +22,6 @@
     <b-table
       head-variant="light"
       details-td-class="cell"
-      dark="true"
       responsive="true"
       striped
       hover
@@ -39,12 +34,7 @@
       <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
       <template v-slot:cell(talk)="data">{{ data.value.title }} ({{ data.value.talkType }})</template>
       <template v-slot:cell(percentage)="data">{{ data.value }}</template>
-
       <template v-slot:head(slotId)>Id</template>
-      <template v-slot:head(percentage)>%</template>
-      <template v-slot:head(roomid)>Room</template>
-      <template v-slot:head(fromtime)>Start</template>
-      <template v-slot:head(totime)>End</template>
     </b-table>
   </div>
 </template>
@@ -62,11 +52,7 @@ export default {
       fields: [
         { key: "slotId", sortable: true },
         { key: "talk", sortable: true },
-        { key: "percentage", sortable: true },
-        { key: "roomid", sortable: true },
-        { key: "fromtime", sortable: true },
-        { key: "totime", sortable: false },
-        { key: "day", sortable: false }
+        { key: "percentage", sortable: true }
       ],
       filter: null,
       filterOn: ["slotId"]
@@ -75,7 +61,7 @@ export default {
   created: function() {
     shared.securityAccess(this.$router, p => {
       this.$http
-        .get("api/stats/slots", {
+        .get("/api/stats/slots", {
           headers: shared.tokenHandle()
         })
         .then(p => {
@@ -95,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.cell {
-  color: blanchedalmond;
+.table {
+  color: #fff;
 }
 </style>

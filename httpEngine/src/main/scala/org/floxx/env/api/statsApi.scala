@@ -19,7 +19,7 @@ object statsApi {
 
 
   def api = AuthedRoutes.of[ UserInfo,ApiTask] {
-    case GET -> Root / "api" / "stats" / "slots" as _ =>
+    case GET -> Root / "stats" / "slots" as _ =>
         statService.slotsStatus >>= (statItems =>
           Ok(statItems)
           )
