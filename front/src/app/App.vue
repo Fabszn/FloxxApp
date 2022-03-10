@@ -5,13 +5,27 @@
     <notifications group="foo"/>
   </div>
 </template>
-
 <script>
+import shared from "./shared";
 export default {
-  data: function() {
+    data: function() {
     return {
-      version: FLOXX_VERSION
+      version: ""
     };
-  }
+  },
+  mounted() {
+    this.$http
+      .get("/infos", {
+        headers: shared.tokenHandle()
+      })
+      .then(
+        p => {
+          this.version = p.data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
 };
 </script>

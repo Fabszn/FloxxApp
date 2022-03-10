@@ -31,7 +31,7 @@ object entriesPointApi {
         auth <- securityService.authentification(loginInfo.login, loginInfo.mdp)
         resp <- Ok(auth)
       } yield resp
-    case _ @ GET -> Root / "version" =>
+    case _ @ GET -> Root / "infos" =>
       Ok(BuildInfo.version)
   }
 
