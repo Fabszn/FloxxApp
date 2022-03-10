@@ -2,13 +2,14 @@ package org.floxx.env.api
 
 import org.http4s.HttpRoutes
 import io.circe.generic.auto._
+import org.floxx.BuildInfo
 import org.floxx.env.service.securityService
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import zio.interop.catz._
 
-object loginApi {
+object entriesPointApi {
 
   val dsl =  Http4sDsl[ApiTask]
 
@@ -30,7 +31,8 @@ object loginApi {
         auth <- securityService.authentification(loginInfo.login, loginInfo.mdp)
         resp <- Ok(auth)
       } yield resp
-
+    case _ @ GET -> Root / "infos" =>
+      Ok(BuildInfo.version)
   }
 
 }
