@@ -12,6 +12,7 @@ function cc(p) {
 }
 
 var tokenKey = "X-Auth-Token"
+var isAdmin = "isAdmin"
 
 export default {
     colorByPercentage: function chooseColor(percentage) {
@@ -42,6 +43,10 @@ export default {
             Accept: "application/json"
         }
     },
+    readAdminEtat: function th() {
+            var isAdmin = sessionStorage.getItem(isAdmin);
+            return isAdmin
+        },
     computeHit: function computeHit(percentage, key, refComponent) {
         var room = _.split(key, "_", 2)[1];
 

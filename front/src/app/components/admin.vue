@@ -7,10 +7,6 @@
             </button>
           </div>
         </div>
-        <div class="d-flex justify-content-center">
-          &nbsp;
-          &nbsp;
-        </div>
         <div>
           <p>What do you want do to ?</p>
         </div>

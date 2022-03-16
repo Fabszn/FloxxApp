@@ -24,7 +24,6 @@ class jsonModelTest extends AnyWordSpec with Matchers {
             }
           }
         }
-
       }
     }
   }

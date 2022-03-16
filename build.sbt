@@ -205,7 +205,7 @@ lazy val front = (project in file("front"))
 
 addCommandAlias(
   "runDev",
-  ";webpackDev;floxxCopyFile;httpEngine/run"
+  ";webpackDev;floxxCopyFile;db/flywayMigrate;httpEngine/run"
 )
 addCommandAlias(
   "runProd",

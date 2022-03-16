@@ -23,6 +23,7 @@
       head-variant="light"
       details-td-class="cell"
       responsive="true"
+      dark
       striped
       hover
       :sort-by.sync="sortBy"
@@ -32,7 +33,6 @@
       :filter="filter"
     >
       <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
-      <template v-slot:cell(talk)="data">{{ data.value.title }} ({{ data.value.talkType }})</template>
       <template v-slot:cell(percentage)="data">{{ data.value }}</template>
       <template v-slot:head(slotId)>Id</template>
     </b-table>
@@ -51,7 +51,6 @@ export default {
       sortDesc: false,
       fields: [
         { key: "slotId", sortable: true },
-        { key: "talk", sortable: true },
         { key: "percentage", sortable: true }
       ],
       filter: null,
@@ -74,14 +73,16 @@ export default {
       this.$router.push("/admin");
     },
     refresh: function() {
-      this.$router.push("/admin");
+      shared.securityAccess(this.$router, p => {
+            this.$http
+              .get("/api/stats/slots", {
+                headers: shared.tokenHandle()
+              })
+              .then(p => {
+                this.items = p.data;
+              });
+          });
     }
   }
 };
 </script>
-
-<style scoped>
-.table {
-  color: #fff;
-}
-</style>
