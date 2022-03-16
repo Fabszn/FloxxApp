@@ -14,10 +14,7 @@ export default {
     };
   },
   mounted() {
-    this.$http
-      .get("/infos", {
-        headers: shared.tokenHandle()
-      })
+    this.$http.get("/infos")
       .then(
         p => {
           this.version = p.data;

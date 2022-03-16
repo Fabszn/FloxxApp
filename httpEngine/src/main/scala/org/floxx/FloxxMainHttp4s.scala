@@ -48,8 +48,8 @@ object FloxxMainHttp4s extends zio.App {
 
   def floxxApp(conf: GlobalConfig) =
     Router[ApiTask](
-      "/api" -> floxxServices(conf),
       "/" -> entriesPointApi.api,
+      "/api" -> floxxServices(conf),
       "/" -> {
         logger.info("load static part of app")
         StaticApi.api
