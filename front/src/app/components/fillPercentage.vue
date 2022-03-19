@@ -7,10 +7,6 @@
         </button>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      &nbsp;
-      &nbsp;
-    </div>
 
     <div class="d-flex flex-column justify-content-center">
       <div class="title separate">{{title}}</div>

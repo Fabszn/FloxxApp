@@ -1,34 +1,20 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // Require  html-webpack-plugin plugin
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpack = require('webpack');
-var GitRevisionPlugin = require('git-revision-webpack-plugin')
 
 
-var apiHost;
+function mockApi(app){
 
-var setupEnv = function(env) {
-    console.log("setup NODE_ENV " + process.env["NODE_ENV"])
-    switch (process.env["NODE_ENV"]) {
-        case 'staging':
-            apiHost = JSON.stringify("https://floxxbackend-staging.cleverapps.io/")
-            wsHost = JSON.stringify("wss://floxxbackend-staging.cleverapps.io")
-            break;
-        case 'production':
-            apiHost = JSON.stringify("https://floxxbackend.cleverapps.io/")
-            wsHost = JSON.stringify("wss://floxxbackend.cleverapps.io")
-            break;
-        case 'development':
-            apiHost = JSON.stringify("http://localhost:8081/")
-            wsHost = JSON.stringify("ws://localhost:8081")
-            break;
-        default:
-             apiHost = JSON.stringify("http://localhost:8081/")
-                        wsHost = JSON.stringify("ws://localhost:8081")
-                        break;
-    }
+    app.get('/infos', function (req, res) {
+                      res.send('devMode');
+                    })
+    app.post('/login', function (req, res) {
+    //
+
+        res.json({'login': 'devMode', token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJhaGVyaXRpZXIiLCJmaXJzdG5hbWUiOiJhaGVyaXRpZXJAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.-ymZ5w8e6Whw2BYl0TVlqNA2q4mLe1YoEyjQsDxWJm0', 'isAdmin':true});
+    })
+
 }
-
-var gitRevisionPlugin = new GitRevisionPlugin();
 
 module.exports = env => {
     return {
@@ -44,15 +30,16 @@ module.exports = env => {
                 inject: 'body'
             }),
             new VueLoaderPlugin(),
-            new webpack.DefinePlugin({
-                FLOXX_VERSION: JSON.stringify(gitRevisionPlugin.version())
-            })
+
         ],
-        devServer: { // configuration for webpack-dev-server
-            contentBase: './src/public', //source of static assets
-            port: 8080, // port to run dev-server
+        devServer: {
+            contentBase: './src/public',
+            port: 8082,
             host: '0.0.0.0',
-            disableHostCheck: true
+            disableHostCheck: true,
+            before: function(app) {
+                mockApi(app)
+            }
         },
         resolve: {
             alias: {
