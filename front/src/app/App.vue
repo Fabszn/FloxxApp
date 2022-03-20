@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex flex-column">
     <router-view></router-view>
-    <div class="version">{{version}}</div>
+    <div class="version">{{version}} <span> - {{$store.state.username}}</span></div>
+    <div id="username"></div>
     <notifications group="foo"/>
   </div>
 </template>

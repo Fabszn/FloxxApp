@@ -34,6 +34,7 @@
 <script>
 import _ from "lodash";
 import shared from "../shared";
+import store from "../state"
 export default {
   data: function() {
     return {
@@ -62,6 +63,7 @@ export default {
         .then(
           r => {
             shared.storeToken(r.body.token,r.body.isAdmin,r.body.name);
+            store.commit('setuserName', r.body.name)
             this.$router.push("/menu");
           },
           r => {

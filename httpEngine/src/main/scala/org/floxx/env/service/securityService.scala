@@ -72,7 +72,7 @@ object securityService {
             case Some(u) if u.mdp == mdp =>
               Task.succeed(
                 AuthenticatedUser(
-                  u.login,
+                  s"${u.firstName} ${u.lastName}",
                   tokenGenerator(UserInfo(u.userId.getOrElse("no ID"), u.login, u.isAdmin),config),
                   u.isAdmin
                 )

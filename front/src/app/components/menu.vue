@@ -25,10 +25,8 @@
             v-on:click="navToOverf"
           >Overflow</button>
       </div>
-
-        <span>{{adminState}}</span>
-      <div v-if="adminState">
-          <button type="button"
+      <div v-if="adminState" >
+          <button  type="button"
           class="btn btn-secondary btn-lg block"
           v-on:click="navToStat"
           >admin.</button>
@@ -38,17 +36,19 @@
 </template>
 <script>
 import shared from "../shared";
-
-
 export default {
     data(){
         return{
-            adminState:shared.readAdminEtat()
+            adminState:true
         }
     },
+mounted() {
+    console.debug("state admin " + shared.readAdminEtat());
 
+    this.adminState=shared.readAdminEtat();
+
+  },
   created() {
-
     shared.securityAccess(this.$router, p => {});
   },
   methods: {

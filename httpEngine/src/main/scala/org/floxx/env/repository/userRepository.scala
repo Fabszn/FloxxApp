@@ -14,7 +14,7 @@ object userRepository {
 
   case class AuthRepoPg(r: TxResource) extends AuthRepo {
     override def userByLogin(login: String): Task[Option[AuthUser]] =
-      sql"SELECT userid, login, mdp, isAdmin from users where login=$login".query[AuthUser].option.transact(r.xa)
+      sql"SELECT userid, login, firstname, lastname, mdp, isAdmin from users where login=$login".query[AuthUser].option.transact(r.xa)
   }
 
   val layer: RLayer[Has[TxResource], Has[AuthRepo]] = (AuthRepoPg(_)).toLayer

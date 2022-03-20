@@ -44,7 +44,8 @@ export default {
         }
     },
     readAdminEtat: function th() {
-        return sessionStorage.getItem(pAdmin);
+
+        return sessionStorage.getItem(pAdmin) == "true";
     },
     computeHit: function computeHit(percentage, key, refComponent) {
         var room = _.split(key, "_", 2)[1];
