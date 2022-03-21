@@ -18,24 +18,15 @@
         <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
       </b-input-group-append>
     </b-input-group>
+<dropdown
+    :options="[{ id: 1, name: 'Option 1'}, { id: 2, name: 'Option 2'}, { id: 3, name: 'Option 4'}]"
+    v-on:selected="validateSelection"
+    :disabled="false"
+    name="zipcode"
+    :maxItem="10"
+    placeholder="Please select an option">
+</dropdown>
 
-    <b-table
-      head-variant="light"
-      details-td-class="cell"
-      responsive="true"
-      dark
-      striped
-      hover
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :fields="fields"
-      :items="items"
-      :filter="filter"
-    >
-      <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
-      <template v-slot:cell(percentage)="data">{{ data.value }}</template>
-      <template v-slot:head(slotId)>Id</template>
-    </b-table>
   </div>
 </template>
 
@@ -58,19 +49,14 @@ export default {
     };
   },
   created: function() {
-    shared.securityAccess(this.$router, p => {
-      this.$http
-        .get("/api/stats/slots", {
-          headers: shared.tokenHandle()
-        })
-        .then(p => {
-          this.items = p.data;
-        });
-    });
+
   },
   methods: {
     backAdminMenu: function() {
       this.$router.push("/admin");
+    },
+    validateSelection: function(value) {
+    console.log(value.id)
     },
     refresh: function() {
       shared.securityAccess(this.$router, p => {

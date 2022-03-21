@@ -27,6 +27,9 @@
         <div>
           <button type="button" v-on:click="navToRCMng" class="btn btn-primary block">RedCoats</button>
         </div>
+        <div>
+          <button type="button" v-on:click="navToMapping" class="btn btn-primary block">Rooms mapping</button>
+        </div>
     </div>
   </div>
 </template>
@@ -48,6 +51,9 @@ export default {
     },
     navToStats: function() {
       this.$router.push("/statistiques");
+    },
+    navToMapping: function() {
+      this.$router.push("/mappingRC");
     }
   }
 };

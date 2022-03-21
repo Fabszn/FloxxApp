@@ -9,6 +9,7 @@ import admin from './components/admin.vue'
 import topsList from './components/admins/topsList.vue'
 import redcoatmng from './components/admins/redcoatmng.vue'
 import statistiques from './components/admins/statistiques.vue'
+import mappingRCR from './components/admins/mappingRCR.vue'
 
 export const routes = [{
     path: '/',
@@ -53,5 +54,9 @@ export const routes = [{
 }, {
     path: '/statistiques',
     component: statistiques,
+    children: []
+}, {
+    path: '/mappingRC',
+    component: mappingRCR,
     children: []
 }];

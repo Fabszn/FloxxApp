@@ -306,6 +306,7 @@ export default {
       this.room = "";
       this.fromTime = "";
       this.toTime = "";
+      this.twitterMessage = "";
     },
     backRooms: function() {
       this.$router.push("/menu");
