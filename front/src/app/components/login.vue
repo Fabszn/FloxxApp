@@ -1,7 +1,11 @@
 <template>
   <div class="container-fluid">
-    <div id="errorlogin" class="errorMsg" :hidden="loginFailedMsg">Authentification Failed</div>
-    <div id="errorUnthorized" class="errorMsg" :hidden="notAuthrized">Authentification required</div>
+    <div id="errorlogin" class="errorMsg" :hidden="loginFailedMsg">
+      Authentification Failed
+    </div>
+    <div id="errorUnthorized" class="errorMsg" :hidden="notAuthrized">
+      Authentification required
+    </div>
     <form id="signup-form" @submit.prevent="processForm">
       <div class="form-group">
         <label for="login">Email address</label>
@@ -34,14 +38,14 @@
 <script>
 import _ from "lodash";
 import shared from "../shared";
-import store from "../state"
+import store from "../state";
 export default {
-  data: function() {
+  data: function () {
     return {
       email: "",
       password: "",
       loginFailedMsg: true,
-      notAuthrized: true
+      notAuthrized: true,
     };
   },
   created() {
@@ -51,27 +55,27 @@ export default {
     }
   },
   methods: {
-    processForm: function() {
+    processForm: function () {
       this.$http
         .post(
           "/login",
           JSON.stringify({
             login: this.email,
-            mdp: this.password
+            mdp: this.password,
           })
         )
         .then(
-          r => {
-            shared.storeToken(r.body.token,r.body.isAdmin,r.body.name);
-            store.commit('setuserName', r.body.name)
+          (r) => {
+            shared.storeToken(r.body.token, r.body.isAdmin, r.body.name);
+            store.commit("setuserName", r.body.name);
             this.$router.push("/menu");
           },
-          r => {
+          (r) => {
             this.loginFailedMsg = false;
           }
         );
-    }
-  }
+    },
+  },
 };
 </script>
 

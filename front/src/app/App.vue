@@ -1,29 +1,29 @@
 <template>
   <div class="d-flex flex-column">
     <router-view></router-view>
-    <div class="version">{{version}} <span> - {{$store.state.username}}</span></div>
+    <div class="version">
+      {{ version }} <span> - {{ $store.state.username }}</span>
+    </div>
     <div id="username"></div>
-    <notifications group="foo"/>
+    <notifications group="foo" />
   </div>
 </template>
 <script>
-import shared from "./shared";
 export default {
-    data: function() {
+  data: function () {
     return {
-      version: ""
+      version: "",
     };
   },
   mounted() {
-    this.$http.get("/infos")
-      .then(
-        p => {
-          this.version = p.data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
+    this.$http.get("/infos").then(
+      (p) => {
+        this.version = p.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
 };
 </script>

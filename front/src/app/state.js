@@ -4,12 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  username: "default"
+    username: "-"
 }
 
-const mutations =  {
-    setuserName(state, name){
-        state.username= name;
+const mutations = {
+    setuserName(state, name) {
+        state.username = name;
     }
 
 }
@@ -18,6 +18,6 @@ const mutations =  {
 
 
 export default new Vuex.Store({
-  state,
-  mutations
+    state,
+    mutations
 })

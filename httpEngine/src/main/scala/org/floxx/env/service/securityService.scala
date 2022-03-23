@@ -5,7 +5,7 @@ import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import org.floxx.env.api.ApiTask
 import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
-import org.floxx.env.repository.userRepository.AuthRepo
+import org.floxx.env.repository.userRepository.UserRepo
 import org.floxx.{AuthentificationError, UserInfo}
 import org.http4s.circe.jsonOf
 import org.slf4j.{Logger, LoggerFactory}
@@ -19,7 +19,7 @@ object securityService {
 
 
   //utilisateur déjà identifier TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
-  case class AuthenticatedUser(login: String, token: String, isAdmin: Boolean = false)
+  case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
 
   object AuthenticatedUser {
 
@@ -33,7 +33,7 @@ object securityService {
 
   }
 
-  case class SecurityServiceImpl(securityRepo: AuthRepo, conf: Configuration) extends SecurityService {
+  case class SecurityServiceImpl(securityRepo: UserRepo, conf: Configuration) extends SecurityService {
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def checkAuthentification(token: String): Task[Option[UserInfo]] =
@@ -93,7 +93,7 @@ object securityService {
       )
   }
 
-  def layer:RLayer[Has[AuthRepo] with Has[Configuration], Has[SecurityService]] = (SecurityServiceImpl(_,_)).toLayer
+  def layer:RLayer[Has[UserRepo] with Has[Configuration], Has[SecurityService]] = (SecurityServiceImpl(_,_)).toLayer
 
   def authentification(user: String, mdp: String):RIO[Has[SecurityService], AuthenticatedUser] = ZIO.serviceWith[SecurityService](_.authentification(user, mdp))
   def checkAuthentification(token: String):RIO[Has[SecurityService], Option[UserInfo]] = ZIO.serviceWith[SecurityService](_.checkAuthentification(token))

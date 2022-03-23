@@ -321,6 +321,7 @@ export default {
   height: 100%;
   background-color: #343a40;
   color: #fff!;
+  border: 1px solid #fff;
 }
 .space {
   margin: 20px;
