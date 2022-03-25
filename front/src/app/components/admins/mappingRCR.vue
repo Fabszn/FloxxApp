@@ -24,24 +24,30 @@
     </b-input-group>-->
 
     <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
-      <div class="floxxmodal">
-        <div>
-          <p>{{ confTitle }}</p>
-          <p>{{ room }} / {{ confKind }} - ({{ fromTime }} -> {{ toTime }})</p>
-        </div>
-        <div>
-          <dropdown
-            :options="users"
-            v-on:selected="validateSelection"
-            :disabled="false"
-            :maxItem="10"
-            placeholder="Select one redCoat"
-          >
-          </dropdown>
+      <div class="floxxmodal over">
+        <div class="modalinfo">
+          <div>
+            <p>{{ confTitle }}</p>
+            <p>{{ room }} / {{ confKind }}</p>
+            <p>{{ fromTime }} -> {{ toTime }}</p>
+          </div>
+          <div class="over">
+            <dropdown
+              :options="users"
+              v-on:selected="validateSelection"
+              :disabled="false"
+              :maxItem="4"
+              placeholder="Search by name"
+            >
+            </dropdown>
+          </div>
         </div>
 
-        <div>
-          <button type="button" v-on:click="" class="btn btn-secondary">
+        <div class="buttonmodal">
+          <button type="button" v-on:click="alert('cancel')" class="btn btn-secondary">
+            Cancel
+          </button>
+          <button type="button" v-on:click="alert('save')" class="btn btn-secondary">
             Save
           </button>
         </div>
@@ -143,5 +149,21 @@ export default {
 }
 
 .buttonmodal {
+  display: flex;
+  justify-content: center;
 }
+
+.modalinfo {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.buttonmodal > button {
+  margin: 10px;
+}
+
+.over {
+  overflow: visible;
+}
+
 </style>

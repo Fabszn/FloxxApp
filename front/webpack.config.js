@@ -13,17 +13,44 @@ function mockApi(app) {
     })
     app.get('/api/users', function(req, res) {
         res.json([{
-                "userId": "fsznaj",
-                "nom": "fabrice",
+                "userId": "toto",
+                "nom": "toto",
+                "prenom": "Sznajderman"
+            }, {
+                "userId": "toto",
+                "nom": "toto",
                 "prenom": "Sznajderman"
             },
             {
                 "userId": "mpierre",
+                "nom": "Micheld",
+                "prenom": "Pierre"
+            }, {
+                "userId": "fsznaj",
+                "nom": "fabricez",
+                "prenom": "Sznajderman"
+            },
+            {
+                "userId": "mpierre",
+                "nom": "Micheld",
+                "prenom": "Pierre"
+            }, {
+                "userId": "aheritier",
+                "nom": "Arnaudff",
+                "prenom": "Heritier"
+            },
+            {
+                "userId": "fsznaj2",
+                "nom": "fabrice",
+                "prenom": "Sznajderman"
+            },
+            {
+                "userId": "mpierre3",
                 "nom": "Michel",
                 "prenom": "Pierre"
             },
             {
-                "userId": "aheritier",
+                "userId": "aheritier4",
                 "nom": "Arnaud",
                 "prenom": "Heritier"
             }
