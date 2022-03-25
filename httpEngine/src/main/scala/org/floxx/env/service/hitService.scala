@@ -22,7 +22,7 @@ object hitService {
   case class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo, config:Configuration) extends HitService {
     override def hit(hit: Hit): Task[Int] = hitRepo.save(hit)
 
-    def transform(hits: Set[Hit]): Task[Map[SlotId, Hit]] =
+    def transform(hits: Seq[Hit]): Task[Map[SlotId, Hit]] =
       IO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (SlotId(k), vs.maxBy(_.dateTime)) })
 
     override def currentTracks: Task[Map[SlotId, model.Hit]] =

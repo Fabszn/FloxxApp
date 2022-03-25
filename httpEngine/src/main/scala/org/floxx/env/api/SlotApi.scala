@@ -1,10 +1,11 @@
 package org.floxx.env.api
 
+import io.circe.Json
 import org.floxx.UserInfo
 import org.floxx.env.configuration.config
 import org.floxx.env.service.{timeUtils, trackService}
 import org.floxx.model.{Hit, SlotId}
-import org.http4s.{AuthedRoutes, HttpRoutes}
+import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
@@ -12,7 +13,7 @@ import org.http4s.dsl.Http4sDsl
 import org.slf4j.{Logger, LoggerFactory}
 import zio.interop.catz._
 
-object trackApi {
+object SlotApi {
 
   val dsl = Http4sDsl[ApiTask]
 
@@ -34,7 +35,10 @@ object trackApi {
     case GET -> Root / "read" as user=>
       trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
 
-    case GET -> Root / "slots" / "_current" as user =>
+    /**
+      * All slots actives currently
+      */
+    case GET -> Root / "slots" / "_current" as _ =>
       for {
         conf <- config.getConf
         activeSlots <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
@@ -51,6 +55,18 @@ object trackApi {
         )
       } yield rep
 
+    /**
+      * All slots (active or not)
+      */
+    case GET -> Root / "slots" / "_all" as _ =>
+      for {
+        slots <- trackService.loadAllSlots
+        rep <- Ok(slots)
+      } yield rep
+
+    /**
+      * load only active slots for specific users
+      */
     case GET -> Root  / "slots" as user=> {
       for {
         conf <- config.getConf
@@ -71,7 +87,7 @@ object trackApi {
 
     }
 
-    case req@GET -> Root / "slots" / idSlot as user =>
+    case GET -> Root / "slots" / idSlot as _ =>
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")

@@ -16,12 +16,35 @@
         </button>
       </div>
     </div>
-    <!--<b-input-group size="sm">
-      <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Type to Search"></b-form-input>
+    <b-input-group size="sm">
+      <b-form-input
+        v-model="filter"
+        type="search"
+        id="filterInput"
+        placeholder="Type to Search"
+      ></b-form-input>
       <b-input-group-append>
         <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
       </b-input-group-append>
-    </b-input-group>-->
+    </b-input-group>
+
+    <b-table
+      head-variant="light"
+      details-td-class="cell"
+      responsive="true"
+      dark
+      striped
+      hover
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :fields="fields"
+      :items="items"
+      :filter="filter"
+    >
+      <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
+      <template v-slot:cell(percentage)="data">{{ data.value }}</template>
+      <template v-slot:head(slotId)>Slot</template>
+    </b-table>
 
     <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
       <div class="floxxmodal over">
@@ -44,10 +67,18 @@
         </div>
 
         <div class="buttonmodal">
-          <button type="button" v-on:click="alert('cancel')" class="btn btn-secondary">
+          <button
+            type="button"
+            v-on:click="alert('cancel')"
+            class="btn btn-secondary"
+          >
             Cancel
           </button>
-          <button type="button" v-on:click="alert('save')" class="btn btn-secondary">
+          <button
+            type="button"
+            v-on:click="alert('save')"
+            class="btn btn-secondary"
+          >
             Save
           </button>
         </div>
@@ -78,9 +109,28 @@ export default {
       fromTime: "",
       toTime: "",
       users: [],
+      items: [],
+      sortBy: "slotId",
+      sortDesc: false,
+      fields: [
+        { key: "slotId", sortable: true },
+        { key: "RedCoat", sortable: true },
+      ],
+      filter: null,
+      filterOn: ["slotId"],
     };
   },
-  created: function () {},
+  created: function () {
+    shared.securityAccess(this.$router, (p) => {
+      this.$http
+        .get("/api/stats/slots", {
+          headers: shared.tokenHandle(),
+        })
+        .then((p) => {
+          this.items = p.data;
+        });
+    });
+  },
   methods: {
     backAdminMenu: function () {
       this.$router.push("/admin");
@@ -165,5 +215,4 @@ export default {
 .over {
   overflow: visible;
 }
-
 </style>

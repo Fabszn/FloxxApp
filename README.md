@@ -1,5 +1,12 @@
 # floxxBackendApp
 
+
+# Words
+
+ - Slot : this is a conference with title, kind, start time, end time, day, room
+ - TrackInfo : Is more than slot. In track slot information plus hit information
+ - Hit :  unique id of the slot, percentage and date time of when hit has been down
+
 # Deployment
 
 On clever-cloud, 

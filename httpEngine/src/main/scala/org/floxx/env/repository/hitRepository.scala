@@ -13,7 +13,7 @@ import java.util.UUID
 object hitRepository {
 
   trait HitRepo {
-    def loadHitBy(slotIds: Set[SlotId]): Task[Set[model.Hit]]
+    def loadHitBy(slotIds: Seq[SlotId]): Task[Seq[model.Hit]]
     def save(hit: Hit): Task[Int]
 
   }
@@ -25,12 +25,12 @@ object hitRepository {
         .randomUUID()
         .toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime} )".update.run.transact(r.xa)
 
-    def loadHitBy(slotIds: Set[SlotId]): Task[Set[Hit]] = {
+    def loadHitBy(slotIds: Seq[SlotId]): Task[Seq[Hit]] = {
 
       val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime from hit where"
       val criteria                = fr"${slotIds.map(id => s"hitslotid=$id").mkString(",")}"
 
-      (root ++ criteria).query[Hit].to[Set].transact(r.xa)
+      (root ++ criteria).query[Hit].to[Seq].transact(r.xa)
     }
 
   }
@@ -38,7 +38,7 @@ object hitRepository {
   val layer: RLayer[Has[TxResource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
 
   def save(hit: Hit): RIO[Has[HitRepo], Int] = ZIO.serviceWith[HitRepo](_.save(hit))
-  def loadHitBy(slotIds: Set[SlotId]): RIO[Has[HitRepo], Set[Hit]] =
+  def loadHitBy(slotIds: Seq[SlotId]): RIO[Has[HitRepo], Seq[Hit]] =
     ZIO.serviceWith[HitRepo](_.loadHitBy(slotIds))
 
 }

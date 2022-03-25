@@ -10,17 +10,17 @@ import zio.interop.catz._
 
 object cfpRepository {
 
-  trait CfpRepo {
+  trait SlotRepo {
 
     def addSlots(slot: List[Slot]): Task[Int]
-    def allSlotIds: Task[Set[Slot]]
-    def allSlotIdsWithUserId(userID: String): Task[Set[Slot]]
+    def allSlots: Task[Seq[Slot]]
+    def allSlotsWithUserId(userID: String): Task[Set[Slot]]
     def getSlotById(id: String): Task[Option[Slot]]
     def drop: Task[Int]
     def addMapping(m: List[MappingUserSlot]): Task[Int]
   }
 
-  case class CfpRepoPg(r: TxResource) extends CfpRepo  {
+  case class SlotRepoService(r: TxResource) extends SlotRepo  {
 
     override def drop: Task[Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa)
@@ -37,10 +37,11 @@ object cfpRepository {
         .updateMany(m)
         .transact(r.xa)
 
-    override def allSlotIds(): Task[Set[Slot]] =
-      sql"""select * from slot""".query[Slot].to[Set].transact(r.xa)
+    override def allSlots: Task[Seq[Slot]] =
+      sql"""select * from slot""".query[Slot].to[Seq].transact(r.xa)
 
-    override def allSlotIdsWithUserId(userId: String): Task[Set[Slot]] =
+
+    override def allSlotsWithUserId(userId: String): Task[Set[Slot]] =
       sql"""select * from
            |slot s inner join user_slots  us on s.slotid=us.slotid
            |where us.userid=$userId""".stripMargin.query[Slot].to[Set].transact(r.xa)
@@ -49,6 +50,6 @@ object cfpRepository {
       sql"""select * from slot where slotid=$id""".query[Slot].option.transact(r.xa)
   }
 
-  val layer: RLayer[Has[TxResource], Has[CfpRepo]] = (CfpRepoPg(_)).toLayer
+  val layer: RLayer[Has[TxResource], Has[SlotRepo]] = (SlotRepoService(_)).toLayer
 
 }
