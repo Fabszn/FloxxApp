@@ -11,12 +11,14 @@
 
 On clever-cloud, 
 
-  - select **sbt+scala** app.
-  - Add the following environment variable : 
-      - CC_SBT_TARGET_BIN=floxx
-      - CC_SBT_TARGET_DIR=httpEngine
-      - JAVA_VERSION=8
-      - PORT=8080
+    CC_JAVA_VERSION="11"
+    CC_SBT_TARGET_DIR="httpEngine"
+    FLOXX_PORT="8080"
+    PORT="8080"
+    POSTGRESQL_ADDON_PASSWORD=**to be completed**
+    POSTGRESQL_ADDON_USER=**to be completed**
+    POSTGRESQL_MAX_POOL_SIZE=**to be completed**
+    POSTGRESQL_URI="jdbc:postgresql://**to be completed: Host**/**to be completed USER**"
       
 Locally : 
 
