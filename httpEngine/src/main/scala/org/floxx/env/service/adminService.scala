@@ -1,9 +1,11 @@
 package org.floxx.env.service
 
+import org.floxx.domain.Mapping.UserSlot
+import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
 import org.floxx.model.jsonModel.Slot
-import org.floxx.model.{ MappingUserSlot, SimpleUser, SlotId, UserId }
+import org.floxx.model.{MappingUserSlot, SimpleUser, SlotId, UserId}
 import zio._
 
 object adminService {
@@ -11,22 +13,23 @@ object adminService {
   trait AdminService {
     def updateEnv(days: Map[String, String]): Task[Int]
     def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int]
-    def loadUsers(): Task[Seq[SimpleUser]]
+    def loadUsers: Task[Seq[SimpleUser]]
+    def mappingUserSlot:Task[Seq[UserSlot]]
   }
 
-  case class AdminServiceImpl(cfpRepo: SlotRepo, userRepo: UserRepo) extends AdminService {
+  case class AdminServiceImpl(slotRepo: SlotRepo, userRepo: UserRepo) extends AdminService {
     override def updateEnv(days: Map[String, String]): Task[Int] =
       for {
-        slots <- cfpRepo.allSlots
+        slots <- slotRepo.allSlots
         updatedSlots <- updateSlots(slots, days)
-        _ <- cfpRepo.drop
-        r <- cfpRepo.addSlots(updatedSlots.toList)
+        _ <- slotRepo.drop
+        r <- slotRepo.addSlots(updatedSlots.toList)
       } yield r
 
     override def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int] = {
       val transformed: List[MappingUserSlot] = mapping.flatMap { case (k, vs) => vs.map(v => MappingUserSlot(k, v)) }.toList
       for {
-        s <- cfpRepo.addMapping(transformed)
+        s <- slotRepo.addMapping(transformed)
       } yield s
     }
 
@@ -48,6 +51,7 @@ object adminService {
       }))
     }
 
+    override def mappingUserSlot: Task[Seq[UserSlot]] = slotRepo.mappingUserSlot
   }
 
   val layer: RLayer[Has[SlotRepo] with Has[UserRepo], Has[AdminService]] = (AdminServiceImpl(_, _)).toLayer
@@ -59,5 +63,8 @@ object adminService {
     ZIO.serviceWith[AdminService](_.insertUserSlotMapping(mapping))
 
   def loadUsers: RIO[Has[AdminService], Seq[SimpleUser]] =
-    ZIO.serviceWith[AdminService](_.loadUsers())
+    ZIO.serviceWith[AdminService](_.loadUsers)
+
+  def mappingUserSlot: RIO[Has[AdminService], Seq[UserSlot]] =
+    ZIO.serviceWith[AdminService](_.mappingUserSlot)
 }

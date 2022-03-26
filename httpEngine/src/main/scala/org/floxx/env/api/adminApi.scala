@@ -46,6 +46,11 @@ object adminApi {
         _ <- adminService.insertUserSlotMapping(mapping.userSlots)
         r <- Created(s"Mapping has been inserted")
       } yield r
+
+    case GET -> Root / "mapping" as _ =>
+      adminService.mappingUserSlot >>= { uss =>
+        Ok(uss)
+      }
     case ct @ GET -> Root / "users" as user =>
       adminService.loadUsers >>= (users => Ok(users))
     case GET -> Root / "healthCheck" as _ => Ok("up and go")

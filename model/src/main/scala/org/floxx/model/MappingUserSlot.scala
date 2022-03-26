@@ -1,3 +1,6 @@
 package org.floxx.model
 
-case class MappingUserSlot(userid: SimpleUser, slotId: SlotId)
+@deprecated
+case class MappingUserSlot(userid: UserId, slotId: SlotId)
+
+

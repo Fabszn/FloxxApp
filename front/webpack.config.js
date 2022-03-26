@@ -77,6 +77,47 @@ function mockApi(app) {
         });
     })
 
+    app.get('/api/mapping', function(req, res) {
+        res.json([{
+                "user": {
+                    "userId": {
+                        "value": "fsznaj"
+                    },
+                    "nom": {
+                        "value": "Sznajderman"
+                    },
+                    "prenom": {
+                        "value": "fabrice"
+                    }
+                },
+                "slotId": {
+                    "value": "wednesday_neu253_t_09:30-12:30"
+                }
+            },
+            {
+                "user": {
+                    "userId": {
+                        "value": "mpierre"
+                    },
+                    "nom": {
+                        "value": "Michel"
+                    },
+                    "prenom": {
+                        "value": "Pierre"
+                    }
+                },
+                "slotId": {
+                    "value": "wednesday_b_amphi_13:30-16:30"
+                }
+            }, {
+                "user": null,
+                "slotId": {
+                    "value": "wednesday_b_amphi_13:30-16:30"
+                }
+            }
+        ]);
+    })
+
 
     app.post('/all-tracks-info', function(req, res) {
         res.json({

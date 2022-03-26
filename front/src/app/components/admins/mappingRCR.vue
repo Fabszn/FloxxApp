@@ -41,9 +41,15 @@
       :items="items"
       :filter="filter"
     >
-      <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
-      <template v-slot:cell(percentage)="data">{{ data.value }}</template>
       <template v-slot:head(slotId)>Slot</template>
+      <template v-slot:head(RedCoat)>Red Coat</template>
+      <template v-slot:cell(slotId)="data">{{
+        data.item.slotId.value
+      }}</template>
+      <template v-slot:cell(RedCoat)="data"> <div v-on:click="show(data.item.slotId.value)" >{{
+        handleUser(data.item.user)
+      }}</div></template>
+      
     </b-table>
 
     <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
@@ -69,14 +75,14 @@
         <div class="buttonmodal">
           <button
             type="button"
-            v-on:click="alert('cancel')"
+            v-on:click="hide"
             class="btn btn-secondary"
           >
             Cancel
           </button>
           <button
             type="button"
-            v-on:click="alert('save')"
+            v-on:click=""
             class="btn btn-secondary"
           >
             Save
@@ -84,14 +90,6 @@
         </div>
       </div>
     </modal>
-
-    <button
-      v-on:click="show('wednesday_c_maillot_09:30-12:30')"
-      type="button"
-      class="btn btn-secondary"
-    >
-      Open modal
-    </button>
   </div>
 </template>
 
@@ -114,7 +112,7 @@ export default {
       sortDesc: false,
       fields: [
         { key: "slotId", sortable: true },
-        { key: "RedCoat", sortable: true },
+        { key: "RedCoat", sortable: true }
       ],
       filter: null,
       filterOn: ["slotId"],
@@ -123,7 +121,7 @@ export default {
   created: function () {
     shared.securityAccess(this.$router, (p) => {
       this.$http
-        .get("/api/stats/slots", {
+        .get("/api/mapping", {
           headers: shared.tokenHandle(),
         })
         .then((p) => {
@@ -132,6 +130,14 @@ export default {
     });
   },
   methods: {
+    handleUser(user) {
+      console.log(user)
+      if (_.isNull(user)) {
+        return ("-");
+      } else {
+        return user.prenom.value + " " + user.nom.value;
+      }
+    },
     backAdminMenu: function () {
       this.$router.push("/admin");
     },

@@ -2,6 +2,8 @@ package org.floxx.env.repository
 
 import doobie.Update
 import doobie.implicits._
+import org.floxx.domain.Mapping
+import org.floxx.domain.Mapping.UserSlot
 import org.floxx.env.repository.DbTransactor.TxResource
 import org.floxx.model.MappingUserSlot
 import org.floxx.model.jsonModel.Slot
@@ -12,6 +14,7 @@ object cfpRepository {
 
   trait SlotRepo {
 
+    def mappingUserSlot: Task[Seq[Mapping.UserSlot]]
     def addSlots(slot: List[Slot]): Task[Int]
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
@@ -20,17 +23,15 @@ object cfpRepository {
     def addMapping(m: List[MappingUserSlot]): Task[Int]
   }
 
-  case class SlotRepoService(r: TxResource) extends SlotRepo  {
+  case class SlotRepoService(r: TxResource) extends SlotRepo {
 
     override def drop: Task[Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa)
-
 
     override def addSlots(slots: List[Slot]): Task[Int] =
       Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
         .updateMany(slots)
         .transact(r.xa)
-
 
     override def addMapping(m: List[MappingUserSlot]): Task[Int] =
       Update[MappingUserSlot]("insert into user_slots (userId,slotId) values(?,?)")
@@ -40,7 +41,6 @@ object cfpRepository {
     override def allSlots: Task[Seq[Slot]] =
       sql"""select * from slot""".query[Slot].to[Seq].transact(r.xa)
 
-
     override def allSlotsWithUserId(userId: String): Task[Set[Slot]] =
       sql"""select * from
            |slot s inner join user_slots  us on s.slotid=us.slotid
@@ -48,6 +48,18 @@ object cfpRepository {
 
     override def getSlotById(id: String): Task[Option[Slot]] =
       sql"""select * from slot where slotid=$id""".query[Slot].option.transact(r.xa)
+
+    override def mappingUserSlot: Task[Seq[Mapping.UserSlot]] =
+      sql"""select u.userid,
+            u.firstname,
+            u.lastname, 
+            s.slotid 
+            from 
+            user_slots us right join users u on us.userid = u.userid right 
+            join slot s ON us.slotid =s.slotid"""
+        .query[UserSlot]
+        .to[Seq]
+        .transact(r.xa)
   }
 
   val layer: RLayer[Has[TxResource], Has[SlotRepo]] = (SlotRepoService(_)).toLayer

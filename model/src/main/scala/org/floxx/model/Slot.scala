@@ -23,6 +23,7 @@ object jsonModel {
 
   }
 
+  @deprecated
   case class Slot(slotId: SlotId, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
 
   object Slot {
