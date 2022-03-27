@@ -40,8 +40,8 @@ object FloxxMainHttp4s extends zio.App {
 
     authMiddleware(
       hitApi.api <+>
-      trackApi.api <+>
-      technicalApi.api <+>
+      SlotApi.api <+>
+      adminApi.api <+>
       statsApi.api
     )
   }

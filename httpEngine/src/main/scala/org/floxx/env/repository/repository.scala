@@ -6,20 +6,10 @@ import zio._
 object repository {
 
   trait TechnicalRepo {}
-
+//todo remove shutdownhook !!
   case class TechnicalRepository(r: TxResource) extends TechnicalRepo {
     println("Register ShutDownHook for HikariResource")
     val releaseResourceHook = new Thread(() => {
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
-      println("Release Hikari Datasource")
       r.xa.kernel.close()
     })
     java.lang.Runtime.getRuntime.addShutdownHook(releaseResourceHook)

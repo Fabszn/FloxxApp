@@ -306,6 +306,7 @@ export default {
       this.room = "";
       this.fromTime = "";
       this.toTime = "";
+      this.twitterMessage = "";
     },
     backRooms: function() {
       this.$router.push("/menu");
@@ -320,6 +321,7 @@ export default {
   height: 100%;
   background-color: #343a40;
   color: #fff!;
+  border: 1px solid #fff;
 }
 .space {
   margin: 20px;

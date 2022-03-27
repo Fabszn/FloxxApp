@@ -12,7 +12,7 @@ function cc(p) {
 }
 
 var tokenKey = "X-Auth-Token"
-var isAdmin = "isAdmin"
+var pAdmin = "isAdmin"
 
 export default {
     colorByPercentage: function chooseColor(percentage) {
@@ -29,11 +29,11 @@ export default {
     storeToken: function st(token, isAdmin, name) {
         sessionStorage.setItem(tokenKey, token);
         sessionStorage.setItem("name", name);
-        sessionStorage.setItem("isAdmin", isAdmin);
+        sessionStorage.setItem(pAdmin, isAdmin);
     },
     cleanToken: function ch() {
         sessionStorage.clear(tokenKey);
-        sessionStorage.clear("isAdmin");
+        sessionStorage.clear(pAdmin);
         sessionStorage.clear("name");
     },
     tokenHandle: function th() {
@@ -44,9 +44,9 @@ export default {
         }
     },
     readAdminEtat: function th() {
-            var isAdmin = sessionStorage.getItem(isAdmin);
-            return isAdmin
-        },
+
+        return sessionStorage.getItem(pAdmin) == "true";
+    },
     computeHit: function computeHit(percentage, key, refComponent) {
         var room = _.split(key, "_", 2)[1];
 

@@ -34,7 +34,7 @@
     >
       <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
       <template v-slot:cell(percentage)="data">{{ data.value }}</template>
-      <template v-slot:head(slotId)>Id</template>
+      <template v-slot:head(slotId)>Slot</template>
     </b-table>
   </div>
 </template>

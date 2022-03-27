@@ -31,5 +31,5 @@ CREATE table user_slots (
 	userid varchar not null,
 	FOREIGN KEY (slotid) REFERENCES slot(slotid),
 	FOREIGN KEY (userid) REFERENCES users(userid),
-	PRIMARY KEY (slotid,userid)
+	PRIMARY KEY (slotid)
 );

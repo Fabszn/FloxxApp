@@ -25,10 +25,8 @@
             v-on:click="navToOverf"
           >Overflow</button>
       </div>
-      <!-- add admin rules for displaying-->
-
-      <div>
-          <button type="button"
+      <div v-if="adminState" >
+          <button  type="button"
           class="btn btn-secondary btn-lg block"
           v-on:click="navToStat"
           >admin.</button>
@@ -39,6 +37,17 @@
 <script>
 import shared from "../shared";
 export default {
+    data(){
+        return{
+            adminState:true
+        }
+    },
+mounted() {
+    console.debug("state admin " + shared.readAdminEtat());
+
+    this.adminState=shared.readAdminEtat();
+
+  },
   created() {
     shared.securityAccess(this.$router, p => {});
   },
