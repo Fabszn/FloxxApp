@@ -25,7 +25,7 @@
           Titre :
           {{confTitle}}
         </p>
-        <p>Type conférence : {{confKind}}</p>
+        <p>Type conf&eacute;rence : {{confKind}}</p>
         <p>Salle : {{room}}</p>
 
         <button

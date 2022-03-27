@@ -44,6 +44,11 @@ Locally :
    1) Process il plugged on remote origin, So take care that remote corresponding to prod target environment
 3) and then just follow the process
 
+
+# Run migration DB
+  /!\ update env information with targeted env (Prod)
+   1) /!\ Run locally sbt with this command line : sbt -Dflyway.url=jdbc:postgresql://{{HOST}}/{{DB}} -Dflyway.user={{User}} -Dflyway.password=
+   2) and db/flywayMigrate
 -----
 
 
