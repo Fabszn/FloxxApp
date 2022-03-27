@@ -12,7 +12,7 @@ object adminService {
 
   trait AdminService {
     def updateEnv(days: Map[String, String]): Task[Int]
-    def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int]
+    def insertUserSlotMapping(mapping: Mapping): Task[Int]
     def loadUsers: Task[Seq[SimpleUser]]
     def mappingUserSlot:Task[Seq[UserSlot]]
   }
@@ -26,12 +26,8 @@ object adminService {
         r <- slotRepo.addSlots(updatedSlots.toList)
       } yield r
 
-    override def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): Task[Int] = {
-      val transformed: List[MappingUserSlot] = mapping.flatMap { case (k, vs) => vs.map(v => MappingUserSlot(k, v)) }.toList
-      for {
-        s <- slotRepo.addMapping(transformed)
-      } yield s
-    }
+    override def insertUserSlotMapping(mapping: Mapping): Task[Int] = slotRepo.addMapping(mapping)
+
 
     override def loadUsers(): Task[Seq[SimpleUser]] =
       userRepo.allUsers
@@ -59,7 +55,7 @@ object adminService {
   def updateEnv(days: Map[String, String]): RIO[Has[AdminService], Int] =
     ZIO.serviceWith[AdminService](_.updateEnv(days))
 
-  def insertUserSlotMapping(mapping: Map[UserId, Set[SlotId]]): RIO[Has[AdminService], Int] =
+  def insertUserSlotMapping(mapping: Mapping): RIO[Has[AdminService], Int] =
     ZIO.serviceWith[AdminService](_.insertUserSlotMapping(mapping))
 
   def loadUsers: RIO[Has[AdminService], Seq[SimpleUser]] =

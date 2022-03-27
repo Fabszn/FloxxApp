@@ -2,10 +2,9 @@ package org.floxx.env.repository
 
 import doobie.Update
 import doobie.implicits._
-import org.floxx.domain.Mapping
 import org.floxx.domain.Mapping.UserSlot
+import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.DbTransactor.TxResource
-import org.floxx.model.MappingUserSlot
 import org.floxx.model.jsonModel.Slot
 import zio._
 import zio.interop.catz._
@@ -14,13 +13,13 @@ object cfpRepository {
 
   trait SlotRepo {
 
-    def mappingUserSlot: Task[Seq[Mapping.UserSlot]]
+    def mappingUserSlot: Task[Seq[UserSlot]]
     def addSlots(slot: List[Slot]): Task[Int]
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
     def getSlotById(id: String): Task[Option[Slot]]
     def drop: Task[Int]
-    def addMapping(m: List[MappingUserSlot]): Task[Int]
+    def addMapping(m: Mapping): Task[Int]
   }
 
   case class SlotRepoService(r: TxResource) extends SlotRepo {
@@ -33,9 +32,15 @@ object cfpRepository {
         .updateMany(slots)
         .transact(r.xa)
 
-    override def addMapping(m: List[MappingUserSlot]): Task[Int] =
-      Update[MappingUserSlot]("insert into user_slots (userId,slotId) values(?,?)")
-        .updateMany(m)
+    override def addMapping(m: Mapping): Task[Int] =
+      m.userId
+        .fold(sql"""delete from user_slots where slotid=${m.slotId}""".update)(
+          v =>
+            Update[Mapping](s"""insert into user_slots  (userId,slotId) values (?,?)
+        ON CONFLICT (slotId) DO update set userId='${v.value}'""")
+              .toUpdate0(m)
+        )
+        .run
         .transact(r.xa)
 
     override def allSlots: Task[Seq[Slot]] =
@@ -49,7 +54,7 @@ object cfpRepository {
     override def getSlotById(id: String): Task[Option[Slot]] =
       sql"""select * from slot where slotid=$id""".query[Slot].option.transact(r.xa)
 
-    override def mappingUserSlot: Task[Seq[Mapping.UserSlot]] =
+    override def mappingUserSlot: Task[Seq[UserSlot]] =
       sql"""select u.userid,
             u.firstname,
             u.lastname, 

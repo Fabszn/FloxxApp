@@ -2,12 +2,13 @@ package org.floxx.env.api
 
 import io.circe.generic.auto._
 import org.floxx.UserInfo
+import org.floxx.domain.User.SimpleUser
+import org.floxx.domain._
 import org.floxx.env.service.adminService
-import org.floxx.model.{ SlotId, UserId }
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.http4s.{ AuthedRoutes, Response }
+import org.http4s.{AuthedRoutes, Response}
 import zio.Task
 import zio.interop.catz._
 
@@ -22,7 +23,8 @@ object adminApi {
   object Env {
     implicit val format = jsonOf[ApiTask, Env]
   }
-  case class Mapping(userSlots: Map[UserId, Set[SlotId]])
+
+  case class  Mapping(userId:Option[SimpleUser.Id],slotId: Slot.Id)
 
   object Mapping {
     implicit val format = jsonOf[ApiTask, Mapping]
@@ -43,7 +45,7 @@ object adminApi {
     case ct @ POST -> Root / "set-user" as user =>
       for {
         mapping <- ct.req.as[Mapping]
-        _ <- adminService.insertUserSlotMapping(mapping.userSlots)
+        _ <- adminService.insertUserSlotMapping(mapping)
         r <- Created(s"Mapping has been inserted")
       } yield r
 

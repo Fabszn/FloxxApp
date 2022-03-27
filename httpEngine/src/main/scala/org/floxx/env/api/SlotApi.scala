@@ -91,9 +91,7 @@ object SlotApi {
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
-        ) { s =>
-          Ok(Map("slot" -> s))
-        }
+        ) {Ok(_)}
       }
 
     case GET -> Root / "rooms" / roomId as user=>

@@ -46,10 +46,11 @@
       <template v-slot:cell(slotId)="data">{{
         data.item.slotId.value
       }}</template>
-      <template v-slot:cell(RedCoat)="data"> <div v-on:click="show(data.item.slotId.value)" >{{
-        handleUser(data.item.user)
-      }}</div></template>
-      
+      <template v-slot:cell(RedCoat)="data">
+        <div v-on:click="show(data.item.slotId.value, data.item.user)">
+          {{ handleUser(data.item.user) }}
+        </div></template
+      >
     </b-table>
 
     <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
@@ -58,7 +59,10 @@
           <div>
             <p>{{ confTitle }}</p>
             <p>{{ room }} / {{ confKind }}</p>
-            <p>{{ fromTime }} -> {{ toTime }}</p>
+            <p>
+              {{ fromTime }} -> {{ toTime }} - RedCoat :
+              {{ actualUserNameSelected }}
+            </p>
           </div>
           <div class="over">
             <dropdown
@@ -73,16 +77,15 @@
         </div>
 
         <div class="buttonmodal">
-          <button
-            type="button"
-            v-on:click="hide"
-            class="btn btn-secondary"
-          >
+          <button type="button" v-on:click="hide" class="btn btn-secondary">
             Cancel
+          </button>
+          <button type="button" v-on:click="remove" class="btn btn-secondary">
+            Remove
           </button>
           <button
             type="button"
-            v-on:click=""
+            v-on:click="saveMapping"
             class="btn btn-secondary"
           >
             Save
@@ -106,60 +109,55 @@ export default {
       room: "",
       fromTime: "",
       toTime: "",
+      selectedSlotId: "",
+      selectedUserId: "",
+      actualUserNameSelected: "",
       users: [],
       items: [],
       sortBy: "slotId",
       sortDesc: false,
       fields: [
         { key: "slotId", sortable: true },
-        { key: "RedCoat", sortable: true }
+        { key: "RedCoat", sortable: true },
       ],
       filter: null,
       filterOn: ["slotId"],
     };
   },
   created: function () {
-    shared.securityAccess(this.$router, (p) => {
-      this.$http
-        .get("/api/mapping", {
-          headers: shared.tokenHandle(),
-        })
-        .then((p) => {
-          this.items = p.data;
-        });
-    });
+    reloadData(this);
   },
   methods: {
     handleUser(user) {
-      console.log(user)
-      if (_.isNull(user)) {
-        return ("-");
-      } else {
-        return user.prenom.value + " " + user.nom.value;
-      }
+      return computeUser(user);
     },
     backAdminMenu: function () {
       this.$router.push("/admin");
     },
     validateSelection: function (value) {
+      this.selectedUserId = value.id;
+
       console.log(value.id);
     },
-    show(idSlot) {
+    show(idSlot, currentUser) {
+      this.actualUserNameSelected = computeUser(currentUser);
       this.$modal.show("map-user-modal", { slotId: idSlot });
     },
     beforeOpen(event) {
       var slotId = event.params.slotId;
+
       shared.securityAccess(this.$router, (p) => {
         this.$http
           .get("/api/slots/" + slotId, {
             headers: shared.tokenHandle(),
           })
           .then((p) => {
-            this.confTitle = p.data.slot.talk.title;
-            this.confKind = p.data.slot.talk.talkType;
-            this.room = p.data.slot.roomId;
-            this.fromTime = p.data.slot.fromTime;
-            this.toTime = p.data.slot.toTime;
+            this.confTitle = p.data.talk.title;
+            this.confKind = p.data.talk.talkType;
+            this.room = p.data.roomId;
+            this.fromTime = p.data.fromTime;
+            this.toTime = p.data.toTime;
+            this.selectedSlotId = p.data.slotId;
           });
       });
 
@@ -175,21 +173,80 @@ export default {
         });
     },
     hide() {
+      reInitModal(this);
       this.$modal.hide("map-user-modal");
     },
-    refresh: function () {
-      shared.securityAccess(this.$router, (p) => {
-        this.$http
-          .get("/api/stats/slots", {
+    remove() {
+      this.$http
+        .post(
+          "/api/set-user",
+          {
+            slotId: { value: this.selectedSlotId.id },
+          },
+          {
             headers: shared.tokenHandle(),
-          })
+          }
+        )
+        .then((p) => {
+          reInitModal(this);
+          reloadData(this);
+          this.$modal.hide("map-user-modal");
+          this.$notify({type: 'success',text:"Red coat removed!"});
+        });
+    },
+    saveMapping() {
+      if (_.isUndefined(this.selectedUserId)) {
+        this.$notify({type: 'error',text:"Red coat must be filled"});
+      } else {
+        this.$http
+          .post(
+            "/api/set-user",
+            {
+              userId: { value: this.selectedUserId },
+              slotId: { value: this.selectedSlotId.id },
+            },
+            {
+              headers: shared.tokenHandle(),
+            }
+          )
           .then((p) => {
-            console.log("to be implement");
+            reloadData(this);
+            this.$modal.hide("map-user-modal");
+            this.$notify({type: 'success',text:"Mapping done!"});
           });
-      });
+      }
+    },
+    refresh: function () {
+      reloadData(this);
     },
   },
 };
+
+function reInitModal(thisref) {
+  thisref.selectedUserId = "";
+  thisref.selectedSlotId = "";
+  thisref.actualUserNameSelected = "";
+}
+
+function computeUser(user) {
+  if (_.isNull(user)) {
+    return "-";
+  } else {
+    return user.prenom.value + " " + user.nom.value;
+  }
+}
+
+function reloadData(thisref) {
+  shared.securityAccess(thisref.$router, (p) => {
+    thisref.$http
+      .get("/api/mapping", {
+        headers: shared.tokenHandle(),
+      })
+      .then((p) => {
+        thisref.items = p.data;
+      });
+  });
+}
 </script>
 
 <style scoped>

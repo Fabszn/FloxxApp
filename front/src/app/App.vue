@@ -5,7 +5,7 @@
       {{ version }} <span> - {{ $store.state.username }}</span>
     </div>
     <div id="username"></div>
-    <notifications group="foo" />
+    <notifications/>
   </div>
 </template>
 <script>

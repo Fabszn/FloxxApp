@@ -1,8 +1,11 @@
 package org.floxx
 
 import doobie.util.Read
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.User.SimpleUser._
+import org.http4s.circe.jsonOf
 
 object domain {
 
@@ -35,12 +38,19 @@ object domain {
       final case class Nom(value: String) extends AnyVal
       final case class Prenom(value: String) extends AnyVal
 
+      implicit val enc: Encoder[SimpleUser.Id] = deriveEncoder[SimpleUser.Id]
+      implicit val dec: Decoder[SimpleUser.Id] = deriveDecoder[SimpleUser.Id]
+
+
     }
 
   }
 
   object Slot {
     final case class Id(value: String) extends AnyVal
+
+    implicit val enc: Encoder[Slot.Id] = deriveEncoder[Slot.Id]
+    implicit val dec: Decoder[Slot.Id] = deriveDecoder[Slot.Id]
   }
 
 }
