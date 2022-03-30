@@ -151,6 +151,8 @@ lazy val model = (project in file("model"))
     libraryDependencies ++= doobie,
     libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
+    libraryDependencies += zio,
+    libraryDependencies += `zio-interop-cats`,
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
   )
 

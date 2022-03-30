@@ -8,15 +8,21 @@
       </div>
     </div>
     <div>
-      <p>What do you want do to ?</p>
-    </div>
-
+          <br>
+        </div>
       <div>
           <button
           type="button"
           class="btn btn-secondary btn-lg block"
           v-on:click="navToConf"
-          >Conf.</button>
+          >Current slot</button>
+      </div>
+      <div>
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg block"
+            v-on:click="navToMySlots"
+          >All slots</button>
       </div>
       <div>
           <button
@@ -29,7 +35,7 @@
           <button  type="button"
           class="btn btn-secondary btn-lg block"
           v-on:click="navToStat"
-          >admin.</button>
+          >Admin.</button>
       </div>
     </div>
   </div>
@@ -37,35 +43,37 @@
 <script>
 import shared from "../shared";
 export default {
-    data(){
-        return{
-            adminState:true
-        }
-    },
-mounted() {
+  data() {
+    return {
+      adminState: true,
+    };
+  },
+  mounted() {
     console.debug("state admin " + shared.readAdminEtat());
 
-    this.adminState=shared.readAdminEtat();
-
+    this.adminState = shared.readAdminEtat();
   },
   created() {
-    shared.securityAccess(this.$router, p => {});
+    shared.securityAccess(this.$router, (p) => {});
   },
   methods: {
-    navToConf: function() {
+    navToConf: function () {
       this.$router.push("/rooms");
     },
-    navToOverf: function() {
+    navToOverf: function () {
       this.$router.push("/overflow");
     },
-    navToStat: function() {
+    navToMySlots: function () {
+      this.$router.push("/mySlots");
+    },
+    navToStat: function () {
       this.$router.push("/admin");
     },
-    backDisconnect: function() {
+    backDisconnect: function () {
       shared.cleanToken();
       this.$router.push("/");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -78,12 +86,6 @@ mounted() {
   font-size: 16px;
   cursor: pointer;
   text-align: center;
-}
-
-.main-menu {
-    display: flex;
-    flex-direction:column;
-    justify-content:space-between;
 }
 </style>
 

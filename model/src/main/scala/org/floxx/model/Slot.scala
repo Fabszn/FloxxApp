@@ -5,7 +5,7 @@ import io.circe.generic.semiauto._
 import io.circe.{ Decoder, Encoder, HCursor }
 
 object jsonModel {
-
+  @deprecated("must be replace by domain.Talk")
   case class Talk(talkType: String, title: String)
   object Talk {
 
@@ -23,7 +23,7 @@ object jsonModel {
 
   }
 
-  @deprecated
+  @deprecated("must be replace by domain.Slot")
   case class Slot(slotId: SlotId, roomId: String, fromTime: String, toTime: String, talk: Option[Talk], day: String)
 
   object Slot {

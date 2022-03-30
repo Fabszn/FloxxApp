@@ -1,16 +1,17 @@
 package org.floxx.env.api
 
-import io.circe.Json
-import org.floxx.UserInfo
+import io.circe.generic.auto._
+import org.floxx.domain.Room
+import org.floxx.domain.User.SimpleUser
 import org.floxx.env.configuration.config
-import org.floxx.env.service.{timeUtils, trackService}
-import org.floxx.model.{Hit, SlotId}
+import org.floxx.env.service.{ timeUtils, trackService }
+import org.floxx.model.{ Hit, SlotId }
+import org.floxx.{ domain, UserInfo }
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
-import io.circe.generic.auto._
 import org.http4s.dsl.Http4sDsl
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import zio.interop.catz._
 
 object SlotApi {
@@ -32,7 +33,7 @@ object SlotApi {
   }
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
-    case GET -> Root / "read" as user=>
+    case GET -> Root / "read" as user =>
       trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
 
     /**
@@ -56,7 +57,7 @@ object SlotApi {
       } yield rep
 
     /**
-      * All slots (active or not)
+      * All slots (active or not) for all users
       */
     case GET -> Root / "slots" / "_all" as _ =>
       for {
@@ -65,9 +66,18 @@ object SlotApi {
       } yield rep
 
     /**
+      * All slots (active or not) for current user
+      */
+    case GET -> Root / "slots" / "_currentUser" as user =>
+      for {
+        slots: Seq[domain.Slot] <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
+        rep <- Ok(slots)
+      } yield rep
+
+    /**
       * load only active slots for specific users
       */
-    case GET -> Root  / "slots" as user=> {
+    case GET -> Root / "slots" as user =>
       for {
         conf <- config.getConf
         slot <- trackService.loadSlotByCriterias(
@@ -85,16 +95,14 @@ object SlotApi {
         }
       } yield rep
 
-    }
-
     case GET -> Root / "slots" / idSlot as _ =>
       trackService.loadSlot(idSlot) >>= {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
-        ) {Ok(_)}
+        ) { Ok(_) }
       }
 
-    case GET -> Root / "rooms" / roomId as user=>
+    case GET -> Root / "rooms" / roomId as _ =>
       trackService.roomById(roomId) >>= {
         _.fold(
           NotFound(s"None room found for key ${roomId}")
@@ -102,6 +110,12 @@ object SlotApi {
           Ok("roomId" -> s)
         }
       }
+
+    case GET -> Root / "rooms" as _ =>
+      trackService.rooms >>= { (m: Map[Room.Id, Room.Name]) =>
+        Ok(m.map { case (k, v) => k.value -> v.value })
+      }
+
   }
 
 }

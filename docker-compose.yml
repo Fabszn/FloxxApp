@@ -2,7 +2,7 @@
 version: '2'
 services:
   postgres:
-    image: postgres:10.17-alpine
+    image: postgres:14
     environment:
       - POSTGRES_PASSWORD=pwduser
       - POSTGRES_USER=floxxuser

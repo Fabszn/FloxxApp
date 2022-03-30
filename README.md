@@ -37,7 +37,7 @@ Locally :
 `Some route are mmocked in webpack.config.js file`
 
 
-# Mise en prod
+# roll out
 
 1) ensure that your master index is clean and fully pushed.
 2) Run `sbt goToProd` 

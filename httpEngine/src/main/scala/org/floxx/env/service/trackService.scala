@@ -1,13 +1,15 @@
 package org.floxx.env.service
 
+import org.floxx.domain.Room
+import org.floxx.domain.User.SimpleUser
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Slot
-import org.floxx.{HttpExternalCallError, IllegalStateError}
+import org.floxx.{ domain, HttpExternalCallError, IllegalStateError }
 import org.http4s.Response
 import org.http4s.blaze.client.BlazeClientBuilder
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import zio._
 import zio.interop.catz._
 import zio.interop.catz.implicits.rts
@@ -23,6 +25,8 @@ object trackService {
     def loadSlot(id: String): Task[Option[Slot]]
     def loadAllSlots: Task[Seq[Slot]]
     def roomById(id: String): Task[Option[String]]
+    def rooms: Task[Map[Room.Id, Room.Name]]
+    def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]]
   }
 
   case class TrackServiceImpl(slotRepo: SlotRepo, config: Configuration) extends TrackService {
@@ -37,7 +41,7 @@ object trackService {
             import org.floxx.model.jsonModel._
             logger.info(s"URL resquested ${url}")
             client.get(url) { r: Response[Task] =>
-             // logger.error(s"Parsing Error :  ${rt}", e)
+              // logger.error(s"Parsing Error :  ${rt}", e)
               r.as[String].map { rt =>
                 parse(rt).fold(
                   e => {
@@ -90,12 +94,15 @@ object trackService {
 
     override def loadSlot(id: String): Task[Option[Slot]] = slotRepo.getSlotById(id)
 
-
     override def roomById(id: String): Task[Option[String]] =
       config.getRooms.map(_(id))
 
-
     override def loadAllSlots: Task[Seq[Slot]] = slotRepo.allSlots
+
+    override def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]] = slotRepo.allSlotsByUserId(userId)
+
+    override def rooms: Task[Map[Room.Id, Room.Name]] =
+      config.getRooms.map(rs => rs.map { case (k, v) => Room.Id(k) -> Room.Name(v.getOrElse("None name")) })
 
     private def computeRoomKey(slots: List[Slot]): Task[List[Slot]] =
       config.getConf >>= (
@@ -132,6 +139,9 @@ object trackService {
     ZIO.serviceWith[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: String): RIO[Has[TrackService], Option[Slot]]   = ZIO.serviceWith[TrackService](_.loadSlot(id))
   def roomById(id: String): RIO[Has[TrackService], Option[String]] = ZIO.serviceWith[TrackService](_.roomById(id))
-  def loadAllSlots: RIO[Has[TrackService], Seq[Slot]] = ZIO.serviceWith[TrackService](_.loadAllSlots)
+  def rooms: RIO[Has[TrackService], Map[Room.Id, Room.Name]]       = ZIO.serviceWith[TrackService](_.rooms)
+  def loadAllSlots: RIO[Has[TrackService], Seq[Slot]]              = ZIO.serviceWith[TrackService](_.loadAllSlots)
+  def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[Has[TrackService], Seq[domain.Slot]] =
+    ZIO.serviceWith[TrackService](_.loadAllForCurrentUser(userId))
 
 }

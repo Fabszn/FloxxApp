@@ -8,6 +8,101 @@ function mockApi(app) {
     app.get('/infos', function(req, res) {
         res.send('devMode');
     })
+
+    app.get('/api/rooms', function(req, res) {
+        res.send({
+            "par224M-225M": "224_225",
+            "neu_234_235": "234_235",
+            "neu_212_213": "212_213",
+            "par242B": "242B",
+            "par242A": "242A",
+            "lobby_neuilly": "None name",
+            "neu_232_232": "232",
+            "e_neu252": "252",
+            "d_par241": "241",
+            "par202_203": "202_203",
+            "b_amphi": "Amphi bleu",
+            "par204": "204",
+            "neu253": "253",
+            "neu253_t": "253",
+            "par221M-222M": "221_222",
+            "x_hall_a": "openDataCamp",
+            "a_hall": "None name",
+            "par243_t": "243",
+            "par201": "201",
+            "f_neu251": "251",
+            "par243": "243",
+            "par242AB": "242",
+            "c_maillot": "Maillot"
+        });
+    })
+
+    app.get('/api/slots/_currentUser', function(req, res) {
+        res.send([{
+                "slotId": {
+                    "value": "friday_b_amphi_13:30-14:15"
+                },
+                "roomId": {
+                    "value": "Amphi bleu"
+                },
+                "fromTime": {
+                    "value": "13:30"
+                },
+                "toTime": {
+                    "value": "14:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Mieux maitriser TLS, OpenSSL et les certificats"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            },
+            {
+                "slotId": {
+                    "value": "friday_b_amphi_15:30-16:15"
+                },
+                "roomId": {
+                    "value": "Amphi bleu"
+                },
+                "fromTime": {
+                    "value": "15:30"
+                },
+                "toTime": {
+                    "value": "16:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Architecture microservices et cohérence des données : mais on fait comment pour de vrai ?"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            },
+            {
+                "slotId": {
+                    "value": "friday_c_maillot_15:30-16:15"
+                },
+                "roomId": {
+                    "value": "Maillot"
+                },
+                "fromTime": {
+                    "value": "15:30"
+                },
+                "toTime": {
+                    "value": "16:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Kotlin, Java 4..18, Code Coverage and their best friend — bytecode: scandals, intrigues, investigations"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            }
+        ]);
+    })
     app.post('/login', function(req, res) {
         res.json({ 'name': 'Fabrice Szanjderman', 'isAdmin': true, token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJhaGVyaXRpZXIiLCJmaXJzdG5hbWUiOiJhaGVyaXRpZXJAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.-ymZ5w8e6Whw2BYl0TVlqNA2q4mLe1YoEyjQsDxWJm0' });
     })
@@ -59,11 +154,11 @@ function mockApi(app) {
 
 
 
-    app.get('/api/slots/wednesday_c_maillot_09:30-12:30', function(req, res) {
+    app.get('/api/slots/friday_b_amphi_13:30-14:15', function(req, res) {
         res.json({
             "slot": {
                 "slotId": {
-                    "id": "wednesday_c_maillot_09:30-12:30"
+                    "id": "friday_b_amphi_13:30-14:15"
                 },
                 "roomId": "Maillot",
                 "fromTime": "09:30",

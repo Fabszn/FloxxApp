@@ -8,7 +8,7 @@
           </div>
         </div>
         <div>
-          <p>What do you want do to ?</p>
+          <br>
         </div>
         <div>
           <button
