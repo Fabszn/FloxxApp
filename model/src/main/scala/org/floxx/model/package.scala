@@ -7,6 +7,7 @@ package object model {
 
   val notInitializedId: Long = -1
 
+  @deprecated("must be replace by domain.Slot")
   class SlotId(val id: String) extends AnyVal
 
   object SlotId{

@@ -9,6 +9,7 @@ import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
+import org.floxx.domain.User.SimpleUser
 import org.http4s.dsl.Http4sDsl
 import org.slf4j.{Logger, LoggerFactory}
 import zio.interop.catz._
@@ -56,7 +57,7 @@ object SlotApi {
       } yield rep
 
     /**
-      * All slots (active or not)
+      * All slots (active or not) for all users
       */
     case GET -> Root / "slots" / "_all" as _ =>
       for {
@@ -65,9 +66,18 @@ object SlotApi {
       } yield rep
 
     /**
+      * All slots (active or not) for current user
+      */
+    case GET -> Root / "slots" / "_currentUser" as user =>
+      for {
+        slots <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
+        rep <- Ok(slots)
+      } yield rep
+
+    /**
       * load only active slots for specific users
       */
-    case GET -> Root  / "slots" as user=> {
+    case GET -> Root  / "slots" as user=>
       for {
         conf <- config.getConf
         slot <- trackService.loadSlotByCriterias(
@@ -85,7 +95,7 @@ object SlotApi {
         }
       } yield rep
 
-    }
+
 
     case GET -> Root / "slots" / idSlot as _ =>
       trackService.loadSlot(idSlot) >>= {

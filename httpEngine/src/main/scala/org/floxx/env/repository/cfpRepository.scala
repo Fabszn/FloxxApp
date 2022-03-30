@@ -2,7 +2,9 @@ package org.floxx.env.repository
 
 import doobie.Update
 import doobie.implicits._
+import org.floxx.domain
 import org.floxx.domain.Mapping.UserSlot
+import org.floxx.domain.User.SimpleUser
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.DbTransactor.TxResource
 import org.floxx.model.jsonModel.Slot
@@ -20,6 +22,7 @@ object cfpRepository {
     def getSlotById(id: String): Task[Option[Slot]]
     def drop: Task[Int]
     def addMapping(m: Mapping): Task[Int]
+    def allSlotsByUserId(user:SimpleUser.Id): Task[Seq[domain.Slot]]
   }
 
   case class SlotRepoService(r: TxResource) extends SlotRepo {
@@ -45,6 +48,9 @@ object cfpRepository {
 
     override def allSlots: Task[Seq[Slot]] =
       sql"""select * from slot""".query[Slot].to[Seq].transact(r.xa)
+
+    override def allSlotsByUserId(userId:SimpleUser.Id): Task[Seq[domain.Slot]] =
+      sql"""select * from slot s inner join user_slots us on s.slotid=us.slotid where us.userid=${userId.value}""".query[domain.Slot].to[Seq].transact(r.xa)
 
     override def allSlotsWithUserId(userId: String): Task[Set[Slot]] =
       sql"""select * from

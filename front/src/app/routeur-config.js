@@ -10,6 +10,7 @@ import topsList from './components/admins/topsList.vue'
 import redcoatmng from './components/admins/redcoatmng.vue'
 import statistiques from './components/admins/statistiques.vue'
 import mappingRCR from './components/admins/mappingRCR.vue'
+import mySlots from './components/mySlots.vue'
 
 export const routes = [{
     path: '/',
@@ -58,5 +59,9 @@ export const routes = [{
 }, {
     path: '/mappingRC',
     component: mappingRCR,
+    children: []
+}, {
+    path: '/myslots',
+    component: mySlots,
     children: []
 }];

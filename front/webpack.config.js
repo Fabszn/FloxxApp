@@ -8,6 +8,73 @@ function mockApi(app) {
     app.get('/infos', function(req, res) {
         res.send('devMode');
     })
+
+    app.get('/api/slots/_currentUser', function(req, res) {
+        res.send([{
+                "slotId": {
+                    "value": "friday_b_amphi_13:30-14:15"
+                },
+                "roomId": {
+                    "value": "Amphi bleu"
+                },
+                "fromTime": {
+                    "value": "13:30"
+                },
+                "toTime": {
+                    "value": "14:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Mieux maitriser TLS, OpenSSL et les certificats"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            },
+            {
+                "slotId": {
+                    "value": "friday_b_amphi_15:30-16:15"
+                },
+                "roomId": {
+                    "value": "Amphi bleu"
+                },
+                "fromTime": {
+                    "value": "15:30"
+                },
+                "toTime": {
+                    "value": "16:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Architecture microservices et cohérence des données : mais on fait comment pour de vrai ?"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            },
+            {
+                "slotId": {
+                    "value": "friday_c_maillot_15:30-16:15"
+                },
+                "roomId": {
+                    "value": "Maillot"
+                },
+                "fromTime": {
+                    "value": "15:30"
+                },
+                "toTime": {
+                    "value": "16:15"
+                },
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Kotlin, Java 4..18, Code Coverage and their best friend — bytecode: scandals, intrigues, investigations"
+                },
+                "day": {
+                    "value": "friday"
+                }
+            }
+        ]);
+    })
     app.post('/login', function(req, res) {
         res.json({ 'name': 'Fabrice Szanjderman', 'isAdmin': true, token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJhaGVyaXRpZXIiLCJmaXJzdG5hbWUiOiJhaGVyaXRpZXJAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.-ymZ5w8e6Whw2BYl0TVlqNA2q4mLe1YoEyjQsDxWJm0' });
     })

@@ -1,0 +1,64 @@
+<template>
+  <div>
+    <div class="d-flex justify-content-center separate-headfooter">
+      <div>
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </div>
+    </div>
+    <div>
+      <br />
+    </div>
+    <div v-for="item in items" :key="item.slotId.value">
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg block"
+        v-on:click="backMenu"
+      >
+        {{ item.slotId.value }}
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import shared from "../shared";
+import _ from "lodash";
+export default {
+  data: function () {
+    return { items: [] };
+  },
+  created: function () {
+    this.$http
+      .get("/api/slots/_currentUser", {
+        headers: shared.tokenHandle(),
+      })
+      .then((p) => {
+        console.log(p.data);
+
+        this.items = p.data;
+      });
+  },
+  methods: {
+    backMenu: function () {
+      this.$router.push("/menu");
+    },
+  },
+};
+</script>
+
+
+<style  scoped>
+.block {
+  width: 100%;
+  background-color: #4caf50;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+ 
+
+
+</style>
