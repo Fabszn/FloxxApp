@@ -38,14 +38,14 @@
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-green position"
+            class="btn btn-secondary btn-lg block bgreen position"
             v-on:click="hit(10)"
           >10%</button>
         </div>
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-green position"
+            class="btn btn-secondary btn-lg block bgreen position"
             v-on:click="hit(20)"
           >20%</button>
         </div>
@@ -54,14 +54,14 @@
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-green"
+            class="btn btn-secondary btn-lg block bgreen"
             v-on:click="hit(30)"
           >30%</button>
         </div>
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-green"
+            class="btn btn-secondary btn-lg block bgreen"
             v-on:click="hit(40)"
           >40%</button>
         </div>
@@ -70,14 +70,14 @@
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-orange"
+            class="btn btn-secondary btn-lg block borange"
             v-on:click="hit(50)"
           >50%</button>
         </div>
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-orange"
+            class="btn btn-secondary btn-lg block borange"
             v-on:click="hit(60)"
           >60%</button>
         </div>
@@ -86,24 +86,24 @@
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-orange"
+            class="btn btn-secondary btn-lg block borange"
             v-on:click="hit(70)"
           >70%</button>
         </div>
         <div>
-          <button type="button" class="btn btn-secondary btn-lg block-red" v-on:click="hit(80)">80%</button>
+          <button type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(80)">80%</button>
         </div>
       </div>
       <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button type="button" class="btn btn-secondary btn-lg block-red" v-on:click="hit(90)">90%</button>
+          <button type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(90)">90%</button>
         </div>
         <div>
           <button
             type="button"
-            class="btn btn-secondary btn-lg block-red"
+            class="btn btn-secondary btn-lg block bred"
             v-on:click="hit(100)"
-          >Full</button>
+          >Over</button>
         </div>
       </div>
     </div>
@@ -135,9 +135,9 @@ export default {
           headers: shared.tokenHandle()
         })
         .then(p => {
-          this.title = p.data.slot.talk.title;
-          this.talkType = p.data.slot.talk.talkType;
-          this.room = p.data.slot.roomId;
+          this.title = p.data.talk.title;
+          this.talkType = p.data.talk.talkType;
+          this.room = p.data.roomId;
         });
     });
   },
@@ -181,11 +181,10 @@ export default {
   width: 50%;
 }
 
-.block-green {
+.block {
   display: block;
   width: 100%;
   border: none;
-  background-color: #4caf50;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
@@ -193,27 +192,13 @@ export default {
   margin: 6px 0px 0px 10px;
 }
 
-.block-orange {
-  display: block;
-  width: 100%;
-  border: none;
-  background-color: #ffa500;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  margin: 6px 0px 0px 10px;
-}
-
-.block-red {
-  display: block;
-  width: 100%;
-  border: none;
+.bred {
   background-color: red;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  margin: 6px 0px 0px 10px;
+}
+.borange {
+  background-color: #ffa500;
+}
+.bgreen {
+  background-color: #4caf50;
 }
 </style>

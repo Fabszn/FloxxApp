@@ -4,12 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-    username: "-"
+    username: "-",
+    rooms: []
 }
 
 const mutations = {
     setuserName(state, name) {
         state.username = name;
+    },
+    setRooms(state, rooms) {
+        state.rooms = rooms;
     }
 
 }

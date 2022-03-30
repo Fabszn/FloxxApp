@@ -5,7 +5,7 @@ gestion des redcoats
     - lister les talks d'un redcoats
 -->
 <template>
-  <div></div>
+  <div>coming soon...</div>
 </template>
 
 <script>

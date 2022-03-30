@@ -14,9 +14,9 @@
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
-        v-on:click="backMenu"
+        v-on:click="selectSlot(item.slotId.value)"
       >
-        {{ item.slotId.value }}
+        {{ item.roomId.value }} : {{ item.fromTime.value }} - {{ item.toTime.value }} 
       </button>
     </div>
   </div>
@@ -41,6 +41,10 @@ export default {
       });
   },
   methods: {
+      selectSlot: function(idSlot) {
+    console.log(idSlot);
+      this.$router.push("fill/" + idSlot);
+    },
     backMenu: function () {
       this.$router.push("/menu");
     },

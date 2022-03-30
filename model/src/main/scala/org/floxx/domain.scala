@@ -1,13 +1,14 @@
 package org.floxx
 
-import cats.effect.IO
-import doobie.util.{ Get, Put, Read }
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+
+import doobie.util.{Get, Put, Read}
 import io.circe.generic.auto._
-import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder, Json}
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.User.SimpleUser._
 import org.http4s.circe.jsonOf
+import zio.interop.catz._
 
 object domain {
 
@@ -56,9 +57,22 @@ object domain {
     final case class Capacity(value: Int) extends AnyVal
     final case class Setup(value: String) extends AnyVal
 
+    object Id {
+      implicit val enc: Encoder[Room.Id] = deriveEncoder[Room.Id]
+      implicit val dec: Decoder[Room.Id] = deriveDecoder[Room.Id]
+
+    }
+    object Name {
+      implicit val enc: Encoder[Room.Name] = deriveEncoder[Room.Name]
+      implicit val dec: Decoder[Room.Name] = deriveDecoder[Room.Name]
+
+    }
 
 
-    implicit val format = jsonOf[IO, Room]
+
+    implicit val enc: Encoder[Room] = deriveEncoder[Room]
+    implicit val dec: Decoder[Room] = deriveDecoder[Room]
+
   }
 
   case class Talk(talkType: String, title: String)
@@ -78,7 +92,14 @@ object domain {
 
   }
 
-  case class Slot(slotId: Slot.Id, roomId: Room.Id, fromTime: Slot.FromTime, toTime: Slot.ToTime, talk: Option[Talk], day: Slot.Day)
+  case class Slot(
+      slotId: Slot.Id,
+      roomId: Room.Id,
+      fromTime: Slot.FromTime,
+      toTime: Slot.ToTime,
+      talk: Option[Talk],
+      day: Slot.Day
+  )
 
   object Slot {
     final case class Id(value: String) extends AnyVal

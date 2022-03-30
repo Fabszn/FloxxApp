@@ -5,6 +5,7 @@
         <button v-on:click="backAdminMenu" type="button" class="btn btn-secondary">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
+        <div>coming soon...</div>
       </div>
     </div>TopsList
   </div>
