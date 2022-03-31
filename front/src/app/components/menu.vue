@@ -10,13 +10,13 @@
     <div>
           <br>
         </div>
-      <div>
+      <!--<div>
           <button
           type="button"
           class="btn btn-secondary btn-lg block"
           v-on:click="navToConf"
           >Current slot</button>
-      </div>
+      </div>-->
       <div>
           <button
             type="button"
@@ -57,9 +57,9 @@ export default {
     shared.securityAccess(this.$router, (p) => {});
   },
   methods: {
-    navToConf: function () {
-      this.$router.push("/rooms");
-    },
+    //navToConf: function () {
+     // this.$router.push("/rooms");
+    //},
     navToOverf: function () {
       this.$router.push("/overflow");
     },
