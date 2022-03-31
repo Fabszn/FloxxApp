@@ -2,7 +2,7 @@
   <div class="d-flex flex-column">
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backRoom" type="button" class="btn btn-secondary">
+        <button v-on:click="backMySlots" type="button" class="btn btn-secondary">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
@@ -169,8 +169,8 @@ export default {
           });
         });
     },
-    backRoom: function() {
-      this.$router.push("/rooms");
+    backMySlots: function() {
+      this.$router.push("/myslots");
     }
   }
 };
