@@ -15,11 +15,6 @@
  - Ajouter la possibilité de flaguer une salle en overflow -> pour que les redcoats puissent savoir si l'overflow est affecté
  - Ajouter aussi un flag de proposition de sa salle en overflow
 
-# Compte de test
-
-fabszn@pm.me / 123
-mpierre@pm.me / 123
-aheritier@gmail.com / 123
 
 
 
