@@ -1,10 +1,10 @@
 package org.floxx.env.repository
 
+import doobie.implicits._
+import org.floxx.env.repository.DbTransactor.TxResource
 import org.floxx.model.stats.StatItem
 import zio._
-import doobie.implicits._
 import zio.interop.catz._
-import org.floxx.env.repository.DbTransactor.TxResource
 
 object statsRepository {
 
@@ -13,19 +13,25 @@ object statsRepository {
     def hitsListWithPercentage(): Task[Seq[StatItem]]
   }
 
-  case class StatsRepository(r:TxResource) extends StatsRepo {
+  case class StatsRepository(r: TxResource) extends StatsRepo {
 
     override def hitsListWithPercentage(): Task[Seq[StatItem]] =
-      sql"""select s.slotId, talk, percentage, roomid, fromtime,totime, s.day  from
-      ( select max(datetime) as md, hitslotid from hit group by hitslotid) r
-      right join hit h on r.md=h.datetime and r.hitslotid=h.hitslotid
-      right join slot s on h.hitslotid=s.slotid""".query[StatItem].to[Seq].transact(r.xa)
 
+      sql"""SELECT hl.slotId,
+       s.talk,
+       hh.percentage,
+       s.roomid,
+       s.fromtime,
+       s.totime,
+       s.day
+        FROM hit_latest hl
+        INNER JOIN hit_history hh ON hl.fkid_hit=hh.hitid
+        INNER JOIN slot s ON s.slotid=hh.hitslotid
+        """.query[StatItem].to[Seq].transact(r.xa)
   }
 
-  val layer:RLayer[Has[TxResource], Has[StatsRepo]]= (StatsRepository(_)).toLayer
+  val layer: RLayer[Has[TxResource], Has[StatsRepo]] = (StatsRepository(_)).toLayer
 
-  def hitsListWithPercentage:RIO[Has[StatsRepo], Seq[StatItem]] = ZIO.serviceWith[StatsRepo](_.hitsListWithPercentage())
-
+  def hitsListWithPercentage: RIO[Has[StatsRepo], Seq[StatItem]] = ZIO.serviceWith[StatsRepo](_.hitsListWithPercentage())
 
 }
