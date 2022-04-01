@@ -8,13 +8,13 @@
     </div>
     <form id="signup-form" @submit.prevent="processForm">
       <div class="form-group">
-        <label for="login">Email address</label>
+        <label for="login">Login</label>
         <input
           id="login"
-          type="email"
-          v-model="email"
+          type="text"
+          v-model="login"
           class="form-control"
-          placeholder="Enter email"
+          placeholder="Enter login"
         />
       </div>
       <div class="form-group">
@@ -60,7 +60,7 @@ export default {
         .post(
           "/login",
           JSON.stringify({
-            login: this.email,
+            login: this.login,
             mdp: this.password,
           })
         )

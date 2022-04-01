@@ -4,19 +4,18 @@ import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import org.floxx.env.api.ApiTask
-import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
+import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
 import org.floxx.env.repository.userRepository.UserRepo
-import org.floxx.{AuthentificationError, UserInfo}
+import org.floxx.{ AuthentificationError, UserInfo }
 import org.http4s.circe.jsonOf
-import org.slf4j.{Logger, LoggerFactory}
-import pdi.jwt.{Jwt, JwtAlgorithm}
-import zio.{Has, RLayer, Task, _}
+import org.slf4j.{ Logger, LoggerFactory }
+import pdi.jwt.{ Jwt, JwtAlgorithm }
 import zio.interop.catz._
+import zio.{ Has, RLayer, Task, _ }
 
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 object securityService {
-
 
   //utilisateur déjà identifier TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
   case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
@@ -65,7 +64,7 @@ object securityService {
     override def authentification(user: String, mdp: String): Task[AuthenticatedUser] =
       for {
         config <- conf.getConf
-        userFound <- securityRepo.userByLogin(user)
+        userFound <- securityRepo.userByUserId(user)
         auth <- {
           logger.debug(s"user found $userFound")
           userFound match {
@@ -73,7 +72,10 @@ object securityService {
               Task.succeed(
                 AuthenticatedUser(
                   s"${u.firstName} ${u.lastName}",
-                  tokenGenerator(UserInfo(u.userId.getOrElse("no ID"), u.login, u.isAdmin),config),
+                  tokenGenerator(
+                    UserInfo(u.userId.getOrElse("no ID"), u.login, u.isAdmin),
+                    config
+                  ),
                   u.isAdmin
                 )
               )
@@ -85,7 +87,7 @@ object securityService {
 
       } yield auth
 
-    private def tokenGenerator(info: UserInfo, conf:GlobalConfig): String =
+    private def tokenGenerator(info: UserInfo, conf: GlobalConfig): String =
       Jwt.encode(
         info.asJson.noSpaces,
         conf.floxx.secret,
@@ -93,10 +95,11 @@ object securityService {
       )
   }
 
-  def layer:RLayer[Has[UserRepo] with Has[Configuration], Has[SecurityService]] = (SecurityServiceImpl(_,_)).toLayer
+  def layer: RLayer[Has[UserRepo] with Has[Configuration], Has[SecurityService]] = (SecurityServiceImpl(_, _)).toLayer
 
-  def authentification(user: String, mdp: String):RIO[Has[SecurityService], AuthenticatedUser] = ZIO.serviceWith[SecurityService](_.authentification(user, mdp))
-  def checkAuthentification(token: String):RIO[Has[SecurityService], Option[UserInfo]] = ZIO.serviceWith[SecurityService](_.checkAuthentification(token))
-
+  def authentification(user: String, mdp: String): RIO[Has[SecurityService], AuthenticatedUser] =
+    ZIO.serviceWith[SecurityService](_.authentification(user, mdp))
+  def checkAuthentification(token: String): RIO[Has[SecurityService], Option[UserInfo]] =
+    ZIO.serviceWith[SecurityService](_.checkAuthentification(token))
 
 }
