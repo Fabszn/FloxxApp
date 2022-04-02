@@ -1,4 +1,4 @@
-# Floxx
+# Floxx - mobile
 
 ## Context
 This application aims to manage flow of attendees during one conference.

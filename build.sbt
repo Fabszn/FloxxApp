@@ -13,8 +13,8 @@ lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine direct
 lazy val yarnInstall     = taskKey[Unit]("install front project")
 lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
 lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
-lazy val deliveryTask = taskKey[Unit]("push last version to prod")
-lazy val gotToMaster = taskKey[Unit]("put index on master")
+lazy val deliveryTask    = taskKey[Unit]("push last version to prod")
+lazy val gotToMaster     = taskKey[Unit]("put index on master")
 
 def yarnInstall(file: File) =
   Process("yarn install", file) !
@@ -45,23 +45,20 @@ handleFrontFile := {
   commitFrontFile
 }
 
-def checkout(branch:String) ={
+def checkout(branch: String) =
   Process(
     s"git checkout ${branch}"
   ) !
-}
 
-def pull(branch:String) ={
+def pull(branch: String) =
   Process(
     s"git pull origin ${branch}"
   ) !
-}
 
-def mergeMaster = {
+def mergeMaster =
   Process(
     "git merge master"
   ) !
-}
 
 gotToMaster := {
   checkout("master")
@@ -88,6 +85,14 @@ floxxCopyFile := {
       (front / baseDirectory).value / "dist/floxx.js",
       (httpResourceDir.value / "assets/floxx.js")
     )
+    IO.copyFile(
+      (desktopApp / baseDirectory).value / "dist/desktop/index.html",
+      (httpResourceDir.value / "assets/desktop/index.html")
+    )
+    IO.copyFile(
+      (desktopApp / baseDirectory).value / "dist/desktop/desktop.js",
+      (httpResourceDir.value / "assets/desktop/desktop.js")
+    )
   } match {
     case Failure(exception) => throw exception
     case _ => ()
@@ -95,16 +100,19 @@ floxxCopyFile := {
 
 }
 
-front / webpackDev := {
+webpackDev := {
   if (runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (runWebpack(desktopApp.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
-front / webpackProd := {
+webpackProd := {
   if (runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (runWebpack(desktopApp.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / yarnInstall := {
   if (yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
+  if (yarnInstall(desktopApp.base) != 0) throw new Exception("Something went wrong when running yarn install.")
 }
 
 ThisBuild / scalaVersion := "2.13.8"
@@ -157,7 +165,7 @@ lazy val model = (project in file("model"))
   )
 
 lazy val httpEngine = (project in file("httpEngine"))
-  .enablePlugins(JavaAppPackaging,BuildInfoPlugin)
+  .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
   .settings(commonsSettings)
   .settings(
     name := "FloxxServer",
@@ -179,10 +187,8 @@ lazy val httpEngine = (project in file("httpEngine"))
         "com.github.nscala-time" %% "nscala-time"    % "2.22.0",
         "com.pauldijou"          %% "jwt-core"       % "3.0.1"
       ),
-
-      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-      buildInfoPackage := "org.floxx "
-
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+    buildInfoPackage := "org.floxx "
   )
   .dependsOn(model)
 
@@ -203,7 +209,8 @@ lazy val wartRemoverSettings = Seq(
     )
 )
 
-lazy val front = (project in file("front"))
+lazy val front      = (project in file("front"))
+lazy val desktopApp = (project in file("desktopApp"))
 
 addCommandAlias(
   "runDev",
@@ -226,14 +233,13 @@ addCommandAlias(
 val pushVersionToProd = ReleaseStep(action = st => {
   // extract the build state
   val extracted = Project.extract(st)
-  val releaseVersion = extracted.get(Keys.version)
+  // val releaseVersion = extracted.get(Keys.version)
   checkout("prod")
   mergeMaster
   delivery
   checkout("master")
   st
 })
-
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 

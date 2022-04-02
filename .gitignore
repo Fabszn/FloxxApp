@@ -10,3 +10,5 @@ front/node_modules
 front/dist
 .bsp/
 .vscode
+desktopApp/node_modules
+desktopApp/dist

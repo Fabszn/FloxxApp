@@ -1,0 +1,39 @@
+.separate {
+    border: 1px dashed white;
+    margin: 2px;
+    padding: 10;
+    border-radius: 10px;
+}
+
+.separate_b {
+    border: 1px dashed black;
+    margin: 2px;
+    border-radius: 10px;
+}
+
+.separate-headfooter {
+    margin: 2px;
+}
+
+.title {
+    margin: 15px;
+}
+
+.space {
+    margin: 15px;
+}
+
+.version {
+    color: gray;
+    margin: 2px;
+    padding: 9px;
+}
+
+.side {
+    font-size: 18px;
+    color: orange;
+}
+
+.btn-secondary {
+    background-color: #2E2E2E;
+}
