@@ -14,27 +14,19 @@
       <tabs>
         <div v-for="item in items" :key="item.day">
           <tab :name="item.day">
-            {{ item.rooms }} 
+            
+            <div class="grid" >
+              <div class="track" v-for="room in item.rooms" :key="room.name">
+                <div class="header">{{ room.name }}</div>
+                <div class="block">slot</div>
+                <div class="block">slot</div>
+              </div>
+            </div>
+            
           </tab>
         </div>
       </tabs>
     </div>
-
-    <!-- <div class="grid">
-     
-        <div class="track">
-          <div class="header">{{item.day}}</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-          <div class="block">slot</div>
-        </div>
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -78,9 +70,6 @@ export default {
 </script>
 
 <style  scoped>
-
-
-
 .header {
   background-color: #61bf9b;
   padding: 14px 28px;
@@ -104,5 +93,6 @@ export default {
 
 .grid {
   display: flex;
+  flex-direction: row;
 }
 </style>

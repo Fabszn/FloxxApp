@@ -13,7 +13,36 @@ function mockApi(app) {
         res.json([{
             "day": "friday",
             "rooms": [{
-                "Amphi bleu": [{
+                "name": "Maillot",
+                "slots": [{
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }, {
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }]
+
+            }, {
+                "name": "Amphi Bleu",
+                "slots": [{
                     "slotId": {
                         "id": "friday_b_amphi_13:30-14:15"
                     },
@@ -43,7 +72,8 @@ function mockApi(app) {
         }, {
             "day": "thursday",
             "rooms": [{
-                "Maillot": [{
+                "name": "Titi",
+                "slots": [{
                     "slotId": {
                         "id": "friday_b_amphi_13:30-14:15"
                     },
@@ -72,7 +102,8 @@ function mockApi(app) {
         }, {
             "day": "wednesday",
             "rooms": [{
-                "Maillot": [{
+                "name": "toto",
+                "slots": [{
                     "slotId": {
                         "id": "friday_b_amphi_13:30-14:15"
                     },
