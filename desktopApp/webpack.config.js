@@ -9,7 +9,101 @@ function mockApi(app) {
         res.json({ 'name': 'Fabrice Szanjderman', 'isAdmin': true, token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJhaGVyaXRpZXIiLCJmaXJzdG5hbWUiOiJhaGVyaXRpZXJAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.-ymZ5w8e6Whw2BYl0TVlqNA2q4mLe1YoEyjQsDxWJm0' });
     })
 
+    app.get('/api/planning', function(req, res) {
+        res.json([{
+            "day": "friday",
+            "rooms": [{
+                "Amphi bleu": [{
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }, {
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }]
+
+            }]
+        }, {
+            "day": "thursday",
+            "rooms": [{
+                "Maillot": [{
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }, {
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }]
+            }]
+        }, {
+            "day": "wednesday",
+            "rooms": [{
+                "Maillot": [{
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }, {
+                    "slotId": {
+                        "id": "friday_b_amphi_13:30-14:15"
+                    },
+                    "roomId": "Maillot",
+                    "fromTime": "09:30",
+                    "toTime": "12:30",
+                    "talk": {
+                        "talkType": "University",
+                        "title": "La révolution (wasm) est incroyable parce que vraie"
+                    },
+                    "day": "wednesday"
+                }]
+            }]
+
+        }])
+
+    })
 }
+
 
 module.exports = env => {
     return {

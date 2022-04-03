@@ -67,7 +67,7 @@ export default {
       this.$router.push("/mySlots");
     },
     navToStat: function () {
-      this.$router.push("/admin");
+      this.$router.push("/planning");
     },
     backDisconnect: function () {
       shared.cleanToken();
