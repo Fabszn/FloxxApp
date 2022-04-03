@@ -14,15 +14,20 @@
       <tabs>
         <div v-for="item in items" :key="item.day">
           <tab :name="item.day">
-            
-            <div class="grid" >
+            <div class="grid">
               <div class="track" v-for="room in item.rooms" :key="room.name">
                 <div class="header">{{ room.name }}</div>
-                <div class="block">slot</div>
-                <div class="block">slot</div>
+                <div
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slotId.id"
+                >
+                  {{ slot.fromTime }}
+                  {{ slot.toTime }}
+                  <div>Fabrice Sznajderman</div> <!--making it dynamic-->
+                </div>
               </div>
             </div>
-            
           </tab>
         </div>
       </tabs>
@@ -31,7 +36,7 @@
 </template>
 
 <script>
-import shared from "../shared";
+import shared from "../../shared";
 import _ from "lodash";
 export default {
   data: function () {
@@ -73,7 +78,7 @@ export default {
 .header {
   background-color: #61bf9b;
   padding: 14px 28px;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   margin: 5px;
 }
@@ -81,7 +86,7 @@ export default {
 .block {
   background-color: #3399ff;
   padding: 14px 28px;
-  font-size: 24px;
+  font-size: 16px;
   cursor: pointer;
   margin: 5px;
 }

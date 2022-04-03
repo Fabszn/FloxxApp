@@ -85,14 +85,6 @@ floxxCopyFile := {
       (front / baseDirectory).value / "dist/floxx.js",
       (httpResourceDir.value / "assets/floxx.js")
     )
-    IO.copyFile(
-      (desktopApp / baseDirectory).value / "dist/desktop/index.html",
-      (httpResourceDir.value / "assets/desktop/index.html")
-    )
-    IO.copyFile(
-      (desktopApp / baseDirectory).value / "dist/desktop/desktop.js",
-      (httpResourceDir.value / "assets/desktop/desktop.js")
-    )
   } match {
     case Failure(exception) => throw exception
     case _ => ()
@@ -102,17 +94,14 @@ floxxCopyFile := {
 
 webpackDev := {
   if (runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
-  if (runWebpack(desktopApp.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 webpackProd := {
   if (runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
-  if (runWebpack(desktopApp.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / yarnInstall := {
   if (yarnInstall(front.base) != 0) throw new Exception("Something went wrong when running yarn install.")
-  if (yarnInstall(desktopApp.base) != 0) throw new Exception("Something went wrong when running yarn install.")
 }
 
 ThisBuild / scalaVersion := "2.13.8"
@@ -210,7 +199,6 @@ lazy val wartRemoverSettings = Seq(
 )
 
 lazy val front      = (project in file("front"))
-lazy val desktopApp = (project in file("desktopApp"))
 
 addCommandAlias(
   "runDev",

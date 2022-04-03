@@ -9,6 +9,299 @@ function mockApi(app) {
         res.send('devMode');
     })
 
+     app.get('/api/planning', function(req, res) {
+            res.json([{
+                "day": "friday",
+                "rooms": [{
+                    "name": "Maillot",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "Amphi bleu",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "241",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "242",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "243",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "253",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "252",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }, {
+                    "name": "251",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+
+                }]
+            }, {
+                "day": "thursday",
+                "rooms": [{
+                    "name": "Titi",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+                }]
+            }, {
+                "day": "wednesday",
+                "rooms": [{
+                    "name": "toto",
+                    "slots": [{
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }, {
+                        "slotId": {
+                            "id": "friday_b_amphi_13:30-14:15"
+                        },
+                        "roomId": "Maillot",
+                        "fromTime": "09:30",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "University",
+                            "title": "La révolution (wasm) est incroyable parce que vraie"
+                        },
+                        "day": "wednesday"
+                    }]
+                }]
+
+            }])
+
+        })
+
     app.get('/api/rooms', function(req, res) {
         res.send({
             "par224M-225M": "224_225",

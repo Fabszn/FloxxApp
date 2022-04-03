@@ -37,6 +37,12 @@
           v-on:click="navToStat"
           >Admin.</button>
       </div>
+      <div v-if="adminState" >
+          <button  type="button"
+          class="btn btn-secondary btn-lg block"
+          v-on:click="navToDesktopMenu"
+          >Desktop.</button>
+      </div>
     </div>
   </div>
 </template>
@@ -68,6 +74,9 @@ export default {
     },
     navToStat: function () {
       this.$router.push("/admin");
+    },
+    navToDesktopMenu: function () {
+      this.$router.push("/planning");
     },
     backDisconnect: function () {
       shared.cleanToken();

@@ -19,11 +19,7 @@ object StaticApi {
     case req @ GET -> Root  => static("/assets/index.html", req)
 
     case req @ GET -> Root / "floxx.js"   => static("/assets/floxx.js", req)
-
-    case req @ GET -> Root/ "desktop"  => static("/assets/desktop/index.html", req)
-
-    case req @ GET -> Root / "desktop.js"   => static("/assets/desktop/desktop.js", req)
-
+      
   }
 
 
