@@ -3,305 +3,16 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpack = require('webpack');
 
 
+
 function mockApi(app) {
 
     app.get('/infos', function(req, res) {
         res.send('devMode');
     })
 
-     app.get('/api/planning', function(req, res) {
-            res.json([{
-                "day": "friday",
-                "rooms": [{
-                    "name": "Maillot",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "Amphi bleu",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "241",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "242",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "243",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "253",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "252",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }, {
-                    "name": "251",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-
-                }]
-            }, {
-                "day": "thursday",
-                "rooms": [{
-                    "name": "Titi",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-                }]
-            }, {
-                "day": "wednesday",
-                "rooms": [{
-                    "name": "toto",
-                    "slots": [{
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }, {
-                        "slotId": {
-                            "id": "friday_b_amphi_13:30-14:15"
-                        },
-                        "roomId": "Maillot",
-                        "fromTime": "09:30",
-                        "toTime": "12:30",
-                        "talk": {
-                            "talkType": "University",
-                            "title": "La révolution (wasm) est incroyable parce que vraie"
-                        },
-                        "day": "wednesday"
-                    }]
-                }]
-
-            }])
-
-        })
-
+    app.get('/api/planning', function(req, res) {
+        res.json(planning())
+    })
     app.get('/api/rooms', function(req, res) {
         res.send({
             "par224M-225M": "224_225",
@@ -3561,4 +3272,3602 @@ module.exports = env => {
             }]
         }
     }
+}
+
+function planning() {
+
+    return [{
+            "day": {
+                "value": "wednesday"
+            },
+            "rooms": [{
+                    "roomId": {
+                        "value": "Maillot"
+                    },
+                    "slots": [{
+                            "user": {
+                                "userId": {
+                                    "value": "adr-ysn"
+                                },
+                                "nom": {
+                                    "value": "Adrien"
+                                },
+                                "prenom": {
+                                    "value": "Ysnel"
+                                }
+                            },
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_c_maillot_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_c_maillot_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_c_maillot_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_c_maillot_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_c_maillot_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "242"
+                    },
+                    "slots": [{
+                            "user": {
+                                "userId": {
+                                    "value": "fab-szn"
+                                },
+                                "nom": {
+                                    "value": "Fabrice"
+                                },
+                                "prenom": {
+                                    "value": "Sznajderman"
+                                }
+                            },
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par242AB_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par242AB_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par242AB_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par242AB_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par242AB_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "253"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_neu253_t_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_neu253_t_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_neu253_t_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_neu253_t_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_neu253_t_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "252"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_e_neu252_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_e_neu252_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_e_neu252_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_e_neu252_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_e_neu252_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "241"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_d_par241_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_d_par241_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_d_par241_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_d_par241_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_d_par241_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "Amphi bleu"
+                    },
+                    "slots": [{
+                            "user": {
+                                "userId": {
+                                    "value": "fab-szn"
+                                },
+                                "nom": {
+                                    "value": "Fabrice"
+                                },
+                                "prenom": {
+                                    "value": "Sznajderman"
+                                }
+                            },
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_b_amphi_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_b_amphi_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_b_amphi_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_b_amphi_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_b_amphi_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "251"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_f_neu251_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_f_neu251_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_f_neu251_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_f_neu251_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_f_neu251_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "243"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par243_t_09:30-12:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "09:30"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par243_t_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par243_t_17:00-17:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "17:00"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par243_t_13:30-16:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "16:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "wednesday_par243_t_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "wednesday"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "day": {
+                "value": "friday"
+            },
+            "rooms": [{
+                    "roomId": {
+                        "value": "Maillot"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_c_maillot_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "242"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par242AB_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "253"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_neu253_t_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "252"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_17:45-18:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_e_neu252_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "241"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_d_par241_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "Amphi bleu"
+                    },
+                    "slots": [{
+                            "user": {
+                                "userId": {
+                                    "value": "cha-sab"
+                                },
+                                "nom": {
+                                    "value": "Charles"
+                                },
+                                "prenom": {
+                                    "value": "Sabourdin"
+                                }
+                            },
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": {
+                                "userId": {
+                                    "value": "fab-szn"
+                                },
+                                "nom": {
+                                    "value": "Fabrice"
+                                },
+                                "prenom": {
+                                    "value": "Sznajderman"
+                                }
+                            },
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_b_amphi_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "251"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_f_neu251_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "243"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "friday_par243_t_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "friday"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "day": {
+                "value": "thursday"
+            },
+            "rooms": [{
+                    "roomId": {
+                        "value": "Maillot"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_c_maillot_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "Maillot"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "242"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par242AB_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "242"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "253"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_neu253_t_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "253"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "252"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_e_neu252_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "252"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "241"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_d_par241_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "241"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "Amphi bleu"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_b_amphi_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "Amphi bleu"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "251"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_15:30-16:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "15:30"
+                                },
+                                "toTime": {
+                                    "value": "16:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_f_neu251_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "251"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "roomId": {
+                        "value": "243"
+                    },
+                    "slots": [{
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_14:30-15:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "14:30"
+                                },
+                                "toTime": {
+                                    "value": "15:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_18:30-19:00"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "18:30"
+                                },
+                                "toTime": {
+                                    "value": "19:00"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_10:45-11:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "10:45"
+                                },
+                                "toTime": {
+                                    "value": "11:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_13:00-13:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "13:00"
+                                },
+                                "toTime": {
+                                    "value": "13:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_17:45-18:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "17:45"
+                                },
+                                "toTime": {
+                                    "value": "18:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_16:45-17:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "16:45"
+                                },
+                                "toTime": {
+                                    "value": "17:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_11:45-12:30"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "11:45"
+                                },
+                                "toTime": {
+                                    "value": "12:30"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        },
+                        {
+                            "user": null,
+                            "slot": {
+                                "slotId": {
+                                    "value": "thursday_par243_t_13:30-14:15"
+                                },
+                                "roomId": {
+                                    "value": "243"
+                                },
+                                "fromTime": {
+                                    "value": "13:30"
+                                },
+                                "toTime": {
+                                    "value": "14:15"
+                                },
+                                "talk": null,
+                                "day": {
+                                    "value": "thursday"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

@@ -44,10 +44,10 @@
       <template v-slot:head(slotId)>Slot</template>
       <template v-slot:head(RedCoat)>Red Coat</template>
       <template v-slot:cell(slotId)="data">{{
-        data.item.slotId.value
+        data.item.slot.slotId.value
       }}</template>
       <template v-slot:cell(RedCoat)="data">
-        <div v-on:click="show(data.item.slotId.value, data.item.user)">
+        <div v-on:click="show(data.item.slot.slotId.value, data.item.user)">
           {{ handleUser(data.item.user) }}
         </div></template
       >

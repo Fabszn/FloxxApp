@@ -12,19 +12,18 @@
     </div>
     <div>
       <tabs>
-        <div v-for="item in items" :key="item.day">
-          <tab :name="item.day">
-            <div class="grid">
-              <div class="track" v-for="room in item.rooms" :key="room.name">
-                <div class="header">{{ room.name }}</div>
+        <div v-for="item in items" :key="item.day.value">
+          <tab :name="item.day.value">
+            <div class="grid"> 
+              <div class="track" v-for="room in item.rooms" :key="room.roomId.value">
+                <div class="header">{{ room.roomId.value }}</div> 
                 <div
                   class="block"
                   v-for="slot in room.slots"
-                  :key="slot.slotId.id"
+                  :key="slot.slot.slotId.value"
                 >
-                  {{ slot.fromTime }}
-                  {{ slot.toTime }}
-                  <div>Fabrice Sznajderman</div> <!--making it dynamic-->
+                  {{ slot.slot.fromTime.value}}
+                  {{ slot.slot.toTime.value}}
                 </div>
               </div>
             </div>
@@ -50,26 +49,14 @@ export default {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
-        console.log(p.data);
+        console.log("test" + p.data);
         this.items = p.data;
       });
   },
   methods: {
     backMenu: function () {
       this.$router.push("/menu");
-    },
-    navToList: function () {
-      this.$router.push("/tops-list");
-    },
-    navToRCMng: function () {
-      this.$router.push("/redcoatmng");
-    },
-    navToStats: function () {
-      this.$router.push("/statistiques");
-    },
-    navToMapping: function () {
-      this.$router.push("/mappingRC");
-    },
+    }
   },
 };
 </script>
