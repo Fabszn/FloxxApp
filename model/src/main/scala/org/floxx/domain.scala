@@ -14,9 +14,13 @@ object domain {
     case class UserSlot(user: Option[User.SimpleUser], slot: Slot)
 
     object UserSlot {
-      implicit val pointRead: Read[UserSlot] =
+
+      implicit val ordering = new Ordering[UserSlot]{
+        override def compare(x: UserSlot, y: UserSlot): Int = x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
+      }
+      implicit val userSlotRead: Read[UserSlot] =
         Read[(Option[String], Option[String], Option[String], String, String, String, String, String)].map {
-          case (Some(userId), Some(n), Some(p), slotId, room, fromtTime, toTime, day) =>
+          case (Some(userId), Some(p), Some(n), slotId, room, fromtTime, toTime, day) =>
             UserSlot(
               Some(SimpleUser(Id(userId), Nom(n), Prenom(p))),
               Slot(
@@ -79,6 +83,8 @@ object domain {
 
 
     final case class Id(value: String) extends AnyVal
+
+
     final case class Name(value: String) extends AnyVal
     final case class Capacity(value: Int) extends AnyVal
     final case class Setup(value: String) extends AnyVal
@@ -87,16 +93,16 @@ object domain {
       implicit val enc: Encoder[Room.Id] = deriveEncoder[Room.Id]
       implicit val dec: Decoder[Room.Id] = deriveDecoder[Room.Id]
 
+      implicit val ordering = new Ordering[Room.Id]{
+        override def compare(x: Room.Id, y: Room.Id): Int = x.value.compareTo(y.value)
+      }
+
     }
     object Name {
       implicit val enc: Encoder[Room.Name] = deriveEncoder[Room.Name]
       implicit val dec: Decoder[Room.Name] = deriveDecoder[Room.Name]
 
     }
-
-    /*implicit val encRoom: Encoder[Room] = deriveEncoder[Room]
-    implicit val decRoom: Decoder[Room] = deriveDecoder[Room]*/
-
   }
 
   case class Talk(talkType: String, title: String)

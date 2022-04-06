@@ -1,16 +1,13 @@
 package org.floxx.env.service
 
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Slot.Day
-import org.floxx.domain.{Planning, PlanningDayItem, Room}
+import org.floxx.domain.{ Planning, PlanningDayItem }
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
 import org.floxx.model.jsonModel.Slot
-import org.floxx.model.{SimpleUser, SlotId}
+import org.floxx.model.{ SimpleUser, SlotId }
 import zio._
-
-import scala.collection.immutable
 
 object adminService {
 
@@ -52,19 +49,23 @@ object adminService {
     }
 
     override def planning: Task[Seq[Planning]] =
-      slotRepo.mappingUserSlot >>= (m => groupBy(m))
+      slotRepo.mappingUserSlot >>= (m => groupByAndOrder(m))
 
     override def mappingUserSlot: Task[Seq[UserSlot]] = slotRepo.mappingUserSlot
   }
-  private def groupBy(us: Seq[UserSlot]): Task[Seq[Planning]] =
-    Task(us.groupBy(_.slot.day).map {
-      case (d, slot) =>
-        Planning(
-          d,
-          slot.groupBy(_.slot.roomId).toSeq.map(f => PlanningDayItem(f._1, f._2.sortBy((slot) => slot.slot.fromTime.value)))
-        )
+  private def groupByAndOrder(us: Seq[UserSlot]): Task[Seq[Planning]] =
+    Task(
+      us.groupBy(_.slot.day)
+        .map {
+          case (d, slot) =>
+            Planning(
+              d,
+              slot.groupBy(_.slot.roomId).toSeq.sortBy(_._1).map(f => PlanningDayItem(f._1, f._2.sortBy(identity[UserSlot])))
+            )
 
-    }.toSeq)
+        }
+        .toSeq
+    )
 
   val layer: RLayer[Has[SlotRepo] with Has[UserRepo], Has[AdminService]] = (AdminServiceImpl(_, _)).toLayer
 

@@ -1,61 +1,86 @@
 <template>
   <div>
-        <div class="d-flex justify-content-center separate-headfooter">
-          <div>
-            <button v-on:click="backMenu" type="button" class="btn btn-secondary">
-              <font-awesome-icon icon="arrow-circle-left" />
-            </button>
-          </div>
-        </div>
-        <div>
-          <br>
-        </div>
-        <div>
-          <button
-            type="button"
-            v-on:click="navToList"
-            class="btn btn-primary btn-lg block"
-          >Tops Lists</button>
-        </div>
-        <div>
-          <button
-            type="button"
-            v-on:click="navToStats"
-            class="btn btn-primary btn-lg block"
-          >Statistiques</button>
-        </div>
-        <div>
-          <button type="button" v-on:click="navToRCMng" class="btn btn-primary block">RedCoats</button>
-        </div>
-        <div>
-          <button type="button" v-on:click="navToMapping" class="btn btn-primary block">Rooms mapping</button>
-        </div>
+    <div class="d-flex justify-content-center separate-headfooter">
+      <div>
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </div>
     </div>
+    <div>
+      <br />
+    </div>
+    <div>
+      <button
+        type="button"
+        v-on:click="navToList"
+        class="btn btn-primary btn-lg block"
+      >
+        Tops Lists
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        v-on:click="navToStats"
+        class="btn btn-primary btn-lg block"
+      >
+        Statistiques
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        v-on:click="navToRCMng"
+        class="btn btn-primary block"
+      >
+        RedCoats
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        v-on:click="navToMapping"
+        class="btn btn-primary block"
+      >
+        Rooms mapping
+      </button>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary block"
+      v-on:click="navToDesktopMenu"
+    >
+      Desktop.
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {
-    backMenu: function() {
+    backMenu: function () {
       this.$router.push("/menu");
     },
-    navToList: function() {
+    navToList: function () {
       this.$router.push("/tops-list");
     },
-    navToRCMng: function() {
+    navToRCMng: function () {
       this.$router.push("/redcoatmng");
     },
-    navToStats: function() {
+    navToStats: function () {
       this.$router.push("/statistiques");
     },
-    navToMapping: function() {
+    navToMapping: function () {
       this.$router.push("/mappingRC");
-    }
-  }
+    },
+    navToDesktopMenu: function () {
+      this.$router.push("/planning");
+    },
+  },
 };
 </script>
 

@@ -121,3 +121,33 @@
 .btn-secondary {
     background-color: #2E2E2E;
 }
+
+.floxxmodal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    background-color: #343a40;
+    color: #fff!;
+    border: 1px solid #fff;
+}
+
+.buttonmodal {
+    display: flex;
+    justify-content: center;
+}
+
+.modalinfo {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.buttonmodal>button {
+    margin: 10px;
+}
+
+.over {
+    overflow: visible;
+}

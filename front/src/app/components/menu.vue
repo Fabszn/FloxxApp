@@ -37,12 +37,6 @@
           v-on:click="navToStat"
           >Admin.</button>
       </div>
-      <div v-if="adminState" >
-          <button  type="button"
-          class="btn btn-secondary btn-lg block"
-          v-on:click="navToDesktopMenu"
-          >Desktop.</button>
-      </div>
     </div>
   </div>
 </template>
@@ -56,16 +50,12 @@ export default {
   },
   mounted() {
     console.debug("state admin " + shared.readAdminEtat());
-
     this.adminState = shared.readAdminEtat();
   },
   created() {
     shared.securityAccess(this.$router, (p) => {});
   },
   methods: {
-    //navToConf: function () {
-     // this.$router.push("/rooms");
-    //},
     navToOverf: function () {
       this.$router.push("/overflow");
     },
@@ -74,9 +64,6 @@ export default {
     },
     navToStat: function () {
       this.$router.push("/admin");
-    },
-    navToDesktopMenu: function () {
-      this.$router.push("/planning");
     },
     backDisconnect: function () {
       shared.cleanToken();

@@ -136,8 +136,6 @@ export default {
     },
     validateSelection: function (value) {
       this.selectedUserId = value.id;
-
-      console.log(value.id);
     },
     show(idSlot, currentUser) {
       this.actualUserNameSelected = computeUser(currentUser);
@@ -250,32 +248,5 @@ function reloadData(thisref) {
 </script>
 
 <style scoped>
-.floxxmodal {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  background-color: #343a40;
-  color: #fff!;
-  border: 1px solid #fff;
-}
 
-.buttonmodal {
-  display: flex;
-  justify-content: center;
-}
-
-.modalinfo {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-}
-.buttonmodal > button {
-  margin: 10px;
-}
-
-.over {
-  overflow: visible;
-}
 </style>
