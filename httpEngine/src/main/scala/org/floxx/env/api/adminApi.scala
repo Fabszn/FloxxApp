@@ -53,6 +53,10 @@ object adminApi {
       adminService.mappingUserSlot >>= { uss =>
         Ok(uss)
       }
+    case GET -> Root / "planning" as _ =>
+      adminService.planning >>= { uss =>
+        Ok(uss)
+      }
     case ct @ GET -> Root / "users" as _ =>
       adminService.loadUsers >>= (users => Ok(users))
     case GET -> Root / "healthCheck" as _ => Ok("up and go")

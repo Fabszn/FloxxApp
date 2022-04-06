@@ -11,6 +11,7 @@ import redcoatmng from './components/admins/redcoatmng.vue'
 import statistiques from './components/admins/statistiques.vue'
 import mappingRCR from './components/admins/mappingRCR.vue'
 import mySlots from './components/mySlots.vue'
+import planning from './components/desktop/planning.vue'
 
 export const routes = [{
     path: '/',
@@ -64,4 +65,8 @@ export const routes = [{
     path: '/myslots',
     component: mySlots,
     children: []
-}];
+}, {
+     path: '/planning',
+     component: planning,
+     children: []
+ }];

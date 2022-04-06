@@ -46,6 +46,9 @@ export default {
       password: "",
       loginFailedMsg: true,
       notAuthrized: true,
+      login:"",
+      password:""
+
     };
   },
   created() {

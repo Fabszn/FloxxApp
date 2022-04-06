@@ -50,16 +50,12 @@ export default {
   },
   mounted() {
     console.debug("state admin " + shared.readAdminEtat());
-
     this.adminState = shared.readAdminEtat();
   },
   created() {
     shared.securityAccess(this.$router, (p) => {});
   },
   methods: {
-    //navToConf: function () {
-     // this.$router.push("/rooms");
-    //},
     navToOverf: function () {
       this.$router.push("/overflow");
     },

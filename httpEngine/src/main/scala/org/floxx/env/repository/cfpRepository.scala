@@ -64,7 +64,11 @@ object cfpRepository {
       sql"""select u.userid,
             u.firstname,
             u.lastname, 
-            s.slotid 
+            s.slotid,
+            s.roomid,
+            s.fromtime,
+            s.totime,
+            s."day"
             from 
             user_slots us right join users u on us.userid = u.userid right 
             join slot s ON us.slotid =s.slotid"""

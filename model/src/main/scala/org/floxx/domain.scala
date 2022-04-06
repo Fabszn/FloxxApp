@@ -1,33 +1,61 @@
 package org.floxx
 
-
 import doobie.util.{Get, Put, Read}
-import io.circe.generic.auto._
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.generic.semiauto._
+import io.circe.{Decoder, Encoder}
+import org.floxx.domain.Mapping.UserSlot
+import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.User.SimpleUser._
-import org.http4s.circe.jsonOf
-import zio.interop.catz._
 
 object domain {
 
   object Mapping {
-    case class UserSlot(user: Option[User.SimpleUser], slotId: Slot.Id)
+    case class UserSlot(user: Option[User.SimpleUser], slot: Slot)
 
     object UserSlot {
 
-      implicit val pointRead: Read[UserSlot] =
-        Read[(Option[String], Option[String], Option[String], String)].map {
-          case (Some(userId), Some(n), Some(p), slotId) =>
+      implicit val ordering = new Ordering[UserSlot]{
+        override def compare(x: UserSlot, y: UserSlot): Int = x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
+      }
+      implicit val userSlotRead: Read[UserSlot] =
+        Read[(Option[String], Option[String], Option[String], String, String, String, String, String)].map {
+          case (Some(userId), Some(p), Some(n), slotId, room, fromtTime, toTime, day) =>
             UserSlot(
               Some(SimpleUser(Id(userId), Nom(n), Prenom(p))),
-              Slot.Id(slotId)
+              Slot(
+                slotId   = Slot.Id(slotId),
+                roomId   = Room.Id(room),
+                fromTime = Slot.FromTime(fromtTime),
+                toTime   = Slot.ToTime(toTime),
+                day      = Slot.Day(day),
+                talk     = Option.empty[Talk]
+              )
             )
-          case (None, None, None, slotId) =>
-            UserSlot(Option.empty[SimpleUser], Slot.Id(slotId))
+          case (None, None, None, slotId, room, fromtTime, toTime, day) =>
+            UserSlot(
+              Option.empty[SimpleUser],
+              Slot(
+                slotId   = Slot.Id(slotId),
+                roomId   = Room.Id(room),
+                fromTime = Slot.FromTime(fromtTime),
+                toTime   = Slot.ToTime(toTime),
+                day      = Slot.Day(day),
+                talk     = Option.empty[Talk]
+              )
+            )
           case _ =>
-            UserSlot(Option.empty[SimpleUser], Slot.Id("Error"))
+            UserSlot(
+              Option.empty[SimpleUser],
+              Slot(
+                slotId   = Slot.Id("error"),
+                roomId   = Room.Id("error"),
+                fromTime = Slot.FromTime("error"),
+                toTime   = Slot.ToTime("error"),
+                day      = Slot.Day("error"),
+                talk     = Option.empty[Talk]
+              )
+            )
         }
     }
   }
@@ -51,8 +79,12 @@ object domain {
   case class Room(id: Room.Id, name: Room.Name, capacity: Room.Capacity, setup: Room.Setup)
 
   object Room {
+    import io.circe.generic.semiauto._
+
 
     final case class Id(value: String) extends AnyVal
+
+
     final case class Name(value: String) extends AnyVal
     final case class Capacity(value: Int) extends AnyVal
     final case class Setup(value: String) extends AnyVal
@@ -61,18 +93,16 @@ object domain {
       implicit val enc: Encoder[Room.Id] = deriveEncoder[Room.Id]
       implicit val dec: Decoder[Room.Id] = deriveDecoder[Room.Id]
 
+      implicit val ordering = new Ordering[Room.Id]{
+        override def compare(x: Room.Id, y: Room.Id): Int = x.value.compareTo(y.value)
+      }
+
     }
     object Name {
       implicit val enc: Encoder[Room.Name] = deriveEncoder[Room.Name]
       implicit val dec: Decoder[Room.Name] = deriveDecoder[Room.Name]
 
     }
-
-
-
-    implicit val enc: Encoder[Room] = deriveEncoder[Room]
-    implicit val dec: Decoder[Room] = deriveDecoder[Room]
-
   }
 
   case class Talk(talkType: String, title: String)
@@ -110,6 +140,15 @@ object domain {
     implicit val enc: Encoder[Slot.Id] = deriveEncoder[Slot.Id]
     implicit val dec: Decoder[Slot.Id] = deriveDecoder[Slot.Id]
   }
+
+  final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
+  final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
+
+  /*object planning {
+    implicit val enc: Encoder[Planning] = deriveEncoder[Planning]
+    implicit val dec: Decoder[Planning] = deriveDecoder[Planning]
+
+  }*/
   /*implicit val decodeFoo: Decoder[Slot] = new Decoder[Slot] {
       final def apply(c: HCursor): Decoder.Result[Slot] =
         for {

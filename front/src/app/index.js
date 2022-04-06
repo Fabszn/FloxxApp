@@ -19,6 +19,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './state'
+import Tabs from 'vue-tabs-component';
 
 
 
@@ -34,6 +35,7 @@ Vue.use(VueLodash);
 Vue.use(Notifications)
 Vue.use(VModal)
 Vue.use(BootstrapVue)
+Vue.use(Tabs);
 
 
 

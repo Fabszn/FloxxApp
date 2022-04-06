@@ -1,57 +1,46 @@
 <template>
   <div>
-    <div class="d-flex justify-content-around separate-headfooter">
+    <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button
-          v-on:click="backAdminMenu"
-          type="button"
-          class="btn btn-secondary"
-        >
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
-      <div>
-        <button v-on:click="refresh" type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="sync" />
-        </button>
-      </div>
     </div>
-    <b-input-group size="sm">
-      <b-form-input
-        v-model="filter"
-        type="search"
-        id="filterInput"
-        placeholder="Type to Search"
-      ></b-form-input>
-      <b-input-group-append>
-        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-      </b-input-group-append>
-    </b-input-group>
+    <div>
+      <br />
+    </div>
+    <div>
+      <tabs>
+        <div v-for="item in items" :key="item.day.value">
+          <tab :name="item.day.value">
+            <div class="grid">
+              <div
+                class="track"
+                v-for="room in item.rooms"
+                :key="room.roomId.value"
+              >
+                <div class="header">{{ room.roomId.value }}</div>
 
-    <b-table
-      head-variant="light"
-      details-td-class="cell"
-      responsive="true"
-      dark
-      striped
-      hover
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :fields="fields"
-      :items="items"
-      :filter="filter"
-    >
-      <template v-slot:head(slotId)>Slot</template>
-      <template v-slot:head(RedCoat)>Red Coat</template>
-      <template v-slot:cell(slotId)="data">{{
-        data.item.slot.slotId.value
-      }}</template>
-      <template v-slot:cell(RedCoat)="data">
-        <div v-on:click="show(data.item.slot.slotId.value, data.item.user)">
-          {{ handleUser(data.item.user) }}
-        </div></template
-      >
-    </b-table>
+                <div
+                  v-on:click="show(slot.slot.slotId.value, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId.value"
+                >
+                
+                  {{ slot.slot.fromTime.value }}
+                  {{ slot.slot.toTime.value }}
+
+                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                </div>
+              </div>
+            </div>
+          </tab>
+        </div>
+      </tabs>
+    </div>
 
     <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
       <div class="floxxmodal over">
@@ -96,14 +85,14 @@
   </div>
 </template>
 
-
-
 <script>
 import shared from "../../shared";
 import _ from "lodash";
 export default {
-  data() {
+  data: function () {
     return {
+      items: {},
+      actualUserNameSelected: "",
       confTitle: "",
       confKind: "",
       room: "",
@@ -111,28 +100,54 @@ export default {
       toTime: "",
       selectedSlotId: "",
       selectedUserId: "",
-      actualUserNameSelected: "",
       users: [],
-      items: [],
-      sortBy: "slotId",
-      sortDesc: false,
-      fields: [
-        { key: "slotId", sortable: true },
-        { key: "RedCoat", sortable: true },
-      ],
-      filter: null,
-      filterOn: ["slotId"],
     };
   },
   created: function () {
-    reloadData(this);
+    this.$http
+      .get("/api/planning", {
+        headers: shared.tokenHandle(),
+      })
+      .then((p) => {
+        console.log("test" + p.data);
+        this.items = p.data;
+      });
   },
   methods: {
-    handleUser(user) {
-      return computeUser(user);
-    },
-    backAdminMenu: function () {
+    backMenu: function () {
       this.$router.push("/admin");
+    },
+    getUserId: function (user) {
+
+      if(_.isNull(user)){
+        return "";
+      }else{
+        user.userId;
+      }
+    },
+    isAffected: function (user) {
+      var userIdVal = "NoData";
+      if (!_.isNull(user)) {
+        userIdVal = user.userId;
+      }
+      return {
+        affectedBox: !_.isNull(user),
+        userIdVal: !_.isNull(user)
+      };
+
+      //
+    },
+    displayUser: function (user) {
+      if (_.isNull(user)) {
+        return "-";
+      } else {
+        return (
+          user.prenom.value +
+          " " +
+          _.upperCase(user.nom.value.substring(0, 1)) +
+          "."
+        );
+      }
     },
     validateSelection: function (value) {
       this.selectedUserId = value.id;
@@ -172,6 +187,7 @@ export default {
     },
     hide() {
       reInitModal(this);
+      this.$forceUpdate();
       this.$modal.hide("map-user-modal");
     },
     remove() {
@@ -189,12 +205,12 @@ export default {
           reInitModal(this);
           reloadData(this);
           this.$modal.hide("map-user-modal");
-          this.$notify({type: 'success',text:"Red coat removed!"});
+          this.$notify({ type: "success", text: "Red coat removed!" });
         });
     },
     saveMapping() {
       if (_.isUndefined(this.selectedUserId)) {
-        this.$notify({type: 'error',text:"Red coat must be filled"});
+        this.$notify({ type: "error", text: "Red coat must be filled" });
       } else {
         this.$http
           .post(
@@ -210,7 +226,7 @@ export default {
           .then((p) => {
             reloadData(this);
             this.$modal.hide("map-user-modal");
-            this.$notify({type: 'success',text:"Mapping done!"});
+            this.$notify({ type: "success", text: "Mapping done!" });
           });
       }
     },
@@ -237,7 +253,7 @@ function computeUser(user) {
 function reloadData(thisref) {
   shared.securityAccess(thisref.$router, (p) => {
     thisref.$http
-      .get("/api/mapping", {
+      .get("/api/planning", {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
@@ -247,6 +263,39 @@ function reloadData(thisref) {
 }
 </script>
 
-<style scoped>
+<style  scoped>
+.header {
+  background-color: #61bf9b;
+  padding: 14px 28px;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 5px;
+}
 
+.block {
+  background-color: #3399ff;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.track {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+}
+
+.affectedBox {
+  font-weight: bold;
+  background-color: rgb(4, 55, 38) !important;
+}
+.affected {
+  font-weight: bold;
+  color: aquamarine;
+}
 </style>
