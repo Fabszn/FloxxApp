@@ -32,16 +32,6 @@ object adminApi {
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
 
-    case ct @ POST -> Root / "setEnv" as user =>
-      if (user.isAdmin) {
-        for {
-          env <- ct.req.as[Env]
-          _ <- adminService.updateEnv(env.days)
-          r <- Created(s"Db has been updated")
-
-        } yield r
-      } else Task.succeed(Response(Unauthorized))
-
     case ct @ POST -> Root / "set-user" as user =>
       for {
         mapping <- ct.req.as[Mapping]

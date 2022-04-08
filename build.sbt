@@ -109,7 +109,8 @@ ThisBuild / scalaVersion := "2.13.8"
 scalacOptions := Seq(
   "-Ypartial-unification",
   "-Ywarn-unused:_",
-  "-Ywarn-dead-code"
+  "-Ywarn-dead-code",
+  "-deprecation"
 )
 
 lazy val commonsSettings = wartRemoverSettings
@@ -157,11 +158,18 @@ lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
   .settings(commonsSettings)
   .settings(
+    scalacOptions := Seq(
+      "-Ywarn-unused:_",
+      "-Ywarn-dead-code",
+      "-deprecation"
+    ),
     name := "FloxxServer",
     libraryDependencies += http4sBlazeServer,
     libraryDependencies += http4sBlazeClient,
     libraryDependencies += http4sDsl,
     libraryDependencies += zio,
+    libraryDependencies += zioLogging,
+    libraryDependencies += zioLoggingSlf4j,
     libraryDependencies += pureConfig,
     libraryDependencies += `zio-interop-cats`,
     libraryDependencies ++= dockertest,

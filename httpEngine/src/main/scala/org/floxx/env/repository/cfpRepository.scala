@@ -1,5 +1,6 @@
 package org.floxx.env.repository
 
+import cats.implicits._
 import doobie.Update
 import doobie.implicits._
 import org.floxx.domain
@@ -15,13 +16,14 @@ object cfpRepository {
   trait SlotRepo {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
-    def addSlots(slot: List[domain.Slot]): Task[Int]
-    def allSlots: Task[Seq[domain.Slot]]
-    def allSlotsWithUserId(userID: String): Task[Set[domain.Slot]]
-    def getSlotById(id: String): Task[Option[domain.Slot]]
+
+    def addSlots(slots: Seq[Slot]): Task[Int]
+    def allSlots: Task[Seq[Slot]]
+    def allSlotsWithUserId(userID: String): Task[Set[Slot]]
+    def getSlotById(id: String): Task[Option[Slot]]
     def drop: Task[Int]
     def addMapping(m: Mapping): Task[Int]
-    def allSlotsByUserId(user:SimpleUser.Id): Task[Seq[domain.Slot]]
+    def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[domain.Slot]]
   }
 
   case class SlotRepoService(r: TxResource) extends SlotRepo {
@@ -29,10 +31,27 @@ object cfpRepository {
     override def drop: Task[Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa)
 
-    override def addSlots(slots: List[domain.Slot]): Task[Int] =
-      Update[domain.Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
-        .updateMany(slots)
-        .transact(r.xa)
+
+    override def addSlots(slots: Seq[Slot]): Task[Int] = {
+      slots.map(
+        newSlot =>
+          for {
+            slot <- getSlotById(newSlot.slotId.id)
+            _ <- (slot
+              .fold(
+                Update[Slot](s"insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
+                  .toUpdate0(newSlot)
+              )(
+                oldSlot =>
+                  Update[(Talk, String)](s"update slot set talk=? where slotId=?")
+                    .toUpdate0((newSlot.talk.getOrElse(Talk("_", "_")), oldSlot.slotId.id))
+              ))
+              .run
+              .transact(r.xa)
+
+          } yield ()
+      )
+    }.sequence.map(_.length)
 
     override def addMapping(m: Mapping): Task[Int] =
       m.userId
@@ -48,8 +67,11 @@ object cfpRepository {
     override def allSlots: Task[Seq[domain.Slot]] =
       sql"""select * from slot""".query[domain.Slot].to[Seq].transact(r.xa)
 
-    override def allSlotsByUserId(userId:SimpleUser.Id): Task[Seq[domain.Slot]] =
-      sql"""select * from slot s inner join user_slots us on s.slotid=us.slotid where us.userid=${userId.value}""".query[domain.Slot].to[Seq].transact(r.xa)
+    override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[domain.Slot]] =
+      sql"""select * from slot s inner join user_slots us on s.slotid=us.slotid where us.userid=${userId.value}"""
+        .query[domain.Slot]
+        .to[Seq]
+        .transact(r.xa)
 
     override def allSlotsWithUserId(userId: String): Task[Set[domain.Slot]] =
       sql"""select * from
