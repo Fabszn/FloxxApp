@@ -215,6 +215,11 @@ function currentTracksWitHitInfo(refComponent) {
       headers: shared.tokenHandle()
     })
     .then(p => {
+      console.log(p.data)
+      console.log(p.data)
+      console.log(p.data)
+      console.log(p.data)
+      console.log(p.data)
       refComponent.hits = p.data;
       _.forEach(_.values(p.data), value => {
         if (!_.isNull(value.hitInfo)) {
@@ -272,6 +277,10 @@ export default {
       currentTracksWitHitInfo(this);
     },
     show(idslot) {
+      console.log(idslot)
+      console.log(idslot)
+      console.log(idslot)
+      console.log(idslot)
       this.$modal.show("slot-details", { idSlot: idslot });
     },
     hide: function() {

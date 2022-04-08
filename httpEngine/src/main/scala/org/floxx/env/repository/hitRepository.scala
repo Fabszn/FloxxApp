@@ -25,7 +25,7 @@ object hitRepository {
 
       val nextHitId = UUID.randomUUID
 
-      (sql"insert into hit_history (hitid,hitslotid,percentage,datetime) values (${nextHitId.toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime})".update.run
+      (sql"insert into hit_history (hitid,hitslotid,percentage,datetime, fkuserId) values (${nextHitId.toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime},${hit.userId.value})".update.run
         .flatMap(
           _ =>
             sql"insert into hit_latest (slotid, fkid_hit) values (${hit.hitSlotId} , ${nextHitId.toString} ) ON CONFLICT (slotid) DO UPDATE SET fkid_hit=${nextHitId.toString}".update.run
@@ -36,7 +36,7 @@ object hitRepository {
 
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] = {
 
-      val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime from hit_history where"
+      val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime, fkuserid from hit_history where"
       val criteria                = fr"${slotIds.map(id => s"hitslotid=$id").mkString(",")}"
 
       (root ++ criteria).query[Hit].to[Seq].transact(r.xa)

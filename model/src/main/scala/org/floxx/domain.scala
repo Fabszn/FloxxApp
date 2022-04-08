@@ -67,10 +67,6 @@ object domain {
       final case class Id(value: String) extends AnyVal
       final case class Nom(value: String) extends AnyVal
       final case class Prenom(value: String) extends AnyVal
-
-      /*implicit val enc: Encoder[SimpleUser.Id] = deriveEncoder[SimpleUser.Id]
-      implicit val dec: Decoder[SimpleUser.Id] = deriveDecoder[SimpleUser.Id]*/
-
     }
 
   }

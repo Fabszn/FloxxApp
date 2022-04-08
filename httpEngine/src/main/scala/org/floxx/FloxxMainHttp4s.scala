@@ -1,19 +1,20 @@
 package org.floxx
 
 import cats.syntax.all._
-import org.floxx.environment.{ appEnvironnement, AppEnvironment }
 import org.floxx.env.api._
 import org.floxx.env.configuration.config.{ getConf, GlobalConfig }
+import org.floxx.environment.{ appEnvironnement, loggingLayer, AppEnvironment }
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
 import org.http4s.server.{ AuthMiddleware, Router }
 import org.joda.time.DateTimeZone
-import org.slf4j.{ Logger, LoggerFactory }
+import zio._
+import zio.clock.Clock
 import zio.interop.catz._
-import zio.{ ExitCode, _ }
+import zio.logging.Logging
 
 object FloxxMainHttp4s extends zio.App {
-  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
     ZIO.runtime[AppEnvironment].flatMap { _ =>
@@ -57,10 +58,7 @@ object FloxxMainHttp4s extends zio.App {
     ).orNotFound
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
-    logger.info("server starting..")
-
-
-    server
+    Logging.info("Stating Floxx App") *> server
       .provideLayer(appEnvironnement)
       .fold[ExitCode](
         ex => {
@@ -72,8 +70,6 @@ object FloxxMainHttp4s extends zio.App {
           ExitCode.success
         }
       )
-  }
-
-
+  }.provideLayer(Clock.live ++ zio.console.Console.live ++ loggingLayer)
 
 }

@@ -8,6 +8,7 @@ import org.floxx.env.service.trackService.TrackService
 import zio.blocking.Blocking
 import zio.clock.Clock
 import zio._
+import zio.logging.{LogFormat, LogLevel, Logging}
 
 object environment {
 
@@ -16,6 +17,11 @@ object environment {
   val dbTransactor = {
     (config.layer ++ Blocking.live ++ Clock.live) >>> DbTransactor.postgres
   }
+
+  val loggingLayer = Logging.console(
+    logLevel = LogLevel.Info,
+    format = LogFormat.ColoredLogFormat()
+  ) >>> Logging.withRootLoggerName("Floxx")
 
   //repository
   val hitRepo   = dbTransactor >>> hitRepository.layer
@@ -28,7 +34,7 @@ object environment {
   val adminSer = userRepo ++ cfpRepo >>> adminService.layer
   val trackSer = (cfpRepo ++ config.layer) >>> trackService.layer
   val hitSer   = (trackSer ++ hitRepo ++ config.layer) >>> hitService.layer
-  val securitySer = (userRepo ++ config.layer) >>> securityService.layer
+  val securitySer = (loggingLayer ++ userRepo ++ config.layer) >>> securityService.layer
   val statsSer =  statsRepo >>> statService.layer
 
   type AppEnvironment = Clock
@@ -42,6 +48,7 @@ object environment {
 
   val appEnvironnement = Clock.live ++
     Blocking.live ++
+    loggingLayer ++
     config.layer ++
     hitSer ++
     securitySer ++
