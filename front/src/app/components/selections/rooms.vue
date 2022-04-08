@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     selectSlot: function() {
-    console.log(this.slotId.id);
       this.$router.push("fill/" + this.slotId.id);
     },
     validateSelection: function(item) {
