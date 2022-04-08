@@ -10,19 +10,19 @@
     <div>
           <br>
         </div>
-      <!--<div>
-          <button
-          type="button"
-          class="btn btn-secondary btn-lg block"
-          v-on:click="navToConf"
-          >Current slot</button>
-      </div>-->
       <div>
           <button
             type="button"
             class="btn btn-secondary btn-lg block"
             v-on:click="navToMySlots"
-          >All slots</button>
+          >My slots</button>
+      </div>
+      <div>
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg block"
+            v-on:click="navToAllActSlots"
+          >All actives slots</button>
       </div>
       <div>
           <button
@@ -64,6 +64,9 @@ export default {
     },
     navToStat: function () {
       this.$router.push("/admin");
+    },
+    navToAllActSlots: function () {
+      this.$router.push("/allactivesslots");
     },
     backDisconnect: function () {
       shared.cleanToken();

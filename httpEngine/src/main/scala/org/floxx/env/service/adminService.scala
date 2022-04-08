@@ -1,12 +1,13 @@
 package org.floxx.env.service
 
+import org.floxx.domain
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.{ Planning, PlanningDayItem }
+import org.floxx.domain.{Planning, PlanningDayItem}
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
 import org.floxx.model.jsonModel.Slot
-import org.floxx.model.{ SimpleUser, SlotId }
+import org.floxx.model.{SimpleUser, SlotId}
 import zio._
 
 object adminService {
@@ -33,17 +34,17 @@ object adminService {
     override def loadUsers: Task[Seq[SimpleUser]] =
       userRepo.allUsers
 
-    private def updateSlots(slots: Seq[Slot], env: Map[String, String]): Task[Seq[Slot]] = {
+    private def updateSlots(slots: Seq[domain.Slot], env: Map[String, String]): Task[Seq[domain.Slot]] = {
 
-      def updateId(id: SlotId, oldDay: String, newDay: String): SlotId =
-        SlotId(id.id.replace(oldDay, newDay))
+      def updateId(id: domain.Slot.Id, oldDay: String, newDay: String): domain.Slot.Id =
+        domain.Slot.Id(id.value.replace(oldDay, newDay))
 
       Task(slots.map(s => {
         val oldDay = s.day
-        val newDay = env(oldDay)
+        val newDay = env(oldDay.value)
         s.copy(
-          slotId = updateId(s.slotId, oldDay, newDay),
-          day    = newDay
+          slotId = updateId(s.slotId, oldDay.value, newDay),
+          day    = domain.Slot.Day(newDay)
         )
       }))
     }

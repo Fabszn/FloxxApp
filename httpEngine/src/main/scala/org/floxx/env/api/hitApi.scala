@@ -1,6 +1,7 @@
 package org.floxx.env.api
 
 import io.circe.generic.auto._
+import io.circe.syntax._
 import org.floxx.UserInfo
 import org.floxx.env.service.hitService
 import org.floxx.model.Hit
@@ -36,15 +37,15 @@ object hitApi {
       } yield r
 
     case GET -> Root / "tracks-infos" as usesr=>
-      hitService.currentTracksWithHitInfo >>= (r => Ok(r))
+      hitService.currentTracksWithHitInfo >>= (r => Ok(r.asJson))
 
     case GET -> Root /  "all-tracks-infos" as user =>
-      hitService.allTracksWithHitInfo  >>=  (r => Ok(r))
+      hitService.allTracksWithHitInfo  >>=  (r => Ok(r.asJson))
 
     case GET -> Root /  "all-tracks-infos-for-attendees" as user =>
-      hitService.allTracksWithHitInfo >>=  (r => Ok(r))
+      hitService.allTracksWithHitInfo >>=  (r => Ok(r.asJson))
 
-    case  GET -> Root /  "list-tracks" as user=> {
+    /*case  GET -> Root /  "list-tracks" as user=> {
       hitService.allTracksWithHitInfo >>= (r =>
       {
         Ok(r.map {
@@ -55,7 +56,7 @@ object hitApi {
             )
         })
       })
-    }
+    }*/
   }
 
 }

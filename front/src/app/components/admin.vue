@@ -10,7 +10,7 @@
     <div>
       <br />
     </div>
-    <div>
+    <!--<div>
       <button
         type="button"
         v-on:click="navToList"
@@ -18,7 +18,7 @@
       >
         Tops Lists
       </button>
-    </div>
+    </div> -->
     <div>
       <button
         type="button"
@@ -28,7 +28,7 @@
         Statistiques
       </button>
     </div>
-    <div>
+    <!--<div>
       <button
         type="button"
         v-on:click="navToRCMng"
@@ -36,7 +36,7 @@
       >
         RedCoats
       </button>
-    </div>
+    </div>-->
     <div>
       <button
         type="button"

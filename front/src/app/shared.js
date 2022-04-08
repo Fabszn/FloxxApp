@@ -1,10 +1,17 @@
 function cc(p) {
-    var p = _.toInteger(p);
-    if (p <= 40) {
+    console.log(p);
+    console.log(p);
+    console.log(p);
+    console.log(p);
+    console.log(p);
+    console.log(p);
+    console.log(p);
+    var pi = _.toInteger(p);
+    if (pi <= 40) {
         return ["green"];
-    } else if (p > 40 && p <= 70) {
+    } else if (pi > 40 && pi <= 70) {
         return ["orange"];
-    } else if (p > 70 && p <= 100) {
+    } else if (pi > 70 && pi <= 100) {
         return ["red"];
     } else {
         return ["violet"];
@@ -16,7 +23,7 @@ var pAdmin = "isAdmin"
 
 export default {
     colorByPercentage: function chooseColor(percentage) {
-        cc(percentage)
+        return cc(percentage)
     },
     securityAccess: function sa(router, run) {
         var token = sessionStorage.getItem(tokenKey);

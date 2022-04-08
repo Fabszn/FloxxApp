@@ -10,7 +10,7 @@
 
     <div class="d-flex flex-column justify-content-center">
       <div class="title separate">{{title}}</div>
-      <div>{{talkType}} - {{room}}</div>
+      <div>{{talkType}} - {{room.value}}</div>
     </div>
 
     <div class="d-flex justify-content-center">

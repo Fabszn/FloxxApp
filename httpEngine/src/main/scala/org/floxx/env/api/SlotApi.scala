@@ -43,17 +43,8 @@ object SlotApi {
       for {
         conf <- config.getConf
         activeSlots <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
-        rep <- Ok(
-          Map(
-            "slots" -> activeSlots.map(
-              s =>
-                SlotItem(
-                  s.slotId,
-                  s"${s.roomId} ${s.fromTime} - ${s.toTime}"
-                )
-            )
-          )
-        )
+        rep <- Ok(activeSlots)
+
       } yield rep
 
     /**

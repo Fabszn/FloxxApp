@@ -8,7 +8,7 @@
       </div>
     </div>
     <div>
-      My Slots
+      All actives slots
     </div>
     <div v-for="item in items" :key="item.slotId.value">
       <button
@@ -16,7 +16,7 @@
         class="btn btn-secondary btn-lg block"
         v-on:click="selectSlot(item.slotId.value)"
       >
-        {{ item.roomId.value }} : {{ item.fromTime.value }} - {{ item.toTime.value }} ({{item.day.value}})
+        {{ item.roomId.value }} : {{ item.fromTime.value }} - {{ item.toTime.value }} {{item.day.value}}
       </button>
     </div>
   </div>
@@ -31,12 +31,10 @@ export default {
   },
   created: function () {
     this.$http
-      .get("/api/slots/_currentUser", {
+      .get("/api/slots/_current", {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
-        console.log(p.data);
-
         this.items = p.data;
       });
   },

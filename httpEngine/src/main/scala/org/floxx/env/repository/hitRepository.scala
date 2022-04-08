@@ -1,11 +1,11 @@
 package org.floxx.env.repository
 
 import doobie.implicits._
+import org.floxx.domain._
 import doobie.util.fragment
-import doobie.util.log.LogHandler
 import org.floxx.env.repository.DbTransactor.TxResource
 import org.floxx.model
-import org.floxx.model.{Hit, SlotId}
+import org.floxx.model.Hit
 import zio._
 import zio.interop.catz._
 
@@ -14,7 +14,7 @@ import java.util.UUID
 object hitRepository {
 
   trait HitRepo {
-    def loadHitBy(slotIds: Seq[SlotId]): Task[Seq[model.Hit]]
+    def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[model.Hit]]
     def save(hit: Hit): Task[Int]
 
   }
@@ -34,7 +34,7 @@ object hitRepository {
 
     }
 
-    def loadHitBy(slotIds: Seq[SlotId]): Task[Seq[Hit]] = {
+    def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] = {
 
       val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime from hit_history where"
       val criteria                = fr"${slotIds.map(id => s"hitslotid=$id").mkString(",")}"
@@ -47,7 +47,7 @@ object hitRepository {
   val layer: RLayer[Has[TxResource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
 
   def save(hit: Hit): RIO[Has[HitRepo], Int] = ZIO.serviceWith[HitRepo](_.save(hit))
-  def loadHitBy(slotIds: Seq[SlotId]): RIO[Has[HitRepo], Seq[Hit]] =
+  def loadHitBy(slotIds: Seq[Slot.Id]): RIO[Has[HitRepo], Seq[Hit]] =
     ZIO.serviceWith[HitRepo](_.loadHitBy(slotIds))
 
 }

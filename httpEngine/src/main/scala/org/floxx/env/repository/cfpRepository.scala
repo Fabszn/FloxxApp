@@ -7,7 +7,6 @@ import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.User.SimpleUser
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.DbTransactor.TxResource
-import org.floxx.model.jsonModel.Slot
 import zio._
 import zio.interop.catz._
 
@@ -16,10 +15,10 @@ object cfpRepository {
   trait SlotRepo {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
-    def addSlots(slot: List[Slot]): Task[Int]
-    def allSlots: Task[Seq[Slot]]
-    def allSlotsWithUserId(userID: String): Task[Set[Slot]]
-    def getSlotById(id: String): Task[Option[Slot]]
+    def addSlots(slot: List[domain.Slot]): Task[Int]
+    def allSlots: Task[Seq[domain.Slot]]
+    def allSlotsWithUserId(userID: String): Task[Set[domain.Slot]]
+    def getSlotById(id: String): Task[Option[domain.Slot]]
     def drop: Task[Int]
     def addMapping(m: Mapping): Task[Int]
     def allSlotsByUserId(user:SimpleUser.Id): Task[Seq[domain.Slot]]
@@ -30,8 +29,8 @@ object cfpRepository {
     override def drop: Task[Int] =
       sql"truncate table slot cascade".update.run.transact(r.xa)
 
-    override def addSlots(slots: List[Slot]): Task[Int] =
-      Update[Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
+    override def addSlots(slots: List[domain.Slot]): Task[Int] =
+      Update[domain.Slot]("insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
         .updateMany(slots)
         .transact(r.xa)
 
@@ -46,19 +45,19 @@ object cfpRepository {
         .run
         .transact(r.xa)
 
-    override def allSlots: Task[Seq[Slot]] =
-      sql"""select * from slot""".query[Slot].to[Seq].transact(r.xa)
+    override def allSlots: Task[Seq[domain.Slot]] =
+      sql"""select * from slot""".query[domain.Slot].to[Seq].transact(r.xa)
 
     override def allSlotsByUserId(userId:SimpleUser.Id): Task[Seq[domain.Slot]] =
       sql"""select * from slot s inner join user_slots us on s.slotid=us.slotid where us.userid=${userId.value}""".query[domain.Slot].to[Seq].transact(r.xa)
 
-    override def allSlotsWithUserId(userId: String): Task[Set[Slot]] =
+    override def allSlotsWithUserId(userId: String): Task[Set[domain.Slot]] =
       sql"""select * from
            |slot s inner join user_slots  us on s.slotid=us.slotid
-           |where us.userid=$userId""".stripMargin.query[Slot].to[Set].transact(r.xa)
+           |where us.userid=$userId""".stripMargin.query[domain.Slot].to[Set].transact(r.xa)
 
-    override def getSlotById(id: String): Task[Option[Slot]] =
-      sql"""select * from slot where slotid=$id""".query[Slot].option.transact(r.xa)
+    override def getSlotById(id: String): Task[Option[domain.Slot]] =
+      sql"""select * from slot where slotid=$id""".query[domain.Slot].option.transact(r.xa)
 
     override def mappingUserSlot: Task[Seq[UserSlot]] =
       sql"""select u.userid,

@@ -4,7 +4,6 @@ import overflow from './components/selections/overflow.vue'
 import rooms from './components/selections/rooms.vue'
 import fill from './components/fillPercentage.vue'
 import metrics from './components/metrics.vue'
-import attendee from './components/attendee.vue'
 import admin from './components/admin.vue'
 import topsList from './components/admins/topsList.vue'
 import redcoatmng from './components/admins/redcoatmng.vue'
@@ -12,6 +11,7 @@ import statistiques from './components/admins/statistiques.vue'
 import mappingRCR from './components/admins/mappingRCR.vue'
 import mySlots from './components/mySlots.vue'
 import planning from './components/desktop/planning.vue'
+import allactivesslots from './components/AllActiveSlots.vue'
 
 export const routes = [{
     path: '/',
@@ -38,10 +38,6 @@ export const routes = [{
     component: metrics,
     children: []
 }, {
-    path: '/attendee',
-    component: attendee,
-    children: []
-}, {
     path: '/admin',
     component: admin,
     children: []
@@ -66,7 +62,11 @@ export const routes = [{
     component: mySlots,
     children: []
 }, {
-     path: '/planning',
-     component: planning,
-     children: []
- }];
+    path: '/planning',
+    component: planning,
+    children: []
+}, {
+    path: '/allactivesslots',
+    component: allactivesslots,
+    children: []
+}];
