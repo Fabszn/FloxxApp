@@ -3,7 +3,7 @@ package org.floxx.env.api
 import org.floxx.UserInfo
 import org.floxx.env.service.statService
 import org.slf4j.{Logger, LoggerFactory}
-import org.http4s.{AuthedRoutes, HttpRoutes}
+import org.http4s.AuthedRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._

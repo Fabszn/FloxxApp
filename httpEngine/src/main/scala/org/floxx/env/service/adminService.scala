@@ -1,13 +1,11 @@
 package org.floxx.env.service
 
-import org.floxx.domain
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.{Planning, PlanningDayItem}
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
-import org.floxx.model.jsonModel.Slot
-import org.floxx.model.{SimpleUser, SlotId}
+import org.floxx.model.SimpleUser
 import zio._
 
 object adminService {

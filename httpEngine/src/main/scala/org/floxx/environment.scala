@@ -7,9 +7,9 @@ import org.floxx.env.service._
 import org.floxx.env.service.trackService.TrackService
 import zio.blocking.Blocking
 import zio.clock.Clock
-import zio.{Has, Layer}
+import zio._
 
-object Environment {
+object environment {
 
 
 

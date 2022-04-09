@@ -1,7 +1,6 @@
 package org.floxx.env
 
 
-import com.zaxxer.hikari.HikariConfig
 import doobie.hikari.HikariTransactor
 import org.floxx.env.configuration.config.{Configuration, getConf}
 import zio._
@@ -9,7 +8,6 @@ import zio.blocking.Blocking
 import zio.clock.Clock
 import zio.interop.catz._
 
-import java.util.Properties
 
 package object repository {
 

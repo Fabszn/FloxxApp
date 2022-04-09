@@ -33,7 +33,7 @@ object SlotApi {
   }
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
-    case GET -> Root / "read" as user =>
+    case GET -> Root / "read" as _ =>
       trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
 
     /**

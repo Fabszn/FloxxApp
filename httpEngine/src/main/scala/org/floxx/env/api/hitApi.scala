@@ -29,34 +29,21 @@ object hitApi {
   }
 
   def api = AuthedRoutes.of[UserInfo,ApiTask] {
-    case ct@POST -> Root / "hit" as user  =>
+    case ct@POST -> Root / "hit" as _  =>
       for {
         hitItem <- ct.req.as[HitRequest]
         _ <- hitService.hit(hitItem.toHit)
         r <- Created("Hit created")
       } yield r
 
-    case GET -> Root / "tracks-infos" as usesr=>
+    case GET -> Root / "tracks-infos" as _=>
       hitService.currentTracksWithHitInfo >>= (r => Ok(r.asJson))
 
-    case GET -> Root /  "all-tracks-infos" as user =>
+    case GET -> Root /  "all-tracks-infos" as _ =>
       hitService.allTracksWithHitInfo  >>=  (r => Ok(r.asJson))
 
-    case GET -> Root /  "all-tracks-infos-for-attendees" as user =>
+    case GET -> Root /  "all-tracks-infos-for-attendees" as _ =>
       hitService.allTracksWithHitInfo >>=  (r => Ok(r.asJson))
-
-    /*case  GET -> Root /  "list-tracks" as user=> {
-      hitService.allTracksWithHitInfo >>= (r =>
-      {
-        Ok(r.map {
-          case (k, v) =>
-            Map(
-              ("Id", k.toString),
-              ("Title", v.slot.talk.fold("no")(t => t.title))
-            )
-        })
-      })
-    }*/
   }
 
 }

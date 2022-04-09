@@ -3,7 +3,7 @@ package org.floxx.env
 import cats.data.{Kleisli, OptionT}
 import io.circe.generic.auto._
 import io.circe.parser.decode
-import org.floxx.Environment.AppEnvironment
+import org.floxx.environment.AppEnvironment
 import org.floxx.env.configuration.config.GlobalConfig
 import org.floxx.{UserInfo, logger}
 import org.http4s.Request

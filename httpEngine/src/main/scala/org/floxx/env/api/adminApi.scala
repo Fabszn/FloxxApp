@@ -8,8 +8,7 @@ import org.floxx.env.service.adminService
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.http4s.{AuthedRoutes, Response}
-import zio.Task
+import org.http4s.AuthedRoutes
 import zio.interop.catz._
 
 object adminApi {
@@ -32,7 +31,7 @@ object adminApi {
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
 
-    case ct @ POST -> Root / "set-user" as user =>
+    case ct @ POST -> Root / "set-user" as _ =>
       for {
         mapping <- ct.req.as[Mapping]
         _ <- adminService.insertUserSlotMapping(mapping)
@@ -47,7 +46,7 @@ object adminApi {
       adminService.planning >>= { uss =>
         Ok(uss)
       }
-    case ct @ GET -> Root / "users" as _ =>
+    case _ @ GET -> Root / "users" as _ =>
       adminService.loadUsers >>= (users => Ok(users))
     case GET -> Root / "healthCheck" as _ => Ok("up and go")
 

@@ -49,7 +49,6 @@ export default {
     };
   },
   mounted() {
-    console.debug("state admin " + shared.readAdminEtat());
     this.adminState = shared.readAdminEtat();
   },
   created() {

@@ -1,7 +1,7 @@
 package org.floxx
 
 import cats.syntax.all._
-import org.floxx.Environment.{ appEnvironnement, AppEnvironment }
+import org.floxx.environment.{ appEnvironnement, AppEnvironment }
 import org.floxx.env.api._
 import org.floxx.env.configuration.config.{ getConf, GlobalConfig }
 import org.http4s.blaze.server.BlazeServerBuilder
@@ -16,7 +16,7 @@ object FloxxMainHttp4s extends zio.App {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
-    ZIO.runtime[AppEnvironment].flatMap { implicit r =>
+    ZIO.runtime[AppEnvironment].flatMap { _ =>
       {
         for {
           conf <- getConf

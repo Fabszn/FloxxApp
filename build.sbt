@@ -5,7 +5,7 @@ import sbt.io.IO
 import scala.sys.process.Process
 import scala.util.{ Failure, Try }
 
-maintainer := "Fabrice Sznajderman"
+
 
 lazy val webpackDev      = taskKey[Unit]("package Dev mode")
 lazy val webpackProd     = taskKey[Unit]("package Prod mode")
@@ -164,6 +164,7 @@ lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
   .settings(commonsSettings)
   .settings(
+    maintainer := "Fabrice Sznajderman",
     scalacOptions := Seq(
       "-Ywarn-unused:_",
       "-Ywarn-dead-code",
@@ -195,7 +196,7 @@ lazy val httpEngine = (project in file("httpEngine"))
   )
   .dependsOn(model)
 
-mainClass := Some("org.floxx.FloxxMainHttp4s")
+///mainClass := Some("org.floxx.FloxxMainHttp4s")
 
 mappings in (Compile, packageDoc) := Seq()
 

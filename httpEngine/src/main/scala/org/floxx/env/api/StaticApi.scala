@@ -2,9 +2,7 @@ package org.floxx.env.api
 
 import org.http4s.{HttpRoutes, Request, StaticFile}
 import org.http4s.dsl.Http4sDsl
-import org.http4s._
-import org.http4s.dsl.io._
-import fs2.io.file.Path
+
 import zio.interop.catz._
 
 
