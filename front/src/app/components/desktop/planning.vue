@@ -29,7 +29,6 @@
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId.value"
                 >
-                
                   {{ slot.slot.fromTime.value }}
                   {{ slot.slot.toTime.value }}
 
@@ -109,7 +108,6 @@ export default {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
-        console.log("test" + p.data);
         this.items = p.data;
       });
   },
@@ -167,10 +165,10 @@ export default {
           .then((p) => {
             this.confTitle = p.data.talk.title;
             this.confKind = p.data.talk.talkType;
-            this.room = p.data.roomId;
-            this.fromTime = p.data.fromTime;
-            this.toTime = p.data.toTime;
-            this.selectedSlotId = p.data.slotId;
+            this.room = p.data.roomId.value;
+            this.fromTime = p.data.fromTime.value;
+            this.toTime = p.data.toTime.value;
+            this.selectedSlotId = p.data.slotId.value;
           });
       });
 
@@ -195,7 +193,7 @@ export default {
         .post(
           "/api/set-user",
           {
-            slotId: { value: this.selectedSlotId.id },
+            slotId: { value: this.selectedSlotId },
           },
           {
             headers: shared.tokenHandle(),
@@ -217,7 +215,7 @@ export default {
             "/api/set-user",
             {
               userId: { value: this.selectedUserId },
-              slotId: { value: this.selectedSlotId.id },
+              slotId: { value: this.selectedSlotId },
             },
             {
               headers: shared.tokenHandle(),

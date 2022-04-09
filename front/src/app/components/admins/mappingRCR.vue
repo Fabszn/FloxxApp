@@ -152,10 +152,10 @@ export default {
           .then((p) => {
             this.confTitle = p.data.talk.title;
             this.confKind = p.data.talk.talkType;
-            this.room = p.data.roomId;
-            this.fromTime = p.data.fromTime;
-            this.toTime = p.data.toTime;
-            this.selectedSlotId = p.data.slotId;
+            this.room = p.data.roomId.value;
+            this.fromTime = p.data.fromTime.value;
+            this.toTime = p.data.toTime.value;
+            this.selectedSlotId = p.data.slotId.value;
           });
       });
 
@@ -179,7 +179,7 @@ export default {
         .post(
           "/api/set-user",
           {
-            slotId: { value: this.selectedSlotId.id },
+            slotId: { value: this.selectedSlotId },
           },
           {
             headers: shared.tokenHandle(),
@@ -201,7 +201,7 @@ export default {
             "/api/set-user",
             {
               userId: { value: this.selectedUserId },
-              slotId: { value: this.selectedSlotId.id },
+              slotId: { value: this.selectedSlotId },
             },
             {
               headers: shared.tokenHandle(),
@@ -231,7 +231,7 @@ function computeUser(user) {
     return "-";
   } else {
     return user.prenom.value + " " + user.nom.value;
-  }
+  } 
 }
 
 function reloadData(thisref) {

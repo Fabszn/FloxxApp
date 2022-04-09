@@ -3,7 +3,7 @@
     "roomId": "b_amphi",
     "notAllocated": false,
     "fromTimeMillis": 1555486200000,
-    "break": "null",
+    "break": "dsf",
     "roomSetup": "theatre",
     "talk": {
       "trackId": "java",
@@ -44,7 +44,7 @@
       "roomId": "c_maillot",
       "notAllocated": false,
       "fromTimeMillis": 1555486200000,
-      "break": "null",
+      "break": "sdf",
       "roomSetup": "theatre",
       "talk": {
         "trackId": "bigd",

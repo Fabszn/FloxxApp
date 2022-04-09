@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // Require  html-webpack-plugin plugin
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 
@@ -3237,7 +3238,7 @@ module.exports = env => {
         entry: __dirname + "/src/app/index.js", // webpack entry point. Module to start building dependency graph
         output: {
             path: __dirname + '/dist', // Folder to store generated bundle
-            filename: 'floxx.js', // Name of generated bundle after build
+            filename: 'floxx.[chunkhash].js', // Name of generated bundle after build
             publicPath: '/' // public URL of the output directory when referenced in a browser
         },
         plugins: [ // Array of plugins to apply to build chunk
@@ -3246,6 +3247,7 @@ module.exports = env => {
                 inject: 'body'
             }),
             new VueLoaderPlugin(),
+            new CleanWebpackPlugin(),
 
         ],
         devServer: {

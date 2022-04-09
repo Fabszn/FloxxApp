@@ -2,6 +2,9 @@ package org.floxx.env.api
 
 import org.http4s.{HttpRoutes, Request, StaticFile}
 import org.http4s.dsl.Http4sDsl
+import org.http4s._
+import org.http4s.dsl.io._
+import fs2.io.file.Path
 import zio.interop.catz._
 
 
@@ -18,7 +21,8 @@ object StaticApi {
   def api=  HttpRoutes.of[ApiTask] {
     case req @ GET -> Root  => static("/assets/index.html", req)
 
-    case req @ GET -> Root / "floxx.js"   => static("/assets/floxx.js", req)
+    case req @ GET -> Root / path if path.startsWith("floxx") && path.endsWith(".js")  => {
+      static(s"/assets/${path}", req)}
 
   }
 

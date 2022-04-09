@@ -10,6 +10,7 @@ maintainer := "Fabrice Sznajderman"
 lazy val webpackDev      = taskKey[Unit]("package Dev mode")
 lazy val webpackProd     = taskKey[Unit]("package Prod mode")
 lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine directory")
+lazy val floxxCleanFiles   = taskKey[Unit]("clean directories")
 lazy val yarnInstall     = taskKey[Unit]("install front project")
 lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
 lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
@@ -77,14 +78,19 @@ floxxCopyFile := {
   Try {
     IO.delete((httpResourceDir.value / "assets"))
     IO.createDirectory((httpResourceDir.value / "assets"))
-    IO.copyFile(
-      (front / baseDirectory).value / "dist/index.html",
-      (httpResourceDir.value / "assets/index.html")
+    IO.copyDirectory(
+      (front / baseDirectory).value / "dist/",
+      (httpResourceDir.value / "assets/")
     )
-    IO.copyFile(
-      (front / baseDirectory).value / "dist/floxx.js",
-      (httpResourceDir.value / "assets/floxx.js")
-    )
+  } match {
+    case Failure(exception) => throw exception
+    case _ => ()
+  }
+
+}
+floxxCleanFiles := {
+  Try {
+    IO.delete((httpResourceDir.value / "dist/"))
   } match {
     case Failure(exception) => throw exception
     case _ => ()
