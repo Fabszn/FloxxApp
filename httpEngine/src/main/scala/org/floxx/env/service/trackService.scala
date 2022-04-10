@@ -5,7 +5,6 @@ import io.circe.generic.auto._
 import org.floxx.domain.User.SimpleUser
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.SlotRepo
-import org.floxx.model.SlotId
 import org.floxx.{ domain, HttpExternalCallError, IllegalStateError }
 import org.http4s.Response
 import org.http4s.blaze.client.BlazeClientBuilder
@@ -34,13 +33,13 @@ object trackService {
     val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def readDataFromCfpDevoxx(): Task[Int] = {
+      @Deprecated //todo ("to reworked !!! ")
       def s(url: String) =
         BlazeClientBuilder[Task].resource
           .use { client =>
             import io.circe.parser._
             logger.info(s"URL resquested ${url}")
             client.get(url) { r: Response[Task] =>
-              // logger.error(s"Parsing Error :  ${rt}", e)
               r.as[String].map { rt =>
                 parse(rt).fold(
                   e => {

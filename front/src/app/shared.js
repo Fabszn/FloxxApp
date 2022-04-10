@@ -1,11 +1,4 @@
 function cc(p) {
-    console.log(p);
-    console.log(p);
-    console.log(p);
-    console.log(p);
-    console.log(p);
-    console.log(p);
-    console.log(p);
     var pi = _.toInteger(p);
     if (pi <= 40) {
         return ["green"];

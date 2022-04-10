@@ -3,7 +3,6 @@ package org.floxx.env.service
 import org.floxx.domain
 import org.floxx.domain.Slot.Day
 import org.floxx.env.configuration.config.GlobalConfig
-import org.floxx.model.jsonModel.Slot
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone, LocalTime}
 import org.slf4j.{Logger, LoggerFactory}

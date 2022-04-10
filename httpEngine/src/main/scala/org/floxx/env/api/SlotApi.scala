@@ -29,7 +29,13 @@ object SlotApi {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
-    def toHit: Hit = Hit(None, hitSlotId, percentage)
+    def toHit(userId: SimpleUser.Id): Hit =
+      Hit(
+        hitid      = None,
+        hitSlotId  = hitSlotId,
+        percentage = percentage,
+        userId     = userId
+      )
   }
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {

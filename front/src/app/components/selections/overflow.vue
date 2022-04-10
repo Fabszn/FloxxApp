@@ -22,10 +22,9 @@
     >
       <div class="talkdetails">
         <p>
-          Titre :
           {{confTitle}}
         </p>
-        <p>Type conf&eacute;rence : {{confKind}}</p>
+        <p>Type : {{confKind}}</p>
         <p>Salle : {{room}}</p>
 
         <button
@@ -229,8 +228,8 @@ function currentTracksWitHitInfo(refComponent) {
 }
 
 function findKey(idSlotComp, refComp) {
-  return _.find(_.keys(refComp.hits), function(key) {
-    return key.includes(idSlotComp);
+  return _.find(_.values(refComp.hits), function(key) {
+    return (key.hitSlotId.value).includes(idSlotComp);
   });
 }
 
@@ -278,21 +277,20 @@ export default {
       this.$modal.hide("slot-details");
     },
     beforeOpen(event) {
-      var key = findKey(event.params.idSlot, this);
-      var current = this.hits[key];
+      var current = findKey(event.params.idSlot, this);
       if (!_.isUndefined(current)) {
         this.confTitle = current.slot.talk.title;
         this.confKind = current.slot.talk.talkType;
-        this.room = current.slot.roomId;
+        this.room = current.slot.roomId.value;
         this.fromTime = current.slot.fromTime;
         this.toTime = current.slot.toTime;
         this.twitterMessage =
           "La salle " +
           this.room +
           " [" +
-          this.fromTime +
+          this.fromTime.value +
           " - " +
-          this.toTime +
+          this.toTime.value +
           "] " +
           this.confTitle +
           " est en OVERFLOW ....  @DevoxxFR";
