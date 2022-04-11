@@ -1,12 +1,9 @@
 package org.floxx
 
-import doobie.util.{ Get, Put, Read }
 import io.circe.generic.auto._
 import io.circe._
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
-import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.User.SimpleUser._
 
 object domain {
 
@@ -17,45 +14,6 @@ object domain {
 
       implicit val ordering: Ordering[UserSlot] = (x: UserSlot, y: UserSlot) =>
         x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
-      implicit val userSlotRead: Read[UserSlot] =
-        Read[(Option[String], Option[String], Option[String], String, String, String, String, String)].map {
-          case (Some(userId), Some(p), Some(n), slotId, room, fromtTime, toTime, day) =>
-            UserSlot(
-              Some(SimpleUser(Id(userId), Nom(n), Prenom(p))),
-              Slot(
-                slotId   = Slot.Id(slotId),
-                roomId   = Room.Id(room),
-                fromTime = Slot.FromTime(fromtTime),
-                toTime   = Slot.ToTime(toTime),
-                day      = Slot.Day(day),
-                talk     = Option.empty[Talk]
-              )
-            )
-          case (None, None, None, slotId, room, fromtTime, toTime, day) =>
-            UserSlot(
-              Option.empty[SimpleUser],
-              Slot(
-                slotId   = Slot.Id(slotId),
-                roomId   = Room.Id(room),
-                fromTime = Slot.FromTime(fromtTime),
-                toTime   = Slot.ToTime(toTime),
-                day      = Slot.Day(day),
-                talk     = Option.empty[Talk]
-              )
-            )
-          case _ =>
-            UserSlot(
-              Option.empty[SimpleUser],
-              Slot(
-                slotId   = Slot.Id("error"),
-                roomId   = Room.Id("error"),
-                fromTime = Slot.FromTime("error"),
-                toTime   = Slot.ToTime("error"),
-                day      = Slot.Day("error"),
-                talk     = Option.empty[Talk]
-              )
-            )
-        }
     }
   }
 
@@ -104,13 +62,9 @@ object domain {
       val vs = t.split("%")
       Talk(vs(0), vs(1))
     }
-
-    implicit val talkGet: Get[Talk] = Get[String].map(toString)
-    implicit val talkPut: Put[Talk] = Put[String].contramap(fromString)
-
   }
 
-  case class Slot(
+  final case class Slot(
       slotId: Slot.Id,
       roomId: Room.Id,
       fromTime: Slot.FromTime,
