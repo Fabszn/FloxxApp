@@ -1,7 +1,7 @@
 package org.floxx.env.service
 
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.{Planning, PlanningDayItem}
+import org.floxx.domain.{ Planning, PlanningDayItem }
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
@@ -11,7 +11,7 @@ import zio._
 object adminService {
 
   trait AdminService {
-    def insertUserSlotMapping(mapping: Mapping): Task[Int]
+    def insertUserSlotMapping(mapping: Mapping): Task[Long]
     def loadUsers: Task[Seq[SimpleUser]]
     def mappingUserSlot: Task[Seq[UserSlot]]
     def planning: Task[Seq[Planning]]
@@ -19,11 +19,10 @@ object adminService {
 
   case class AdminServiceImpl(slotRepo: SlotRepo, userRepo: UserRepo) extends AdminService {
 
-    override def insertUserSlotMapping(mapping: Mapping): Task[Int] = slotRepo.addMapping(mapping)
+    override def insertUserSlotMapping(mapping: Mapping): Task[Long] = slotRepo.addMapping(mapping)
 
     override def loadUsers: Task[Seq[SimpleUser]] =
       userRepo.allUsers
-
 
     override def planning: Task[Seq[Planning]] =
       slotRepo.mappingUserSlot >>= (m => groupByAndOrder(m))
@@ -46,8 +45,7 @@ object adminService {
 
   val layer: RLayer[Has[SlotRepo] with Has[UserRepo], Has[AdminService]] = (AdminServiceImpl(_, _)).toLayer
 
-
-  def insertUserSlotMapping(mapping: Mapping): RIO[Has[AdminService], Int] =
+  def insertUserSlotMapping(mapping: Mapping): RIO[Has[AdminService], Long] =
     ZIO.serviceWith[AdminService](_.insertUserSlotMapping(mapping))
 
   def loadUsers: RIO[Has[AdminService], Seq[SimpleUser]] =

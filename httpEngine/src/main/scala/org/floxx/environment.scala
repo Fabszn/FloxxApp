@@ -12,10 +12,8 @@ import zio.logging.{LogFormat, LogLevel, Logging}
 
 object environment {
 
-
-
   val dbTransactor = {
-    (config.layer ++ Blocking.live ++ Clock.live) >>> DbTransactor.postgres
+    (config.layer ++ Blocking.live ++ Clock.live) >>> QuillContext.dataSourceLayer
   }
 
   val loggingLayer = Logging.console(
@@ -28,33 +26,27 @@ object environment {
   val cfpRepo   = dbTransactor >>> cfpRepository.layer
   val statsRepo = dbTransactor >>> statsRepository.layer
   val userRepo  = dbTransactor >>> userRepository.layer
-  val technicalRepo  = dbTransactor >>> repository.layer
 
   //services
-  val adminSer = userRepo ++ cfpRepo >>> adminService.layer
-  val trackSer = (cfpRepo ++ config.layer) >>> trackService.layer
-  val hitSer   = (trackSer ++ hitRepo ++ config.layer) >>> hitService.layer
+  val adminSer    = userRepo ++ cfpRepo >>> adminService.layer
+  val trackSer    = (cfpRepo ++ config.layer) >>> trackService.layer
+  val hitSer      = (trackSer ++ hitRepo ++ config.layer) >>> hitService.layer
   val securitySer = (loggingLayer ++ userRepo ++ config.layer) >>> securityService.layer
-  val statsSer =  statsRepo >>> statService.layer
+  val statsSer    = statsRepo >>> statService.layer
 
-  type AppEnvironment = Clock
-    with Blocking
-    with Has[Configuration]
-    with Has[TrackService]
-    with Has[hitService.HitService]
-    with Has[securityService.SecurityService]
-    with Has[statService.StatsService]
-    with Has[adminService.AdminService]
+  type AppEnvironment =
+    Clock with Blocking with Has[Configuration] with Has[TrackService] with Has[hitService.HitService] with Has[
+      securityService.SecurityService
+    ] with Has[statService.StatsService] with Has[adminService.AdminService]
 
   val appEnvironnement = Clock.live ++
-    Blocking.live ++
+  Blocking.live ++
     loggingLayer ++
-    config.layer ++
-    hitSer ++
-    securitySer ++
-    statsSer ++
-    trackSer ++
-    technicalRepo ++
-    adminSer
+  config.layer ++
+  hitSer ++
+  securitySer ++
+  statsSer ++
+  trackSer ++
+  adminSer
 
 }

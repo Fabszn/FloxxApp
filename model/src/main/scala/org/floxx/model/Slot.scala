@@ -1,6 +1,5 @@
 package org.floxx.model
 
-import doobie.util.{ Get, Put }
 import io.circe.generic.semiauto._
 import io.circe.{ Decoder, Encoder, HCursor }
 
@@ -14,9 +13,6 @@ object jsonModel {
       val vs = t.split("%")
       Talk(vs(0), vs(1))
     }
-
-    implicit val talkGet: Get[Talk] = Get[String].map(toString)
-    implicit val talkPut: Put[Talk] = Put[String].contramap(fromString)
 
     implicit val fooDecoder: Decoder[Talk] = deriveDecoder[Talk]
     implicit val fooEncoder: Encoder[Talk] = deriveEncoder[Talk]

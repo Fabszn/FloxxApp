@@ -12,7 +12,7 @@ object hitService {
 
   trait HitService {
 
-    def hit(hit: Hit): Task[Int]
+    def hit(hit: Hit): Task[Long]
     def currentTracks: Task[Map[Slot.Id, model.Hit]]
     def currentTracksWithHitInfo: Task[Seq[model.TrackHitInfo]]
     def allTracksWithHitInfo: Task[Seq[model.TrackHitInfo]]
@@ -20,7 +20,7 @@ object hitService {
   }
 
   case class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo, config: Configuration) extends HitService {
-    override def hit(hit: Hit): Task[Int] = hitRepo.save(hit)
+    override def hit(hit: Hit): Task[Long] = hitRepo.save(hit)
 
     def transform(hits: Seq[Hit]): Task[Map[Slot.Id, Hit]] =
       IO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
@@ -79,7 +79,7 @@ object hitService {
   val layer: RLayer[Has[TrackService] with Has[HitRepo] with Has[Configuration], Has[HitService]] =
     (HitServiceImpl(_, _, _)).toLayer
 
-  def hit(hit: Hit): RIO[Has[HitService], Int]                     = ZIO.serviceWith[HitService](_.hit(hit))
+  def hit(hit: Hit): RIO[Has[HitService], Long]                    = ZIO.serviceWith[HitService](_.hit(hit))
   def currentTracks: RIO[Has[HitService], Map[Slot.Id, model.Hit]] = ZIO.serviceWith[HitService](_.currentTracks)
   def currentTracksWithHitInfo: RIO[Has[HitService], Seq[model.TrackHitInfo]] =
     ZIO.serviceWith[HitService](_.currentTracksWithHitInfo)
