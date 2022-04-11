@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
-      if (!_.isUndefined(currentActiveSlot)) {
+      if (!(_.isUndefined(currentActiveSlot) && _.isNull(currentActiveSlot))) {
         return currentActiveSlot.slotId.value == currentSlot.slotId.value;
       } else {
         return false;
