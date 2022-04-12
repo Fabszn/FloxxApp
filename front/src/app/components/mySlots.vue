@@ -46,10 +46,10 @@ export default {
   },
   methods: {
     isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
-      if (!(_.isUndefined(currentActiveSlot) && _.isNull(currentActiveSlot))) {
-        return currentActiveSlot.slotId.value == currentSlot.slotId.value;
-      } else {
+      if (_.isUndefined(currentActiveSlot.slotId)) {
         return false;
+      } else {
+        return currentActiveSlot.slotId.value == currentSlot.slotId.value;
       }
     },
     selectSlot: function (idSlot) {
@@ -73,7 +73,7 @@ export default {
   text-align: center;
 }
 
-.active{
+.active {
   background-color: rgb(212, 112, 31) !important;
 }
 
