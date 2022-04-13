@@ -1,11 +1,10 @@
 package org.floxx
 
-import doobie.util.{Get, Put, Read}
+import doobie.util.{ Get, Put, Read }
 import io.circe.generic.auto._
 import io.circe._
-import io.circe.{Decoder, Encoder}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Slot.{Day, FromTime, ToTime}
+import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.User.SimpleUser._
 
@@ -16,7 +15,8 @@ object domain {
 
     object UserSlot {
 
-      implicit val ordering: Ordering[UserSlot] = (x: UserSlot, y: UserSlot) => x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
+      implicit val ordering: Ordering[UserSlot] = (x: UserSlot, y: UserSlot) =>
+        x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
       implicit val userSlotRead: Read[UserSlot] =
         Read[(Option[String], Option[String], Option[String], String, String, String, String, String)].map {
           case (Some(userId), Some(p), Some(n), slotId, room, fromtTime, toTime, day) =>
@@ -76,9 +76,7 @@ object domain {
   object Room {
     import io.circe.generic.semiauto._
 
-
     final case class Id(value: String) extends AnyVal
-
 
     final case class Name(value: String) extends AnyVal
     final case class Capacity(value: Int) extends AnyVal
@@ -110,9 +108,6 @@ object domain {
     implicit val talkGet: Get[Talk] = Get[String].map(toString)
     implicit val talkPut: Put[Talk] = Put[String].contramap(fromString)
 
-    /*implicit val fooDecoder: Decoder[Talk] = deriveDecoder[Talk]
-    implicit val fooEncoder: Encoder[Talk] = deriveEncoder[Talk]*/
-
   }
 
   case class Slot(
@@ -129,26 +124,28 @@ object domain {
     final case class FromTime(value: String) extends AnyVal
     final case class ToTime(value: String) extends AnyVal
     final case class Day(value: String) extends AnyVal
+    object Day {
+      implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
+    }
 
-    /*implicit val enc: Encoder[Slot.Id] = deriveEncoder[Slot.Id]
-    implicit val dec: Decoder[Slot.Id] = deriveDecoder[Slot.Id]*/
+    implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) => x.fromTime.value.compareTo(y.fromTime.value)
+
+
   }
 
   final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
   final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
 
-
-  implicit val decodeFoo: Decoder[Slot] = (c: HCursor) => {for {
-    slotId <- c.downField("slotId").as[String]
-    roomId <- c.downField("roomId").as[String]
-    fromTime <- c.downField("fromTime").as[String]
-    toTime <- c.downField("toTime").as[String]
-    talk <- c.downField("talk").as[Option[Talk]]
-    day <- c.downField("day").as[String]
-  } yield {
-    new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Day(day))
-  }}
-
-   // implicit val enc: Encoder[Slot] = deriveEncoder[Slot]
-
+  implicit val decodeFoo: Decoder[Slot] = (c: HCursor) => {
+    for {
+      slotId <- c.downField("slotId").as[String]
+      roomId <- c.downField("roomId").as[String]
+      fromTime <- c.downField("fromTime").as[String]
+      toTime <- c.downField("toTime").as[String]
+      talk <- c.downField("talk").as[Option[Talk]]
+      day <- c.downField("day").as[String]
+    } yield {
+      new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Day(day))
+    }
+  }
 }

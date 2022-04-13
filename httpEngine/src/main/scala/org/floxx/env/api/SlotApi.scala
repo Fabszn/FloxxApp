@@ -1,12 +1,14 @@
 package org.floxx.env.api
 
 import io.circe.generic.auto._
-import org.floxx.domain.Room
+import io.circe.syntax._
+import org.floxx.UserInfo
+import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
+import org.floxx.domain.{ Room, Slot }
 import org.floxx.env.configuration.config
 import org.floxx.env.service.{ timeUtils, trackService }
 import org.floxx.model.{ Hit, SlotId }
-import org.floxx.{ domain, UserInfo }
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
@@ -14,9 +16,14 @@ import org.http4s.dsl.Http4sDsl
 import org.slf4j.{ Logger, LoggerFactory }
 import zio.interop.catz._
 
+import scala.collection.SortedSet
+
 object SlotApi {
 
   val dsl = Http4sDsl[ApiTask]
+
+  final case class DaySlotResponse(day: Day, slots: SortedSet[Slot], currentActiveSlot:Option[Slot])
+
 
   import dsl._
 
@@ -65,11 +72,19 @@ object SlotApi {
     /**
       * All slots (active or not) for current user
       */
-    case GET -> Root / "slots" / "_currentUser" as user =>
+    case GET -> Root / "slots" / "_currentUser" as user => {
+      implicit val ordering: Ordering[DaySlotResponse] =
+        (x: DaySlotResponse, y: DaySlotResponse) => y.day.value.compareTo(x.day.value)
+
       for {
-        slots: Seq[domain.Slot] <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
-        rep <- Ok(slots)
+        conf <- config.getConf
+        slots <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
+        currentSlotForCurrentUser <- trackService.loadSlotByCriterias(user.userId, timeUtils.extractDayAndStartTime(config = conf))
+        rep <- Ok((slots.groupBy(_.day).map {
+          case (d, ss) => DaySlotResponse(d, SortedSet(ss: _*),currentSlotForCurrentUser)
+        }).toSeq.sorted.asJson)
       } yield rep
+    }
 
     /**
       * load only active slots for specific users
@@ -81,11 +96,9 @@ object SlotApi {
           user.userId,
           timeUtils.extractDayAndStartTime(config = conf)
         )
-
         rep <- {
           slot match {
-            case Some(s) =>
-              Ok(s)
+            case Some(s) => Ok(s)
             case None => NotFound("None active slot has been found")
           }
 
