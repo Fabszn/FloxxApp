@@ -22,10 +22,10 @@
     >
       <div class="talkdetails">
         <p>
-          {{confTitle}}
+          {{ confTitle }}
         </p>
-        <p>Type : {{confKind}}</p>
-        <p>Salle : {{room}}</p>
+        <p>Type : {{ confKind }}</p>
+        <p>Salle : {{ room }}</p>
 
         <button
           type="button"
@@ -39,14 +39,14 @@
         </button>
 
         <div class="separate_b space">
-          <p>{{twitterMessage}}</p>
+          <p>{{ twitterMessage }}</p>
         </div>
       </div>
     </modal>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="show('c_maillot')">
+      <div class="space-headerFooter" v-on:click="show('b_amphi')">
         <vue-circle
-          ref="_maillot"
+          ref="_amphiB"
           v-bind:progress="0"
           :size="100"
           :reverse="false"
@@ -60,67 +60,12 @@
           :show-percent="true"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
-        >Maillot</vue-circle>
+          >Amphi B.</vue-circle
+        >
       </div>
     </div>
     <div class="d-flex justify-content-around">
-      <div class="flex-column separate">
-        <div class="d-flex justify-content-around side">Paris</div>
-        <div class="space" v-on:click="show('par241')">
-          <vue-circle
-            ref="_241"
-            v-bind:progress="0"
-            :size="100"
-            :reverse="false"
-            line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-          >241</vue-circle>
-        </div>
-        <div class="space" v-on:click="show('par242AB')">
-          <vue-circle
-            ref="_242"
-            v-bind:progress="0"
-            :size="100"
-            :reverse="false"
-            line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-          >242</vue-circle>
-        </div>
-        <div class="space" v-on:click="show('par243')">
-          <vue-circle
-            ref="_243"
-            v-bind:progress="0"
-            :size="100"
-            :reverse="false"
-            line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-          >243</vue-circle>
-        </div>
-      </div>
+     
 
       <div class="flex-column separate">
         <div class="d-flex justify-content-around side">Neuilly</div>
@@ -140,7 +85,8 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-          >251</vue-circle>
+            >251</vue-circle
+          >
         </div>
         <div class="space" v-on:click="show('e_neu252')">
           <vue-circle
@@ -158,7 +104,8 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-          >252</vue-circle>
+            >252</vue-circle
+          >
         </div>
         <div class="space" v-on:click="show('neu253')">
           <vue-circle
@@ -176,14 +123,75 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-          >253</vue-circle>
+            >253</vue-circle
+          >
+        </div>
+      </div>
+       <div class="flex-column separate">
+        <div class="d-flex justify-content-around side">Paris</div>
+        <div class="space" v-on:click="show('par241')">
+          <vue-circle
+            ref="_241"
+            v-bind:progress="0"
+            :size="100"
+            :reverse="false"
+            line-cap="round"
+            :fill="fill"
+            empty-fill="rgba(0, 0, 0, .1)"
+            :animation-start-value="0.0"
+            :start-angle="380"
+            insert-mode="append"
+            :thickness="5"
+            :show-percent="true"
+            @vue-circle-progress="progress"
+            @vue-circle-end="progress_end"
+            >241</vue-circle
+          >
+        </div>
+        <div class="space" v-on:click="show('par242AB')">
+          <vue-circle
+            ref="_242"
+            v-bind:progress="0"
+            :size="100"
+            :reverse="false"
+            line-cap="round"
+            :fill="fill"
+            empty-fill="rgba(0, 0, 0, .1)"
+            :animation-start-value="0.0"
+            :start-angle="380"
+            insert-mode="append"
+            :thickness="5"
+            :show-percent="true"
+            @vue-circle-progress="progress"
+            @vue-circle-end="progress_end"
+            >242</vue-circle
+          >
+        </div>
+        <div class="space" v-on:click="show('par243')">
+          <vue-circle
+            ref="_243"
+            v-bind:progress="0"
+            :size="100"
+            :reverse="false"
+            line-cap="round"
+            :fill="fill"
+            empty-fill="rgba(0, 0, 0, .1)"
+            :animation-start-value="0.0"
+            :start-angle="380"
+            insert-mode="append"
+            :thickness="5"
+            :show-percent="true"
+            @vue-circle-progress="progress"
+            @vue-circle-end="progress_end"
+            >243</vue-circle
+          >
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="show('b_amphi')">
+      <div class="space-headerFooter" v-on:click="show('c_maillot')">
         <vue-circle
-          ref="_amphiB"
+          ref="_maillot"
           v-bind:progress="0"
           :size="100"
           :reverse="false"
@@ -197,7 +205,8 @@
           :show-percent="true"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
-        >Amphi B.</vue-circle>
+          >Maillot</vue-circle
+        >
       </div>
     </div>
   </div>
@@ -211,11 +220,11 @@ import shared from "../../shared";
 function currentTracksWitHitInfo(refComponent) {
   refComponent.$http
     .get("api/tracks-infos", {
-      headers: shared.tokenHandle()
+      headers: shared.tokenHandle(),
     })
-    .then(p => {
+    .then((p) => {
       refComponent.hits = p.data;
-      _.forEach(_.values(p.data), value => {
+      _.forEach(_.values(p.data), (value) => {
         if (!_.isNull(value.hitInfo)) {
           shared.computeHit(
             value.hitInfo.percentage,
@@ -228,16 +237,16 @@ function currentTracksWitHitInfo(refComponent) {
 }
 
 function findKey(idSlotComp, refComp) {
-  return _.find(_.values(refComp.hits), function(key) {
-    return (key.hitSlotId.value).includes(idSlotComp);
+  return _.find(_.values(refComp.hits), function (key) {
+    return key.hitSlotId.value.includes(idSlotComp);
   });
 }
 
 export default {
   components: {
-    VueCircle
+    VueCircle,
   },
-  data: function() {
+  data: function () {
     return {
       hits: [],
       fill: { gradient: ["green"] },
@@ -245,35 +254,35 @@ export default {
       confAbstract: "",
       confKind: "",
       room: "",
-      twitterMessage: ""
+      twitterMessage: "",
     };
   },
-  created: function() {
-    shared.securityAccess(this.$router, p => {
+  created: function () {
+    shared.securityAccess(this.$router, (p) => {
       currentTracksWitHitInfo(this);
     });
   },
   methods: {
-    onCopy: function(e) {
+    onCopy: function (e) {
       this.$notify({
         group: "floxx",
         type: "success",
         title: "Success",
-        text: "Text has been copied into clipboard!"
+        text: "Text has been copied into clipboard!",
       });
     },
-    onError: function(e) {
+    onError: function (e) {
       //alert("Failed to copy texts");
     },
-    progress_end: function() {},
-    progress: function() {},
-    refresh: function() {
+    progress_end: function () {},
+    progress: function () {},
+    refresh: function () {
       currentTracksWitHitInfo(this);
     },
     show(idslot) {
       this.$modal.show("slot-details", { idSlot: idslot });
     },
-    hide: function() {
+    hide: function () {
       this.$modal.hide("slot-details");
     },
     beforeOpen(event) {
@@ -298,7 +307,7 @@ export default {
         this.confTitle = "No talk currently in this room";
       }
     },
-    beforeClose: function() {
+    beforeClose: function () {
       this.confTitle = "";
       this.confKind = "";
       this.room = "";
@@ -306,10 +315,10 @@ export default {
       this.toTime = "";
       this.twitterMessage = "";
     },
-    backRooms: function() {
+    backRooms: function () {
       this.$router.push("/menu");
-    }
-  }
+    },
+  },
 };
 </script>
 
