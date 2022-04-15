@@ -1,8 +1,8 @@
 package org.floxx.env.repository
 
-import org.floxx.domain._
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.User.SimpleUser
+import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
 import zio._
 
@@ -28,7 +28,14 @@ object cfpRepository {
     val env = Has(dataSource)
 
     override def insertSlots(slotList: Seq[Slot]): Task[Long] =
-      run(quote(liftQuery(slotList).foreach(s => slots.insertValue(s).onConflictUpdate(_.slotId)((t,e) => t.talk -> Option(e.talk.getOrElse(lift(Talk("_", "_"))))  ) ) )).map(_.sum).provide(env)
+      run(
+        quote(
+          liftQuery(slotList).foreach(
+            s =>
+              slots.insertValue(s).onConflictUpdate(_.slotId)((t, e) => t.talk -> Option(e.talk.getOrElse(lift(Talk("_", "_")))))
+          )
+        )
+      ).map(_.sum).provide(env)
 
     override def addSlots(slotList: Seq[Slot]): Task[Int] =
       ZIO
@@ -65,7 +72,7 @@ object cfpRepository {
                   .insertValue(lift(m))
                   .onConflictUpdate(_.slotId)((t, e) => t.userId -> e.userId)
               )
-          )
+            )
         )
     }.provide(env)
 
@@ -81,12 +88,12 @@ object cfpRepository {
       run(quote(slots.filter(s => s.slotId == lift(Slot.Id(id))))).map(_.headOption).provide(env)
 
     override def mappingUserSlot: Task[Seq[UserSlot]] =
-      run(quote {
-        for {
-          s <- slots
-          j <- userSlots.join(_.slotId == s.slotId)
-          u <- user.leftJoin(s => j.userId.contains(s.userId))
-        } yield (u, s)
+      (for {
+        s <- run(quote { slots })
+        us <- run(quote { userSlots.join(user).on((m, u) => m.userId.contains(u.userId)) })
+      } yield {
+        s.map(s => us.find(_._1.slotId == s.slotId).map(_._2) -> s)
+
       }).provide(env).map(_.map((UserSlot.apply _).tupled))
   }
 

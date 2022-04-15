@@ -156,6 +156,7 @@ lazy val httpEngine = (project in file("httpEngine"))
       "-deprecation"
     ),
     name := "FloxxServer",
+    libraryDependencies += postgresDriver ,
     libraryDependencies += http4sBlazeServer,
     libraryDependencies += http4sBlazeClient,
     libraryDependencies += http4sDsl,
