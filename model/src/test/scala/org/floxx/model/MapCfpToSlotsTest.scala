@@ -2,31 +2,23 @@ package org.floxx.model
 
 import io.circe.parser._
 import org.floxx.domain.Slot
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
+import zio.ZIO
+import zio.test.Assertion.equalTo
+import zio.test.environment.TestEnvironment
+import zio.test._
 
-import scala.io.{BufferedSource, Source}
+import scala.io.Source
 
-class MapCfpToSlotsTest extends AnyWordSpec with Matchers {
-
-  "A slots' list" when {
-    "json is parsed" should {
-      "works" in {
+object MapCfpToSlotsTest extends DefaultRunnableSpec {
+  override def spec: Spec[TestEnvironment, TestFailure[Any], TestSuccess] =
+    suite("A slots' list")(
+      testM("json is parsed") {
         val json = Source.fromResource("test.json")
-
-        parse(json.mkString) match {
-          case Left(e) => fail(s"Slots' Json file cannot be parsed ${e.message} ${e.getCause}")
-          case Right(j) => {
-            j.hcursor.downField("slots").as[Seq[Slot]] match {
-              case Right(l) => l.size shouldEqual 2
-              case Left(e) => {
-                fail(s"decode to List[slot] doesn't work ${e.getMessage} - ${e.getCause}")
-              }
-            }
-          }
-        }
+        for {
+          j <- ZIO.fromEither(parse(json.mkString)).mapError(e => new Exception(s"Slots' Json file cannot be parsed ${e.message} ${e.getCause}"))
+          l <- ZIO.fromEither(j.hcursor.downField("slots").as[Seq[Slot]]).mapError(e => new Exception(s"decode to List[slot] doesn't work ${e.getMessage} - ${e.getCause}"))
+        } yield assert(l.size)(equalTo(2))
       }
-    }
-  }
+    )
 
 }

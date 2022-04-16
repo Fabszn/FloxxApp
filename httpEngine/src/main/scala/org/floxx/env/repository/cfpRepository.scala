@@ -1,103 +1,111 @@
 package org.floxx.env.repository
 
-import cats.implicits._
-import doobie.Update
-import doobie.implicits._
-import org.floxx.domain._
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.User.SimpleUser
+import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
-import org.floxx.env.repository.DbTransactor.TxResource
 import zio._
-import zio.interop.catz._
 
+import javax.sql.DataSource
+
+@SuppressWarnings(Array("org.wartremover.warts.Product"))
 object cfpRepository {
 
   trait SlotRepo {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
-
+    def insertSlots(slotList: Seq[Slot]): Task[Long]
     def addSlots(slots: Seq[Slot]): Task[Int]
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
     def getSlotById(id: String): Task[Option[Slot]]
-    def drop: Task[Int]
-    def addMapping(m: Mapping): Task[Int]
+    def addMapping(m: Mapping): Task[Long]
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
   }
 
-  case class SlotRepoService(r: TxResource) extends SlotRepo {
+  case class SlotRepoService(dataSource: DataSource) extends SlotRepo {
+    import QuillContext._
+    val env = Has(dataSource)
 
-    override def drop: Task[Int] =
-      sql"truncate table slot cascade".update.run.transact(r.xa)
-
-
-    override def addSlots(slots: Seq[Slot]): Task[Int] = {
-      slots.map(
-        newSlot =>
-          for {
-            slot <- getSlotById(newSlot.slotId.value)
-            _ <- (slot
-              .fold(
-                Update[Slot](s"insert into slot (slotId, roomId,fromTime,toTime,talk ,day) values(?,?,?,?,?,?)")
-                  .toUpdate0(newSlot)
-              )(
-                oldSlot =>
-                  Update[(Talk, String)](s"update slot set talk=? where slotId=?")
-                    .toUpdate0((newSlot.talk.getOrElse(Talk("_", "_")), oldSlot.slotId.value))
-              ))
-              .run
-              .transact(r.xa)
-
-          } yield ()
-      )
-    }.sequence.map(_.length)
-
-    override def addMapping(m: Mapping): Task[Int] =
-      m.userId
-        .fold(sql"""delete from user_slots where slotid=${m.slotId}""".update)(
-          v =>
-            Update[Mapping](s"""insert into user_slots  (userId,slotId) values (?,?)
-        ON CONFLICT (slotId) DO update set userId='${v.value}'""")
-              .toUpdate0(m)
+    override def insertSlots(slotList: Seq[Slot]): Task[Long] =
+      run(
+        quote(
+          liftQuery(slotList).foreach(
+            s =>
+              slots.insertValue(s).onConflictUpdate(_.slotId)((t, e) => t.talk -> Option(e.talk.getOrElse(lift(Talk("_", "_")))))
+          )
         )
-        .run
-        .transact(r.xa)
+      ).map(_.sum).provide(env)
 
-    override def allSlots: Task[Seq[Slot]] =
-      sql"""select * from slot""".query[Slot].to[Seq].transact(r.xa)
+    override def addSlots(slotList: Seq[Slot]): Task[Int] =
+      ZIO
+        .collectAll {
+          slotList.map(
+            newSlot =>
+              for {
+                aSlot <- getSlotById(newSlot.slotId.value)
+                _ <- aSlot
+                  .fold(
+                    run(quote(slots.insertValue(lift(newSlot)))).provide(env)
+                  )(
+                    oldSlot =>
+                      run(
+                        quote(
+                          slots
+                            .filter(s => s.slotId == lift(oldSlot.slotId))
+                            .update(_.talk -> lift(Option(newSlot.talk.getOrElse(Talk("_", "_")))))
+                        )
+                      ).provide(env)
+                  )
+              } yield ()
+          )
+        }
+        .map(_.length)
+
+    override def addMapping(m: Mapping): Task[Long] = {
+      m.userId
+        .fold(run(quote(userSlots.filter(_.slotId == lift(m.slotId)).delete)))(
+          _ =>
+            run(
+              quote(
+                userSlots
+                  .insertValue(lift(m))
+                  .onConflictUpdate(_.slotId)((t, e) => t.userId -> e.userId)
+              )
+            )
+        )
+    }.provide(env)
+
+    override def allSlots: Task[Seq[Slot]] = run(quote(slots)).provide(env)
 
     override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[Slot]] =
-      sql"""select * from slot s inner join user_slots us on s.slotid=us.slotid where us.userid=${userId.value}"""
-        .query[Slot]
-        .to[Seq]
-        .transact(r.xa)
+      run(quote(slots.filter(s => userSlots.filter(_.userId.contains(lift(userId))).map(_.slotId).contains(s.slotId))))
+        .provide(env)
 
-    override def allSlotsWithUserId(userId: String): Task[Set[Slot]] =
-      sql"""select * from
-           |slot s inner join user_slots  us on s.slotid=us.slotid
-           |where us.userid=$userId""".stripMargin.query[Slot].to[Set].transact(r.xa)
+    override def allSlotsWithUserId(userId: String): Task[Set[Slot]] = allSlotsByUserId(SimpleUser.Id(userId)).map(_.toSet)
 
     override def getSlotById(id: String): Task[Option[Slot]] =
-      sql"""select * from slot where slotid=$id""".query[Slot].option.transact(r.xa)
+      run(quote(slots.filter(s => s.slotId == lift(Slot.Id(id))))).map(_.headOption).provide(env)
 
     override def mappingUserSlot: Task[Seq[UserSlot]] =
-      sql"""select u.userid,
-            u.firstname,
-            u.lastname, 
-            s.slotid,
-            s.roomid,
-            s.fromtime,
-            s.totime,
-            s."day"
-            from 
-            user_slots us right join users u on us.userid = u.userid right 
-            join slot s ON us.slotid =s.slotid"""
-        .query[UserSlot]
-        .to[Seq]
-        .transact(r.xa)
+      (for {
+        s <- run(quote { slots })
+        us <- run(quote { userSlots.join(user).on((m, u) => m.userId.contains(u.userId)) })
+      } yield {
+        s.map(s => us.find(_._1.slotId == s.slotId).map(_._2) -> s)
+
+      }).provide(env).map(_.map((UserSlot.apply _).tupled))
   }
 
-  val layer: RLayer[Has[TxResource], Has[SlotRepo]] = (SlotRepoService(_)).toLayer
+  val layer: RLayer[Has[DataSource], Has[SlotRepo]] = (SlotRepoService(_)).toLayer
+
+  def insertSlots(slotList: Seq[Slot]): RIO[Has[SlotRepo], Long] =
+    ZIO.serviceWith[SlotRepo](_.insertSlots(slotList))
+
+  def addMapping(m: Mapping): RIO[Has[SlotRepo], Long] =
+    ZIO.serviceWith[SlotRepo](_.addMapping(m))
+
+  def mappingUserSlot: RIO[Has[SlotRepo], Seq[UserSlot]] =
+    ZIO.serviceWith[SlotRepo](_.mappingUserSlot)
 
 }

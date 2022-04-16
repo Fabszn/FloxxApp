@@ -1,52 +1,52 @@
 package org.floxx.env.repository
 
-import doobie.implicits._
 import org.floxx.domain._
-import doobie.util.fragment
-import org.floxx.env.repository.DbTransactor.TxResource
 import org.floxx.model
-import org.floxx.model.Hit
+import org.floxx.model.{ Hit, HitLatest }
 import zio._
-import zio.interop.catz._
 
 import java.util.UUID
+import javax.sql.DataSource
 
+@SuppressWarnings(Array("org.wartremover.warts.Product"))
 object hitRepository {
 
   trait HitRepo {
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[model.Hit]]
-    def save(hit: Hit): Task[Int]
+    def save(hit: Hit): Task[Long]
 
   }
 
-  case class HitRepoCfg(r: TxResource) extends HitRepo {
+  case class HitRepoCfg(dataSource: DataSource) extends HitRepo {
+    import QuillContext._
+    val env = Has(dataSource)
+    def save(hit: Hit): Task[Long] = {
 
-    def save(hit: Hit): Task[Int] = {
+      val nextHitId = UUID.randomUUID.toString
 
-      val nextHitId = UUID.randomUUID
-
-      (sql"insert into hit_history (hitid,hitslotid,percentage,datetime, fkuserId) values (${nextHitId.toString}, ${hit.hitSlotId}, ${hit.percentage},${hit.dateTime},${hit.userId.value})".update.run
+      run(quote(hitHistory.insertValue(lift(hit.copy(hitid = Some(nextHitId))))))
+        .provide(env)
         .flatMap(
           _ =>
-            sql"insert into hit_latest (slotid, fkid_hit) values (${hit.hitSlotId} , ${nextHitId.toString} ) ON CONFLICT (slotid) DO UPDATE SET fkid_hit=${nextHitId.toString}".update.run
-        ))
-        .transact(r.xa)
+            run(
+              quote(
+                hitLatest
+                  .insertValue(lift(HitLatest(hit.hitSlotId, nextHitId)))
+                  .onConflictUpdate(_.hitSlotId)((t, e) => t.hitid -> e.hitid)
+              )
+            ).provide(env)
+        )
 
     }
 
-    def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] = {
-
-      val root: fragment.Fragment = sql"select hitid,hitslotid,percentage,datetime, fkuserid from hit_history where"
-      val criteria                = fr"${slotIds.map(id => s"hitslotid=$id").mkString(",")}"
-
-      (root ++ criteria).query[Hit].to[Seq].transact(r.xa)
-    }
+    def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] =
+      run(quote(hitHistory.filter(h => liftQuery(slotIds).contains(h.hitSlotId)))).provide(env)
 
   }
 
-  val layer: RLayer[Has[TxResource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
+  val layer: RLayer[Has[DataSource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
 
-  def save(hit: Hit): RIO[Has[HitRepo], Int] = ZIO.serviceWith[HitRepo](_.save(hit))
+  def save(hit: Hit): RIO[Has[HitRepo], Long] = ZIO.serviceWith[HitRepo](_.save(hit))
   def loadHitBy(slotIds: Seq[Slot.Id]): RIO[Has[HitRepo], Seq[Hit]] =
     ZIO.serviceWith[HitRepo](_.loadHitBy(slotIds))
 

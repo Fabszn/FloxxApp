@@ -119,22 +119,8 @@ scalacOptions := Seq(
   "-deprecation"
 )
 
-lazy val commonsSettings = wartRemoverSettings
-
-lazy val databaseJdbcSetting = Seq(
-  "org.scalikejdbc" %% "scalikejdbc"    % "3.3.2",
-  "org.postgresql"  % "postgresql"      % "42.2.5",
-  "ch.qos.logback"  % "logback-classic" % "1.2.3"
-)
-
-lazy val scalamockTest = Seq(
-  "org.scalamock" %% "scalamock" % "4.4.0"  % Test,
-  "org.scalatest" %% "scalatest" % "3.2.10" % Test
-)
-
-lazy val dockertest = Seq(
-  "com.whisk" %% "docker-testkit-scalatest"    % "0.9.9" % "test",
-  "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
+lazy val commonsSettings = wartRemoverSettings ++ Seq(
+  testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
 
 //lazy val staticFiles = (project in file("staticFiles"))
@@ -152,12 +138,11 @@ lazy val db = (project in file("db"))
 lazy val model = (project in file("model"))
   .settings(commonsSettings)
   .settings(
-    libraryDependencies ++= doobie,
     libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
-    libraryDependencies += zio,
-    libraryDependencies += `zio-interop-cats`,
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+    libraryDependencies ++= zio,
+    libraryDependencies ++= quill,
+    libraryDependencies += `zio-interop-cats`
   )
 
 lazy val httpEngine = (project in file("httpEngine"))
@@ -171,20 +156,18 @@ lazy val httpEngine = (project in file("httpEngine"))
       "-deprecation"
     ),
     name := "FloxxServer",
+    libraryDependencies += postgresDriver ,
     libraryDependencies += http4sBlazeServer,
     libraryDependencies += http4sBlazeClient,
     libraryDependencies += http4sDsl,
-    libraryDependencies += zio,
+    libraryDependencies ++= zio,
     libraryDependencies += zioLogging,
     libraryDependencies += zioLoggingSlf4j,
     libraryDependencies += pureConfig,
     libraryDependencies += `zio-interop-cats`,
-    libraryDependencies ++= dockertest,
-    libraryDependencies ++= scalamockTest,
-    libraryDependencies ++= doobie,
+    libraryDependencies ++= quill,
     libraryDependencies += http4sCircle,
     libraryDependencies ++= circe,
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",
@@ -195,6 +178,15 @@ lazy val httpEngine = (project in file("httpEngine"))
     buildInfoPackage := "org.floxx "
   )
   .dependsOn(model)
+
+lazy val tests = (project in file("tests"))
+  .dependsOn(httpEngine, db)
+  .settings(commonsSettings)
+  .settings(
+    libraryDependencies ++= zio,
+    libraryDependencies ++= testcontainers,
+    libraryDependencies += "org.flywaydb" % "flyway-core" % "7.4.0"
+  )
 
 ///mainClass := Some("org.floxx.FloxxMainHttp4s")
 
@@ -260,3 +252,5 @@ releaseProcess := Seq[ReleaseStep](
   commitNextVersion, // : ReleaseStep
   pushChanges // : ReleaseStep, also checks that an upstream branch is properly configured
 )
+
+Global / onChangedBuildSource := ReloadOnSourceChanges

@@ -4,13 +4,16 @@ import sbt._
 object Dependencies {
 
   object Version {
-    lazy val zioVersion     = "1.0.13"
-    lazy val zioLoggingVersion     = "0.5.14"
-    lazy val `zio-interop`  = "3.2.9.0"
-    lazy val Http4sVersion  = "0.23.10"
-    lazy val chimneyVersion = "0.6.1"
-    lazy val circeVersion   = "0.14.1"
-    lazy val doobieVersion  = "1.0.0-RC2"
+    lazy val zioVersion                 = "1.0.13"
+    lazy val zioLoggingVersion          = "0.5.14"
+    lazy val `zio-interop`              = "3.2.9.0"
+    lazy val Http4sVersion              = "0.23.10"
+    lazy val chimneyVersion             = "0.6.1"
+    lazy val circeVersion               = "0.14.1"
+    lazy val quillVersion               = "3.16.3"
+    lazy val testcontainersVersion      = "1.16.3"
+    lazy val testcontainersScalaVersion = "0.39.12"
+    lazy val driverPostgresVersion      = "42.2.23"
   }
 
   lazy val circe = Seq(
@@ -19,18 +22,34 @@ object Dependencies {
     "io.circe" %% "circe-parser"  % Version.circeVersion
   )
 
-  lazy val doobie = Seq(
-    "org.tpolecat" %% "doobie-core"      % doobieVersion,
-    "org.tpolecat" %% "doobie-postgres"  % doobieVersion, // Postgres driver 42.2.8 + type mappings.
-    "org.tpolecat" %% "doobie-hikari"    % doobieVersion,
-    "org.tpolecat" %% "doobie-specs2"    % doobieVersion % "test", // Specs2 support for typechecking statements.
-    "org.tpolecat" %% "doobie-scalatest" % doobieVersion % "test"
+  lazy val quill = Seq(
+    "io.getquill" %% "quill-jdbc-zio" % quillVersion,
+    "io.getquill" %% "quill-zio"      % quillVersion,
+    "io.getquill" %% "quill-jdbc"     % quillVersion,
+    "io.getquill" %% "quill-sql"      % quillVersion,
+    "io.getquill" %% "quill-core"     % quillVersion,
+    "io.getquill" %% "quill-engine"   % quillVersion
   )
+
+  lazy val testcontainers = Seq(
+    "org.testcontainers" % "testcontainers" % testcontainersVersion % Test,
+    "org.testcontainers" % "database-commons" % testcontainersVersion % Test,
+    "org.testcontainers" % "postgresql" % testcontainersVersion % Test,
+    "org.testcontainers" % "jdbc" % testcontainersVersion % Test,
+    postgresDriver       % Test,
+    "com.dimafeng"       %% "testcontainers-scala-postgresql" % testcontainersScalaVersion % Test
+  )
+
+  lazy val postgresDriver = "org.postgresql" % "postgresql" % driverPostgresVersion
 
   lazy val chimney = "io.scalaland" %% "chimney" % chimneyVersion
 
-  lazy val zio = "dev.zio" %% "zio" % zioVersion
-  lazy val zioLogging = "dev.zio" %% "zio-logging" % zioLoggingVersion
+  lazy val zio = Seq(
+    "dev.zio" %% "zio"          % zioVersion,
+    "dev.zio" %% "zio-test"     % zioVersion % Test,
+    "dev.zio" %% "zio-test-sbt" % zioVersion % Test
+  )
+  lazy val zioLogging      = "dev.zio" %% "zio-logging"       % zioLoggingVersion
   lazy val zioLoggingSlf4j = "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion
   lazy val http4sBlazeServer =
     "org.http4s" %% "http4s-blaze-server" % Http4sVersion
