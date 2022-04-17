@@ -48,7 +48,7 @@
         <vue-circle
           ref="_amphiB"
           v-bind:progress="0"
-          :size="100"
+          :size="115"
           :reverse="false"
           line-cap="round"
           :fill="fill"
@@ -68,12 +68,11 @@
      
 
       <div class="flex-column separate">
-        <div class="d-flex justify-content-around side">Neuilly</div>
         <div class="space" v-on:click="show('f_neu251')">
           <vue-circle
             ref="_251"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -85,14 +84,14 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >251</vue-circle
+            >Neuilly 251</vue-circle
           >
         </div>
         <div class="space" v-on:click="show('e_neu252')">
           <vue-circle
             ref="_252"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -104,14 +103,14 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >252</vue-circle
+            >Neuilly 252</vue-circle
           >
         </div>
         <div class="space" v-on:click="show('neu253')">
           <vue-circle
             ref="_253"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -123,17 +122,16 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >253</vue-circle
+            >Neuilly 253</vue-circle
           >
         </div>
       </div>
        <div class="flex-column separate">
-        <div class="d-flex justify-content-around side">Paris</div>
         <div class="space" v-on:click="show('par241')">
           <vue-circle
             ref="_241"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -145,14 +143,14 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >241</vue-circle
+            >Paris 241</vue-circle
           >
         </div>
         <div class="space" v-on:click="show('par242AB')">
           <vue-circle
             ref="_242"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -164,14 +162,14 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >242</vue-circle
+            >Paris 242AB</vue-circle
           >
         </div>
         <div class="space" v-on:click="show('par243')">
           <vue-circle
             ref="_243"
             v-bind:progress="0"
-            :size="100"
+            :size="115"
             :reverse="false"
             line-cap="round"
             :fill="fill"
@@ -183,17 +181,17 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >243</vue-circle
+            >Paris 243</vue-circle
           >
         </div>
-      </div>
+      </div>  
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('c_maillot')">
         <vue-circle
           ref="_maillot"
           v-bind:progress="0"
-          :size="100"
+          :size="115"
           :reverse="false"
           line-cap="round"
           :fill="fill"

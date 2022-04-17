@@ -53,7 +53,8 @@ object cfpRepository {
                         quote(
                           slots
                             .filter(s => s.slotId == lift(oldSlot.slotId))
-                            .update(_.talk -> lift(Option(newSlot.talk.getOrElse(Talk("_", "_")))))
+                            .update(_.talk -> lift(Option(newSlot.talk.getOrElse(Talk("_", "_")))),
+                              _.roomId -> lift(newSlot.roomId))
                         )
                       ).provide(env)
                   )
