@@ -1,6 +1,9 @@
- version 0.0.26
+ version 0.0.27
 
  - migration from doobie to quill (thanks to Ramiro for its help)
  - change active slot around time
  - remap rooms on overflow screen
  - rename rooms (ex : 241 -> Paris 241)
+
+ Fix
+ - Fix flyway conflict
