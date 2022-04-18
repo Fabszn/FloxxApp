@@ -35,7 +35,7 @@ object config {
       "par243" -> Some("Paris 243"),
       "par243_t" -> Some("Paris 243"),
       "neu253" -> Some("Neuilly 253"),
-      "neu253_t" -> Some("Paris 253"),
+      "neu253_t" -> Some("Neuilly 253"),
       "par202_203" -> Some("202_203"),
       "par221M-222M" -> Some("221_222"),
       "par224M-225M" -> Some("224_225"),
