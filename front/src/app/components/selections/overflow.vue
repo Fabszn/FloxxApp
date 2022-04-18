@@ -65,47 +65,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-around">
-     
-
       <div class="flex-column separate">
-        <div class="space" v-on:click="show('f_neu251')">
-          <vue-circle
-            ref="_251"
-            v-bind:progress="0"
-            :size="115"
-            :reverse="false"
-            line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-            >Neuilly 251</vue-circle
-          >
-        </div>
-        <div class="space" v-on:click="show('e_neu252')">
-          <vue-circle
-            ref="_252"
-            v-bind:progress="0"
-            :size="115"
-            :reverse="false"
-            line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-            >Neuilly 252</vue-circle
-          >
-        </div>
         <div class="space" v-on:click="show('neu253')">
           <vue-circle
             ref="_253"
@@ -125,11 +85,10 @@
             >Neuilly 253</vue-circle
           >
         </div>
-      </div>
-       <div class="flex-column separate">
-        <div class="space" v-on:click="show('par241')">
+
+        <div class="space" v-on:click="show('e_neu252')">
           <vue-circle
-            ref="_241"
+            ref="_252"
             v-bind:progress="0"
             :size="115"
             :reverse="false"
@@ -143,7 +102,47 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Paris 241</vue-circle
+            >Neuilly 252</vue-circle
+          >
+        </div>
+        <div class="space" v-on:click="show('f_neu251')">
+          <vue-circle
+            ref="_251"
+            v-bind:progress="0"
+            :size="115"
+            :reverse="false"
+            line-cap="round"
+            :fill="fill"
+            empty-fill="rgba(0, 0, 0, .1)"
+            :animation-start-value="0.0"
+            :start-angle="380"
+            insert-mode="append"
+            :thickness="5"
+            :show-percent="true"
+            @vue-circle-progress="progress"
+            @vue-circle-end="progress_end"
+            >Neuilly 251</vue-circle
+          >
+        </div>
+      </div>
+      <div class="flex-column separate">
+        <div class="space" v-on:click="show('par243')">
+          <vue-circle
+            ref="_243"
+            v-bind:progress="0"
+            :size="115"
+            :reverse="false"
+            line-cap="round"
+            :fill="fill"
+            empty-fill="rgba(0, 0, 0, .1)"
+            :animation-start-value="0.0"
+            :start-angle="380"
+            insert-mode="append"
+            :thickness="5"
+            :show-percent="true"
+            @vue-circle-progress="progress"
+            @vue-circle-end="progress_end"
+            >Paris 243</vue-circle
           >
         </div>
         <div class="space" v-on:click="show('par242AB')">
@@ -165,9 +164,9 @@
             >Paris 242AB</vue-circle
           >
         </div>
-        <div class="space" v-on:click="show('par243')">
+        <div class="space" v-on:click="show('par241')">
           <vue-circle
-            ref="_243"
+            ref="_241"
             v-bind:progress="0"
             :size="115"
             :reverse="false"
@@ -181,10 +180,10 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Paris 243</vue-circle
+            >Paris 241</vue-circle
           >
         </div>
-      </div>  
+      </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('c_maillot')">
