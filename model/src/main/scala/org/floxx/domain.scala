@@ -82,7 +82,7 @@ object domain {
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
     }
 
-    implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) => x.fromTime.value.compareTo(y.fromTime.value)
+    implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) => s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
 
 
   }
