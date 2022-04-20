@@ -15,12 +15,17 @@ object StaticApi {
 
   import dsl._
 
+  val excludePaths =Seq("infos", "favicon.ico")
 
   def api=  HttpRoutes.of[ApiTask] {
     case req @ GET -> Root  => static("/assets/index.html", req)
 
     case req @ GET -> Root / path if path.startsWith("floxx") && path.endsWith(".js")  => {
       static(s"/assets/${path}", req)}
+
+    case req @ GET -> Root / path if path.nonEmpty && !excludePaths.contains(path)  => {
+      static("/assets/index.html", req)
+    }
 
   }
 

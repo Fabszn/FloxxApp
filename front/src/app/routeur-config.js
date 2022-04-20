@@ -12,6 +12,7 @@ import mappingRCR from './components/admins/mappingRCR.vue'
 import mySlots from './components/mySlots.vue'
 import planning from './components/desktop/planning.vue'
 import allactivesslots from './components/AllActiveSlots.vue'
+import reload from './components/reload.vue'
 
 export const routes = [{
     path: '/',
@@ -68,5 +69,9 @@ export const routes = [{
 }, {
     path: '/allactivesslots',
     component: allactivesslots,
+    children: []
+}, {
+    path: '/reload/:pathRoute',
+    component: reload,
     children: []
 }];

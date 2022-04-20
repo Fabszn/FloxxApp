@@ -52,4 +52,9 @@ new Vue({
     router,
     store,
     render: h => h(App),
+    mounted: function() {
+        if (window.location.pathname == "") {
+            this.$router.push("/reload/" + window.location.pathname);
+        }
+    }
 }).$mount('#app')
