@@ -22,7 +22,7 @@ object SlotApi {
 
   val dsl = Http4sDsl[ApiTask]
 
-  final case class DaySlotResponse(day: Day, slots: SortedSet[Slot], currentActiveSlot:Option[Slot])
+  final case class DaySlotResponse(day: Day, slots: SortedSet[Slot], currentActiveSlot:Seq[Slot])
 
 
   import dsl._
@@ -80,9 +80,11 @@ object SlotApi {
         conf <- config.getConf
         slots <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
         currentSlotForCurrentUser <- trackService.loadSlotByCriterias(user.userId, timeUtils.extractDayAndStartTime(config = conf))
-        rep <- Ok((slots.groupBy(_.day).map {
-          case (d, ss) => DaySlotResponse(d, SortedSet(ss: _*),currentSlotForCurrentUser)
-        }).toSeq.sorted.asJson)
+        rep <-
+          Ok((slots.groupBy(_.day).map {
+            case (d, ss) => DaySlotResponse(d, SortedSet(ss: _*), currentSlotForCurrentUser)
+          }).toSeq.sorted.asJson)
+        
       } yield rep
     }
 
@@ -98,8 +100,8 @@ object SlotApi {
         )
         rep <- {
           slot match {
-            case Some(s) => Ok(s)
-            case None => NotFound("None active slot has been found")
+            case Nil => NotFound("None active slot has been found")
+            case s => Ok(s)
           }
 
         }

@@ -20,7 +20,7 @@ object trackService {
   trait TrackService {
     def readDataFromCfpDevoxx(): Task[Int]
     def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): Task[Option[domain.Slot]]
+    def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
     def loadSlot(id: String): Task[Option[domain.Slot]]
     def loadAllSlots: Task[Seq[domain.Slot]]
     def roomById(id: String): Task[Option[String]]
@@ -84,10 +84,10 @@ object trackService {
         slots <- slotRepo.allSlots
       } yield slots.filter(isActiveFilter)
 
-    override def loadSlotByCriterias(userId: String, isActiveFilter: domain.Slot => Boolean): Task[Option[domain.Slot]] =
+    override def loadSlotByCriterias(userId: String, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
       for {
         slots <- slotRepo.allSlotsWithUserId(userId)
-        slot <- currentSlotForUser(slots.filter(isActiveFilter), userId)
+        slot <- Task(slots.filter(isActiveFilter).toSeq)
       } yield slot
 
     override def loadSlot(id: String): Task[Option[domain.Slot]] = slotRepo.getSlotById(id)
@@ -116,7 +116,7 @@ object trackService {
                   })
               )
           )
-
+@deprecated
     private def currentSlotForUser(s: Set[domain.Slot], userId: String): Task[Option[domain.Slot]] =
       s.toSeq match {
         case s if (s.size > 1) => {
@@ -133,7 +133,7 @@ object trackService {
   def readDataFromCfpDevoxx(): RIO[Has[TrackService], Int] = ZIO.serviceWith[TrackService](_.readDataFromCfpDevoxx())
   def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[Has[TrackService], Seq[domain.Slot]] =
     ZIO.serviceWith[TrackService](_.loadSlotByCriterias(isActiveFunction))
-  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[Has[TrackService], Option[domain.Slot]] =
+  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[Has[TrackService], Seq[domain.Slot]] =
     ZIO.serviceWith[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: String): RIO[Has[TrackService], Option[domain.Slot]]   = ZIO.serviceWith[TrackService](_.loadSlot(id))
   def roomById(id: String): RIO[Has[TrackService], Option[String]] = ZIO.serviceWith[TrackService](_.roomById(id))

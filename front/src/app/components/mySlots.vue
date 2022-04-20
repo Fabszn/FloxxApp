@@ -46,11 +46,15 @@ export default {
   },
   methods: {
     isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
-      if (_.isNull(currentActiveSlot)) {
+      function toSlotIdVal(slot){return slot.slotId.value}
+      
+      return _.includes(_.map(currentActiveSlot, toSlotIdVal),currentSlot.slotId.value)
+      
+      /*if (_.isNull(currentActiveSlot)) {
         return false;
       } else {
         return currentActiveSlot.slotId.value == currentSlot.slotId.value;
-      }
+      }*/
     },
     selectSlot: function (idSlot) {
       this.$router.push("fill/" + idSlot);
