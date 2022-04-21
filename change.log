@@ -1,3 +1,4 @@
- version 0.0.31
+ version 0.0.33
 
- - Enhancement : PR #53 (thanks to @aheritier)
+ - Fix #54 : when one redCoat is assigned to 2 slots that started at the same time
+ - Fix issue when reload page with browser button (notFound message)
