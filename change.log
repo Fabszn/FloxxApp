@@ -1,4 +1,3 @@
- version 0.0.33
+ version 0.0.34
 
- - Fix #54 : when one redCoat is assigned to 2 slots that started at the same time
- - Fix issue when reload page with browser button (notFound message)
+ - Add as env variable delay_before and delay_after
