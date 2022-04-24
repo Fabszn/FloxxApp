@@ -9,7 +9,7 @@ const state = {
 }
 
 const mutations = {
-    setuserName(state, name) {
+    setUsername(state, name) {
         state.username = name;
     },
     setRooms(state, rooms) {

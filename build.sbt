@@ -175,7 +175,7 @@ lazy val httpEngine = (project in file("httpEngine"))
         "com.pauldijou"          %% "jwt-core"       % "3.0.1"
       ),
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-    buildInfoPackage := "org.floxx "
+    buildInfoPackage := "org.floxx"
   )
   .dependsOn(model)
 

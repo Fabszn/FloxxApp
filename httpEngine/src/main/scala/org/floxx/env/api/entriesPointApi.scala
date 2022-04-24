@@ -15,16 +15,12 @@ object entriesPointApi {
 
   import dsl._
 
-
-
-
-
   case class LoginResquest(login: String, mdp: String)
   implicit val decoder = jsonOf[ApiTask, LoginResquest]
   implicit val d       = jsonEncoderOf[ApiTask, AuthenticatedUser]
   case class User(name:String,token:String, isAdmin:Boolean)
 
-  def api=  HttpRoutes.of[ApiTask] {
+  def api = HttpRoutes.of[ApiTask] {
     case req @ POST -> Root / "login" =>
       for {
         loginInfo <- req.as[LoginResquest]
