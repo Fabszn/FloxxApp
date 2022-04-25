@@ -3,7 +3,7 @@
     <div id="errorlogin" class="errorMsg" :hidden="loginFailedMsg">
       Authentification Failed
     </div>
-    <div id="errorUnthorized" class="errorMsg" :hidden="notAuthrized">
+    <div id="errorUnthorized" class="errorMsg" :hidden="notAuthorized">
       Authentification required
     </div>
     <form id="signup-form" @submit.prevent="processForm">
@@ -43,18 +43,16 @@ export default {
   data: function () {
     return {
       email: "",
+      login: "",
       password: "",
       loginFailedMsg: true,
-      notAuthrized: true,
-      login:"",
-      password:""
-
+      notAuthorized: true
     };
   },
   created() {
-    var a = this.$route.query.authenticate;
+    const a = this.$route.query.authenticate;
     if (a == "no") {
-      this.notAuthrized = false;
+      this.notAuthorized = false;
     }
   },
   methods: {
@@ -70,7 +68,7 @@ export default {
         .then(
           (r) => {
             shared.storeToken(r.body.token, r.body.isAdmin, r.body.name);
-            store.commit("setuserName", r.body.name);
+            store.commit("setUsername", r.body.name);
             this.$router.push("/menu");
           },
           (r) => {
@@ -92,4 +90,3 @@ export default {
   padding: 10px 0px 10px 0px;
 }
 </style>
-
