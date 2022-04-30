@@ -1,8 +1,55 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // Require  html-webpack-plugin plugin
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
+
+module.exports = env => {
+    return {
+        entry: __dirname + "/src/app/index.js", // webpack entry point. Module to start building dependency graph
+        output: {
+            path: __dirname + '/dist', // Folder to store generated bundle
+            filename: 'floxx.[chunkhash].js', // Name of generated bundle after build
+            publicPath: '/' // public URL of the output directory when referenced in a browser
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: __dirname + "/src/public/index.html",
+                inject: 'body'
+            }),
+            new VueLoaderPlugin(),
+            new CleanWebpackPlugin(),
+
+        ],
+        devServer: {
+            contentBase: './src/public',
+            port: 8082,
+            host: '0.0.0.0',
+            disableHostCheck: true,
+            before: function(app) {
+                mockApi(app)
+            }
+        },
+        resolve: {
+            alias: {
+                'vue': 'vue/dist/vue.esm.js'
+            }
+        },
+        module: {
+            rules: [{
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }, {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }]
+        }
+    }
+}
+
+function tracksInfo() {
+    return [{ "hitSlotId": { "value": "friday_f_neu251_11:45-12:30" }, "slot": { "slotId": { "value": "friday_f_neu251_11:45-12:30" }, "roomId": { "value": "251" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "À la découverte des Docker Dev Environments" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_neu253_t_11:45-12:30" }, "slot": { "slotId": { "value": "friday_neu253_t_11:45-12:30" }, "roomId": { "value": "253" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "L'IA pour le bon usage des médicaments" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_c_maillot_11:45-12:30" }, "slot": { "slotId": { "value": "friday_c_maillot_11:45-12:30" }, "roomId": { "value": "Maillot" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Les parsers, ou comment exploiter efficacement du texte brut" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_par242AB_11:45-12:30" }, "slot": { "slotId": { "value": "friday_par242AB_11:45-12:30" }, "roomId": { "value": "242" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "The Art of Java Type Patterns" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_d_par241_11:45-12:30" }, "slot": { "slotId": { "value": "friday_d_par241_11:45-12:30" }, "roomId": { "value": "241" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Notre cerveau est \"null\"! Quelques biais cognitifs appliqués au métier de dev..." }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_par243_t_11:45-12:30" }, "slot": { "slotId": { "value": "friday_par243_t_11:45-12:30" }, "roomId": { "value": "243" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Quarkus Renarde 🦊♥ : un framework Web old-school au goût du jour" }, "day": { "value": "friday" } }, "hitInfo": null }];
+}
 
 
 function mockApi(app) {
@@ -3172,53 +3219,6 @@ function mockApi(app) {
         });
     })
 
-}
-
-module.exports = env => {
-    return {
-        entry: __dirname + "/src/app/index.js", // webpack entry point. Module to start building dependency graph
-        output: {
-            path: __dirname + '/dist', // Folder to store generated bundle
-            filename: 'floxx.[chunkhash].js', // Name of generated bundle after build
-            publicPath: '/' // public URL of the output directory when referenced in a browser
-        },
-        plugins: [ // Array of plugins to apply to build chunk
-            new HtmlWebpackPlugin({
-                template: __dirname + "/src/public/index.html",
-                inject: 'body'
-            }),
-            new VueLoaderPlugin(),
-            new CleanWebpackPlugin(),
-
-        ],
-        devServer: {
-            contentBase: './src/public',
-            port: 8082,
-            host: '0.0.0.0',
-            disableHostCheck: true,
-            before: function(app) {
-                mockApi(app)
-            }
-        },
-        resolve: {
-            alias: {
-                'vue': 'vue/dist/vue.esm.js'
-            }
-        },
-        module: {
-            rules: [{
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }, {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            }]
-        }
-    }
-}
-
-function tracksInfo() {
-    return [{ "hitSlotId": { "value": "friday_f_neu251_11:45-12:30" }, "slot": { "slotId": { "value": "friday_f_neu251_11:45-12:30" }, "roomId": { "value": "251" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "À la découverte des Docker Dev Environments" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_neu253_t_11:45-12:30" }, "slot": { "slotId": { "value": "friday_neu253_t_11:45-12:30" }, "roomId": { "value": "253" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "L'IA pour le bon usage des médicaments" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_c_maillot_11:45-12:30" }, "slot": { "slotId": { "value": "friday_c_maillot_11:45-12:30" }, "roomId": { "value": "Maillot" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Les parsers, ou comment exploiter efficacement du texte brut" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_par242AB_11:45-12:30" }, "slot": { "slotId": { "value": "friday_par242AB_11:45-12:30" }, "roomId": { "value": "242" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "The Art of Java Type Patterns" }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_d_par241_11:45-12:30" }, "slot": { "slotId": { "value": "friday_d_par241_11:45-12:30" }, "roomId": { "value": "241" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Notre cerveau est \"null\"! Quelques biais cognitifs appliqués au métier de dev..." }, "day": { "value": "friday" } }, "hitInfo": null }, { "hitSlotId": { "value": "friday_par243_t_11:45-12:30" }, "slot": { "slotId": { "value": "friday_par243_t_11:45-12:30" }, "roomId": { "value": "243" }, "fromTime": { "value": "11:45" }, "toTime": { "value": "12:30" }, "talk": { "talkType": "Conference", "title": "Quarkus Renarde 🦊♥ : un framework Web old-school au goût du jour" }, "day": { "value": "friday" } }, "hitInfo": null }];
 }
 
 function planning() {

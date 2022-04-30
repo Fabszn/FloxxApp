@@ -38,7 +38,6 @@
           >Admin.</button>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import shared from "../shared";

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp } from 'vue'
 import Router from 'vue-router';
 import VueResource from 'vue-resource';
 import App from './App.vue';
@@ -22,6 +22,17 @@ import store from './state'
 import Tabs from 'vue-tabs-component';
 
 
+const app = createApp({
+    router,
+    store,
+    render: h => h(App),
+    mounted: function() {
+        if (window.location.pathname == "") {
+            this.$router.push("/reload/" + window.location.pathname);
+        }
+    }
+}).mount('#app')
+
 
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 Object.defineProperty(Vue.prototype, '$async', { value: async });
@@ -31,7 +42,6 @@ Vue.use(VueResource);
 Vue.use(Router);
 Vue.use(Dropdown);
 Vue.use(VueLodash);
-//Vue.use(VueNativeSock, WS_BACKEND_HOST + '/api/stream/hit', { format: 'json' })
 Vue.use(Notifications)
 Vue.use(VModal)
 Vue.use(BootstrapVue)
@@ -47,14 +57,3 @@ const router = new Router({
     routes,
     mode: 'history',
 });
-
-new Vue({
-    router,
-    store,
-    render: h => h(App),
-    mounted: function() {
-        if (window.location.pathname == "") {
-            this.$router.push("/reload/" + window.location.pathname);
-        }
-    }
-}).$mount('#app')
