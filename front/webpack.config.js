@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
 
 module.exports = env => {
@@ -22,17 +23,19 @@ module.exports = env => {
 
         ],
         devServer: {
-            contentBase: './src/public',
+            static: {
+                directory: path.join(__dirname, './src/public'),
+            },
             port: 8082,
             host: '0.0.0.0',
-            disableHostCheck: true,
-            before: function(app) {
-                mockApi(app)
+            // disableHostCheck: true,
+            onBeforeSetupMiddleware: function(devServer) {
+                mockApi(devServer.app)
             }
         },
         resolve: {
             alias: {
-                'vue': 'vue/dist/vue.esm.js'
+                vue: '@vue/compat'
             }
         },
         module: {
