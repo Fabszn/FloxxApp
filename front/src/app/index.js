@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import Router from 'vue-router';
+import { createRouter } from 'vue-router';
 import VueResource from 'vue-resource';
 import App from './App.vue';
 import { routes } from './routeur-config.js';
@@ -18,7 +18,7 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import store from './state'
 import Tabs from 'vue-tabs-component';
 
-const router = Router.createRouter({
+const router = createRouter({
     routes
 });
 
