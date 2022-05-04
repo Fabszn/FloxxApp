@@ -61,4 +61,13 @@ object Dependencies {
   lazy val logback            = "ch.qos.logback"        % "logback-classic"   % "1.2.3"
   lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.14.1"
 
+  lazy val sttpVersion = "3.5.1"
+  lazy val sttp = Seq(
+    "com.softwaremill.sttp.client3" %% "cats" % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "core" % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "fs2" % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "circe" % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "http4s-backend" % sttpVersion
+  )
+
 }
