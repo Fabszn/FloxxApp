@@ -38,7 +38,6 @@
 <script>
 import _ from "lodash";
 import shared from "../shared";
-import store from "../state";
 export default {
   data: function () {
     return {
@@ -57,18 +56,19 @@ export default {
   },
   methods: {
     processForm: function () {
-      this.$http
-        .post(
+      fetch(
           "/login",
           JSON.stringify({
             login: this.login,
             mdp: this.password,
-          })
+          }),{
+            method: "POST"
+          }
         )
         .then(
           (r) => {
             shared.storeToken(r.body.token, r.body.isAdmin, r.body.name);
-            store.commit("setUsername", r.body.name);
+            this.$store.commit("setUsername", r.body.name);
             this.$router.push("/menu");
           },
           (r) => {

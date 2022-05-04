@@ -12,3 +12,4 @@ front/dist
 .vscode
 desktopApp/node_modules
 desktopApp/dist
+front/yarn-error.log

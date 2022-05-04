@@ -59,8 +59,7 @@ export default {
   },
   created: function() {
     shared.securityAccess(this.$router, p => {
-      this.$http
-        .get("/api/stats/slots", {
+      fetch("/api/stats/slots", {
           headers: shared.tokenHandle()
         })
         .then(p => {
@@ -74,8 +73,7 @@ export default {
     },
     refresh: function() {
       shared.securityAccess(this.$router, p => {
-            this.$http
-              .get("/api/stats/slots", {
+            fetch("/api/stats/slots", {
                 headers: shared.tokenHandle()
               })
               .then(p => {

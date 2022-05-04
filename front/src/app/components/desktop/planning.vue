@@ -103,8 +103,7 @@ export default {
     };
   },
   created: function () {
-    this.$http
-      .get("/api/planning", {
+    fetch("/api/planning", {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
@@ -158,8 +157,7 @@ export default {
       var slotId = event.params.slotId;
 
       shared.securityAccess(this.$router, (p) => {
-        this.$http
-          .get("/api/slots/" + slotId, {
+        fetch("/api/slots/" + slotId, {
             headers: shared.tokenHandle(),
           })
           .then((p) => {
@@ -172,8 +170,7 @@ export default {
           });
       });
 
-      this.$http
-        .get("/api/users", {
+      fetch("/api/users", {
           headers: shared.tokenHandle(),
         })
         .then((p) => {
@@ -189,13 +186,13 @@ export default {
       this.$modal.hide("map-user-modal");
     },
     remove() {
-      this.$http
-        .post(
+      fetch(
           "/api/set-user",
           {
             slotId: { value: this.selectedSlotId },
           },
           {
+            method: "POST",
             headers: shared.tokenHandle(),
           }
         )
@@ -210,14 +207,14 @@ export default {
       if (_.isUndefined(this.selectedUserId)) {
         this.$notify({ type: "error", text: "Red coat must be filled" });
       } else {
-        this.$http
-          .post(
+        fetch(
             "/api/set-user",
             {
               userId: { value: this.selectedUserId },
               slotId: { value: this.selectedSlotId },
             },
             {
+              method: "POST",
               headers: shared.tokenHandle(),
             }
           )

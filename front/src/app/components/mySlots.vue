@@ -36,8 +36,7 @@ export default {
     };
   },
   created: function () {
-    this.$http
-      .get("/api/slots/_currentUser", {
+    fetch("/api/slots/_currentUser", {
         headers: shared.tokenHandle(),
       })
       .then((p) => {

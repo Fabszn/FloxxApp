@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter } from 'vue-router';
-import VueResource from 'vue-resource';
+import { createStore } from "vuex";
 import App from './App.vue';
 import { routes } from './routeur-config.js';
 import Dropdown from 'vue-simple-search-dropdown';
@@ -15,8 +15,27 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuejsDatatableFactory } from 'vuejs-datatable';
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-import store from './state'
 import Tabs from 'vue-tabs-component';
+
+
+const store = createStore({
+    state: {
+        username: "-",
+        rooms: []
+    },
+    mutations: {
+        setUsername(state, name) {
+            state.username = name;
+        },
+        setRooms(state, rooms) {
+            state.rooms = rooms;
+        }
+    }
+});
+
+
+
+
 
 const router = createRouter({
     routes
@@ -38,7 +57,6 @@ library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 Object.defineProperty(app.prototype, '$async', { value: async });
 
 app.use(VuejsDatatableFactory);
-app.use(VueResource);
 app.use(router);
 app.use(Dropdown);
 app.use(VueLodash);
