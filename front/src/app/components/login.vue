@@ -38,6 +38,7 @@
 <script>
 import _ from "lodash";
 import shared from "../shared";
+
 export default {
   data: function () {
     return {
@@ -58,10 +59,11 @@ export default {
     processForm: function () {
       fetch(
           "/login",
-          JSON.stringify({
+          {
+            body: JSON.stringify({
             login: this.login,
             mdp: this.password,
-          }),{
+          }),
             method: "POST"
           }
         )
@@ -72,6 +74,7 @@ export default {
             this.$router.push("/menu");
           },
           (r) => {
+            console.error(r)
             this.loginFailedMsg = false;
           }
         );
