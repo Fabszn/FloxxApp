@@ -4,17 +4,14 @@ import { createStore } from "vuex";
 import App from './App.vue';
 import { routes } from './routeur-config.js';
 import Dropdown from 'vue-simple-search-dropdown';
-import VueLodash from 'vue-lodash';
+import lodash from 'vue-lodash';
 import './floxxStyle.css'
-import VModal from 'vue-js-modal'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSync, faSignInAlt, faArrowCircleLeft, faSignOutAlt, faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { VuejsDatatableFactory } from 'vuejs-datatable';
+//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-import Tabs from 'vue-tabs-component';
 import Notifications from 'vue3-vt-notifications'
 
 
@@ -50,8 +47,6 @@ const app = createApp(App, {
         }
     }
 })
-app.use(store)
-app.mount('#app')
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('dropdown', Dropdown)
@@ -59,11 +54,15 @@ app.component('dropdown', Dropdown)
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 
 
-app.use(VuejsDatatableFactory);
+//app.use(VuejsDatatableFactory);
 app.use(router);
 app.use(Dropdown);
-app.use(VueLodash);
+app.use(lodash);
 app.use(Notifications)
-app.use(VModal)
+    //app.use(VModal)
 app.use(BootstrapVue3)
 app.use(Tabs);
+
+
+app.use(store)
+app.mount('#app')

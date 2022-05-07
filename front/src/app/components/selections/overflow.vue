@@ -215,18 +215,19 @@ import _ from "lodash";
 import shared from "../../shared";
 
 function currentTracksWitHitInfo(refComponent) {
-  refComponent.$http
-    .get("api/tracks-infos", {
+  
+  fetch("api/tracks-infos", {
       headers: shared.tokenHandle(),
     })
     .then((p) => {
-      refComponent.hits = p.data;
+      var vm=this;
+      vm.hits = p.data;
       _.forEach(_.values(p.data), (value) => {
         if (!_.isNull(value.hitInfo)) {
           shared.computeHit(
             value.hitInfo.percentage,
             value.hitInfo.hitSlotId,
-            refComponent.$refs
+            vm.$refs
           );
         }
       });

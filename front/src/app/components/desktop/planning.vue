@@ -41,7 +41,7 @@
       </tabs>
     </div>
 
-    <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
+   <!-- <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div>
@@ -80,7 +80,7 @@
           </button>
         </div>
       </div>
-    </modal>
+    </modal>-->
   </div>
 </template>
 

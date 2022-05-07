@@ -5,7 +5,6 @@
       {{ version }} <span> {{ this.$store.state.username }} </span>
     </div>
     <div id="username"></div>
-    <notifications />
   </div>
 </template>
 <script>

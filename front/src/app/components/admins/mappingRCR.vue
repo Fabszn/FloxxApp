@@ -35,8 +35,8 @@
       dark
       striped
       hover
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
+      v-model:sort-by="sortBy"
+      v-model:sort-desc="sortDesc"
       :fields="fields"
       :items="items"
       :filter="filter"
@@ -145,39 +145,43 @@ export default {
       var slotId = event.params.slotId;
 
       shared.securityAccess(this.$router, (p) => {
-        fetch("/api/slots/" + slotId, {
-          headers: shared.tokenHandle(),
-        }).then((p) => {
-          this.confTitle = p.data.talk.title;
-          this.confKind = p.data.talk.talkType;
-          this.room = p.data.roomId.value;
-          this.fromTime = p.data.fromTime.value;
-          this.toTime = p.data.toTime.value;
-          this.selectedSlotId = p.data.slotId.value;
-        });
+        this.$http
+          .get("/api/slots/" + slotId, {
+            headers: shared.tokenHandle(),
+          })
+          .then((p) => {
+            this.confTitle = p.data.talk.title;
+            this.confKind = p.data.talk.talkType;
+            this.room = p.data.roomId.value;
+            this.fromTime = p.data.fromTime.value;
+            this.toTime = p.data.toTime.value;
+            this.selectedSlotId = p.data.slotId.value;
+          });
       });
 
-      fetch("/api/users", {
-        headers: shared.tokenHandle(),
-      }).then((p) => {
-        this.users = _.map(p.data, (user) => {
-          var uName = user.prenom + " " + user.nom;
-          return { id: user.userId, name: uName };
+      this.$http
+        .get("/api/users", {
+          headers: shared.tokenHandle(),
+        })
+        .then((p) => {
+          this.users = _.map(p.data, (user) => {
+            var uName = user.prenom + " " + user.nom;
+            return { id: user.userId, name: uName };
+          });
         });
-      });
     },
     hide() {
       reInitModal(this);
       this.$modal.hide("map-user-modal");
     },
     remove() {
-      fetch(
+      this.$http
+        .post(
           "/api/set-user",
           {
             slotId: { value: this.selectedSlotId },
           },
           {
-            method: "POST",
             headers: shared.tokenHandle(),
           }
         )
@@ -185,28 +189,28 @@ export default {
           reInitModal(this);
           reloadData(this);
           this.$modal.hide("map-user-modal");
-          this.$notify({ type: "success", text: "Red coat removed!" });
+          this.$notify({type: 'success',text:"Red coat removed!"});
         });
     },
     saveMapping() {
       if (_.isUndefined(this.selectedUserId)) {
-        this.$notify({ type: "error", text: "Red coat must be filled" });
+        this.$notify({type: 'error',text:"Red coat must be filled"});
       } else {
-        fetch(
+        this.$http
+          .post(
             "/api/set-user",
             {
               userId: { value: this.selectedUserId },
               slotId: { value: this.selectedSlotId },
             },
             {
-              method: "POST",
               headers: shared.tokenHandle(),
             }
           )
           .then((p) => {
             reloadData(this);
             this.$modal.hide("map-user-modal");
-            this.$notify({ type: "success", text: "Mapping done!" });
+            this.$notify({type: 'success',text:"Mapping done!"});
           });
       }
     },
@@ -227,12 +231,13 @@ function computeUser(user) {
     return "-";
   } else {
     return user.prenom.value + " " + user.nom.value;
-  }
+  } 
 }
 
 function reloadData(thisref) {
   shared.securityAccess(thisref.$router, (p) => {
-    fetch("/api/mapping", {
+    thisref.$http
+      .get("/api/mapping", {
         headers: shared.tokenHandle(),
       })
       .then((p) => {
@@ -243,4 +248,5 @@ function reloadData(thisref) {
 </script>
 
 <style scoped>
+
 </style>

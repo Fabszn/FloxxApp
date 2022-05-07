@@ -74,8 +74,9 @@ export default {
             this.$router.push("/menu");
           },
           (r) => {
-            console.error(r)
             this.loginFailedMsg = false;
+            console.error(r)
+            
           }
         );
     },

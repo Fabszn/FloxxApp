@@ -44,7 +44,15 @@ module.exports = env => {
                 use: ['style-loader', 'css-loader']
             }, {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: {
+                    compilerOptions: {
+                        compatConfig: {
+                            MODE: 3
+                        }
+                    }
+                }
+
             }]
         }
     }

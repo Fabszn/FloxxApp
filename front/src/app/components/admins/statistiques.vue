@@ -26,8 +26,8 @@
       dark
       striped
       hover
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
+      v-model:sort-by="sortBy"
+      v-model:sort-desc="sortDesc"
       :fields="fields"
       :items="items"
       :filter="filter"
