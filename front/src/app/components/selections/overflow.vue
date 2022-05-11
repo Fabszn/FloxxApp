@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="container-fluid">
     <div class="d-flex justify-content-around separate-headfooter">
@@ -13,12 +15,11 @@
         </button>
       </div>
     </div>
-    <notifications group="floxx" />
-    <modal
+   
+    <Modal
       name="slot-details"
-      @before-open="beforeOpen"
-      @before-close="beforeClose"
-      :adaptive="true"
+       v-model="isShow"
+      :close="closeModal"
     >
       <div class="talkdetails">
         <p>
@@ -45,9 +46,9 @@
     </modal>
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('b_amphi')">
-        <vue-circle
+        <circle-progress
           ref="_amphiB"
-          v-bind:progress="0"
+          progress="0"
           :size="115"
           :reverse="false"
           line-cap="round"
@@ -60,16 +61,17 @@
           :show-percent="true"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
-          >Amphi B.</vue-circle
-        >
+          />
+<span>Amphi B.</span>
+        
       </div>
     </div>
     <div class="d-flex justify-content-around">
       <div class="flex-column separate">
         <div class="space" v-on:click="show('neu253')">
-          <vue-circle
+          <circle-progress
             ref="_253"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -82,14 +84,14 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Neuilly 253</vue-circle
-          >
+            />
+          <span>253</span>
         </div>
 
         <div class="space" v-on:click="show('e_neu252')">
-          <vue-circle
+          <circle-progress
             ref="_252"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -102,13 +104,13 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Neuilly 252</vue-circle
-          >
+            />
+          <span>Neuilly 252</span>
         </div>
         <div class="space" v-on:click="show('f_neu251')">
-          <vue-circle
+          <circle-progress
             ref="_251"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -121,15 +123,15 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Neuilly 251</vue-circle
-          >
+            />
+          <span>Neuilly 251</span>
         </div>
       </div>
       <div class="flex-column separate">
         <div class="space" v-on:click="show('par243')">
-          <vue-circle
+          <circle-progress
             ref="_243"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -142,13 +144,13 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Paris 243</vue-circle
-          >
+            />
+            <span>Paris 243</span>
         </div>
         <div class="space" v-on:click="show('par242AB')">
-          <vue-circle
+          <circle-progress
             ref="_242"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -161,13 +163,13 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Paris 242AB</vue-circle
-          >
+            />
+            <span>Paris 242AB</span>
         </div>
         <div class="space" v-on:click="show('par241')">
-          <vue-circle
+          <circle-progress
             ref="_241"
-            v-bind:progress="0"
+            progress="0"
             :size="115"
             :reverse="false"
             line-cap="round"
@@ -180,16 +182,16 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
-            >Paris 241</vue-circle
-          >
+            /><span> 241</span>
+          
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('c_maillot')">
-        <vue-circle
+        <circle-progress
           ref="_maillot"
-          v-bind:progress="0"
+          :progress="0"
           :size="115"
           :reverse="false"
           line-cap="round"
@@ -202,15 +204,17 @@
           :show-percent="true"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
-          >Maillot</vue-circle
-        >
+          />
+          <span>Maillot</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VueCircle from "vue2-circle-progress";
+import VueUniversalModal from 'vue-universal-modal'
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
 
@@ -220,17 +224,16 @@ function currentTracksWitHitInfo(refComponent) {
       headers: shared.tokenHandle(),
     })
     .then((p) => {
-      var vm=this;
-      vm.hits = p.data;
+      this.hits = p.data;
       _.forEach(_.values(p.data), (value) => {
         if (!_.isNull(value.hitInfo)) {
           shared.computeHit(
             value.hitInfo.percentage,
             value.hitInfo.hitSlotId,
-            vm.$refs
+            this.$refs
           );
         }
-      });
+      }); 
     });
 }
 
@@ -240,9 +243,32 @@ function findKey(idSlotComp, refComp) {
   });
 }
 
-export default {
+import { defineComponent, ref } from 'vue'
+
+
+
+
+export default defineComponent({
+  setup () {
+    const isShow = ref(false)
+
+    function showModal () {
+      isShow.value = true
+    }
+
+    function closeModal () {
+      isShow.value = false
+    }
+
+    return {
+      isShow,
+      showModal,
+      closeModal
+    }
+  },
   components: {
-    VueCircle,
+    CircleProgress,
+    VueUniversalModal
   },
   data: function () {
     return {
@@ -317,7 +343,7 @@ export default {
       this.$router.push("/menu");
     },
   },
-};
+});
 </script>
 
 <style  scoped>

@@ -15,9 +15,9 @@
 
     <div class="d-flex justify-content-center">
       <div>
-        <vue-circle
+        <circle-progress
           ref="lastValue"
-          v-bind:progress="0"
+          progress="0"
           :size="100"
           :reverse="false"
           line-cap="round"
@@ -30,7 +30,7 @@
           :show-percent="true"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
-        ></vue-circle>
+        />
       </div>
     </div>
     <div class="d-flex flex-column align-content-center">
@@ -112,11 +112,12 @@
 
 <script>
 import shared from "../shared";
-import VueCircle from "vue2-circle-progress";
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
 
 export default {
   components: {
-    VueCircle
+    CircleProgress
   },
   data: function() {
     return {

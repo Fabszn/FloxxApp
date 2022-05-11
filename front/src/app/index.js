@@ -8,11 +8,14 @@ import lodash from 'vue-lodash';
 import './floxxStyle.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSync, faSignInAlt, faArrowCircleLeft, faSignOutAlt, faCopy } from '@fortawesome/free-solid-svg-icons'
-//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import Notifications from 'vue3-vt-notifications'
+
+import 'vue-universal-modal/dist/index.css'
+import VueUniversalModal from 'vue-universal-modal'
 
 
 const store = createStore({
@@ -40,7 +43,7 @@ const router = createRouter({
 });
 
 const app = createApp(App, {
-    router,
+
     mounted: function() {
         if (window.location.pathname == "") {
             this.$router.push("/reload/" + window.location.pathname);
@@ -49,10 +52,14 @@ const app = createApp(App, {
 })
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.component('dropdown', Dropdown)
+app.component('dropdown', Dropdown) // --> Move locally
 
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 
+app.use(router)
+app.use(VueUniversalModal, {
+    teleportTarget: '#modals'
+})
 
 //app.use(VuejsDatatableFactory);
 app.use(router);
@@ -61,7 +68,7 @@ app.use(lodash);
 app.use(Notifications)
     //app.use(VModal)
 app.use(BootstrapVue3)
-app.use(Tabs);
+    //app.use(Tabs);
 
 
 app.use(store)

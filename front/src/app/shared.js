@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 function cc(p) {
     var pi = _.toInteger(p);
     if (pi <= 40) {
@@ -44,7 +46,6 @@ export default {
         }
     },
     readAdminEtat: function th() {
-
         return sessionStorage.getItem(pAdmin) == "true";
     },
     computeHit: function computeHit(percentage, key, refComponent) {
