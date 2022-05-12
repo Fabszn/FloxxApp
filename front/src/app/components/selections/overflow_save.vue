@@ -24,7 +24,7 @@
         <p>Type : {{ confKind }}</p>
         <p>Salle : {{ room }}</p>
 
-        <!--<button
+        <button
           type="button"
           v-clipboard:copy="twitterMessage"
           v-clipboard:success="onCopy"
@@ -33,7 +33,7 @@
         >
           Copy to clipboard
           <font-awesome-icon icon="copy" />
-        </button>-->
+        </button>
 
         <div class="separate_b space">
           <p>{{ twitterMessage }}</p>
@@ -41,7 +41,7 @@
       </div>
     </modal>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="showModal()">
+      <div class="space-headerFooter" v-on:click="show('b_amphi')">
         <circle-progress
           ref="_amphiB"
           progress="0"
@@ -64,7 +64,7 @@
     </div>
     <div class="d-flex justify-content-around">
       <div class="flex-column separate">
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('neu253')">
           <circle-progress
             ref="_253"
             progress="0"
@@ -84,7 +84,7 @@
           <span>253</span>
         </div>
 
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('e_neu252')">
           <circle-progress
             ref="_252"
             progress="0"
@@ -103,7 +103,7 @@
             />
           <span>Neuilly 252</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('f_neu251')">
           <circle-progress
             ref="_251"
             progress="0"
@@ -124,7 +124,7 @@
         </div>
       </div>
       <div class="flex-column separate">
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('par243')">
           <circle-progress
             ref="_243"
             progress="0"
@@ -143,7 +143,7 @@
             />
             <span>Paris 243</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('par242AB')">
           <circle-progress
             ref="_242"
             progress="0"
@@ -162,7 +162,7 @@
             />
             <span>Paris 242AB</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('par241')">
           <circle-progress
             ref="_241"
             progress="0"
@@ -184,7 +184,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="showModal()">
+      <div class="space-headerFooter" v-on:click="show('c_maillot')">
         <circle-progress
           ref="_maillot"
           :progress="0"
@@ -263,8 +263,7 @@ export default defineComponent({
     return {
       isShow,
       showModal,
-      closeModal,
-      beforeEnter
+      closeModal
     }
   },
   components: {
@@ -282,10 +281,11 @@ export default defineComponent({
       twitterMessage: "",
     };
   },
-  created: function() {
+  created: function () {
     shared.securityAccess(this.$router, (p) => {
-      currentTracksWitHitInfo.bind(this)();
-  })},
+      currentTracksWitHitInfo(this);
+    });
+  },
   methods: {
     onCopy: function (e) {
       this.$notify({
@@ -300,8 +300,9 @@ export default defineComponent({
     },
     progress_end: function () {},
     progress: function () {},
-    refresh: function(){currentTracksWitHitInfo.bind(this)()}
-    ,
+    refresh: function () {
+      currentTracksWitHitInfo.bin(this)();
+    },
     show(idslot) {
       this.$modal.show("slot-details", { idSlot: idslot });
     },
@@ -346,17 +347,13 @@ export default defineComponent({
 </script>
 
 <style  scoped>
-
-
 .talkdetails {
-  width: 300px;
-  padding: 30px;
-  box-sizing: border-box;
-  background-color: #343a40;;
-   color: #fff!;
-    border: 1px solid #fff;
+  width: 100%;
+  height: 100%;
+  background-color: #343a40;
+  color: #fff!;
+  border: 1px solid #fff;
 }
-
 .space {
   margin: 20px;
 }
