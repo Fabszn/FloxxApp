@@ -1,21 +1,19 @@
+package fixtures
 
 import com.dimafeng.testcontainers.PostgreSQLContainer
-import org.floxx.env.configuration.config.{Configuration, GlobalConfig, rooms}
+import org.floxx.env.configuration.config.{ rooms, Configuration, GlobalConfig }
 import org.floxx.env.repository.QuillContext
 import org.flywaydb.core.Flyway
 import org.testcontainers.utility.DockerImageName
 import pureconfig.ConfigSource
-import pureconfig.generic.auto._
 import pureconfig.error.ConfigReaderException
+import pureconfig.generic.auto._
 import zio._
-import zio.blocking.{Blocking, effectBlocking}
-import zio.test._
-import zio.test.environment._
-
+import zio.test.environment.TestEnvironment
+import zio.blocking.{ effectBlocking, Blocking }
 import javax.sql.DataSource
 
-
-trait PostgresRunnableSpec extends DefaultRunnableSpec {
+trait PostgresRunnableFixture {
 
   lazy val containerLayer: ZLayer[Blocking, Throwable, Has[PostgreSQLContainer]] =
     ZManaged.make {
@@ -23,7 +21,13 @@ trait PostgresRunnableSpec extends DefaultRunnableSpec {
         val c = new PostgreSQLContainer(
           dockerImageNameOverride = Option(DockerImageName.parse("postgres:12.7-alpine"))
         ).configure { a =>
-          a.withCommand("postgres", "-c", "log_statement=all", "-c", "log_line_prefix=%t[%a][%p]")
+          a.withCommand(
+            "postgres",
+            "-c",
+            "log_statement=all",
+            "-c",
+            "log_line_prefix=%t[%a][%p]"
+          )
           ()
         }
         c.start()
@@ -40,12 +44,17 @@ trait PostgresRunnableSpec extends DefaultRunnableSpec {
         override def getConf: Task[GlobalConfig] = ZIO.fromEither(
           ConfigSource.default.load[GlobalConfig] match {
             case Left(e) => Left(ConfigReaderException(e))
-            case Right(value) => Right(value.copy(db = value.db.copy(
-              driver = "org.postgresql.Driver",
-              url = container.jdbcUrl,
-              user = container.username,
-              password = container.password
-            )))
+            case Right(value) =>
+              Right(
+                value.copy(
+                  db = value.db.copy(
+                    driver   = "org.postgresql.Driver",
+                    url      = container.jdbcUrl,
+                    user     = container.username,
+                    password = container.password
+                  )
+                )
+              )
           }
         )
 
@@ -53,16 +62,15 @@ trait PostgresRunnableSpec extends DefaultRunnableSpec {
       })
     }
 
-  lazy val dbLayer: ZLayer[ZEnv, Nothing, TestEnvironment with Has[DataSource]] =
-    TestEnvironment.live >+> (containerConfigLayer >>> QuillContext.dataSourceLayer.tap{ ds =>
+  lazy val dbLayer: URLayer[ZEnv, TestEnvironment with Has[Configuration] with Has[DataSource]] =
+    (TestEnvironment.live >+> containerConfigLayer >+> QuillContext.dataSourceLayer.tap { ds =>
       Task {
         val fw = Flyway
-        .configure()
-        .dataSource(ds.get)
-        .load()
+          .configure()
+          .dataSource(ds.get)
+          .load()
         fw.clean()
         fw.migrate()
       }
     }).orDie
-
 }

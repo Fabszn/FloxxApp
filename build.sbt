@@ -185,15 +185,16 @@ lazy val tests = (project in file("tests"))
   .settings(
     libraryDependencies ++= zio,
     libraryDependencies ++= testcontainers,
-    libraryDependencies += "org.flywaydb" % "flyway-core" % "7.4.0"
+    libraryDependencies += "org.flywaydb" % "flyway-core" % "7.4.0",
+    libraryDependencies ++= sttp
   )
 
 ///mainClass := Some("org.floxx.FloxxMainHttp4s")
 
-mappings in (Compile, packageDoc) := Seq()
+Compile / packageDoc / mappings := Seq()
 
 lazy val wartRemoverSettings = Seq(
-  wartremoverErrors in (Compile, compile) ++= Seq(
+  Compile / compile / wartremoverErrors ++= Seq(
       /*Wart.Any,*/
       Wart.AsInstanceOf,
       Wart.Product,

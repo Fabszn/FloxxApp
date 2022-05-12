@@ -89,12 +89,12 @@ object cfpRepository {
       run(quote(slots.filter(s => s.slotId == lift(Slot.Id(id))))).map(_.headOption).provide(env)
 
     override def mappingUserSlot: Task[Seq[UserSlot]] =
-      (for {
-        s <- run(quote { slots })
-        us <- run(quote { userSlots.join(user).on((m, u) => m.userId.contains(u.userId)) })
-      } yield {
-        s.map(s => us.find(_._1.slotId == s.slotId).map(_._2) -> s)
-
+      run(quote {
+        for {
+          s <- slots
+          j <- userSlots.leftJoin(_.slotId == s.slotId)
+          u <- user.leftJoin(s => j.exists(_.userId.contains(s.userId)))
+        } yield (u, s)
       }).provide(env).map(_.map((UserSlot.apply _).tupled))
   }
 
