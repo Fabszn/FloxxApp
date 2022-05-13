@@ -4,10 +4,11 @@ import com.zaxxer.hikari.{ HikariConfig, HikariDataSource }
 import io.getquill.{ Literal, PostgresZioJdbcContext }
 import org.floxx.domain.{ Slot, Talk, User }
 import org.floxx.env.api.adminApi.Mapping
-import org.floxx.model.{ AuthUser, Hit, HitLatest, SimpleUser }
-import org.floxx.model.jsonModel.{ Talk => JsTalk }
 import org.floxx.env.configuration.config.{ getConf, Configuration }
+import org.floxx.model.jsonModel.{ Talk => JsTalk }
 import org.floxx.model.stats.StatItem
+import org.floxx.model.{ AuthUser, Hit, HitLatest, SimpleUser }
+import org.flywaydb.core.Flyway
 import zio._
 
 import javax.sql.DataSource
@@ -18,18 +19,30 @@ package object repository {
 
     val dataSourceLayer: RLayer[Has[Configuration], Has[DataSource]] =
       getConf.toManaged_.flatMap { conf =>
-        ZManaged.make(ZIO.effect {
-          new HikariDataSource(
-            new HikariConfig {
-              setJdbcUrl(conf.db.url)
-              setUsername(conf.db.user)
-              setPassword(conf.db.password)
-              setDriverClassName(conf.db.driver)
-              setMaximumPoolSize(conf.db.maximumPoolSize)
-              setMinimumIdle(conf.db.minimumIdleSize)
-            }
+        ZManaged
+          .make(ZIO.effect {
+            new HikariDataSource(
+              new HikariConfig {
+                setJdbcUrl(conf.db.url)
+                setUsername(conf.db.user)
+                setPassword(conf.db.password)
+                setDriverClassName(conf.db.driver)
+                setMaximumPoolSize(conf.db.maximumPoolSize)
+                setMinimumIdle(conf.db.minimumIdleSize)
+              }
+            )
+          })(ds => ZIO.effect(ds.close()).ignore)
+          .tap(
+            ds =>
+              Task {
+                Flyway
+                  .configure()
+                  .dataSource(ds)
+                  .load()
+                  .migrate()
+              }.toManaged_
           )
-        })(ds => ZIO.effect(ds.close()).ignore)
+          .orDie
       }.toLayer
 
     implicit val str2talkMapping: MappedEncoding[String, Talk] = MappedEncoding[String, Talk](Talk.toString)

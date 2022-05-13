@@ -167,6 +167,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies += `zio-interop-cats`,
     libraryDependencies ++= quill,
     libraryDependencies += http4sCircle,
+    libraryDependencies += flyway,
     libraryDependencies ++= circe,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
@@ -185,11 +186,9 @@ lazy val tests = (project in file("tests"))
   .settings(
     libraryDependencies ++= zio,
     libraryDependencies ++= testcontainers,
-    libraryDependencies += "org.flywaydb" % "flyway-core" % "7.4.0",
+    libraryDependencies += flyway,
     libraryDependencies ++= sttp
   )
-
-///mainClass := Some("org.floxx.FloxxMainHttp4s")
 
 Compile / packageDoc / mappings := Seq()
 
