@@ -14,9 +14,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import Notifications from 'vue3-vt-notifications'
 
-import 'vue-universal-modal/dist/index.css'
-import VueUniversalModal from 'vue-universal-modal'
-
 
 const store = createStore({
     state: {
@@ -57,18 +54,13 @@ app.component('dropdown', Dropdown) // --> Move locally
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 
 app.use(router)
-app.use(VueUniversalModal, {
-    teleportTarget: '#modals'
-})
 
 //app.use(VuejsDatatableFactory);
 app.use(router);
 app.use(Dropdown);
 app.use(lodash);
 app.use(Notifications)
-    //app.use(VModal)
 app.use(BootstrapVue3)
-    //app.use(Tabs);
 
 
 app.use(store)

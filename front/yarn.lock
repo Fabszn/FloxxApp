@@ -455,6 +455,11 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
+typescript@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
+  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
+
 vite@^2.9.7:
   version "2.9.8"
   resolved "https://registry.npmjs.org/vite/-/vite-2.9.8.tgz"
@@ -473,6 +478,11 @@ vue-clipboard2@^0.3.1:
   integrity sha512-aNWXIL2DKgJyY/1OOeITwAQz1fHaCIGvUFHf9h8UcoQBG5a74MkdhS/xqoYe7DNZdQmZRL+TAdIbtUs9OyVjbw==
   dependencies:
     clipboard "^2.0.0"
+
+vue-final-modal@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/vue-final-modal/-/vue-final-modal-3.4.4.tgz#9f4cdb0aabab86a14eb0c005b2645159b0f2095c"
+  integrity sha512-4nOLU+cMcUqAT0kg+64+Hi96kkQPOph2LOJa7Fl58BXlTyhfRxaMuz3M91wi2ooMIL4poWA8428P5GIAXSpuZg==
 
 vue-lodash@^2.1.2:
   version "2.1.2"

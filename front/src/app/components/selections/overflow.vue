@@ -16,7 +16,7 @@
       </div>
     </div>
    
-    <Modal  @before-enter="beforeEnter"  v-model="isShow" :close="closeModal">
+   <vue-final-modal v-model="showModal"  name="overflowModal">
       <div class="talkdetails">
         <p>
           {{ confTitle }}
@@ -38,10 +38,13 @@
         <div class="separate_b space">
           <p>{{ twitterMessage }}</p>
         </div>
-      </div>
-    </modal>
+      </div>  
+    </vue-final-modal>
+
+
+    
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="showModal()">
+      <div class="space-headerFooter" v-on:click="show('b_amphi')">
         <circle-progress
           ref="_amphiB"
           progress="0"
@@ -55,6 +58,7 @@
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
+          :percent="0"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
           />
@@ -64,7 +68,7 @@
     </div>
     <div class="d-flex justify-content-around">
       <div class="flex-column separate">
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('neu253')">
           <circle-progress
             ref="_253"
             progress="0"
@@ -78,13 +82,14 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
+            :percent="0"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
           <span>253</span>
         </div>
 
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('f_neu252')">
           <circle-progress
             ref="_252"
             progress="0"
@@ -98,12 +103,13 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
+            :percent="0"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
           <span>Neuilly 252</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('f_neu251')">
           <circle-progress
             ref="_251"
             progress="0"
@@ -119,12 +125,13 @@
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
+            :percent="0"
             />
           <span>Neuilly 251</span>
         </div>
       </div>
       <div class="flex-column separate">
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('par243')">
           <circle-progress
             ref="_243"
             progress="0"
@@ -138,12 +145,13 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
+            :percent="0"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
             <span>Paris 243</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('par242AB')">
           <circle-progress
             ref="_242"
             progress="0"
@@ -157,12 +165,13 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
+            :percent="0"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
             <span>Paris 242AB</span>
         </div>
-        <div class="space" v-on:click="showModal()">
+        <div class="space" v-on:click="show('241')">
           <circle-progress
             ref="_241"
             progress="0"
@@ -175,6 +184,7 @@
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
+            :percent="0"
             :show-percent="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
@@ -184,7 +194,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="showModal()">
+      <div class="space-headerFooter" v-on:click="show('c_maillot')">
         <circle-progress
           ref="_maillot"
           :progress="0"
@@ -198,6 +208,7 @@
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
+          :percent="0"
           @vue-circle-progress="progress"
           @vue-circle-end="progress_end"
           />
@@ -208,80 +219,32 @@
 </template>
 
 <script>
-import VueUniversalModal from 'vue-universal-modal'
+
+
+import { VueFinalModal, ModalsContainer } from 'vue-final-modal'
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
 
-function currentTracksWitHitInfo() {
-  
-  fetch("api/tracks-infos", {
-      headers: shared.tokenHandle(),
-    })
-    .then((p) => {
-      this.hits = p.data;
-      _.forEach(_.values(p.data), (value) => {
-        if (!_.isNull(value.hitInfo)) {
-          shared.computeHit(
-            value.hitInfo.percentage,
-            value.hitInfo.hitSlotId,
-            this.$refs
-          );
-        }
-      }); 
-    });
-}
-
-function findKey(idSlotComp, refComp) {
-  return _.find(_.values(refComp.hits), function (key) {
-    return key.hitSlotId.value.includes(idSlotComp);
-  });
-}
-
-import { defineComponent, ref } from 'vue'
 
 
-
-
-export default defineComponent({
-  setup () {
-    const isShow = ref(false)
-
-    function showModal () {
-      isShow.value = true
-    }
-
-    function closeModal () {
-      isShow.value = false
-    }
-
-    function beforeEnter () {
-      console.log('before enter')
-    }
-
-    return {
-      isShow,
-      showModal,
-      closeModal,
-      beforeEnter
-    }
-  },
+export default {
   components: {
     CircleProgress,
-    VueUniversalModal
+    VueFinalModal,
+     ModalsContainer
   },
-  data: function () {
-    return {
-      hits: [],
+  data: () => ({
+    showModal: false,
+    hits: [],
       fill: { gradient: ["green"] },
       confTitle: "",
       confAbstract: "",
       confKind: "",
       room: "",
-      twitterMessage: "",
-    };
-  },
+      twitterMessage: ""
+  }),
   created: function() {
     shared.securityAccess(this.$router, (p) => {
       currentTracksWitHitInfo.bind(this)();
@@ -302,14 +265,36 @@ export default defineComponent({
     progress: function () {},
     refresh: function(){currentTracksWitHitInfo.bind(this)()}
     ,
-    show(idslot) {
-      this.$modal.show("slot-details", { idSlot: idslot });
+    show(idSlot) {
+      beforeOpen.bind(this)(idSlot)
+      this.showModal = true;
     },
-    hide: function () {
-      this.$modal.hide("slot-details");
+    backRooms: function () {
+      this.$router.push("/menu");
     },
-    beforeOpen(event) {
-      var current = findKey(event.params.idSlot, this);
+  },
+};
+
+function currentTracksWitHitInfo() {
+  fetch("api/tracks-infos", {
+      headers: shared.tokenHandle(),
+    })
+    .then((p) => {
+      this.hits = p.data;
+      _.forEach(_.values(p.data), (value) => {
+        if (!_.isNull(value.hitInfo)) {
+          shared.computeHit(
+            value.hitInfo.percentage,
+            value.hitInfo.hitSlotId,
+            this.$refs
+          );
+        }
+      }); 
+    });
+}
+
+function beforeOpen(idSlot){
+      var current = findKey.bind(this)(idSlot);
       if (!_.isUndefined(current)) {
         this.confTitle = current.slot.talk.title;
         this.confKind = current.slot.talk.talkType;
@@ -327,29 +312,24 @@ export default defineComponent({
           this.confTitle +
           " est en OVERFLOW ....  @DevoxxFR";
       } else {
-        this.confTitle = "No talk currently in this room";
+        this.confTitle = "No talk currently in this room " + idSlot ;
       }
-    },
-    beforeClose: function () {
-      this.confTitle = "";
-      this.confKind = "";
-      this.room = "";
-      this.fromTime = "";
-      this.toTime = "";
-      this.twitterMessage = "";
-    },
-    backRooms: function () {
-      this.$router.push("/menu");
-    },
-  },
-});
+    }
+
+function findKey(idSlotComp) {
+  return _.find(_.values(this.hits), function (key) {
+    return key.hitSlotId.value.includes(idSlotComp);
+  });
+}
+
+
 </script>
 
 <style  scoped>
 
 
 .talkdetails {
-  width: 300px;
+  width: 100%;
   padding: 30px;
   box-sizing: border-box;
   background-color: #343a40;;

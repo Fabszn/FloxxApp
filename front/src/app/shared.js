@@ -49,7 +49,7 @@ export default {
         return sessionStorage.getItem(pAdmin) == "true";
     },
     computeHit: function computeHit(percentage, key, refComponent) {
-        var room = _.split(key, "_", 2)[1];
+        //var room = _.split(key, "_", 2)[1];
 
         if (key.includes("par243")) {
             refComponent._243.updateProgress(_.toInteger(percentage));
