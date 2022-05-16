@@ -67,12 +67,14 @@ export default {
             method: "POST"
           }
         )
+        .then(( (response) => response.json()))
         .then(
           (r) => {
-            shared.storeToken(r.body.token, r.body.isAdmin, r.body.name);
-            this.$store.commit("setUsername", r.body.name);
+             console.error(r.name)
+            shared.storeToken(r.token, r.isAdmin, r.name);
+            this.$store.commit("setUsername", r.name);
             this.$router.push("/menu");
-          },
+          },  
           (r) => {
             this.loginFailedMsg = false;
             console.error(r)

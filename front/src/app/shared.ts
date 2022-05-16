@@ -13,6 +13,13 @@ function cc(p) {
     }
 }
 
+class Conference {
+    title: string
+    abstract: string
+    kind: String
+    room: string
+}
+
 var tokenKey = "X-Auth-Token"
 var pAdmin = "isAdmin"
 

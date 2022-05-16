@@ -51,7 +51,6 @@
           :size="115"
           :reverse="false"
           line-cap="round"
-          :fill="fill"
           empty-fill="rgba(0, 0, 0, .1)"
           :animation-start-value="0.0"
           :start-angle="380"
@@ -178,7 +177,7 @@
             :size="115"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
+
             empty-fill="rgba(0, 0, 0, .1)"
             :animation-start-value="0.0"
             :start-angle="380"
@@ -186,8 +185,7 @@
             :thickness="5"
             :percent="0"
             :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
+            
             /><span> 241</span>
           
         </div>
@@ -201,7 +199,6 @@
           :size="115"
           :reverse="false"
           line-cap="round"
-          :fill="fill"
           empty-fill="rgba(0, 0, 0, .1)"
           :animation-start-value="0.0"
           :start-angle="380"
@@ -209,8 +206,6 @@
           :thickness="5"
           :show-percent="true"
           :percent="0"
-          @vue-circle-progress="progress"
-          @vue-circle-end="progress_end"
           />
           <span>Maillot</span>
       </div>
@@ -218,22 +213,21 @@
   </div>
 </template>
 
-<script>
 
 
-import { VueFinalModal, ModalsContainer } from 'vue-final-modal'
+<script lang="ts">
+import VueFinalModal from 'vue-final-modal';
+
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
+import { defineComponent } from '@vue/runtime-core';
 
-
-
-export default {
+export default defineComponent( {
   components: {
     CircleProgress,
-    VueFinalModal,
-     ModalsContainer
+    VueFinalModal
   },
   data: () => ({
     showModal: false,
@@ -250,6 +244,10 @@ export default {
       currentTracksWitHitInfo.bind(this)();
   })},
   methods: {
+    show:function (idSlot:string){
+      beforeOpen.bind(this)(idSlot);
+      this.showModal = true;
+    },
     onCopy: function (e) {
       this.$notify({
         group: "floxx",
@@ -265,15 +263,13 @@ export default {
     progress: function () {},
     refresh: function(){currentTracksWitHitInfo.bind(this)()}
     ,
-    show(idSlot) {
-      beforeOpen.bind(this)(idSlot)
-      this.showModal = true;
-    },
     backRooms: function () {
       this.$router.push("/menu");
     },
   },
-};
+});
+
+
 
 function currentTracksWitHitInfo() {
   fetch("api/tracks-infos", {
@@ -294,13 +290,20 @@ function currentTracksWitHitInfo() {
 }
 
 function beforeOpen(idSlot){
-      var current = findKey.bind(this)(idSlot);
+      let  currentr = (id:string) => {
+
+        console.log(this.hits);
+        _.find(_.values(this.hits),  (key) =>{
+    return key.hitSlotId.value.includes(id);
+  });};
+let current = currentr(idSlot)
+  console.log(current)
       if (!_.isUndefined(current)) {
-        this.confTitle = current.slot.talk.title;
+        /*this.confTitle = current.slot.talk.title;
         this.confKind = current.slot.talk.talkType;
         this.room = current.slot.roomId.value;
         this.fromTime = current.slot.fromTime;
-        this.toTime = current.slot.toTime;
+        this.toTime = current.slot.toTime;*/
         this.twitterMessage =
           "La salle " +
           this.room +
@@ -316,11 +319,6 @@ function beforeOpen(idSlot){
       }
     }
 
-function findKey(idSlotComp) {
-  return _.find(_.values(this.hits), function (key) {
-    return key.hitSlotId.value.includes(idSlotComp);
-  });
-}
 
 
 </script>
