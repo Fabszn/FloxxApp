@@ -70,7 +70,6 @@ export default {
         .then(( (response) => response.json()))
         .then(
           (r) => {
-             console.error(r.name)
             shared.storeToken(r.token, r.isAdmin, r.name);
             this.$store.commit("setUsername", r.name);
             this.$router.push("/menu");

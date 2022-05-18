@@ -222,7 +222,10 @@ import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
+import {TrackHitInfo} from "../../models";
 import { defineComponent } from '@vue/runtime-core';
+
+
 
 export default defineComponent( {
   components: {
@@ -231,7 +234,7 @@ export default defineComponent( {
   },
   data: () => ({
     showModal: false,
-    hits: [],
+      hits : [],
       fill: { gradient: ["green"] },
       confTitle: "",
       confAbstract: "",
@@ -275,9 +278,11 @@ function currentTracksWitHitInfo() {
   fetch("api/tracks-infos", {
       headers: shared.tokenHandle(),
     })
+    .then((response) => response.json())
     .then((p) => {
-      this.hits = p.data;
-      _.forEach(_.values(p.data), (value) => {
+      let tis:TrackHitInfo[] = p.data;
+      this.hits = tis;
+      _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
           shared.computeHit(
             value.hitInfo.percentage,

@@ -1,10 +1,10 @@
-import { MockMethod } from 'vite-plugin-mock'
+//import { MockMethod } from 'vite-plugin-mock'
 
 class UserAuthenticated {
-    name: String;
-    token: String;
-    isAdmin: Boolean = false;
-    constructor(name: string, token: string, isAdmin: boolean) {
+    name: string;
+    token: string;
+    isAdmin: boolean = false;
+    constructor(name, token, isAdmin) {
         this.name = name;
         this.token = token;
         this.isAdmin = isAdmin;
