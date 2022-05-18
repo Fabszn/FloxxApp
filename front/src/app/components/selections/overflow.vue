@@ -279,8 +279,8 @@ function currentTracksWitHitInfo() {
       headers: shared.tokenHandle(),
     })
     .then((response) => response.json())
-    .then((p) => {
-      let tis:TrackHitInfo[] = p.data;
+    .then((r) => {
+      let tis:TrackHitInfo[] = r;
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
@@ -296,13 +296,12 @@ function currentTracksWitHitInfo() {
 
 function beforeOpen(idSlot){
       let  currentr = (id:string) => {
-
-        console.log(this.hits);
+      
         _.find(_.values(this.hits),  (key) =>{
     return key.hitSlotId.value.includes(id);
   });};
 let current = currentr(idSlot)
-  console.log(current)
+  console.log("cuurrent" + current)
       if (!_.isUndefined(current)) {
         /*this.confTitle = current.slot.talk.title;
         this.confKind = current.slot.talk.talkType;
