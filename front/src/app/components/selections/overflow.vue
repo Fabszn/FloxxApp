@@ -249,6 +249,7 @@ export default defineComponent( {
   methods: {
     show:function (idSlot:string){
       beforeOpen.bind(this)(idSlot);
+      console.log(this.showModal);
       this.showModal = true;
     },
     onCopy: function (e) {
@@ -296,8 +297,7 @@ function currentTracksWitHitInfo() {
 
 function beforeOpen(idSlot){
       let  currentr = (id:string) => {
-      
-        _.find(_.values(this.hits),  (key) =>{
+        _.find(this.hits,  (key) =>{
     return key.hitSlotId.value.includes(id);
   });};
 let current = currentr(idSlot)
