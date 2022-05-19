@@ -13,6 +13,11 @@ import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import Notifications from 'vue3-vt-notifications'
+import 'gitart-vue-dialog/dist/style.css'
+import { GDialog } from 'gitart-vue-dialog'
+
+
+
 
 
 const store = createStore({
@@ -56,6 +61,7 @@ library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 app.use(router)
 
 //app.use(VuejsDatatableFactory);
+app.component('GDialog', GDialog)
 app.use(router);
 app.use(Dropdown);
 app.use(lodash);

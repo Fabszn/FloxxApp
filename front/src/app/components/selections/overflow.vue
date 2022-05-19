@@ -16,7 +16,7 @@
       </div>
     </div>
    
-   <vue-final-modal v-model="showModal"  name="overflowModal">
+    <GDialog v-model="dialogState">
       <div class="talkdetails">
         <p>
           {{ confTitle }}
@@ -39,7 +39,7 @@
           <p>{{ twitterMessage }}</p>
         </div>
       </div>  
-    </vue-final-modal>
+    </GDialog>
 
 
     
@@ -216,7 +216,7 @@
 
 
 <script lang="ts">
-import VueFinalModal from 'vue-final-modal';
+
 
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
@@ -229,11 +229,10 @@ import { defineComponent } from '@vue/runtime-core';
 
 export default defineComponent( {
   components: {
-    CircleProgress,
-    VueFinalModal
+    CircleProgress
   },
   data: () => ({
-    showModal: false,
+    dialogState: false,
       hits : [],
       fill: { gradient: ["green"] },
       confTitle: "",
@@ -249,8 +248,8 @@ export default defineComponent( {
   methods: {
     show:function (idSlot:string){
       beforeOpen.bind(this)(idSlot);
-      console.log(this.showModal);
-      this.showModal = true;
+      console.log(this.dialogState);
+      this.dialogState = true;
     },
     onCopy: function (e) {
       this.$notify({
