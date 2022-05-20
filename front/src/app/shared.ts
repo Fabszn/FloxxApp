@@ -13,13 +13,6 @@ function cc(p) {
     }
 }
 
-class Conference {
-    title: string
-    abstract: string
-    kind: String
-    room: string
-}
-
 var tokenKey = "X-Auth-Token"
 var pAdmin = "isAdmin"
 
@@ -53,29 +46,34 @@ export default {
     readAdminEtat: function th() {
         return sessionStorage.getItem(pAdmin) == "true";
     },
-    computeHit: function computeHit(percentage, key, refComponent) {
+    computeHit: function computeHit(p, key) {
         //var room = _.split(key, "_", 2)[1];
 
-        console.log("refComponent._243");
-        console.log(refComponent._243.percent);
-        refComponent._243.percent = 30;
+
         if (key.includes("par243")) {
-            //refComponent._243.percent.value = _.toInteger(percentage);
-            /*refComponent._243.bgShadow({
-                inset: true,
-                vertical: 2,
-                horizontal: 2,
-                blur: 4,
-                opacity: .4,
-                color: 'red'
-            });*/
+            this.per243 = _.toInteger(p);
+            this.col243 = cc(p);
         } else if (key.includes("c_maillot")) {
-            /*refComponent._maillot.updateProgress(_.toInteger(percentage));
-            refComponent._maillot.updateFill({
-                gradient: cc(percentage)
-            });*/
-        } else {
-            console.log("out");
+            this.perMaillot = _.toInteger(p);
+            this.col24Maillot = cc(p);
+        } else if (key.includes("b_amphi")) {
+            this.perAmphiB = _.toInteger(p);
+            this.col24AmphiB = cc(p);
+        } else if (key.includes("par242AB")) {
+            this.per242 = _.toInteger(p);
+            this.col242 = cc(p);
+        } else if (key.includes("par241")) {
+            this.per241 = _.toInteger(p);
+            this.col241 = cc(p);
+        } else if (key.includes("f_neu251")) {
+            this.per251 = _.toInteger(p);
+            this.col251 = cc(p);
+        } else if (key.includes("e_neu252")) {
+            this.per252 = _.toInteger(p);
+            this.col252 = cc(p);
+        } else if (key.includes("neu253")) {
+            this.per253 = _.toInteger(p);
+            this.col253 = cc(p);
         }
     }
 

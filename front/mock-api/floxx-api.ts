@@ -28,173 +28,150 @@ export default [
             console.log(query)
             return [
                 {
-                    "hitSlotId": {
-                        "value": "friday_f_neu251_11:45-12:30"
-                    },
+                    "hitSlotId": "friday_f_neu251_11:45-12:30"
+                    ,
                     "slot": {
-                        "slotId": {
-                            "value": "friday_f_neu251_11:45-12:30"
-                        },
-                        "roomId": {
-                            "value": "251"
-                        },
-                        "fromTime": {
-                            "value": "11:45"
-                        },
-                        "toTime": {
-                            "value": "12:30"
-                        },
+                        "slotId": "friday_f_neu251_11:45-12:30"
+                        ,
+                        "roomId": "251"
+                        ,
+                        "fromTime": "11:45"
+                        ,
+                        "toTime": "12:30"
+                        ,
                         "talk": {
                             "talkType": "Conference",
                             "title": "À la découverte des Docker Dev Environments"
                         },
-                        "day": {
-                            "value": "friday"
-                        }
-                    },
-                    "hitInfo": null
-                },
-                {
-                    "hitSlotId": {
-                        "value": "friday_neu253_t_11:45-12:30"
-                    },
-                    "slot": {
-                        "slotId": {
-                            "value": "friday_neu253_t_11:45-12:30"
-                        },
-                        "roomId": {
-                            "value": "253"
-                        },
-                        "fromTime": {
-                            "value": "11:45"
-                        },
-                        "toTime": {
-                            "value": "12:30"
-                        },
-                        "talk": {
-                            "talkType": "Conference",
-                            "title": "L'IA pour le bon usage des médicaments"
-                        },
-                        "day": {
-                            "value": "friday"
-                        }
-                    },
-                    "hitInfo": null
-                },
-                {
-                    "hitSlotId": {
-                        "value": "friday_c_maillot_11:45-12:30"
-                    },
-                    "slot": {
-                        "slotId": {
-                            "value": "friday_c_maillot_11:45-12:30"
-                        },
-                        "roomId": {
-                            "value": "Maillot"
-                        },
-                        "fromTime": {
-                            "value": "11:45"
-                        },
-                        "toTime": {
-                            "value": "12:30"
-                        },
-                        "talk": {
-                            "talkType": "Conference",
-                            "title": "Les parsers, ou comment exploiter efficacement du texte brut"
-                        },
-                        "day": {
-                            "value": "friday"
-                        }
-                    },
-                    "hitInfo": null
-                },
-                {
-                    "hitSlotId": {
-                        "value": "friday_par242AB_11:45-12:30"
-                    },
-                    "slot": {
-                        "slotId": {
-                            "value": "friday_par242AB_11:45-12:30"
-                        },
-                        "roomId": {
-                            "value": "242"
-                        },
-                        "fromTime": {
-                            "value": "11:45"
-                        },
-                        "toTime": {
-                            "value": "12:30"
-                        },
-                        "talk": {
-                            "talkType": "Conference",
-                            "title": "The Art of Java Type Patterns"
-                        },
-                        "day": {
-                            "value": "friday"
-                        }
-                    },
-                    "hitInfo": null
-                },
-                {
-                    "hitSlotId": {
-                        "value": "friday_d_par241_11:45-12:30"
-                    },
-                    "slot": {
-                        "slotId": {
-                            "value": "friday_d_par241_11:45-12:30"
-                        },
-                        "roomId": {
-                            "value": "241"
-                        },
-                        "fromTime": {
-                            "value": "11:45"
-                        },
-                        "toTime": {
-                            "value": "12:30"
-                        },
-                        "talk": {
-                            "talkType": "Conference",
-                            "title": "Notre cerveau est \"null\"! Quelques biais cognitifs appliqués au métier de dev..."
-                        },
-                        "day": {
-                            "value": "friday"
-                        }
+                        "day": "friday"
+
                     },
                     "hitInfo": {
-                        hitSlotId: "friday_d_par241_11:45-12:30",
-                        percentage: 30,
+                        hitSlotId: "friday_f_neu251_11:45-12:30",
+                        percentage: 20,
                         dateTime: 1234,
                         userId: "fab-qzn"
                     }
                 },
                 {
-                    "hitSlotId": {
-                        "value": "friday_par243_t_11:45-12:30"
+                    "hitSlotId": "friday_neu253_t_11:45-12:30",
+                    "slot": {
+                        "slotId": "friday_neu253_t_11:45-12:30",
+                        "roomId": "253",
+                        "fromTime": "11:45",
+                        "toTime": "12:30",
+                        "talk": {
+                            "talkType": "Conference",
+                            "title": "L'IA pour le bon usage des médicaments"
+                        },
+                        "day": "friday"
+
                     },
+                    "hitInfo": {
+                        hitSlotId: "friday_neu253_t_11:45-12:30",
+                        percentage: 10,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
+                },
+                {
+                    "hitSlotId": "friday_c_maillot_11:45-12:30",
                     "slot": {
                         "slotId": {
-                            "value": "friday_par243_t_11:45-12:30"
+                            "value": "friday_c_maillot_11:45-12:30"
                         },
-                        "roomId": {
-                            "value": "243"
+                        "roomId": "Maillot"
+                        ,
+                        "fromTime": "11:45"
+                        ,
+                        "toTime": "12:30"
+                        ,
+                        "talk": {
+                            "talkType": "Conference",
+                            "title": "Les parsers, ou comment exploiter efficacement du texte brut"
                         },
-                        "fromTime": {
-                            "value": "11:45"
+                        "day": "friday"
+
+                    },
+                    "hitInfo": {
+                        hitSlotId: "friday_c_maillot_11:45-12:30",
+                        percentage: 43,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
+                },
+                {
+                    "hitSlotId": "friday_par242AB_11:45-12:30",
+                    "slot": {
+                        "slotId": "friday_par242AB_11:45-12:30"
+                        ,
+                        "roomId": "242"
+                        ,
+                        "fromTime": "11:45",
+                        "toTime": "12:30"
+                        ,
+                        "talk": {
+                            "talkType": "Conference",
+                            "title": "The Art of Java Type Patterns"
                         },
-                        "toTime": {
-                            "value": "12:30"
+                        "day": "friday"
+
+                    },
+                    "hitInfo": {
+                        hitSlotId: "friday_par242AB_11:45-12:30",
+                        percentage: 40,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
+                },
+                {
+                    "hitSlotId": "friday_d_par241_11:45-12:30"
+                    ,
+                    "slot": {
+                        "slotId": "friday_d_par241_11:45-12:30"
+                        ,
+                        "roomId": "241"
+                        ,
+                        "fromTime": "11:45"
+                        ,
+                        "toTime": "12:30"
+                        ,
+                        "talk": {
+                            "talkType": "Conference",
+                            "title": "Notre cerveau est \"null\"! Quelques biais cognitifs appliqués au métier de dev..."
                         },
+                        "day": "friday"
+
+                    },
+                    "hitInfo": {
+                        hitSlotId: "friday_d_par241_11:45-12:30",
+                        percentage: 60,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
+                },
+                {
+                    "hitSlotId": "friday_par243_t_11:45-12:30"
+                    ,
+                    "slot": {
+                        "slotId": "friday_par243_t_11:45-12:30"
+                        ,
+                        "roomId": "243"
+                        ,
+                        "fromTime": "11:45"
+                        ,
+                        "toTime": "12:30"
+                        ,
                         "talk": {
                             "talkType": "Conference",
                             "title": "Quarkus Renarde 🦊♥ : un framework Web old-school au goût du jour"
                         },
-                        "day": {
-                            "value": "friday"
-                        }
+                        "day": "friday"
+
                     },
                     "hitInfo": {
                         hitSlotId: "friday_par243_t_11:45-12:30",
-                        percentage: 0,
+                        percentage: 58,
                         dateTime: 1234,
                         userId: "fab-qzn"
                     }

@@ -14,6 +14,7 @@
           <font-awesome-icon icon="sync" />
         </button>
       </div>
+
     </div>
    
     <GDialog v-model="dialogState">
@@ -36,7 +37,7 @@
         </button>-->
 
         <div class="separate_b space">
-          <p>{{ selectedConf.twitterMessage }}</p>
+          <p>{{ selectedConf.twitterMessage() }}</p>
         </div>
       </div>  
     </GDialog>
@@ -46,22 +47,18 @@
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('b_amphi')">
         <circle-progress
-          ref="_amphiB"
-          progress="0"
-          :size="115"
+          :size="globalSize"
           :reverse="false"
           line-cap="round"
-          empty-fill="rgba(0, 0, 0, .1)"
           :animation-start-value="0.0"
           :start-angle="380"
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
-          :percent="0"
-          @vue-circle-progress="progress"
-          @vue-circle-end="progress_end"
+          :percent="perAmphiB"
+          :fill-color="colAmphiB"
           />
-<span>Amphi B.</span>
+<div class="roomTitleCenter">Amphi B.</div>
         
       </div>
     </div>
@@ -69,125 +66,94 @@
       <div class="flex-column separate">
         <div class="space" v-on:click="show('neu253')">
           <circle-progress
-            ref="_253"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
+            :fill-color="col253"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="0"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
+            :percent="per253"
             />
-          <span>253</span>
+          <div class="roomTitleCenter">Neuilly 253</div>
         </div>
 
         <div class="space" v-on:click="show('f_neu252')">
           <circle-progress
-            ref="_252"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
+            :fill-color="col252"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent=0
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
+            :percent="per252"
             />
-          <span>Neuilly 252</span>
+          <div class="roomTitleCenter">Neuilly 252</div>
         </div>
         <div class="space" v-on:click="show('f_neu251')">
           <circle-progress
-            ref="_251"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
+            :fill-color="col251"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-            :percent="0"
+            :percent="per251"
             />
-          <span>Neuilly 251</span>
+          <div class="roomTitleCenter">Neuilly 251</div>
         </div>
       </div>
       <div class="flex-column separate">
         <div class="space" v-on:click="show('par243')">
           <circle-progress
-            ref="_243"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
-            :animation-start-value="0.0"
             :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
+            :fill-color="col243"
             :show-percent="true"
-            :percent="10"
+            :percent="per243"
             :viewport="true"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
             />
-            <span>Paris 243</span>
+            <div class="roomTitleCenter">Paris 243</div>
         </div>
         <div class="space" v-on:click="show('par242AB')">
           <circle-progress
-            ref="_242"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill="fill"
-            empty-fill="rgba(0, 0, 0, .1)"
+            :fill-color="col242"            
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="80"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"  
+            :percent="per242"
             />
-            <span>Paris 242AB</span>
+            <div class="roomTitleCenter">Paris 242AB</div>
         </div>
         <div class="space" v-on:click="show('241')">
           <circle-progress
-            ref="_241"
-            progress="0"
-            :size="115"
+            :size="globalSize"
             :reverse="false"
             line-cap="round"
-
-            empty-fill="rgba(0, 0, 0, .1)"
+            :fill-color="col241"            
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
-            :percent="0"
+            :percent="per241"
             :show-percent="true"
             
-            /><span> 241</span>
+            /><div class="roomTitleCenter">Paris 241</div>
           
         </div>
       </div>
@@ -195,20 +161,18 @@
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('c_maillot')">
         <circle-progress
-          ref="_maillot"
-          :progress="0"
-          :size="115"
+          :size="globalSize"
           :reverse="false"
-          line-cap="round"
-          empty-fill="rgba(0, 0, 0, .1)"
+          line-cap="round"        
           :animation-start-value="0.0"
+          :fill-color="colMaillot"
           :start-angle="380"
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
-          :percent="0"
+          :percent="perMaillot"
           />
-          <span>Maillot</span>
+          <div class="roomTitleCenter">Maillot</div>
       </div>
     </div>
   </div>
@@ -242,8 +206,9 @@ class Conference {
           this.room = "";
         }
 
-        twitterMessage():string{
-          return "La salle " +  this.room + " [" +this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
+        twitterMessage():string {
+          return "La salle " +  this.room + " [" + this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
+
         }
 
         
@@ -262,6 +227,47 @@ export default defineComponent( {
   components: {
     CircleProgress
   },
+  setup() {
+    const perAmphiB = ref(0)
+    const perMaillot = ref(0)
+    const per243 = ref(0)
+    const per241 = ref(0)
+    const per242 = ref(0)
+    const per251 = ref(0)
+    const per252 = ref(0)
+    const per253 = ref(0)
+
+    const col243 = ref("green")
+    const colAmphiB = ref("green")
+    const colMaillot = ref("green")
+    const col241 = ref("green")
+    const col242 = ref("green")
+    const col251 = ref("green")
+    const col252 = ref("green")
+    const col253 = ref("green")
+
+    const globalSize = ref(100)
+    
+    return {
+      perAmphiB,
+      perMaillot,
+      per241,
+      per242,
+      per243,
+      per251,
+      per252,
+      per253,
+      col243,
+      col241,
+      col242,
+      col251,
+      col252,
+      col253,
+      colMaillot,
+      colAmphiB,
+      globalSize
+    }
+  },
   data: () => ({
     dialogState: false,
       hits : [],
@@ -277,17 +283,6 @@ export default defineComponent( {
       beforeOpen.bind(this)(idSlot);
       this.dialogState = true;
     },
-    onCopy: function (e) {
-      this.$notify({
-        group: "floxx",
-        type: "success",
-        title: "Success",
-        text: "Text has been copied into clipboard!",
-      });
-    },
-    onError: function (e) {
-      //alert("Failed to copy texts");
-    },
     progress_end: function () {},
     progress: function () {},
     refresh: function(){currentTracksWitHitInfo.bind(this)()}
@@ -295,50 +290,44 @@ export default defineComponent( {
     backRooms: function () {
       this.$router.push("/menu");
     },
+    update:function(){
+      this.percentage = 30;
+    }
   },
 });
 
 
 
 function currentTracksWitHitInfo() {
-const v = ref(20)
 
-let current  = this.$refs._243;
-
-      current.value = v;
-
-  /*fetch("api/tracks-infos", {
+  fetch("api/tracks-infos", {
       headers: shared.tokenHandle(),
     })
     .then((response) => response.json())
     .then((r) => {
       let tis:TrackHitInfo[] = r;
-      
-      let current  = this.$ref._243;
-      current.value = 10;
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
-          shared.computeHit(
+          shared.computeHit.bind(this)(
             value.hitInfo.percentage,
-            value.hitInfo.hitSlotId,
-            this.$refs
+            value.hitInfo.hitSlotId
           );
         }
       }); 
-    });*/
+    });
 }
 
 function beforeOpen(idSlot){
       let  currentr = (id:string) => {
-        return _.find(this.hits,  function (slot){
-    return slot.hitSlotId.value.includes(id);
+        return _.find(this.hits,  function (hit){
+    return hit.hitSlotId.includes(id);
   });};
   let current = currentr(idSlot)
       if (!_.isUndefined(current)) {
         this.selectedConf.updateInfo(current.slot.talk.title,
           current.slot.talk.talkType,
-          current.slot.roomId.value,
+          current.slot.roomId,
           current.slot.fromTime,
           current.slot.toTime
           );
@@ -372,11 +361,9 @@ function beforeOpen(idSlot){
 .space {
   margin: 20px;
 }
-.spacePopin {
-  margin: 20px;
-}
-.line {
-  border: 1px solid gray;
-  width: 100%;
+
+.roomTitleCenter {
+  display:flex;
+  justify-content:center;
 }
 </style>
