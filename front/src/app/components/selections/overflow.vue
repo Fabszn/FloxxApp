@@ -19,10 +19,10 @@
     <GDialog v-model="dialogState">
       <div class="talkdetails">
         <p>
-          {{ confTitle }}
+          {{ selectedConf.confTitle }}
         </p>
-        <p>Type : {{ confKind }}</p>
-        <p>Salle : {{ room }}</p>
+        <p>Type : {{ selectedConf.confKind }}</p>
+        <p>Salle : {{ selectedConf.room }}</p>
 
         <!--<button
           type="button"
@@ -36,7 +36,7 @@
         </button>-->
 
         <div class="separate_b space">
-          <p>{{ twitterMessage }}</p>
+          <p>{{ selectedConf.twitterMessage }}</p>
         </div>
       </div>  
     </GDialog>
@@ -102,7 +102,7 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="0"
+            :percent=0
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
@@ -144,7 +144,8 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="0"
+            :percent="10"
+            :viewport="true"
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
             />
@@ -164,9 +165,9 @@
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="0"
+            :percent="80"
             @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
+            @vue-circle-end="progress_end"  
             />
             <span>Paris 242AB</span>
         </div>
@@ -218,12 +219,42 @@
 <script lang="ts">
 
 
+class Conference {
+    confTitle:string = "";
+    confKind:string = "";
+    room:string = "";
+    fromTime:string="";
+    toTime:string="";
+
+        updateInfo(title:string, kind:string, room:string, from:string, to:string){
+          this.confTitle = title;
+          this.confKind = kind;
+          this.fromTime = from;
+          this.toTime = to;
+          this.room = room;
+        }
+
+        resetData(){
+          this.confTitle = "";
+          this.confKind = "";
+          this.fromTime = "";
+          this.toTime = "";
+          this.room = "";
+        }
+
+        twitterMessage():string{
+          return "La salle " +  this.room + " [" +this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
+        }
+
+        
+}
+
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
 import {TrackHitInfo} from "../../models";
-import { defineComponent } from '@vue/runtime-core';
+import { defineComponent, ref} from '@vue/runtime-core';
 
 
 
@@ -235,20 +266,15 @@ export default defineComponent( {
     dialogState: false,
       hits : [],
       fill: { gradient: ["green"] },
-      confTitle: "",
-      confAbstract: "",
-      confKind: "",
-      room: "",
-      twitterMessage: ""
+      selectedConf: new Conference()
   }),
-  created: function() {
+  mounted: function() {
     shared.securityAccess(this.$router, (p) => {
       currentTracksWitHitInfo.bind(this)();
   })},
   methods: {
     show:function (idSlot:string){
       beforeOpen.bind(this)(idSlot);
-      console.log(this.dialogState);
       this.dialogState = true;
     },
     onCopy: function (e) {
@@ -275,12 +301,21 @@ export default defineComponent( {
 
 
 function currentTracksWitHitInfo() {
-  fetch("api/tracks-infos", {
+const v = ref(20)
+
+let current  = this.$refs._243;
+
+      current.value = v;
+
+  /*fetch("api/tracks-infos", {
       headers: shared.tokenHandle(),
     })
     .then((response) => response.json())
     .then((r) => {
       let tis:TrackHitInfo[] = r;
+      
+      let current  = this.$ref._243;
+      current.value = 10;
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
@@ -291,34 +326,30 @@ function currentTracksWitHitInfo() {
           );
         }
       }); 
-    });
+    });*/
 }
 
 function beforeOpen(idSlot){
       let  currentr = (id:string) => {
-        _.find(this.hits,  (key) =>{
-    return key.hitSlotId.value.includes(id);
+        return _.find(this.hits,  function (slot){
+    return slot.hitSlotId.value.includes(id);
   });};
-let current = currentr(idSlot)
-  console.log("cuurrent" + current)
+  let current = currentr(idSlot)
       if (!_.isUndefined(current)) {
-        /*this.confTitle = current.slot.talk.title;
-        this.confKind = current.slot.talk.talkType;
-        this.room = current.slot.roomId.value;
-        this.fromTime = current.slot.fromTime;
-        this.toTime = current.slot.toTime;*/
-        this.twitterMessage =
-          "La salle " +
-          this.room +
-          " [" +
-          this.fromTime.value +
-          " - " +
-          this.toTime.value +
-          "] " +
-          this.confTitle +
-          " est en OVERFLOW ....  @DevoxxFR";
+        this.selectedConf.updateInfo(current.slot.talk.title,
+          current.slot.talk.talkType,
+          current.slot.roomId.value,
+          current.slot.fromTime,
+          current.slot.toTime
+          );
       } else {
-        this.confTitle = "No talk currently in this room " + idSlot ;
+        this.selectedConf.updateInfo("No talk currently in this room " + idSlot,
+          "",
+          "",
+          "",
+          ""
+          );
+        
       }
     }
 

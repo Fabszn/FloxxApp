@@ -160,7 +160,12 @@ export default [
                             "value": "friday"
                         }
                     },
-                    "hitInfo": null
+                    "hitInfo": {
+                        hitSlotId: "friday_d_par241_11:45-12:30",
+                        percentage: 30,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
                 },
                 {
                     "hitSlotId": {
@@ -187,7 +192,12 @@ export default [
                             "value": "friday"
                         }
                     },
-                    "hitInfo": null
+                    "hitInfo": {
+                        hitSlotId: "friday_par243_t_11:45-12:30",
+                        percentage: 0,
+                        dateTime: 1234,
+                        userId: "fab-qzn"
+                    }
                 }
             ];
         }

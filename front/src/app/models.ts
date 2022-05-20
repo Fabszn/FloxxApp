@@ -1,5 +1,5 @@
 
-declare class Hit {
+class Hit {
     hitid: string;
     hitSlotId: string;
     percentage: number;
@@ -10,11 +10,11 @@ declare class Hit {
         this.hitSlotId = hitSlotId;
         this.percentage = percentage;
         this.dateTime = dateTime;
-        this.userId = userId;
+        userId = userId;
     }
 }
 
-declare class Slot {
+class Slot {
     slotId: string;
     roomId: string;
     fromTime: string;
@@ -23,7 +23,7 @@ declare class Slot {
     day: string
 }
 
-declare class TrackHitInfo {
+class TrackHitInfo {
     hitSlotId: string;
     slot: Slot;
     hitInfo?: Hit;
@@ -33,7 +33,6 @@ declare class TrackHitInfo {
         this.hitInfo = hitInfo;
     }
 }
-
 
 export { TrackHitInfo }
 
