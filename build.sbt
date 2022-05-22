@@ -160,6 +160,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= quill,
     libraryDependencies += http4sCircle,
     libraryDependencies += flyway,
+    libraryDependencies += shapeless,
     libraryDependencies ++= circe,
     libraryDependencies ++= testcontainers,
     libraryDependencies ++= sttp,
