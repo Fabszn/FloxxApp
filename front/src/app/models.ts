@@ -34,7 +34,18 @@ class TrackHitInfo {
     }
 }
 
-export { TrackHitInfo }
+class User {
+    userId: string
+    uName: string
+
+    contructor(id, nom, prenom) {
+        this.uName = prenom + " " + nom;
+        this.userId = id;
+
+    }
+}
+
+export { TrackHitInfo, User }
 
 
 

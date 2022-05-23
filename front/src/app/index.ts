@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from "vuex";
 import App from './App.vue';
 import { routes } from './routeur-config.js';
-import Dropdown from 'vue-simple-search-dropdown';
+import 'vue-next-select/dist/index.css'
+import VueNextSelect from 'vue-next-select'
 import lodash from 'vue-lodash';
 import './floxxStyle.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -54,7 +55,7 @@ const app = createApp(App, {
 })
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.component('dropdown', Dropdown) // --> Move locally
+app.component('vue-select', VueNextSelect) // --> Move locally
 
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 
@@ -63,7 +64,6 @@ app.use(router)
 //app.use(VuejsDatatableFactory);
 app.component('GDialog', GDialog)
 app.use(router);
-app.use(Dropdown);
 app.use(lodash);
 app.use(Notifications)
 app.use(BootstrapVue3)

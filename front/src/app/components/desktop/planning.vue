@@ -8,7 +8,7 @@
       </div>
     </div>
     <div>
-      <br />
+      <br/>
     </div>
     <div>
       <tabs>
@@ -41,7 +41,7 @@
       </tabs>
     </div>
 
-   <!-- <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
+<GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div>
@@ -52,17 +52,12 @@
               {{ actualUserNameSelected }}
             </p>
           </div>
-          <div class="over">
-            <dropdown
-              :options="users"
-              v-on:selected="validateSelection"
-              :disabled="false"
-              :maxItem="4"
-              placeholder="Search by name"
-            >
-            </dropdown>
+          <div >
+            <pre>modelValue: {{ JSON.stringify(selectedUser) }}</pre>
+            <vue-select v-model="selectedUser"
+            :options="options" label-by="nom" />
+            </div>
           </div>
-        </div>
 
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
@@ -80,16 +75,38 @@
           </button>
         </div>
       </div>
-    </modal>-->
+    </GDialog>
   </div>
 </template>
 
 <script>
 import shared from "../../shared";
+import {User} from "../../models";
 import _ from "lodash";
-export default {
-  data: function () {
+import { defineComponent, ref, computed } from 'vue'
+import { Tabs, Tab} from 'vue3-tabs-component';
+
+
+export default defineComponent ({
+setup() {
+    
+    const selectedUser = ref(null)
+    const options = ref([])
+
     return {
+      selectedUser,
+      options
+    }
+  },
+  components: {
+    Tabs,
+    Tab
+  },
+  data: function () {
+
+   
+    return {
+      dialogState: false,
       items: {},
       actualUserNameSelected: "",
       confTitle: "",
@@ -99,15 +116,15 @@ export default {
       toTime: "",
       selectedSlotId: "",
       selectedUserId: "",
-      users: [],
     };
   },
   created: function () {
     fetch("/api/planning", {
         headers: shared.tokenHandle(),
       })
-      .then((p) => {
-        this.items = p.data;
+      .then((response) => response.json())
+      .then((r) => {
+        this.items = r;
       });
   },
   methods: {
@@ -151,35 +168,10 @@ export default {
     },
     show(idSlot, currentUser) {
       this.actualUserNameSelected = computeUser(currentUser);
-      this.$modal.show("map-user-modal", { slotId: idSlot });
+      beforeOpen.bind(this)(idSlot);
+      this.dialogState = true;
     },
-    beforeOpen(event) {
-      var slotId = event.params.slotId;
-
-      shared.securityAccess(this.$router, (p) => {
-        fetch("/api/slots/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-          .then((p) => {
-            this.confTitle = p.data.talk.title;
-            this.confKind = p.data.talk.talkType;
-            this.room = p.data.roomId.value;
-            this.fromTime = p.data.fromTime.value;
-            this.toTime = p.data.toTime.value;
-            this.selectedSlotId = p.data.slotId.value;
-          });
-      });
-
-      fetch("/api/users", {
-          headers: shared.tokenHandle(),
-        })
-        .then((p) => {
-          this.users = _.map(p.data, (user) => {
-            var uName = user.prenom + " " + user.nom;
-            return { id: user.userId, name: uName };
-          });
-        });
-    },
+    
     hide() {
       reInitModal(this);
       this.$forceUpdate();
@@ -196,6 +188,7 @@ export default {
             headers: shared.tokenHandle(),
           }
         )
+        .then((response) => response.json())
         .then((p) => {
           reInitModal(this);
           reloadData(this);
@@ -218,6 +211,7 @@ export default {
               headers: shared.tokenHandle(),
             }
           )
+          .then((response) => response.json())
           .then((p) => {
             reloadData(this);
             this.$modal.hide("map-user-modal");
@@ -229,7 +223,38 @@ export default {
       reloadData(this);
     },
   },
-};
+});
+
+function beforeOpen(slotId) {
+      shared.securityAccess(this.$router, (p) => {
+        fetch("/api/slots/" + slotId, {
+            headers: shared.tokenHandle(),
+          })
+          .then((response) => response.json())
+          .then((p) => {
+            this.confTitle = p.talk.title;
+            this.confKind = p.talk.talkType;
+            this.room = p.roomId.value;
+            this.fromTime = p.fromTime.value;
+            this.toTime = p.toTime.value;
+            this.selectedSlotId = p.slotId.value;
+          });
+
+          fetch("/api/users", {
+          headers: shared.tokenHandle(),
+        })
+        .then((response) => response.json())
+        .then((p) => {
+          this.options = _.map(p, (u) => {
+            return {"id":u.id,"nom" : u.prenom + " " +u.nom};
+          });
+        });
+
+
+      });
+
+      
+    }
 
 function reInitModal(thisref) {
   thisref.selectedUserId = "";
@@ -259,6 +284,24 @@ function reloadData(thisref) {
 </script>
 
 <style  scoped>
+
+:root {
+  --vs-controls-color: #664cc3;
+  --vs-border-color: #664cc3;
+
+  --vs-dropdown-bg: #282c34;
+  --vs-dropdown-color: #cc99cd;
+  --vs-dropdown-option-color: #cc99cd;
+
+  --vs-selected-bg: #664cc3;
+  --vs-selected-color: #eeeeee;
+
+  --vs-search-input-color: #eeeeee;
+
+  --vs-dropdown-option--active-bg: #664cc3;
+  --vs-dropdown-option--active-color: #eeeeee;
+}
+
 .header {
   background-color: #61bf9b;
   padding: 14px 28px;
