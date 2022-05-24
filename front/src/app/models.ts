@@ -35,17 +35,51 @@ class TrackHitInfo {
 }
 
 class User {
-    userId: string
-    uName: string
-
-    contructor(id, nom, prenom) {
-        this.uName = prenom + " " + nom;
-        this.userId = id;
-
+    id: string;
+    label: string;
+    constructor(userId, nom, prenom) {
+        this.label = prenom + " " + nom;
+        this.id = userId;
     }
 }
 
-export { TrackHitInfo, User }
+
+class Conference {
+    confTitle: string = "";
+    confKind: string = "";
+    room: string = "";
+    fromTime: string = "";
+    toTime: string = "";
+    slotId: String = ""
+
+    updateInfo(title: string, kind: string, room: string, from: string, to: string, slotId) {
+        this.confTitle = title;
+        this.confKind = kind;
+        this.fromTime = from;
+        this.toTime = to;
+        this.room = room;
+        this.slotId = slotId;
+    }
+
+    resetData() {
+        this.confTitle = "";
+        this.confKind = "";
+        this.fromTime = "";
+        this.toTime = "";
+        this.room = "";
+        this.slotId = "";
+    }
+
+    twitterMessage(): string {
+        return "La salle " + this.room + " [" + this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
+
+    }
+
+
+}
+
+
+export { TrackHitInfo, User, Conference }
 
 
 

@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from "vuex";
 import App from './App.vue';
 import { routes } from './routeur-config.js';
-import 'vue-next-select/dist/index.css'
-import VueNextSelect from 'vue-next-select'
+import 'vue-select/dist/vue-select.css';
+import vSelect from 'vue-select'
 import lodash from 'vue-lodash';
 import './floxxStyle.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -47,7 +47,7 @@ const router = createRouter({
 
 const app = createApp(App, {
 
-    mounted: function() {
+    mounted: function () {
         if (window.location.pathname == "") {
             this.$router.push("/reload/" + window.location.pathname);
         }
@@ -55,7 +55,8 @@ const app = createApp(App, {
 })
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.component('vue-select', VueNextSelect) // --> Move locally
+
+app.component('v-select', vSelect) // --> Move locally
 
 library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
 

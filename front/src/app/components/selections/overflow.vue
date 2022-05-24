@@ -16,7 +16,7 @@
       </div>
 
     </div>
-   
+
     <GDialog v-model="dialogState">
       <div class="talkdetails">
         <p>
@@ -39,140 +39,69 @@
         <div class="separate_b space">
           <p>{{ selectedConf.twitterMessage() }}</p>
         </div>
-      </div>  
+      </div>
     </GDialog>
 
 
-    
+
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('b_amphi')">
-        <circle-progress
-          :size="globalSize"
-          :reverse="false"
-          line-cap="round"
-          :animation-start-value="0.0"
-          :start-angle="380"
-          insert-mode="append"
-          :thickness="5"
-          :show-percent="true"
-          :percent="perAmphiB"
-          :fill-color="colAmphiB"
-          />
-<div class="roomTitleCenter">Amphi B.</div>
-        
+        <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
+          :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true" :percent="perAmphiB"
+          :fill-color="colAmphiB" />
+        <div class="roomTitleCenter">Amphi B.</div>
+
       </div>
     </div>
     <div class="d-flex justify-content-around">
       <div class="flex-column separate">
         <div class="space" v-on:click="show('neu253')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="col253"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="per253"
-            />
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="col253"
+            :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+            :percent="per253" />
           <div class="roomTitleCenter">Neuilly 253</div>
         </div>
 
         <div class="space" v-on:click="show('f_neu252')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="col252"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="per252"
-            />
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="col252"
+            :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+            :percent="per252" />
           <div class="roomTitleCenter">Neuilly 252</div>
         </div>
         <div class="space" v-on:click="show('f_neu251')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="col251"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="per251"
-            />
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="col251"
+            :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+            :percent="per251" />
           <div class="roomTitleCenter">Neuilly 251</div>
         </div>
       </div>
       <div class="flex-column separate">
         <div class="space" v-on:click="show('par243')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :start-angle="380"
-            :fill-color="col243"
-            :show-percent="true"
-            :percent="per243"
-            :viewport="true"
-            />
-            <div class="roomTitleCenter">Paris 243</div>
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380" :fill-color="col243"
+            :show-percent="true" :percent="per243" :viewport="true" />
+          <div class="roomTitleCenter">Paris 243</div>
         </div>
         <div class="space" v-on:click="show('par242AB')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="col242"            
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="per242"
-            />
-            <div class="roomTitleCenter">Paris 242AB</div>
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="col242"
+            :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+            :percent="per242" />
+          <div class="roomTitleCenter">Paris 242AB</div>
         </div>
         <div class="space" v-on:click="show('241')">
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="col241"            
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :percent="per241"
-            :show-percent="true"
-            
-            /><div class="roomTitleCenter">Paris 241</div>
-          
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="col241"
+            :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :percent="per241"
+            :show-percent="true" />
+          <div class="roomTitleCenter">Paris 241</div>
+
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div class="space-headerFooter" v-on:click="show('c_maillot')">
-        <circle-progress
-          :size="globalSize"
-          :reverse="false"
-          line-cap="round"        
-          :animation-start-value="0.0"
-          :fill-color="colMaillot"
-          :start-angle="380"
-          insert-mode="append"
-          :thickness="5"
-          :show-percent="true"
-          :percent="perMaillot"
-          />
-          <div class="roomTitleCenter">Maillot</div>
+        <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
+          :fill-color="colMaillot" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+          :percent="perMaillot" />
+        <div class="roomTitleCenter">Maillot</div>
       </div>
     </div>
   </div>
@@ -183,47 +112,18 @@
 <script lang="ts">
 
 
-class Conference {
-    confTitle:string = "";
-    confKind:string = "";
-    room:string = "";
-    fromTime:string="";
-    toTime:string="";
 
-        updateInfo(title:string, kind:string, room:string, from:string, to:string){
-          this.confTitle = title;
-          this.confKind = kind;
-          this.fromTime = from;
-          this.toTime = to;
-          this.room = room;
-        }
-
-        resetData(){
-          this.confTitle = "";
-          this.confKind = "";
-          this.fromTime = "";
-          this.toTime = "";
-          this.room = "";
-        }
-
-        twitterMessage():string {
-          return "La salle " +  this.room + " [" + this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
-
-        }
-
-        
-}
 
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
-import {TrackHitInfo} from "../../models";
-import { defineComponent, ref} from '@vue/runtime-core';
+import { TrackHitInfo, Conference } from "../../models";
+import { defineComponent, ref } from '@vue/runtime-core';
 
 
 
-export default defineComponent( {
+export default defineComponent({
   components: {
     CircleProgress
   },
@@ -247,7 +147,7 @@ export default defineComponent( {
     const col253 = ref("green")
 
     const globalSize = ref(100)
-    
+
     return {
       perAmphiB,
       perMaillot,
@@ -270,27 +170,28 @@ export default defineComponent( {
   },
   data: () => ({
     dialogState: false,
-      hits : [],
-      fill: { gradient: ["green"] },
-      selectedConf: new Conference()
+    hits: [],
+    fill: { gradient: ["green"] },
+    selectedConf: new Conference()
   }),
-  mounted: function() {
+  mounted: function () {
     shared.securityAccess(this.$router, (p) => {
       currentTracksWitHitInfo.bind(this)();
-  })},
+    })
+  },
   methods: {
-    show:function (idSlot:string){
+    show: function (idSlot: string) {
       beforeOpen.bind(this)(idSlot);
       this.dialogState = true;
     },
-    progress_end: function () {},
-    progress: function () {},
-    refresh: function(){currentTracksWitHitInfo.bind(this)()}
+    progress_end: function () { },
+    progress: function () { },
+    refresh: function () { currentTracksWitHitInfo.bind(this)() }
     ,
     backRooms: function () {
       this.$router.push("/menu");
     },
-    update:function(){
+    update: function () {
       this.percentage = 30;
     }
   },
@@ -301,11 +202,11 @@ export default defineComponent( {
 function currentTracksWitHitInfo() {
 
   fetch("api/tracks-infos", {
-      headers: shared.tokenHandle(),
-    })
+    headers: shared.tokenHandle(),
+  })
     .then((response) => response.json())
     .then((r) => {
-      let tis:TrackHitInfo[] = r;
+      let tis: TrackHitInfo[] = r;
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
@@ -314,48 +215,50 @@ function currentTracksWitHitInfo() {
             value.hitInfo.hitSlotId
           );
         }
-      }); 
+      });
     });
 }
 
-function beforeOpen(idSlot){
-      let  currentr = (id:string) => {
-        return _.find(this.hits,  function (hit){
-    return hit.hitSlotId.includes(id);
-  });};
+function beforeOpen(idSlot) {
+  let currentr = (id: string) => {
+    return _.find(this.hits, function (hit) {
+      return hit.hitSlotId.includes(id);
+    });
+  };
   let current = currentr(idSlot)
-      if (!_.isUndefined(current)) {
-        this.selectedConf.updateInfo(current.slot.talk.title,
-          current.slot.talk.talkType,
-          current.slot.roomId,
-          current.slot.fromTime,
-          current.slot.toTime
-          );
-      } else {
-        this.selectedConf.updateInfo("No talk currently in this room " + idSlot,
-          "",
-          "",
-          "",
-          ""
-          );
-        
-      }
-    }
+  if (!_.isUndefined(current)) {
+    this.selectedConf.updateInfo(current.slot.talk.title,
+      current.slot.talk.talkType,
+      current.slot.roomId,
+      current.slot.fromTime,
+      current.slot.toTime,
+      current.slot.slotId
+    );
+  } else {
+    this.selectedConf.updateInfo("No talk currently in this room " + idSlot,
+      "",
+      "",
+      "",
+      "",
+      ""
+    );
+
+  }
+}
 
 
 
 </script>
 
 <style  scoped>
-
-
 .talkdetails {
   width: 100%;
   padding: 30px;
   box-sizing: border-box;
-  background-color: #343a40;;
-   color: #fff!;
-    border: 1px solid #fff;
+  background-color: #343a40;
+  ;
+  color: #fff !;
+  border: 1px solid #fff;
 }
 
 .space {
@@ -363,7 +266,7 @@ function beforeOpen(idSlot){
 }
 
 .roomTitleCenter {
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
 }
 </style>

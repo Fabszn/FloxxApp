@@ -8,27 +8,18 @@
       </div>
     </div>
     <div>
-      <br/>
+      <br />
     </div>
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day.value">
           <tab :name="item.day.value">
             <div class="grid">
-              <div
-                class="track"
-                v-for="room in item.rooms"
-                :key="room.roomId.value"
-              >
+              <div class="track" v-for="room in item.rooms" :key="room.roomId.value">
                 <div class="header">{{ room.roomId.value }}</div>
 
-                <div
-                  v-on:click="show(slot.slot.slotId.value, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
-                  class="block"
-                  v-for="slot in room.slots"
-                  :key="slot.slot.slotId.value"
-                >
+                <div v-on:click="show(slot.slot.slotId.value, slot.user)" v-bind:class="isAffected(slot.user)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId.value">
                   {{ slot.slot.fromTime.value }}
                   {{ slot.slot.toTime.value }}
 
@@ -41,23 +32,21 @@
       </tabs>
     </div>
 
-<GDialog v-model="dialogState">
+    <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div>
-            <p>{{ confTitle }}</p>
-            <p>{{ room }} / {{ confKind }}</p>
+            <p>{{ currentConf.confTitle }}</p>
+            <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
-              {{ fromTime }} -> {{ toTime }} - RedCoat :
+              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
           </div>
-          <div >
-            <pre>modelValue: {{ JSON.stringify(selectedUser) }}</pre>
-            <vue-select v-model="selectedUser"
-            :options="options" label-by="nom" />
-            </div>
+          <div>
+            <v-select :options="options" v-model="selectedUser"></v-select>
           </div>
+        </div>
 
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
@@ -66,11 +55,7 @@
           <button type="button" v-on:click="remove" class="btn btn-secondary">
             Remove
           </button>
-          <button
-            type="button"
-            v-on:click="saveMapping"
-            class="btn btn-secondary"
-          >
+          <button type="button" v-on:click="saveMapping" class="btn btn-secondary">
             Save
           </button>
         </div>
@@ -79,19 +64,33 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import shared from "../../shared";
-import {User} from "../../models";
+import { User, Conference } from "../../models";
 import _ from "lodash";
-import { defineComponent, ref, computed } from 'vue'
-import { Tabs, Tab} from 'vue3-tabs-component';
+import { defineComponent, ref } from 'vue'
+import { Tabs, Tab } from 'vue3-tabs-component';
 
 
-export default defineComponent ({
-setup() {
-    
+class Mapping {
+  userId: String;
+  slotId: String;
+  constructor(uId: String, sId: String) {
+    this.userId = uId;
+    this.slotId = sId;
+  }
+  toJSON() {
+    return {
+      "userId": this.userId,
+      "slotId": this.slotId
+    };
+  }
+}
+
+export default defineComponent({
+  setup() {
     const selectedUser = ref(null)
-    const options = ref([])
+    const options = ref(new Array<User>())
 
     return {
       selectedUser,
@@ -103,29 +102,18 @@ setup() {
     Tab
   },
   data: function () {
-
-   
     return {
       dialogState: false,
       items: {},
       actualUserNameSelected: "",
-      confTitle: "",
-      confKind: "",
-      room: "",
-      fromTime: "",
-      toTime: "",
+      currentConf: new Conference(),
       selectedSlotId: "",
       selectedUserId: "",
     };
   },
   created: function () {
-    fetch("/api/planning", {
-        headers: shared.tokenHandle(),
-      })
-      .then((response) => response.json())
-      .then((r) => {
-        this.items = r;
-      });
+    loadPlanning.bind(this)();
+
   },
   methods: {
     backMenu: function () {
@@ -133,9 +121,9 @@ setup() {
     },
     getUserId: function (user) {
 
-      if(_.isNull(user)){
+      if (_.isNull(user)) {
         return "";
-      }else{
+      } else {
         user.userId;
       }
     },
@@ -163,104 +151,96 @@ setup() {
         );
       }
     },
-    validateSelection: function (value) {
-      this.selectedUserId = value.id;
-    },
-    show(idSlot, currentUser) {
+
+    show(idSlot, currentUser: User) {
       this.actualUserNameSelected = computeUser(currentUser);
       beforeOpen.bind(this)(idSlot);
       this.dialogState = true;
     },
-    
+
     hide() {
-      reInitModal(this);
+      //reInitModal(this);
+      this.selectedUser = null;
       this.$forceUpdate();
-      this.$modal.hide("map-user-modal");
+      this.dialogState = false;
     },
     remove() {
       fetch(
-          "/api/set-user",
-          {
-            slotId: { value: this.selectedSlotId },
-          },
-          {
-            method: "POST",
-            headers: shared.tokenHandle(),
-          }
-        )
+        "/api/set-user",
+        {
+          body: JSON.stringify({ "slotId": { "value": this.currentConf.slotId } }),
+          method: "POST",
+          headers: shared.tokenHandle(),
+        }
+      )
         .then((response) => response.json())
         .then((p) => {
-          reInitModal(this);
-          reloadData(this);
-          this.$modal.hide("map-user-modal");
+          // reInitModal(this);
+          loadPlanning.bind(this)();
+          this.dialogState = false;
           this.$notify({ type: "success", text: "Red coat removed!" });
         });
     },
     saveMapping() {
-      if (_.isUndefined(this.selectedUserId)) {
+      if (_.isNull(this.selectedUser)) {
         this.$notify({ type: "error", text: "Red coat must be filled" });
       } else {
+        let mapping = new Mapping(this.selectedUser.id, this.currentConf.slotId)
         fetch(
-            "/api/set-user",
-            {
-              userId: { value: this.selectedUserId },
-              slotId: { value: this.selectedSlotId },
-            },
-            {
-              method: "POST",
-              headers: shared.tokenHandle(),
-            }
-          )
-          .then((response) => response.json())
-          .then((p) => {
-            reloadData(this);
-            this.$modal.hide("map-user-modal");
-            this.$notify({ type: "success", text: "Mapping done!" });
-          });
+          "/api/set-user",
+          {
+            body: JSON.stringify(mapping),
+            method: "POST",
+            headers: shared.tokenHandle(),
+          }
+        ).then((p) => {
+          this.selectedUser = null;
+          loadPlanning.bind(this)();
+          this.dialogState = false
+          this.$notify({ type: "success", text: "Mapping done!" });
+        });
       }
     },
     refresh: function () {
-      reloadData(this);
+      loadPlanning.bind(this)();
     },
   },
 });
 
 function beforeOpen(slotId) {
-      shared.securityAccess(this.$router, (p) => {
-        fetch("/api/slots/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-          .then((response) => response.json())
-          .then((p) => {
-            this.confTitle = p.talk.title;
-            this.confKind = p.talk.talkType;
-            this.room = p.roomId.value;
-            this.fromTime = p.fromTime.value;
-            this.toTime = p.toTime.value;
-            this.selectedSlotId = p.slotId.value;
-          });
-
-          fetch("/api/users", {
-          headers: shared.tokenHandle(),
-        })
-        .then((response) => response.json())
-        .then((p) => {
-          this.options = _.map(p, (u) => {
-            return {"id":u.id,"nom" : u.prenom + " " +u.nom};
-          });
-        });
-
-
+  shared.securityAccess(this.$router, (p) => {
+    fetch("/api/slots/" + slotId, {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((p) => {
+        this.currentConf.updateInfo(p.talk.title,
+          p.talk.talkType,
+          p.roomId.value,
+          p.fromTime.value,
+          p.toTime.value,
+          p.slotId.value
+        );
       });
 
-      
-    }
+    fetch("/api/users", {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((p) => {
+        this.options = _.map(p, (u) => {
+          return new User(u.userId, u.nom, u.prenom);
+        });
+      });
+  });
+}
 
-function reInitModal(thisref) {
+
+/*function reInitModal(thisref) {
   thisref.selectedUserId = "";
   thisref.selectedSlotId = "";
   thisref.actualUserNameSelected = "";
-}
+}*/
 
 function computeUser(user) {
   if (_.isNull(user)) {
@@ -270,38 +250,22 @@ function computeUser(user) {
   }
 }
 
-function reloadData(thisref) {
-  shared.securityAccess(thisref.$router, (p) => {
-    thisref.$http
-      .get("/api/planning", {
-        headers: shared.tokenHandle(),
-      })
-      .then((p) => {
-        thisref.items = p.data;
+function loadPlanning() {
+  shared.securityAccess(this.$router, (p) => {
+    fetch("/api/planning", {
+      headers: shared.tokenHandle(),
+    }).then((response) => response.json())
+      .then((r) => {
+        this.items = r;
       });
-  });
+  }
+  )
 }
+
+
 </script>
 
 <style  scoped>
-
-:root {
-  --vs-controls-color: #664cc3;
-  --vs-border-color: #664cc3;
-
-  --vs-dropdown-bg: #282c34;
-  --vs-dropdown-color: #cc99cd;
-  --vs-dropdown-option-color: #cc99cd;
-
-  --vs-selected-bg: #664cc3;
-  --vs-selected-color: #eeeeee;
-
-  --vs-search-input-color: #eeeeee;
-
-  --vs-dropdown-option--active-bg: #664cc3;
-  --vs-dropdown-option--active-color: #eeeeee;
-}
-
 .header {
   background-color: #61bf9b;
   padding: 14px 28px;
@@ -332,6 +296,7 @@ function reloadData(thisref) {
   font-weight: bold;
   background-color: rgb(4, 55, 38) !important;
 }
+
 .affected {
   font-weight: bold;
   color: aquamarine;
