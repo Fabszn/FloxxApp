@@ -104,11 +104,9 @@ export default defineComponent({
   data: function () {
     return {
       dialogState: false,
-      items: {},
+      items: {}, //todo -> add type
       actualUserNameSelected: "",
       currentConf: new Conference(),
-      selectedSlotId: "",
-      selectedUserId: "",
     };
   },
   created: function () {
@@ -159,7 +157,6 @@ export default defineComponent({
     },
 
     hide() {
-      //reInitModal(this);
       this.selectedUser = null;
       this.$forceUpdate();
       this.dialogState = false;
@@ -175,7 +172,6 @@ export default defineComponent({
       )
         .then((response) => response.json())
         .then((p) => {
-          // reInitModal(this);
           loadPlanning.bind(this)();
           this.dialogState = false;
           this.$notify({ type: "success", text: "Red coat removed!" });

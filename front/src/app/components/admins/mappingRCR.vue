@@ -2,11 +2,7 @@
   <div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div>
-        <button
-          v-on:click="backAdminMenu"
-          type="button"
-          class="btn btn-secondary"
-        >
+        <button v-on:click="backAdminMenu" type="button" class="btn btn-secondary">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
@@ -17,62 +13,39 @@
       </div>
     </div>
     <b-input-group size="sm">
-      <b-form-input
-        v-model="filter"
-        type="search"
-        id="filterInput"
-        placeholder="Type to Search"
-      ></b-form-input>
+      <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Type to Search"></b-form-input>
       <b-input-group-append>
         <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
       </b-input-group-append>
     </b-input-group>
 
-    <b-table
-      head-variant="light"
-      details-td-class="cell"
-      responsive="true"
-      dark
-      striped
-      hover
-      v-model:sort-by="sortBy"
-      v-model:sort-desc="sortDesc"
-      :fields="fields"
-      :items="items"
-      :filter="filter"
-    >
+    <b-table head-variant="light" details-td-class="cell" responsive="true" dark striped hover v-model:sort-by="sortBy"
+      v-model:sort-desc="sortDesc" :fields="fields" :items="items" :filter="filter">
       <template v-slot:head(slotId)>Slot</template>
       <template v-slot:head(RedCoat)>Red Coat</template>
       <template v-slot:cell(slotId)="data">{{
-        data.item.slot.slotId.value
+          data.item.slot.slotId.value
       }}</template>
       <template v-slot:cell(RedCoat)="data">
         <div v-on:click="show(data.item.slot.slotId.value, data.item.user)">
           {{ handleUser(data.item.user) }}
-        </div></template
-      >
+        </div>
+      </template>
     </b-table>
 
-    <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
+    <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div>
-            <p>{{ confTitle }}</p>
-            <p>{{ room }} / {{ confKind }}</p>
+            <p>{{ currentConf.confTitle }}</p>
+            <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
-              {{ fromTime }} -> {{ toTime }} - RedCoat :
+              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
           </div>
-          <div class="over">
-            <dropdown
-              :options="users"
-              v-on:selected="validateSelection"
-              :disabled="false"
-              :maxItem="4"
-              placeholder="Search by name"
-            >
-            </dropdown>
+          <div>
+            <v-select :options="options" v-model="selectedUser"></v-select>
           </div>
         </div>
 
@@ -83,27 +56,36 @@
           <button type="button" v-on:click="remove" class="btn btn-secondary">
             Remove
           </button>
-          <button
-            type="button"
-            v-on:click="saveMapping"
-            class="btn btn-secondary"
-          >
+          <button type="button" v-on:click="saveMapping" class="btn btn-secondary">
             Save
           </button>
         </div>
       </div>
-    </modal>
+    </GDialog>
   </div>
 </template>
 
 
 
-<script>
+<script lang="'ts">
 import shared from "../../shared";
+import { User, Conference } from "../../models";
 import _ from "lodash";
-export default {
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const selectedUser = ref(null);
+    const options = ref(new Array<User>(0));
+
+    return {
+      selectedUser,
+      options
+    }
+  },
   data() {
     return {
+      dialogState: false,
       confTitle: "",
       confKind: "",
       room: "",
@@ -125,7 +107,7 @@ export default {
     };
   },
   created: function () {
-    reloadData(this);
+    reloadData.bind(this)();
   },
   methods: {
     handleUser(user) {
@@ -138,115 +120,106 @@ export default {
       this.selectedUserId = value.id;
     },
     show(idSlot, currentUser) {
+      beforeOpen.bind(this)(idSlot);
       this.actualUserNameSelected = computeUser(currentUser);
-      this.$modal.show("map-user-modal", { slotId: idSlot });
-    },
-    beforeOpen(event) {
-      var slotId = event.params.slotId;
-
-      shared.securityAccess(this.$router, (p) => {
-        this.$http
-          .get("/api/slots/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-          .then((p) => {
-            this.confTitle = p.data.talk.title;
-            this.confKind = p.data.talk.talkType;
-            this.room = p.data.roomId.value;
-            this.fromTime = p.data.fromTime.value;
-            this.toTime = p.data.toTime.value;
-            this.selectedSlotId = p.data.slotId.value;
-          });
-      });
-
-      this.$http
-        .get("/api/users", {
-          headers: shared.tokenHandle(),
-        })
-        .then((p) => {
-          this.users = _.map(p.data, (user) => {
-            var uName = user.prenom + " " + user.nom;
-            return { id: user.userId, name: uName };
-          });
-        });
+      this.dialogState = true;
     },
     hide() {
-      reInitModal(this);
-      this.$modal.hide("map-user-modal");
+      this.dialogState = false;
     },
     remove() {
-      this.$http
-        .post(
-          "/api/set-user",
-          {
-            slotId: { value: this.selectedSlotId },
-          },
-          {
-            headers: shared.tokenHandle(),
-          }
-        )
+      fetch(
+        "/api/set-user",
+        {
+          method: "POST",
+          body: JSON.stringify({ slotId: { value: this.selectedSlotId } }),
+          headers: shared.tokenHandle(),
+        }
+      )
+        .then((response) => response.json())
         .then((p) => {
-          reInitModal(this);
-          reloadData(this);
-          this.$modal.hide("map-user-modal");
-          this.$notify({type: 'success',text:"Red coat removed!"});
+          reloadData.bind(this)();
+          this.dialogState = false;
+          this.$notify({ type: 'success', text: "Red coat removed!" });
         });
     },
     saveMapping() {
-      if (_.isUndefined(this.selectedUserId)) {
-        this.$notify({type: 'error',text:"Red coat must be filled"});
+      if (_.isNull(this.selectedUserId)) {
+        this.$notify({ type: 'error', text: "Red coat must be filled" });
       } else {
-        this.$http
-          .post(
-            "/api/set-user",
-            {
+        fetch(
+          "/api/set-user",
+          {
+            body: JSON.stringify({
               userId: { value: this.selectedUserId },
               slotId: { value: this.selectedSlotId },
-            },
-            {
-              headers: shared.tokenHandle(),
-            }
-          )
+            }),
+            headers: shared.tokenHandle(),
+            method: "POST"
+          }
+        )
           .then((p) => {
-            reloadData(this);
+            reloadData.bind(this)();
             this.$modal.hide("map-user-modal");
-            this.$notify({type: 'success',text:"Mapping done!"});
+            this.$notify({ type: 'success', text: "Mapping done!" });
           });
       }
     },
     refresh: function () {
-      reloadData(this);
+      reloadData.bind(this)();
     },
   },
-};
+});
 
-function reInitModal(thisref) {
-  thisref.selectedUserId = "";
-  thisref.selectedSlotId = "";
-  thisref.actualUserNameSelected = "";
-}
+function beforeOpen(slotId) {
+      
+      shared.securityAccess(this.$router, (p) => {
+        fetch("/api/slots/" + slotId, {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            this.confTitle = p.talk.title;
+            this.confKind = p.talk.talkType;
+            this.room = p.roomId.value;
+            this.fromTime = p.fromTime.value;
+            this.toTime = p.toTime.value;
+            this.selectedSlotId = p.slotId.value;
+          });
+      });
+
+      fetch("/api/users", {
+        headers: shared.tokenHandle(),
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          this.users = _.map(p, (user) => {
+            var uName = user.prenom + " " + user.nom;
+            return { id: user.userId, name: uName };
+          });
+        });
+    }
 
 function computeUser(user) {
   if (_.isNull(user)) {
     return "-";
   } else {
     return user.prenom.value + " " + user.nom.value;
-  } 
+  }
 }
 
-function reloadData(thisref) {
-  shared.securityAccess(thisref.$router, (p) => {
-    thisref.$http
-      .get("/api/mapping", {
-        headers: shared.tokenHandle(),
-      })
+function reloadData() {
+  shared.securityAccess(this.$router, (v) => {
+    fetch("/api/mapping", {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
       .then((p) => {
-        thisref.items = p.data;
+        this.items = p;
       });
   });
 }
 </script>
 
 <style scoped>
-
 </style>
