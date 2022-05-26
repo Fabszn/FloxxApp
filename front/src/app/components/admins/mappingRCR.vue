@@ -67,30 +67,30 @@
 
 
 
-<script lang="'ts">
+<script lang="ts">
 import shared from "../../shared";
 import { User, Conference } from "../../models";
 import _ from "lodash";
 import { defineComponent, ref } from 'vue'
+import { faWindowRestore } from "@fortawesome/free-solid-svg-icons";
+ import { useToast } from "vue-toastification";
 
 export default defineComponent({
   setup() {
+    const toast = useToast();
     const selectedUser = ref(null);
-    const options = ref(new Array<User>(0));
+    const options = ref(new Array<User>());
 
     return {
       selectedUser,
-      options
+      options,
+      toast
     }
   },
   data() {
     return {
       dialogState: false,
-      confTitle: "",
-      confKind: "",
-      room: "",
-      fromTime: "",
-      toTime: "",
+      currentConf: new Conference(),
       selectedSlotId: "",
       selectedUserId: "",
       actualUserNameSelected: "",
@@ -132,27 +132,25 @@ export default defineComponent({
         "/api/set-user",
         {
           method: "POST",
-          body: JSON.stringify({ slotId: { value: this.selectedSlotId } }),
+          body: JSON.stringify({ slotId: { value: this.currentConf.slotId } }),
           headers: shared.tokenHandle(),
         }
-      )
-        .then((response) => response.json())
-        .then((p) => {
-          reloadData.bind(this)();
-          this.dialogState = false;
-          this.$notify({ type: 'success', text: "Red coat removed!" });
-        });
+      ).then((p) => {
+        reloadData.bind(this)();
+        this.dialogState = false;
+        this.toast.info("Red coat removed!");
+      });
     },
     saveMapping() {
-      if (_.isNull(this.selectedUserId)) {
-        this.$notify({ type: 'error', text: "Red coat must be filled" });
+      if (_.isNull(this.selectedUser)) {
+        this.toast.error("Red coat must be filled");
       } else {
         fetch(
           "/api/set-user",
           {
             body: JSON.stringify({
-              userId: { value: this.selectedUserId },
-              slotId: { value: this.selectedSlotId },
+              userId: { value: this.selectedUser.id },
+              slotId: { value: this.currentConf.slotId },
             }),
             headers: shared.tokenHandle(),
             method: "POST"
@@ -160,8 +158,8 @@ export default defineComponent({
         )
           .then((p) => {
             reloadData.bind(this)();
-            this.$modal.hide("map-user-modal");
-            this.$notify({ type: 'success', text: "Mapping done!" });
+            this.dialogState = false
+            this.toast.success("Mapping done!");
           });
       }
     },
@@ -172,33 +170,36 @@ export default defineComponent({
 });
 
 function beforeOpen(slotId) {
-      
-      shared.securityAccess(this.$router, (p) => {
-        fetch("/api/slots/" + slotId, {
-          headers: shared.tokenHandle(),
-        })
-          .then((response) => response.json())
-          .then((p) => {
-            this.confTitle = p.talk.title;
-            this.confKind = p.talk.talkType;
-            this.room = p.roomId.value;
-            this.fromTime = p.fromTime.value;
-            this.toTime = p.toTime.value;
-            this.selectedSlotId = p.slotId.value;
-          });
+ this.toast("fetch data from server error" );
+  shared.securityAccess(this.$router, (p) => {
+    fetch("/api/slots/" + slotId, {
+      headers: shared.tokenHandle(),
+    }).then((response) => response.json())
+      .then((p) => {
+        this.currentConf.updateInfo(p.talk.title,
+          p.talk.talkType,
+          p.roomId.value,
+          p.fromTime.value,
+          p.toTime.value,
+          p.slotId.value
+        );
+      }).catch(err => {
+        console.log(err);
+        this.toast.error("fetch data from server error");
       });
+  });
 
-      fetch("/api/users", {
-        headers: shared.tokenHandle(),
-      })
-        .then((response) => response.json())
-        .then((p) => {
-          this.users = _.map(p, (user) => {
-            var uName = user.prenom + " " + user.nom;
-            return { id: user.userId, name: uName };
-          });
-        });
-    }
+  fetch("/api/users", {
+    headers: shared.tokenHandle(),
+  })
+    .then((response) => response.json())
+    .then((p) => {
+      this.users = _.map(p, (user) => {
+        var uName = user.prenom + " " + user.nom;
+        return { id: user.userId, name: uName };
+      });
+    });
+}
 
 function computeUser(user) {
   if (_.isNull(user)) {

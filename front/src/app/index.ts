@@ -13,9 +13,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-import Notifications from 'vue3-vt-notifications'
 import 'gitart-vue-dialog/dist/style.css'
 import { GDialog } from 'gitart-vue-dialog'
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
+
 
 
 
@@ -66,7 +69,7 @@ app.use(router)
 app.component('GDialog', GDialog)
 app.use(router);
 app.use(lodash);
-app.use(Notifications)
+app.use(Toast);
 app.use(BootstrapVue3)
 
 

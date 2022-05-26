@@ -106,7 +106,7 @@ export default defineComponent({
       dialogState: false,
       items: {}, //todo -> add type
       actualUserNameSelected: "",
-      currentConf: new Conference(),
+      currentConf: new Conference()
     };
   },
   created: function () {
@@ -193,7 +193,7 @@ export default defineComponent({
           this.selectedUser = null;
           loadPlanning.bind(this)();
           this.dialogState = false
-          this.$notify({ type: "success", text: "Mapping done!" });
+          this.$notify({ type: "top", text: "Mapping done!" });
         });
       }
     },

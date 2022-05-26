@@ -6,6 +6,7 @@
     </div>
     <div id="username"></div>
   </div>
+  
 </template>
 <script>
 export default {
