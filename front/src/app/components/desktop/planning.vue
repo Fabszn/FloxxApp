@@ -70,6 +70,7 @@ import { User, Conference } from "../../models";
 import _ from "lodash";
 import { defineComponent, ref } from 'vue'
 import { Tabs, Tab } from 'vue3-tabs-component';
+import { useToast } from "vue-toastification";
 
 
 class Mapping {
@@ -89,12 +90,14 @@ class Mapping {
 
 export default defineComponent({
   setup() {
+    const toast = useToast();
     const selectedUser = ref(null)
     const options = ref(new Array<User>())
 
     return {
       selectedUser,
-      options
+      options,
+      toast
     }
   },
   components: {
@@ -170,16 +173,16 @@ export default defineComponent({
           headers: shared.tokenHandle(),
         }
       )
-        .then((response) => response.json())
+        //.then((response) => response.json())
         .then((p) => {
           loadPlanning.bind(this)();
           this.dialogState = false;
-          this.$notify({ type: "success", text: "Red coat removed!" });
+          this.toast.success("Red coat removed!");
         });
     },
     saveMapping() {
       if (_.isNull(this.selectedUser)) {
-        this.$notify({ type: "error", text: "Red coat must be filled" });
+        this.toast.error("Red coat must be filled");
       } else {
         let mapping = new Mapping(this.selectedUser.id, this.currentConf.slotId)
         fetch(
@@ -193,7 +196,7 @@ export default defineComponent({
           this.selectedUser = null;
           loadPlanning.bind(this)();
           this.dialogState = false
-          this.$notify({ type: "top", text: "Mapping done!" });
+          this.toast.success("Mapping done!");
         });
       }
     },

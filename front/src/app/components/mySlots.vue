@@ -39,8 +39,9 @@ export default {
     fetch("/api/slots/_currentUser", {
         headers: shared.tokenHandle(),
       })
+      .then((response) => response.json())
       .then((p) => {
-        this.items = p.data;
+        this.items = p;
       });
   },
   methods: {

@@ -170,7 +170,6 @@ export default defineComponent({
 });
 
 function beforeOpen(slotId) {
- this.toast("fetch data from server error" );
   shared.securityAccess(this.$router, (p) => {
     fetch("/api/slots/" + slotId, {
       headers: shared.tokenHandle(),

@@ -62,8 +62,9 @@ export default {
       fetch("/api/stats/slots", {
           headers: shared.tokenHandle()
         })
+        .then((response) => response.json())
         .then(p => {
-          this.items = p.data;
+          this.items = p;
         });
     });
   },
@@ -76,8 +77,9 @@ export default {
             fetch("/api/stats/slots", {
                 headers: shared.tokenHandle()
               })
+              .then((response) => response.json())
               .then(p => {
-                this.items = p.data;
+                this.items = p;
               });
           });
     }
