@@ -51,10 +51,7 @@ object FloxxMainHttp4s extends zio.App {
     Router[ApiTask](
       "/" -> entriesPointApi.api,
       "/api" -> floxxServices(conf),
-      "/" -> {
-        logger.info("load static part of app")
-        StaticApi.api
-      }
+      "/assets" -> StaticApi.api
     ).orNotFound
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {

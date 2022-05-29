@@ -7,7 +7,9 @@ import scala.util.{ Failure, Try }
 
 
 
-lazy val webpackDev      = taskKey[Unit]("package Dev mode")
+lazy val frontProd      = taskKey[Unit]("package Prod mode")
+lazy val frontDev      = taskKey[Unit]("package Dev mode")
+//lazy val webpackDev      = taskKey[Unit]("package Dev mode")
 lazy val webpackProd     = taskKey[Unit]("package Prod mode")
 lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine directory")
 lazy val floxxCleanFiles   = taskKey[Unit]("clean directories")
@@ -20,9 +22,9 @@ lazy val gotToMaster     = taskKey[Unit]("put index on master")
 def yarnInstall(file: File) =
   Process("yarn install", file) !
 
-def runWebpack(file: File, mode: String) =
+def buildProdFront(file: File, mode: String) =
   Process(
-    s"yarn webpack --mode=${mode}",
+    s"yarn vite build",
     file
   ) !
 
@@ -98,12 +100,12 @@ floxxCleanFiles := {
 
 }
 
-webpackDev := {
-  if (runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+frontDev := {
+  if (buildProdFront(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
-webpackProd := {
-  if (runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
+frontProd := {
+  if (buildProdFront(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / yarnInstall := {
@@ -194,7 +196,7 @@ lazy val front      = (project in file("front"))
 
 addCommandAlias(
   "runDev",
-  ";webpackDev;floxxCopyFile;db/flywayMigrate;httpEngine/run"
+  ";frontProd;floxxCopyFile;db/flywayMigrate;httpEngine/run"
 )
 addCommandAlias(
   "runProd",
