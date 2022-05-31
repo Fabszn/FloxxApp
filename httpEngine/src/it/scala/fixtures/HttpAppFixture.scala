@@ -10,9 +10,6 @@ import sttp.capabilities.fs2.Fs2Streams
 import sttp.client3._
 import sttp.client3.http4s.Http4sBackend
 import zio._
-import zio.blocking.Blocking
-import zio.clock.Clock
-import zio.console.Console
 import zio.interop.catz._
 import zio.logging.Logging
 import zio.test.environment.TestEnvironment

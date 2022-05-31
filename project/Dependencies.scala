@@ -35,12 +35,11 @@ object Dependencies {
   )
 
   lazy val testcontainers = Seq(
-    "org.testcontainers" % "testcontainers" % testcontainersVersion % Test,
-    "org.testcontainers" % "database-commons" % testcontainersVersion % Test,
-    "org.testcontainers" % "postgresql" % testcontainersVersion % Test,
-    "org.testcontainers" % "jdbc" % testcontainersVersion % Test,
-    postgresDriver       % Test,
-    "com.dimafeng"       %% "testcontainers-scala-postgresql" % testcontainersScalaVersion % Test
+    "org.testcontainers" % "testcontainers" % testcontainersVersion % "test,it",
+    "org.testcontainers" % "database-commons" % testcontainersVersion % "test,it",
+    "org.testcontainers" % "postgresql" % testcontainersVersion % "test,it",
+    "org.testcontainers" % "jdbc" % testcontainersVersion % "test,it",
+    "com.dimafeng"       %% "testcontainers-scala-postgresql" % testcontainersScalaVersion % "test,it"
   )
 
   lazy val postgresDriver = "org.postgresql" % "postgresql" % driverPostgresVersion
@@ -49,8 +48,8 @@ object Dependencies {
 
   lazy val zio = Seq(
     "dev.zio" %% "zio"          % zioVersion,
-    "dev.zio" %% "zio-test"     % zioVersion % Test,
-    "dev.zio" %% "zio-test-sbt" % zioVersion % Test
+    "dev.zio" %% "zio-test"     % zioVersion % "test,it",
+    "dev.zio" %% "zio-test-sbt" % zioVersion % "test,it"
   )
   lazy val zioLogging      = "dev.zio" %% "zio-logging"       % zioLoggingVersion
   lazy val zioLoggingSlf4j = "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion
