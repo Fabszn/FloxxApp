@@ -3,13 +3,13 @@ import _ from 'lodash'
 function cc(p) {
     var pi = _.toInteger(p);
     if (pi <= 40) {
-        return ["green"];
+        return "green";
     } else if (pi > 40 && pi <= 70) {
-        return ["orange"];
+        return "orange";
     } else if (pi > 70 && pi <= 100) {
-        return ["red"];
+        return "red";
     } else {
-        return ["violet"];
+        return "violet";
     }
 }
 

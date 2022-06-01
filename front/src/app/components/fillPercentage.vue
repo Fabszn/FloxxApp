@@ -199,15 +199,15 @@ export default defineComponent({
     progress: function () {},
     hit: function (perc) {
       fetch("/api/hit", {
-        body: {
-          hitSlotId: this.$route.params.slotid,
-          percentage: perc,
-        },
+        body: JSON.stringify({
+          "hitSlotId": this.$route.params.slotid,
+          "percentage": perc,
+        }),
         method: "POST",
         headers: shared.tokenHandle(),
       }).then((p) => {
-        this.per243 = _.toInteger(p);
-        this.col243 = shared.colorByPercentage(p);
+        this.currentFill = _.toInteger(perc);
+        this.currentColor = shared.colorByPercentage(perc);
         this.toast.success("Percentage has been registered");
       });
     },
