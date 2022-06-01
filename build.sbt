@@ -123,19 +123,9 @@ lazy val commonsSettings = wartRemoverSettings ++ Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
 
-//lazy val staticFiles = (project in file("staticFiles"))
-
-lazy val db = (project in file("db"))
-  .enablePlugins(FlywayPlugin)
-  .settings(
-    libraryDependencies += "org.postgresql" % "postgresql" % "42.2.23",
-    flywayUrl := "jdbc:postgresql://localhost/floxx",
-    flywayUser := "floxxuser",
-    flywayPassword := "pwduser",
-    flywayLocations += "db/migration"
-  )
-
 lazy val model = (project in file("model"))
+  .configs(IntegrationTest)
+  .settings(Defaults.itSettings)
   .settings(commonsSettings)
   .settings(
     libraryDependencies += http4sCircle,
@@ -147,6 +137,8 @@ lazy val model = (project in file("model"))
 
 lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
+  .configs(IntegrationTest)
+  .settings(Defaults.itSettings)
   .settings(commonsSettings)
   .settings(
     maintainer := "Fabrice Sznajderman",
@@ -169,6 +161,8 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies += http4sCircle,
     libraryDependencies += flyway,
     libraryDependencies ++= circe,
+    libraryDependencies ++= testcontainers,
+    libraryDependencies ++= sttp,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",
@@ -179,16 +173,6 @@ lazy val httpEngine = (project in file("httpEngine"))
     buildInfoPackage := "org.floxx"
   )
   .dependsOn(model)
-
-lazy val tests = (project in file("tests"))
-  .dependsOn(httpEngine, db)
-  .settings(commonsSettings)
-  .settings(
-    libraryDependencies ++= zio,
-    libraryDependencies ++= testcontainers,
-    libraryDependencies += flyway,
-    libraryDependencies ++= sttp
-  )
 
 Compile / packageDoc / mappings := Seq()
 
