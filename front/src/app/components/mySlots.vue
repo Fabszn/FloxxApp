@@ -57,7 +57,7 @@ export default {
       }*/
     },
     selectSlot: function (idSlot) {
-      this.$router.push("fill/" + idSlot);
+      this.$router.push("/fill/" + idSlot);
     },
     backMenu: function () {
       this.$router.push("/menu");

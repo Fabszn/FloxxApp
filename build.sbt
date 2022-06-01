@@ -22,9 +22,9 @@ lazy val gotToMaster     = taskKey[Unit]("put index on master")
 def yarnInstall(file: File) =
   Process("yarn install", file) !
 
-def buildProdFront(file: File, mode: String) =
+def buildFront(file: File, mode: String) =
   Process(
-    s"yarn vite build",
+    s"yarn vite build --mode ${mode}",
     file
   ) !
 
@@ -78,11 +78,19 @@ httpResourceDir := (httpEngine / Compile / resourceDirectory).value
 
 floxxCopyFile := {
   Try {
+
+    //clean
     IO.delete((httpResourceDir.value / "assets"))
     IO.createDirectory((httpResourceDir.value / "assets"))
+
+
     IO.copyDirectory(
-      (front / baseDirectory).value / "dist/",
+      (front / baseDirectory).value / "dist/assets",
       (httpResourceDir.value / "assets/")
+    )
+    IO.copyFile(
+      (front / baseDirectory).value / "dist"/"index.html",
+      (httpResourceDir.value / "assets/index.html")
     )
   } match {
     case Failure(exception) => throw exception
@@ -101,11 +109,11 @@ floxxCleanFiles := {
 }
 
 frontDev := {
-  if (buildProdFront(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (buildFront(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 frontProd := {
-  if (buildProdFront(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (buildFront(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / yarnInstall := {
@@ -196,20 +204,20 @@ lazy val front      = (project in file("front"))
 
 addCommandAlias(
   "runDev",
-  ";frontProd;floxxCopyFile;db/flywayMigrate;httpEngine/run"
+  ";frontDev;floxxCopyFile;db/flywayMigrate;httpEngine/run"
 )
 addCommandAlias(
   "runProd",
-  ";webpackProd;floxxCopyFile;httpEngine/run"
+  ";frontProd;floxxCopyFile;httpEngine/run"
 )
 addCommandAlias(
   "build2Prod",
-  ";clean;webpackProd;floxxCopyFile;dist"
+  ";clean;frontProd;floxxCopyFile;dist"
 )
 
 addCommandAlias(
   "goToProd",
-  ";gotToMaster;webpackProd;floxxCopyFile;handleFrontFile;release"
+  ";gotToMaster;frontProd;floxxCopyFile;handleFrontFile;release"
 )
 
 val pushVersionToProd = ReleaseStep(action = st => {

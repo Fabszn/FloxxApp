@@ -20,10 +20,20 @@ object StaticApi {
   def api=  HttpRoutes.of[ApiTask] {
     case req @ GET -> Root  => static("/assets/index.html", req)
 
-    case req @ GET -> Root / path if path.contains("index") && path.endsWith(".js")  => {
-      static(s"/assets/${path}", req)}
+    case req @ GET -> Root / path if path.contains("index") && path.endsWith(".js") => {
+      static(s"/assets/${path}", req)
+    }
+    case req @ GET -> Root / path if path.contains("index") && path.endsWith(".css") => {
+      static(s"/assets/${path}", req)
+    }
 
     case req @ GET -> Root / path if path.nonEmpty && !excludePaths.contains(path)  => {
+
+      println(s"path : ${path}")
+      println(s"path : ${path}")
+      println(s"path : ${path}")
+      println(s"path : ${path}")
+      println(s"path : ${path}")
       static("/assets/index.html", req)
     }
 
@@ -32,10 +42,7 @@ object StaticApi {
 
   def static(file: String, request: Request[ApiTask]) =
     StaticFile.fromResource(file, Some(request)).getOrElseF {
-      println("rezrezrzererezrze")
-      println(file)
-
-      BadRequest()
+      NotFound()
     }
 
 }
