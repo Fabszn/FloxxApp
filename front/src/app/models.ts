@@ -43,6 +43,21 @@ class User {
     }
 }
 
+class Mapping {
+    userId: String;
+    slotId: String;
+    constructor(uId: String, sId: String) {
+        this.userId = uId;
+        this.slotId = sId;
+    }
+    toJSON() {
+        return {
+            "userId": this.userId,
+            "slotId": this.slotId
+        };
+    }
+}
+
 
 class Conference {
     confTitle: string = "";
@@ -79,7 +94,7 @@ class Conference {
 }
 
 
-export { TrackHitInfo, User, Conference }
+export { TrackHitInfo, User, Conference, Mapping }
 
 
 

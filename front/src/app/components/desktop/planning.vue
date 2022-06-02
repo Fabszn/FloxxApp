@@ -12,16 +12,16 @@
     </div>
     <div>
       <tabs>
-        <div v-for="item in items" :key="item.day.value">
-          <tab :name="item.day.value">
+        <div v-for="item in items" :key="item.day">
+          <tab :name="item.day">
             <div class="grid">
-              <div class="track" v-for="room in item.rooms" :key="room.roomId.value">
-                <div class="header">{{ room.roomId.value }}</div>
+              <div class="track" v-for="room in item.rooms" :key="room.roomId">
+                <div class="header">{{ room.roomId }}</div>
 
-                <div v-on:click="show(slot.slot.slotId.value, slot.user)" v-bind:class="isAffected(slot.user)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId.value">
-                  {{ slot.slot.fromTime.value }}
-                  {{ slot.slot.toTime.value }}
+                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffected(slot.user)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
 
                   <div class="affected">{{ displayUser(slot.user) }}</div>
                 </div>
@@ -44,7 +44,7 @@
             </p>
           </div>
           <div>
-            <v-select :options="options" v-model="selectedUser"></v-select>
+            <v-select :options="users" v-model="selectedUser"></v-select>
           </div>
         </div>
 
@@ -66,37 +66,24 @@
 
 <script lang="ts">
 import shared from "../../shared";
-import { User, Conference } from "../../models";
+import { User, Conference, Mapping } from "../../models";
 import _ from "lodash";
 import { defineComponent, ref } from 'vue'
 import { Tabs, Tab } from 'vue3-tabs-component';
 import { useToast } from "vue-toastification";
 
 
-class Mapping {
-  userId: String;
-  slotId: String;
-  constructor(uId: String, sId: String) {
-    this.userId = uId;
-    this.slotId = sId;
-  }
-  toJSON() {
-    return {
-      "userId": this.userId,
-      "slotId": this.slotId
-    };
-  }
-}
+
 
 export default defineComponent({
   setup() {
     const toast = useToast();
     const selectedUser = ref(null)
-    const options = ref(new Array<User>())
+    const users = ref(new Array<User>())
 
     return {
       selectedUser,
-      options,
+      users,
       toast
     }
   },
@@ -145,9 +132,9 @@ export default defineComponent({
         return "-";
       } else {
         return (
-          user.prenom.value +
+          user.prenom +
           " " +
-          _.upperCase(user.nom.value.substring(0, 1)) +
+          _.upperCase(user.nom.substring(0, 1)) +
           "."
         );
       }
@@ -168,7 +155,7 @@ export default defineComponent({
       fetch(
         "/api/set-user",
         {
-          body: JSON.stringify({ "slotId": { "value": this.currentConf.slotId } }),
+          body: JSON.stringify({ "slotId":  this.currentConf.slotId}),
           method: "POST",
           headers: shared.tokenHandle(),
         }
@@ -215,10 +202,10 @@ function beforeOpen(slotId) {
       .then((p) => {
         this.currentConf.updateInfo(p.talk.title,
           p.talk.talkType,
-          p.roomId.value,
-          p.fromTime.value,
-          p.toTime.value,
-          p.slotId.value
+          p.roomId,
+          p.fromTime,
+          p.toTime,
+          p.slotId
         );
       });
 
@@ -227,7 +214,7 @@ function beforeOpen(slotId) {
     })
       .then((response) => response.json())
       .then((p) => {
-        this.options = _.map(p, (u) => {
+        this.users = _.map(p, (u) => {
           return new User(u.userId, u.nom, u.prenom);
         });
       });
@@ -245,7 +232,7 @@ function computeUser(user) {
   if (_.isNull(user)) {
     return "-";
   } else {
-    return user.prenom.value + " " + user.nom.value;
+    return user.prenom + " " + user.nom;
   }
 }
 
