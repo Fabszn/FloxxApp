@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-function cc(p) {
+function cc(p: number) {
     var pi = _.toInteger(p);
     if (pi <= 40) {
         return "green";
@@ -17,7 +17,7 @@ var tokenKey = "X-Auth-Token"
 var pAdmin = "isAdmin"
 
 export default {
-    colorByPercentage: function chooseColor(percentage) {
+    colorByPercentage: function chooseColor(percentage: number): string {
         return cc(percentage)
     },
     securityAccess: function sa(router, run) {
@@ -28,7 +28,7 @@ export default {
             run()
         }
     },
-    storeToken: function st(token, isAdmin, name) {
+    storeToken: function st(token: string, isAdmin: string, name: string) {
         sessionStorage.setItem(tokenKey, token);
         sessionStorage.setItem("name", name);
         sessionStorage.setItem(pAdmin, isAdmin);
@@ -47,9 +47,6 @@ export default {
         return sessionStorage.getItem(pAdmin) == "true";
     },
     computeHit: function computeHit(p, key) {
-        //var room = _.split(key, "_", 2)[1];
-
-
         if (key.includes("par243")) {
             this.per243 = _.toInteger(p);
             this.col243 = cc(p);
