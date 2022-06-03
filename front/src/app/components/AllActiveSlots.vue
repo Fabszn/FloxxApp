@@ -30,12 +30,12 @@ export default {
     return { items: [] };
   },
   created: function () {
-    this.$http
-      .get("/api/slots/_current", {
+    fetch("/api/slots/_current", {
         headers: shared.tokenHandle(),
       })
+      .then((response) => response.json())
       .then((p) => {
-        this.items = p.data;
+        this.items = p;
       });
   },
   methods: {

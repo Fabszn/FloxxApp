@@ -7,7 +7,9 @@ import scala.util.{ Failure, Try }
 
 
 
-lazy val webpackDev      = taskKey[Unit]("package Dev mode")
+lazy val frontProd      = taskKey[Unit]("package Prod mode")
+lazy val frontDev      = taskKey[Unit]("package Dev mode")
+//lazy val webpackDev      = taskKey[Unit]("package Dev mode")
 lazy val webpackProd     = taskKey[Unit]("package Prod mode")
 lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine directory")
 lazy val floxxCleanFiles   = taskKey[Unit]("clean directories")
@@ -20,9 +22,9 @@ lazy val gotToMaster     = taskKey[Unit]("put index on master")
 def yarnInstall(file: File) =
   Process("yarn install", file) !
 
-def runWebpack(file: File, mode: String) =
+def buildFront(file: File, mode: String) =
   Process(
-    s"yarn webpack --mode=${mode}",
+    s"yarn vite build --mode ${mode}",
     file
   ) !
 
@@ -76,11 +78,19 @@ httpResourceDir := (httpEngine / Compile / resourceDirectory).value
 
 floxxCopyFile := {
   Try {
+
+    //clean
     IO.delete((httpResourceDir.value / "assets"))
     IO.createDirectory((httpResourceDir.value / "assets"))
+
+
     IO.copyDirectory(
-      (front / baseDirectory).value / "dist/",
+      (front / baseDirectory).value / "dist/assets",
       (httpResourceDir.value / "assets/")
+    )
+    IO.copyFile(
+      (front / baseDirectory).value / "dist"/"index.html",
+      (httpResourceDir.value / "assets/index.html")
     )
   } match {
     case Failure(exception) => throw exception
@@ -98,12 +108,12 @@ floxxCleanFiles := {
 
 }
 
-webpackDev := {
-  if (runWebpack(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+frontDev := {
+  if (buildFront(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
-webpackProd := {
-  if (runWebpack(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
+frontProd := {
+  if (buildFront(front.base, "production") != 0) throw new Exception("Something went wrong when running webpack.")
 }
 
 front / yarnInstall := {
@@ -160,6 +170,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= quill,
     libraryDependencies += http4sCircle,
     libraryDependencies += flyway,
+    libraryDependencies += shapeless,
     libraryDependencies ++= circe,
     libraryDependencies ++= testcontainers,
     libraryDependencies ++= sttp,
@@ -193,20 +204,20 @@ lazy val front      = (project in file("front"))
 
 addCommandAlias(
   "runDev",
-  ";webpackDev;floxxCopyFile;db/flywayMigrate;httpEngine/run"
+  ";frontDev;floxxCopyFile;httpEngine/run"
 )
 addCommandAlias(
   "runProd",
-  ";webpackProd;floxxCopyFile;httpEngine/run"
+  ";frontProd;floxxCopyFile;httpEngine/run"
 )
 addCommandAlias(
   "build2Prod",
-  ";clean;webpackProd;floxxCopyFile;dist"
+  ";clean;frontProd;floxxCopyFile;dist"
 )
 
 addCommandAlias(
   "goToProd",
-  ";gotToMaster;webpackProd;floxxCopyFile;handleFrontFile;release"
+  ";gotToMaster;frontProd;floxxCopyFile;handleFrontFile;release"
 )
 
 val pushVersionToProd = ReleaseStep(action = st => {

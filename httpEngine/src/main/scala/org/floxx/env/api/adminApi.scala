@@ -1,6 +1,6 @@
 package org.floxx.env.api
 
-import io.circe.generic.auto._
+//import io.circe.generic.auto._
 import org.floxx.UserInfo
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
@@ -10,6 +10,8 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.AuthedRoutes
 import zio.interop.catz._
+
+import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 
 object adminApi {
 

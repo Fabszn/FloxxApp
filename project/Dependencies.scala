@@ -14,10 +14,13 @@ object Dependencies {
     lazy val testcontainersVersion      = "1.16.3"
     lazy val testcontainersScalaVersion = "0.39.12"
     lazy val driverPostgresVersion      = "42.2.23"
-    lazy val flywayVersion      = "7.4.0"
+    lazy val flywayVersion              = "7.4.0"
+    lazy val shapelessVersion = "2.3.3"
   }
 
   lazy val flyway = "org.flywaydb" % "flyway-core" % flywayVersion
+
+  lazy val shapeless =  "com.chuusai" %% "shapeless" % shapelessVersion
 
   lazy val circe = Seq(
     "io.circe" %% "circe-core"    % Version.circeVersion,

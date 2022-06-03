@@ -3,7 +3,6 @@ import menu from './components/menu.vue'
 import overflow from './components/selections/overflow.vue'
 import rooms from './components/selections/rooms.vue'
 import fill from './components/fillPercentage.vue'
-import metrics from './components/metrics.vue'
 import admin from './components/admin.vue'
 import topsList from './components/admins/topsList.vue'
 import redcoatmng from './components/admins/redcoatmng.vue'
@@ -33,10 +32,6 @@ export const routes = [{
 }, {
     path: '/fill/:slotid',
     component: fill,
-    children: []
-}, {
-    path: '/metrics',
-    component: metrics,
     children: []
 }, {
     path: '/admin',

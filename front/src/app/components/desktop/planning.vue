@@ -12,25 +12,16 @@
     </div>
     <div>
       <tabs>
-        <div v-for="item in items" :key="item.day.value">
-          <tab :name="item.day.value">
+        <div v-for="item in items" :key="item.day">
+          <tab :name="item.day">
             <div class="grid">
-              <div
-                class="track"
-                v-for="room in item.rooms"
-                :key="room.roomId.value"
-              >
-                <div class="header">{{ room.roomId.value }}</div>
+              <div class="track" v-for="room in item.rooms" :key="room.roomId">
+                <div class="header">{{ room.roomId }}</div>
 
-                <div
-                  v-on:click="show(slot.slot.slotId.value, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
-                  class="block"
-                  v-for="slot in room.slots"
-                  :key="slot.slot.slotId.value"
-                >
-                  {{ slot.slot.fromTime.value }}
-                  {{ slot.slot.toTime.value }}
+                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffected(slot.user)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
 
                   <div class="affected">{{ displayUser(slot.user) }}</div>
                 </div>
@@ -41,26 +32,19 @@
       </tabs>
     </div>
 
-    <modal name="map-user-modal" @before-open="beforeOpen" :adaptive="true">
+    <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div>
-            <p>{{ confTitle }}</p>
-            <p>{{ room }} / {{ confKind }}</p>
+            <p>{{ currentConf.confTitle }}</p>
+            <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
-              {{ fromTime }} -> {{ toTime }} - RedCoat :
+              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
           </div>
-          <div class="over">
-            <dropdown
-              :options="users"
-              v-on:selected="validateSelection"
-              :disabled="false"
-              :maxItem="4"
-              placeholder="Search by name"
-            >
-            </dropdown>
+          <div>
+            <v-select :options="users" v-model="selectedUser"></v-select>
           </div>
         </div>
 
@@ -71,45 +55,53 @@
           <button type="button" v-on:click="remove" class="btn btn-secondary">
             Remove
           </button>
-          <button
-            type="button"
-            v-on:click="saveMapping"
-            class="btn btn-secondary"
-          >
+          <button type="button" v-on:click="saveMapping" class="btn btn-secondary">
             Save
           </button>
         </div>
       </div>
-    </modal>
+    </GDialog>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import shared from "../../shared";
+import { User, Conference, Mapping } from "../../models";
 import _ from "lodash";
-export default {
+import { defineComponent, ref } from 'vue'
+import { Tabs, Tab } from 'vue3-tabs-component';
+import { useToast } from "vue-toastification";
+
+
+
+
+export default defineComponent({
+  setup() {
+    const toast = useToast();
+    const selectedUser = ref(null)
+    const users = ref(new Array<User>())
+
+    return {
+      selectedUser,
+      users,
+      toast
+    }
+  },
+  components: {
+    Tabs,
+    Tab
+  },
   data: function () {
     return {
-      items: {},
+      dialogState: false,
+      items: {}, //todo -> add type
       actualUserNameSelected: "",
-      confTitle: "",
-      confKind: "",
-      room: "",
-      fromTime: "",
-      toTime: "",
-      selectedSlotId: "",
-      selectedUserId: "",
-      users: [],
+      currentConf: new Conference()
     };
   },
   created: function () {
-    this.$http
-      .get("/api/planning", {
-        headers: shared.tokenHandle(),
-      })
-      .then((p) => {
-        this.items = p.data;
-      });
+    loadPlanning.bind(this)();
+
   },
   methods: {
     backMenu: function () {
@@ -117,9 +109,9 @@ export default {
     },
     getUserId: function (user) {
 
-      if(_.isNull(user)){
+      if (_.isNull(user)) {
         return "";
-      }else{
+      } else {
         user.userId;
       }
     },
@@ -140,125 +132,123 @@ export default {
         return "-";
       } else {
         return (
-          user.prenom.value +
+          user.prenom +
           " " +
-          _.upperCase(user.nom.value.substring(0, 1)) +
+          _.upperCase(user.nom.substring(0, 1)) +
           "."
         );
       }
     },
-    validateSelection: function (value) {
-      this.selectedUserId = value.id;
-    },
-    show(idSlot, currentUser) {
+
+    show(idSlot, currentUser: User) {
       this.actualUserNameSelected = computeUser(currentUser);
-      this.$modal.show("map-user-modal", { slotId: idSlot });
+      beforeOpen.bind(this)(idSlot);
+      this.dialogState = true;
     },
-    beforeOpen(event) {
-      var slotId = event.params.slotId;
 
-      shared.securityAccess(this.$router, (p) => {
-        this.$http
-          .get("/api/slots/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-          .then((p) => {
-            this.confTitle = p.data.talk.title;
-            this.confKind = p.data.talk.talkType;
-            this.room = p.data.roomId.value;
-            this.fromTime = p.data.fromTime.value;
-            this.toTime = p.data.toTime.value;
-            this.selectedSlotId = p.data.slotId.value;
-          });
-      });
-
-      this.$http
-        .get("/api/users", {
-          headers: shared.tokenHandle(),
-        })
-        .then((p) => {
-          this.users = _.map(p.data, (user) => {
-            var uName = user.prenom + " " + user.nom;
-            return { id: user.userId, name: uName };
-          });
-        });
-    },
     hide() {
-      reInitModal(this);
+      this.selectedUser = null;
       this.$forceUpdate();
-      this.$modal.hide("map-user-modal");
+      this.dialogState = false;
     },
     remove() {
-      this.$http
-        .post(
-          "/api/set-user",
-          {
-            slotId: { value: this.selectedSlotId },
-          },
-          {
-            headers: shared.tokenHandle(),
-          }
-        )
+      fetch(
+        "/api/set-user",
+        {
+          body: JSON.stringify({ "slotId":  this.currentConf.slotId}),
+          method: "POST",
+          headers: shared.tokenHandle(),
+        }
+      )
+        //.then((response) => response.json())
         .then((p) => {
-          reInitModal(this);
-          reloadData(this);
-          this.$modal.hide("map-user-modal");
-          this.$notify({ type: "success", text: "Red coat removed!" });
+          loadPlanning.bind(this)();
+          this.dialogState = false;
+          this.toast.success("Red coat removed!");
         });
     },
     saveMapping() {
-      if (_.isUndefined(this.selectedUserId)) {
-        this.$notify({ type: "error", text: "Red coat must be filled" });
+      if (_.isNull(this.selectedUser)) {
+        this.toast.error("Red coat must be filled");
       } else {
-        this.$http
-          .post(
-            "/api/set-user",
-            {
-              userId: { value: this.selectedUserId },
-              slotId: { value: this.selectedSlotId },
-            },
-            {
-              headers: shared.tokenHandle(),
-            }
-          )
-          .then((p) => {
-            reloadData(this);
-            this.$modal.hide("map-user-modal");
-            this.$notify({ type: "success", text: "Mapping done!" });
-          });
+        let mapping = new Mapping(this.selectedUser.id, this.currentConf.slotId)
+        fetch(
+          "/api/set-user",
+          {
+            body: JSON.stringify(mapping),
+            method: "POST",
+            headers: shared.tokenHandle(),
+          }
+        ).then((p) => {
+          this.selectedUser = null;
+          loadPlanning.bind(this)();
+          this.dialogState = false
+          this.toast.success("Mapping done!");
+        });
       }
     },
     refresh: function () {
-      reloadData(this);
+      loadPlanning.bind(this)();
     },
   },
-};
+});
 
-function reInitModal(thisref) {
+function beforeOpen(slotId) {
+  shared.securityAccess(this.$router, (p) => {
+    fetch("/api/slots/" + slotId, {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((p) => {
+        this.currentConf.updateInfo(p.talk.title,
+          p.talk.talkType,
+          p.roomId,
+          p.fromTime,
+          p.toTime,
+          p.slotId
+        );
+      });
+
+    fetch("/api/users", {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((p) => {
+        this.users = _.map(p, (u) => {
+          return new User(u.userId, u.nom, u.prenom);
+        });
+      });
+  });
+}
+
+
+/*function reInitModal(thisref) {
   thisref.selectedUserId = "";
   thisref.selectedSlotId = "";
   thisref.actualUserNameSelected = "";
-}
+}*/
 
 function computeUser(user) {
   if (_.isNull(user)) {
     return "-";
   } else {
-    return user.prenom.value + " " + user.nom.value;
+    return user.prenom + " " + user.nom;
   }
 }
 
-function reloadData(thisref) {
-  shared.securityAccess(thisref.$router, (p) => {
-    thisref.$http
-      .get("/api/planning", {
-        headers: shared.tokenHandle(),
-      })
-      .then((p) => {
-        thisref.items = p.data;
+function loadPlanning() {
+  shared.securityAccess(this.$router, (p) => {
+    fetch("/api/planning", {
+      headers: shared.tokenHandle(),
+    }).then((response) => response.json())
+      .then((r) => {
+        this.items = r;
       });
-  });
+  }
+  )
 }
+
+
 </script>
 
 <style  scoped>
@@ -292,6 +282,7 @@ function reloadData(thisref) {
   font-weight: bold;
   background-color: rgb(4, 55, 38) !important;
 }
+
 .affected {
   font-weight: bold;
   color: aquamarine;

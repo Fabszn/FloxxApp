@@ -26,8 +26,8 @@
       dark
       striped
       hover
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
+      v-model:sort-by="sortBy"
+      v-model:sort-desc="sortDesc"
       :fields="fields"
       :items="items"
       :filter="filter"
@@ -59,12 +59,12 @@ export default {
   },
   created: function() {
     shared.securityAccess(this.$router, p => {
-      this.$http
-        .get("/api/stats/slots", {
+      fetch("/api/stats/slots", {
           headers: shared.tokenHandle()
         })
+        .then((response) => response.json())
         .then(p => {
-          this.items = p.data;
+          this.items = p;
         });
     });
   },
@@ -74,12 +74,12 @@ export default {
     },
     refresh: function() {
       shared.securityAccess(this.$router, p => {
-            this.$http
-              .get("/api/stats/slots", {
+            fetch("/api/stats/slots", {
                 headers: shared.tokenHandle()
               })
+              .then((response) => response.json())
               .then(p => {
-                this.items = p.data;
+                this.items = p;
               });
           });
     }

@@ -1,24 +1,26 @@
 <template>
   <div class="d-flex flex-column">
-    <router-view></router-view>
+    <router-view />
     <div class="version">
-      {{ version }} <span> - {{ $store.state.username }}</span>
+      {{ version }} - <span> {{ this.$store.state.username }} </span>
     </div>
     <div id="username"></div>
-    <notifications/>
   </div>
+  
 </template>
 <script>
 export default {
-  data: function () {
+  data() {
     return {
       version: "",
     };
   },
   mounted() {
-    this.$http.get("/infos").then(
-      (p) => {
-        this.version = p.data;
+    fetch("/infos")
+    .then((response) => response.text())
+    .then(
+      (v) => {
+        this.version = v;
       },
       (error) => {
         console.log(error);

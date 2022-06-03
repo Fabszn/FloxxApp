@@ -8,18 +8,18 @@
       </div>
     </div>
     <div>My Slots</div>
-    <div v-for="item in items" :key="item.day.value">
-      <p class="dayTitle">{{ item.day.value }}</p>
+    <div v-for="item in items" :key="item.day">
+      <p class="dayTitle">{{ item.day }}</p>
 
-      <div v-for="slot in item.slots" :key="slot.slotId.value">
+      <div v-for="slot in item.slots" :key="slot.slotId">
         <button
           type="button"
           :class="{ active: isCurrentActiveSlot(item.currentActiveSlot, slot) }"
           class="btn btn-secondary btn-lg block"
-          v-on:click="selectSlot(slot.slotId.value)"
+          v-on:click="selectSlot(slot.slotId)"
         >
-          {{ slot.roomId.value }} : {{ slot.fromTime.value }} -
-          {{ slot.toTime.value }}
+          {{ slot.roomId }} : {{ slot.fromTime }} -
+          {{ slot.toTime }}
         </button>
       </div>
     </div>
@@ -36,19 +36,19 @@ export default {
     };
   },
   created: function () {
-    this.$http
-      .get("/api/slots/_currentUser", {
+    fetch("/api/slots/_currentUser", {
         headers: shared.tokenHandle(),
       })
+      .then((response) => response.json())
       .then((p) => {
-        this.items = p.data;
+        this.items = p;
       });
   },
   methods: {
     isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
-      function toSlotIdVal(slot){return slot.slotId.value}
+      function toSlotIdVal(slot){return slot.slotId}
       
-      return _.includes(_.map(currentActiveSlot, toSlotIdVal),currentSlot.slotId.value)
+      return _.includes(_.map(currentActiveSlot, toSlotIdVal),currentSlot.slotId)
       
       /*if (_.isNull(currentActiveSlot)) {
         return false;
@@ -57,7 +57,7 @@ export default {
       }*/
     },
     selectSlot: function (idSlot) {
-      this.$router.push("fill/" + idSlot);
+      this.$router.push("/fill/" + idSlot);
     },
     backMenu: function () {
       this.$router.push("/menu");

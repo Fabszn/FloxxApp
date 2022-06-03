@@ -9,4 +9,4 @@ export default {
     thiq.$router.push("/" + this.$route.params.pathRoute)
   },
 };
-</script
+</script>
