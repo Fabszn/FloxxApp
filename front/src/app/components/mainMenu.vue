@@ -61,7 +61,7 @@ export default {
       this.$router.push("/mySlots");
     },
     navToStat: function () {
-      this.$router.push("/admin");
+      this.$router.push("/adminMenu");
     },
     navToAllActSlots: function () {
       this.$router.push("/allactivesslots");

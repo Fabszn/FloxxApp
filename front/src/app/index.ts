@@ -16,8 +16,12 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import 'gitart-vue-dialog/dist/style.css'
 import { GDialog } from 'gitart-vue-dialog'
 import Toast from "vue-toastification";
-// Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+
+
+
+
+
 
 
 
@@ -56,6 +60,8 @@ const app = createApp(App, {
         }
     }
 })
+
+
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 

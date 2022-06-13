@@ -59,15 +59,15 @@ object config {
     def getRooms: Task[Map[String, Option[String]]]
   }
 
-  case class ConfigurationImpl() extends Configuration {
+  private final case class ConfigurationService() extends Configuration {
     override def getConf: Task[GlobalConfig] = IO.effect(
       ConfigSource.default.loadOrThrow[GlobalConfig]
-    )
+    ).orDie
 
     override def getRooms: Task[Map[String, Option[String]]] = IO.succeed(rooms.roomsMapping)
   }
 
-  val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationImpl())
+  val layer: ULayer[Has[Configuration]] = ZLayer.succeed(ConfigurationService())
 
   def getConf: RIO[Has[Configuration], GlobalConfig] = ZIO.serviceWith[Configuration](_.getConf)
 

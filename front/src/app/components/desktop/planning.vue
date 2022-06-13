@@ -105,7 +105,7 @@ export default defineComponent({
   },
   methods: {
     backMenu: function () {
-      this.$router.push("/admin");
+      this.$router.push("/adminMenu");
     },
     getUserId: function (user) {
 

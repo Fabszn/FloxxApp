@@ -137,7 +137,7 @@ export default defineComponent({
       return computeUser(user);
     },
     backAdminMenu: function () {
-      this.$router.push("/admin");
+      this.$router.push("/adminMenu");
     },
     validateSelection: function (value) {
       this.selectedUserId = value.id;

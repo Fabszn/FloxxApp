@@ -4,8 +4,10 @@ import org.floxx.UserInfo
 import org.floxx.env.service.statService
 import org.http4s.AuthedRoutes
 import org.http4s.dsl.Http4sDsl
+import io.circe.syntax._
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import zio.interop.catz._
+import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 
 object statsApi {
 
@@ -16,10 +18,10 @@ object statsApi {
 
 
 
-  def api = AuthedRoutes.of[ UserInfo,ApiTask] {
+  def api = AuthedRoutes.of[UserInfo,ApiTask] {
     case GET -> Root / "stats" / "slots" as _ =>
         statService.slotsStatus >>= (statItems =>
-          Ok(statItems)
+          Ok(statItems.asJson)
           )
   }
 

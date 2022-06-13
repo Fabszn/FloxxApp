@@ -1,88 +1,50 @@
 <template>
-  <div>
-    <div class="d-flex justify-content-around separate-headfooter">
-      <div>
-        <button v-on:click="backAdminMenu" type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
-      </div>
-      <div>
-        <button v-on:click="refresh" type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="sync" />
-        </button>
-      </div>
-    </div>
-    <b-input-group size="sm">
-      <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Type to Search"></b-form-input>
-      <b-input-group-append>
-        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-      </b-input-group-append>
-    </b-input-group>
-
-    <b-table
-      head-variant="light"
-      details-td-class="cell"
-      responsive="true"
-      dark
-      striped
-      hover
-      v-model:sort-by="sortBy"
-      v-model:sort-desc="sortDesc"
-      :fields="fields"
-      :items="items"
-      :filter="filter"
-    >
-      <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
-      <template v-slot:cell(percentage)="data">{{ data.value }}</template>
-      <template v-slot:head(slotId)>Slot</template>
-    </b-table>
+    <div>
+    <apexchart
+      width="500"
+      type="bar"
+      :options="chartOptions"
+      :series="series"
+    ></apexchart>
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent, ref } from 'vue';  
+import VueApexCharts from "vue3-apexcharts";
 
-
-<script>
-import shared from "../../shared";
-export default {
-  data() {
+export default defineComponent({
+    components: {
+    apexchart: VueApexCharts,
+  },
+    setup() {
+      const data = ref(new Array<Number>())
+        
+        return {
+          data
+        }
+    },
+    data() {
     return {
-      items: [],
-      sortBy: "slotId",
-      sortDesc: false,
-      fields: [
-        { key: "slotId", sortable: true },
-        { key: "percentage", sortable: true }
+      chartOptions: {
+        plotOptions: {
+        bar: {
+          horizontal: true,
+        }},
+        chart: {
+          id: "vuechart-example",
+        },
+        xaxis: {
+          categories: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        },
+      },
+      series: [
+        {
+          name: "series-1",
+          data: [30, 40, 35, 50, 49, 60, 70, 91],
+        },
       ],
-      filter: null,
-      filterOn: ["slotId"]
     };
   },
-  created: function() {
-    shared.securityAccess(this.$router, p => {
-      fetch("/api/stats/slots", {
-          headers: shared.tokenHandle()
-        })
-        .then((response) => response.json())
-        .then(p => {
-          this.items = p;
-        });
-    });
-  },
-  methods: {
-    backAdminMenu: function() {
-      this.$router.push("/admin");
-    },
-    refresh: function() {
-      shared.securityAccess(this.$router, p => {
-            fetch("/api/stats/slots", {
-                headers: shared.tokenHandle()
-              })
-              .then((response) => response.json())
-              .then(p => {
-                this.items = p;
-              });
-          });
-    }
-  }
-};
+})
 </script>
