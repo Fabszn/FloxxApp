@@ -1,7 +1,7 @@
 package org.floxx
 
-import io.circe.generic.auto._
 import io.circe._
+import io.circe.generic.auto._
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
 
@@ -82,8 +82,8 @@ object domain {
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
     }
 
-    implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) => s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
-
+    implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) =>
+      s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
 
   }
 
@@ -102,4 +102,15 @@ object domain {
       new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Day(day))
     }
   }
+
+  final case class StatItem(
+      slotId: Option[Slot.Id],
+      talk: Talk,
+      percentage: Option[Int],
+      roomid: String,
+      fromtime: String,
+      totime: String,
+      day: String
+  )
+
 }
