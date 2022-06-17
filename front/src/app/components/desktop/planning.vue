@@ -222,11 +222,7 @@ function beforeOpen(slotId) {
 }
 
 
-/*function reInitModal(thisref) {
-  thisref.selectedUserId = "";
-  thisref.selectedSlotId = "";
-  thisref.actualUserNameSelected = "";
-}*/
+
 
 function computeUser(user) {
   if (_.isNull(user)) {

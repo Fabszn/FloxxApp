@@ -21,13 +21,6 @@ import "vue-toastification/dist/index.css";
 
 
 
-
-
-
-
-
-
-
 const store = createStore({
     state: {
         username: "-",

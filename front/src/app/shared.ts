@@ -37,11 +37,11 @@ export default {
         sessionStorage.clear();
     },
     tokenHandle: function th() {
-        var token = sessionStorage.getItem(tokenKey);
-        return {
-            Authorization: token,
-            Accept: "application/json"
-        }
+        var token: string = sessionStorage.getItem(tokenKey) ?? 'not available';
+        const h = new Headers()
+        h.append('Authorization', token)
+        h.append('Accept', "application/json")
+        return h
     },
     readAdminEtat: function th() {
         return sessionStorage.getItem(pAdmin) == "true";

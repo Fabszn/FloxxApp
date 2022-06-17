@@ -10,19 +10,16 @@ import zio.interop.catz._
 
 object statsApi {
 
-  val dsl =  Http4sDsl[ApiTask]
+  val dsl = Http4sDsl[ApiTask]
 
   import dsl._
 
-
-
-
-  def api = AuthedRoutes.of[UserInfo,ApiTask] {
+  def api = AuthedRoutes.of[UserInfo, ApiTask] {
     case GET -> Root / "stats" / "slots" as _ =>
-        statService.slotsStatus >>= (statItems =>{
+      statService.slotsStatus >>= (statItems => {
           val byDay: Map[String, Seq[StatItem]] = statItems.groupBy(_.day)
-          Ok(byDay.view.mapValues(_.groupBy(_.fromtime)) )
-  })
+          Ok(byDay.map { case (k, s) => (k, s.groupBy(_.fromtime)) })
+        })
   }
 
 }

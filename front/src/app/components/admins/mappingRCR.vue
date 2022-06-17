@@ -154,7 +154,7 @@ export default defineComponent({
       fetch("/api/set-user", {
         method: "POST",
         body: JSON.stringify({ slotId: this.currentConf.slotId }),
-        headers: shared.tokenHandle(),
+        headers: shared.tokenHandle()
       }).then((p) => {
         reloadData.bind(this)();
         this.dialogState = false;
