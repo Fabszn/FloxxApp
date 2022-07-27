@@ -1,5 +1,17 @@
 <template>
   <div>
+    
+    <div class="d-flex justify-content-around separate-headfooter">
+      <div>
+        <button
+          v-on:click="backAdminMenu"
+          type="button"
+          class="btn btn-secondary"
+        >
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </div>
+    </div>
     <div>
       <v-select :options="days" v-model="selectedDay" @option:selected="setSelectedDay"></v-select>
       <v-select :options="currentTimeSlots" v-model="selectedSlot" @option:selected="setSelectedSlot"></v-select>
@@ -45,7 +57,7 @@ export default defineComponent({
   },
   setup() {
     const categories = ref(new Array<string>());
-    const series = ref(new Array<number>());
+    const series = ref([]);
     const selectedDay = ref(null);
     const selectedSlot = ref(null);
     const currentTimeSlots = ref(new Array<string>());
@@ -80,7 +92,7 @@ export default defineComponent({
       },
       series: [
         {
-          name: "series-1",
+          name: "%",
           data: this.series,
         },
       ],
@@ -92,9 +104,21 @@ export default defineComponent({
         this.currentTimeSlots = _.map(_.keys(current), v => new SlotItem(v,v))
     },
     setSelectedSlot(){
-        const current = this.stats[this.selectedSlot.label];
-        this.currentTimeSlots = _.keys(current)
-        console.log("hello");
+        
+        const dataToDisplay = this.stats[this.selectedDay.label][this.selectedSlot.label];
+        this.categories =   _.map(dataToDisplay, i => i["talk"].title)
+        const s =_.map(dataToDisplay, i => i["percentage"])
+        this.series = [{
+          name: "test",
+          data: s
+        },{
+          name: "test1",
+          data: s
+        }]
+        
+    },
+    backAdminMenu: function () {
+      this.$router.push("/adminMenu");
     },
     initData() {
       shared.securityAccess(this.$router, (v) => {
