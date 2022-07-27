@@ -11,4 +11,5 @@ AS SELECT hl.slotId,
     s.day
 FROM hit_latest hl
 INNER JOIN hit_history hh ON hl.fkid_hit=hh.hitid
-INNER JOIN slot s ON s.slotid=hh.hitslotid;
+INNER JOIN slot s ON s.slotid=hh.hitslotid
+;
