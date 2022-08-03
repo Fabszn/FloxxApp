@@ -20,6 +20,10 @@ object statsApi {
           val byDay: Map[String, Seq[StatItem]] = statItems.groupBy(_.day)
           Ok(byDay.map { case (k, s) => (k, s.groupBy(_.fromtime)) })
         })
+    case GET -> Root / "stats" / "slots" / "_filling" as _ =>
+      statService.slotsStatus >>= (statItems => {
+          Ok(statItems)
+        })
   }
 
 }
