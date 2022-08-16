@@ -28,8 +28,18 @@
       width="1000"
       height="350"
       type="bar"
-      :options="chartOptions"
+      :options="chartOptions1"
       :series="series"
+    ></apexchart>
+  </div>
+
+  <hr />
+  <div class="chartGlobalFilling">
+    <apexchart
+      width="100%"
+      height="350"
+      :options="chartOptions2"
+      :series="perseries"
     ></apexchart>
   </div>
 </template>
@@ -66,6 +76,8 @@ export default defineComponent({
   setup() {
     const categories = ref([]);
     const series = ref([]);
+    const perseries = ref([]);
+    const perlabel = ref([]);
     const selectedDay = ref(null);
     const selectedSlot = ref(null);
     const currentTimeSlots = ref(new Array<string>());
@@ -73,6 +85,8 @@ export default defineComponent({
     return {
       categories,
       series,
+      perseries,
+      perlabel,
       selectedDay,
       currentTimeSlots,
       selectedSlot,
@@ -89,7 +103,21 @@ export default defineComponent({
         new Day(3, "friday"),
       ], // to make dynamique
       stats: new Array<StatItem>(),
-      chartOptions: {
+      chartOptions1: {
+        title: {
+          text: "Repartition of filling by slot time",
+          align: "center",
+          margin: 40,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "22px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#FFF",
+          },
+        },
         tooltip: {
           enabled: false,
         },
@@ -99,7 +127,7 @@ export default defineComponent({
           },
         },
         chart: {
-          id: "vuechart-example",
+          id: "compareShart",
         },
         yaxis: {
           labels: {
@@ -129,10 +157,38 @@ export default defineComponent({
           },
         },
       },
+      chartOptions2: {
+        title: {
+          text: "Repartition of filling on whole conference",
+          align: "center",
+          margin: 40,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "22px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#FFF",
+          },
+        },
+        legend: {
+          labels: { useSeriesColors: true },
+          position: "bottom",
+        },
+        tooltip: {
+          enabled: false,
+        },
+        chart: {
+          width: 380,
+          type: "pie",
+        },
+        labels: this.perlabel,
+      },
       series: [
         {
           name: "%",
-          data: this.series,
+          data: this.perseries,
         },
       ],
     };
@@ -145,16 +201,14 @@ export default defineComponent({
     setSelectedSlot() {
       const dataToDisplay =
         this.stats[this.selectedDay.label][this.selectedSlot.label];
-      this.chartOptions = {
-        ...this.chartOptions,
+      this.chartOptions1 = {
+        ...this.chartOptions1,
         ...{
           xaxis: {
             categories: _.map(dataToDisplay, (i) => i["talk"].title),
           },
         },
       };
-
-      //this.categories =  ["zerze", 1992, 1993, 1994, 1995, 1996, 1997, 1998]; //
       const s = _.map(dataToDisplay, (i) => i["percentage"]);
       this.series = [
         {
@@ -176,7 +230,28 @@ export default defineComponent({
             this.stats = p;
           });
       });
+      shared.securityAccess(this.$router, (v) => {
+        fetch("/api/stats/slots/_filling", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            (this.perseries = p["percentages"]),
+              (this.chartOptions2 = {
+                ...this.chartOptions2,
+                ...{
+                  labels: _.map(p["labels"], (i) => "Filling at " + i + "%"),
+                },
+              });
+          });
+      });
     },
   },
 });
 </script>
+<style scoped>
+.chartGlobalFilling {
+  display: flex;
+  justify-content: center;
+}
+</style>

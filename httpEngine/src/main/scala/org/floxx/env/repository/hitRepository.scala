@@ -23,21 +23,22 @@ object hitRepository {
     def save(hit: Hit): Task[Long] = {
 
       val nextHitId = UUID.randomUUID.toString
+      transaction {
+        run(quote(hitHistory.insertValue(lift(hit.copy(hitid = Some(nextHitId))))))
+          .provide(env)
+          .flatMap(
+            _ =>
+              run(
+                quote(
+                  hitLatest
+                    .insertValue(lift(HitLatest(hit.hitSlotId, nextHitId)))
+                    .onConflictUpdate(_.hitSlotId)((t, e) => t.hitid -> e.hitid)
+                )
+              ).provide(env)
+          )
 
-      run(quote(hitHistory.insertValue(lift(hit.copy(hitid = Some(nextHitId))))))
-        .provide(env)
-        .flatMap(
-          _ =>
-            run(
-              quote(
-                hitLatest
-                  .insertValue(lift(HitLatest(hit.hitSlotId, nextHitId)))
-                  .onConflictUpdate(_.hitSlotId)((t, e) => t.hitid -> e.hitid)
-              )
-            ).provide(env)
-        )
-
-    }
+      }
+    }.provide(env)
 
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] =
       run(quote(hitHistory.filter(h => liftQuery(slotIds).contains(h.hitSlotId)))).provide(env)

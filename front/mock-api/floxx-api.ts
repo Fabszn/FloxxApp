@@ -24,6 +24,10 @@ export default [
         method: 'get',
         response: { "wednesday": { "13:30": [{ "slotId": { "id": "wednesday_lab3_13:30-16:30" }, "talk": { "talkType": "Hands-on Labs", "title": "Déployer Vault et Consul dans Kubernetes" }, "percentage": 100, "roomid": "Paris lab3", "fromtime": "13:30", "totime": "16:30", "day": "wednesday" }], "09:30": [{ "slotId": { "id": "wednesday_lab2_09:30-12:30" }, "talk": { "talkType": "Hands-on Labs", "title": "Cassons des tokens JWT" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "09:30", "totime": "12:30", "day": "wednesday" }] }, "friday": { "10:45": [{ "slotId": { "id": "friday_lab2_10:45-14:15" }, "talk": { "talkType": "Hands-on Labs", "title": "Event Storming par la Pratique" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "10:45", "totime": "14:15", "day": "friday" }], "11:45": [{ "slotId": { "id": "friday_neu253_t_11:45-12:30" }, "talk": { "talkType": "Conference", "title": "L'IA pour le bon usage des médicaments" }, "percentage": 100, "roomid": "Neuilly 253", "fromtime": "11:45", "totime": "12:30", "day": "friday" }, { "slotId": { "id": "friday_d_par241_11:45-12:30" }, "talk": { "talkType": "Conference", "title": "The Art of Java Type Patterns" }, "percentage": 20, "roomid": "Paris 241", "fromtime": "11:45", "totime": "12:30", "day": "friday" }] }, "thursday": { "10:45": [{ "slotId": { "id": "thursday_lab2_10:45-14:15" }, "talk": { "talkType": "Hands-on Labs", "title": "Le jeu du frigo - petit exercice de pensée systémique" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "10:45", "totime": "14:15", "day": "thursday" }] } }
     }, {
+        url: '/api/stats/slots/_filling',
+        method: 'get',
+        response: { "labels": [10, 100, 20], "percentages": [2, 2, 35] }
+    }, {
         url: '/infos',
         method: 'get',
         response: "devLocal"

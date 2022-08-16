@@ -5,6 +5,17 @@ import io.circe.{ Decoder, Encoder }
 import org.floxx.model.SlotId
 import org.floxx.model.jsonModel.Talk
 
+final case class AggregatePercenteItem(percentage:Int,labels:Int)
+
+object AggregatePercenteItem {
+
+  implicit val dec: Decoder[AggregatePercenteItem] = deriveDecoder[AggregatePercenteItem]
+  implicit val enc: Encoder[AggregatePercenteItem] = deriveEncoder[AggregatePercenteItem]
+
+
+}
+
+
 case class StatItem(
     slotId: Option[SlotId],
     talk: Talk,
