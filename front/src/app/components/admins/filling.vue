@@ -6,6 +6,7 @@
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
+      <div class="screen-title">Rooms Filling</div>
       <div>
         <button v-on:click="refresh" type="button" class="btn btn-secondary">
           <font-awesome-icon icon="sync" />

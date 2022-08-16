@@ -7,7 +7,7 @@
         </button>
       </div>
     </div>
-    <div>
+    <div class="screen-title">
       All actives slots
     </div>
     <div v-for="item in items" :key="item.slotId.value">

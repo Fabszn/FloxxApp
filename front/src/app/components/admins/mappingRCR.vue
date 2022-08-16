@@ -16,6 +16,7 @@
         </button>
       </div>
     </div>
+    <div class="screen-title">Rooms Mapping</div>
     <b-input-group size="sm">
       <b-form-input
         v-model="filter"

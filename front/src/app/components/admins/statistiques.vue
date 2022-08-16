@@ -11,6 +11,7 @@
         </button>
       </div>
     </div>
+    <div class="screen-title">Statistics</div>
     <div>
       <v-select
         :options="days"
@@ -36,8 +37,6 @@
   <hr />
   <div class="chartGlobalFilling">
     <apexchart
-      width="100%"
-      height="350"
       :options="chartOptions2"
       :series="perseries"
     ></apexchart>
@@ -180,7 +179,7 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-          width: 380,
+          width: 700,
           type: "pie",
         },
         labels: this.perlabel,
@@ -240,7 +239,7 @@ export default defineComponent({
               (this.chartOptions2 = {
                 ...this.chartOptions2,
                 ...{
-                  labels: _.map(p["labels"], (i) => "Filling at " + i + "%"),
+                  labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
                 },
               });
           });

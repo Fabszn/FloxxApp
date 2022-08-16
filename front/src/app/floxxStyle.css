@@ -96,7 +96,11 @@
 }
 
 .separate-headfooter {
-    margin: 2px;
+    margin: 15px;
+}
+
+.screen-title {
+    margin: 5px;
 }
 
 .title {

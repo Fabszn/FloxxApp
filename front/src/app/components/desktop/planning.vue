@@ -7,9 +7,7 @@
         </button>
       </div>
     </div>
-    <div>
-      <br />
-    </div>
+    <div class="screen-title">Planning</div>
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">

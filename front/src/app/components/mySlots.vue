@@ -7,7 +7,7 @@
         </button>
       </div>
     </div>
-    <div>My Slots</div>
+    <div class="screen-title">My Slots</div>
     <div v-for="item in items" :key="item.day">
       <p class="dayTitle">{{ item.day }}</p>
 
