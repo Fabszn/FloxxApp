@@ -41,7 +41,7 @@
     </div>
 
     <hr />
-    
+
     <div class="chartGlobalFilling">
       <apexchart
         :options="chartOptionsGlobalFilling"
@@ -51,13 +51,22 @@
     <hr />
     <div class="chartDayFilling">
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay1" :series="perseriesDay1"></apexchart>
+        <apexchart
+          :options="chartOptionsDay1"
+          :series="perseriesDay1"
+        ></apexchart>
       </div>
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay2" :series="perseriesDay2"></apexchart>
+        <apexchart
+          :options="chartOptionsDay2"
+          :series="perseriesDay2"
+        ></apexchart>
       </div>
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay3" :series="perseriesDay3"></apexchart>
+        <apexchart
+          :options="chartOptionsDay3"
+          :series="perseriesDay3"
+        ></apexchart>
       </div>
     </div>
   </div>
@@ -233,7 +242,7 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-           width: 700,
+          width: 700,
           type: "donut",
         },
         labels: this.perlabel,
@@ -261,7 +270,7 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-           width: 700,
+          width: 700,
           type: "donut",
         },
         labels: this.perlabel,
@@ -289,7 +298,7 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-           width: 700,
+          width: 700,
           type: "donut",
         },
         labels: this.perlabel,
@@ -354,6 +363,7 @@ export default defineComponent({
               });
           });
       });
+      
       shared.securityAccess(this.$router, (v) => {
         fetch("/api/stats/slots/_filling/1", {
           headers: shared.tokenHandle(),
@@ -369,6 +379,7 @@ export default defineComponent({
               });
           });
       });
+      
       shared.securityAccess(this.$router, (v) => {
         fetch("/api/stats/slots/_filling/2", {
           headers: shared.tokenHandle(),
@@ -384,6 +395,7 @@ export default defineComponent({
               });
           });
       });
+     
       shared.securityAccess(this.$router, (v) => {
         fetch("/api/stats/slots/_filling/3", {
           headers: shared.tokenHandle(),
@@ -402,10 +414,26 @@ export default defineComponent({
     },
   },
 });
+
+/*function fetchData(url, series, option) {
+  return shared.securityAccess(this.$router, (v) => {
+    fetch(url, {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((p) => {
+        (series = p["percentages"]),
+          (option = {
+            ...option,
+            ...{
+              labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
+            },
+          });
+      });
+  });
+}*/
 </script>
 <style scoped>
-
-
 .selector-item {
   display: flex;
   justify-content: space-around;
