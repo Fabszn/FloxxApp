@@ -68,7 +68,7 @@ object trackService {
         conf <- config.getConf
         urlCfp = conf.cfp.url
         urlByDay = conf.cfp.days.map(d => {
-          val url = s"${urlCfp}${d}"
+          val url = s"${urlCfp}${d.dayValue.value}"
           url
         })
         slots <- urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))

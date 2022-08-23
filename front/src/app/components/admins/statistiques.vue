@@ -1,45 +1,65 @@
 <template>
   <div>
-    <div class="d-flex justify-content-around separate-headfooter">
-      <div>
-        <button
-          v-on:click="backAdminMenu"
-          type="button"
-          class="btn btn-secondary"
-        >
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
+    <div>
+      <div class="global-parent separate-headfooter">
+        <div>
+          <button
+            v-on:click="backAdminMenu"
+            type="button"
+            class="btn btn-secondary"
+          >
+            <font-awesome-icon icon="arrow-circle-left" />
+          </button>
+        </div>
+      </div>
+      <div class="screen-title">Statistics</div>
+
+      <div class="selector-item">
+        <label>Select day</label>
+        <v-select
+          :options="days"
+          v-model="selectedDay"
+          @option:selected="setSelectedDay"
+        ></v-select>
+      </div>
+      <div class="selector-item">
+        <label>Select time</label>
+        <v-select
+          :options="currentTimeSlots"
+          v-model="selectedSlot"
+          @option:selected="setSelectedSlot"
+        ></v-select>
       </div>
     </div>
-    <div class="screen-title">Statistics</div>
+
     <div>
-      <v-select
-        :options="days"
-        v-model="selectedDay"
-        @option:selected="setSelectedDay"
-      ></v-select>
-      <v-select
-        :options="currentTimeSlots"
-        v-model="selectedSlot"
-        @option:selected="setSelectedSlot"
-      ></v-select>
+      <apexchart
+        type="bar"
+        :options="chartOptionsBySlotTime"
+        :series="series"
+      ></apexchart>
     </div>
 
-    <apexchart
-      width="1000"
-      height="350"
-      type="bar"
-      :options="chartOptions1"
-      :series="series"
-    ></apexchart>
-  </div>
-
-  <hr />
-  <div class="chartGlobalFilling">
-    <apexchart
-      :options="chartOptions2"
-      :series="perseries"
-    ></apexchart>
+    <hr />
+    
+    <div class="chartGlobalFilling">
+      <apexchart
+        :options="chartOptionsGlobalFilling"
+        :series="perseries"
+      ></apexchart>
+    </div>
+    <hr />
+    <div class="chartDayFilling">
+      <div class="chartDayFilling-item">
+        <apexchart :options="chartOptionsDay1" :series="perseries"></apexchart>
+      </div>
+      <div class="chartDayFilling-item">
+        <apexchart :options="chartOptionsDay2" :series="perseries"></apexchart>
+      </div>
+      <div class="chartDayFilling-item">
+        <apexchart :options="chartOptionsDay3" :series="perseries"></apexchart>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -102,7 +122,7 @@ export default defineComponent({
         new Day(3, "friday"),
       ], // to make dynamique
       stats: new Array<StatItem>(),
-      chartOptions1: {
+      chartOptionsBySlotTime: {
         title: {
           text: "Repartition of filling by slot time",
           align: "center",
@@ -156,7 +176,7 @@ export default defineComponent({
           },
         },
       },
-      chartOptions2: {
+      chartOptionsGlobalFilling: {
         title: {
           text: "Repartition of filling on whole conference",
           align: "center",
@@ -184,6 +204,90 @@ export default defineComponent({
         },
         labels: this.perlabel,
       },
+      chartOptionsDay1: {
+        title: {
+          text: "Repartition of filling on whole conference D1",
+          align: "center",
+          margin: 40,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "22px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#FFF",
+          },
+        },
+        legend: {
+          labels: { useSeriesColors: true },
+          position: "bottom",
+        },
+        tooltip: {
+          enabled: false,
+        },
+        chart: {
+          width: 100,
+          type: "donut",
+        },
+        labels: this.perlabel,
+      },
+      chartOptionsDay2: {
+        title: {
+          text: "Repartition of filling on whole conference D2",
+          align: "center",
+          margin: 40,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "22px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#FFF",
+          },
+        },
+        legend: {
+          labels: { useSeriesColors: true },
+          position: "bottom",
+        },
+        tooltip: {
+          enabled: false,
+        },
+        chart: {
+          width: 100,
+          type: "donut",
+        },
+        labels: this.perlabel,
+      },
+      chartOptionsDay3: {
+        title: {
+          text: "Repartition of filling on whole conference D3",
+          align: "center",
+          margin: 40,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "22px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#FFF",
+          },
+        },
+        legend: {
+          labels: { useSeriesColors: true },
+          position: "bottom",
+        },
+        tooltip: {
+          enabled: false,
+        },
+        chart: {
+          width: 100,
+          type: "donut",
+        },
+        labels: this.perlabel,
+      },
       series: [
         {
           name: "%",
@@ -200,8 +304,8 @@ export default defineComponent({
     setSelectedSlot() {
       const dataToDisplay =
         this.stats[this.selectedDay.label][this.selectedSlot.label];
-      this.chartOptions1 = {
-        ...this.chartOptions1,
+      this.chartOptionsBySlotTime = {
+        ...this.chartOptionsBySlotTime,
         ...{
           xaxis: {
             categories: _.map(dataToDisplay, (i) => i["talk"].title),
@@ -236,8 +340,8 @@ export default defineComponent({
           .then((response) => response.json())
           .then((p) => {
             (this.perseries = p["percentages"]),
-              (this.chartOptions2 = {
-                ...this.chartOptions2,
+              (this.chartOptionsGlobalFilling = {
+                ...this.chartOptionsGlobalFilling,
                 ...{
                   labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
                 },
@@ -249,8 +353,28 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+
+
+.selector-item {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.params-selector {
+  width: 32%;
+}
+
 .chartGlobalFilling {
   display: flex;
   justify-content: center;
 }
+.chartDayFilling {
+  display: flex;
+  flex-direction: column;
+}
+
+/*.chartDayFilling-item {
+ 
+}*/
 </style>

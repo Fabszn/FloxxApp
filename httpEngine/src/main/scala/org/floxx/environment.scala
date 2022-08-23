@@ -32,7 +32,7 @@ object environment {
   val trackSer    = (cfpRepo ++ config.layer) >>> trackService.layer
   val hitSer      = (trackSer ++ hitRepo ++ config.layer) >>> hitService.layer
   val securitySer = (loggingLayer ++ userRepo ++ config.layer) >>> securityService.layer
-  val statsSer    = statsRepo >>> statService.layer
+  val statsSer    = config.layer ++ statsRepo >>> statService.layer
 
   type AppEnvironment =
     Clock with Blocking with Has[Configuration] with Has[TrackService] with Has[hitService.HitService] with Has[

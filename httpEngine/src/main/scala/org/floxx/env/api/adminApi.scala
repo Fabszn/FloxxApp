@@ -1,16 +1,16 @@
 package org.floxx.env.api
 
-//import io.circe.generic.auto._
+
 import org.floxx.UserInfo
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
+import org.floxx.env.configuration.config
 import org.floxx.env.service.adminService
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.AuthedRoutes
 import zio.interop.catz._
-
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 
 object adminApi {
@@ -47,6 +47,10 @@ object adminApi {
     case GET -> Root / "planning" as _ =>
       adminService.planning >>= { uss =>
         Ok(uss)
+      }
+    case GET -> Root / "days" as _ =>
+      config.getConf >>= { conf =>
+        Ok(conf.cfp.days)
       }
     case _ @ GET -> Root / "users" as _ =>
       adminService.loadUsers >>= (users => Ok(users))

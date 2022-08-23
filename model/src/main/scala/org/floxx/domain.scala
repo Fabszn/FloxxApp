@@ -2,10 +2,67 @@ package org.floxx
 
 import io.circe._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
+import org.floxx.model.SlotId
+
+import scala.util.Try
 
 object domain {
+
+  final case class ConfDay(dayIndex: DayIndex, dayValue: DayValue)
+
+  object ConfDay {
+
+    final case class DayIndex(value: Int) extends AnyVal
+    object DayIndexVar {
+      def unapply(s: String): Option[DayIndex] =
+        if (s.nonEmpty)
+          Try(DayIndex(s.toInt)).toOption
+        else
+          Option.empty[DayIndex]
+    }
+    final case class DayValue(value: String) extends AnyVal
+
+  }
+
+  final case class AggPercentageItem(percentage: Int, label: Int)
+
+  final case class AggregatePercenteItem(percentage: Int, label: Int, day: DayValue)
+
+  object AggregatePercenteItem {
+
+    implicit val dec: Decoder[AggregatePercenteItem] = deriveDecoder[AggregatePercenteItem]
+    implicit val enc: Encoder[AggregatePercenteItem] = deriveEncoder[AggregatePercenteItem]
+
+  }
+
+  final case class GlobalAggregatePercenteItem(percentage: Int, label: Int)
+
+  object GlobalAggregatePercenteItem {
+
+    implicit val dec: Decoder[GlobalAggregatePercenteItem] = deriveDecoder[GlobalAggregatePercenteItem]
+    implicit val enc: Encoder[GlobalAggregatePercenteItem] = deriveEncoder[GlobalAggregatePercenteItem]
+
+  }
+
+  case class StatItem(
+      slotId: Option[SlotId],
+      talk: Talk,
+      percentage: Option[Int],
+      roomid: String,
+      fromtime: String,
+      totime: String,
+      day: String
+  )
+
+  object StatItem {
+
+    implicit val dec: Decoder[StatItem] = deriveDecoder[StatItem]
+    implicit val enc: Encoder[StatItem] = deriveEncoder[StatItem]
+  }
 
   object Mapping {
     case class UserSlot(user: Option[User.SimpleUser], slot: Slot)
@@ -99,18 +156,8 @@ object domain {
       talk <- c.downField("talk").as[Option[Talk]]
       day <- c.downField("day").as[String]
     } yield {
-      new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Day(day))
+      new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Slot.Day(day))
     }
   }
-
-  final case class StatItem(
-      slotId: Option[Slot.Id],
-      talk: Talk,
-      percentage: Option[Int],
-      roomid: String,
-      fromtime: String,
-      totime: String,
-      day: String
-  )
 
 }

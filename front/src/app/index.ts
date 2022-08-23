@@ -24,7 +24,8 @@ import "vue-toastification/dist/index.css";
 const store = createStore({
     state: {
         username: "-",
-        rooms: []
+        rooms: [],
+        confDays: []
     },
     mutations: {
         setUsername(state, name) {
@@ -32,6 +33,9 @@ const store = createStore({
         },
         setRooms(state, rooms) {
             state.rooms = rooms;
+        },
+        setConfDays(state, confDays) {
+            state.confDays = confDays;
         }
     }
 });

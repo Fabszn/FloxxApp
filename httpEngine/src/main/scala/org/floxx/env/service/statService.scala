@@ -1,28 +1,41 @@
 package org.floxx.env.service
 
+import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
+import org.floxx.domain.{ AggPercentageItem, AggregatePercenteItem, StatItem }
+import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.statsRepository.StatsRepo
-import org.floxx.model.stats.{AggregatePercenteItem, StatItem}
 import zio._
+import cats.implicits._
+import org.floxx.domain
+import zio.interop.catz._
 
 object statService {
 
   trait StatsService {
 
     def slotsStatus: Task[Seq[StatItem]]
-    def globalPercentageStatus: Task[Seq[AggregatePercenteItem]]
+    def globalPercentageStatus(idxDay: DayIndex): Task[Seq[AggPercentageItem]]
 
   }
 
-  case class StatsServiceImpl(statRepo: StatsRepo) extends StatsService {
+  case class StatsServiceImpl(statRepo: StatsRepo, conf: Configuration) extends StatsService {
     override def slotsStatus: Task[Seq[StatItem]] = statRepo.hitsListWithPercentage()
 
-    override def globalPercentageStatus: Task[Seq[AggregatePercenteItem]] = statRepo.aggregatePercentage()
+    override def globalPercentageStatus(idxDay: DayIndex): Task[Seq[AggPercentageItem]] =
+      conf.getConf >>= { conf =>
+        val cd: Option[domain.ConfDay] = conf.cfp.days.find(_.dayIndex == idxDay)
+        cd.fold(
+          statRepo.aggregatePercentageGlobal
+        )(selectedDay => statRepo.aggregatePercentageByDay(selectedDay.dayValue))
+      }
+
+
   }
 
-  def layer: RLayer[Has[StatsRepo], Has[StatsService]] = (StatsServiceImpl(_)).toLayer
+  def layer: RLayer[Has[StatsRepo] with Has[Configuration], Has[StatsService]] = (StatsServiceImpl(_, _)).toLayer
 
   def slotsStatus: RIO[Has[StatsService], Seq[StatItem]] = ZIO.serviceWith[StatsService](_.slotsStatus)
-  def globalPercentageStatus: RIO[Has[StatsService], Seq[AggregatePercenteItem]] = ZIO.serviceWith[StatsService](_.globalPercentageStatus)
-
+  def globalPercentageStatus(idxDay: DayIndex): RIO[Has[StatsService], Seq[AggPercentageItem]] =
+    ZIO.serviceWith[StatsService](_.globalPercentageStatus((idxDay)))
 
 }
