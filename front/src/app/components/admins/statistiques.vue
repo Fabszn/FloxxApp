@@ -51,13 +51,13 @@
     <hr />
     <div class="chartDayFilling">
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay1" :series="perseries"></apexchart>
+        <apexchart :options="chartOptionsDay1" :series="perseriesDay1"></apexchart>
       </div>
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay2" :series="perseries"></apexchart>
+        <apexchart :options="chartOptionsDay2" :series="perseriesDay2"></apexchart>
       </div>
       <div class="chartDayFilling-item">
-        <apexchart :options="chartOptionsDay3" :series="perseries"></apexchart>
+        <apexchart :options="chartOptionsDay3" :series="perseriesDay3"></apexchart>
       </div>
     </div>
   </div>
@@ -96,6 +96,9 @@ export default defineComponent({
     const categories = ref([]);
     const series = ref([]);
     const perseries = ref([]);
+    const perseriesDay1 = ref([]);
+    const perseriesDay2 = ref([]);
+    const perseriesDay3 = ref([]);
     const perlabel = ref([]);
     const selectedDay = ref(null);
     const selectedSlot = ref(null);
@@ -105,6 +108,9 @@ export default defineComponent({
       categories,
       series,
       perseries,
+      perseriesDay1,
+      perseriesDay2,
+      perseriesDay3,
       perlabel,
       selectedDay,
       currentTimeSlots,
@@ -206,7 +212,7 @@ export default defineComponent({
       },
       chartOptionsDay1: {
         title: {
-          text: "Repartition of filling on whole conference D1",
+          text: "Repartition of filling on whole conference Wednesday",
           align: "center",
           margin: 40,
           offsetX: 0,
@@ -227,14 +233,14 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-          width: 100,
+           width: 700,
           type: "donut",
         },
         labels: this.perlabel,
       },
       chartOptionsDay2: {
         title: {
-          text: "Repartition of filling on whole conference D2",
+          text: "Repartition of filling on whole conference Thursday",
           align: "center",
           margin: 40,
           offsetX: 0,
@@ -255,14 +261,14 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-          width: 100,
+           width: 700,
           type: "donut",
         },
         labels: this.perlabel,
       },
       chartOptionsDay3: {
         title: {
-          text: "Repartition of filling on whole conference D3",
+          text: "Repartition of filling on whole conference Friday",
           align: "center",
           margin: 40,
           offsetX: 0,
@@ -283,7 +289,7 @@ export default defineComponent({
           enabled: false,
         },
         chart: {
-          width: 100,
+           width: 700,
           type: "donut",
         },
         labels: this.perlabel,
@@ -334,7 +340,7 @@ export default defineComponent({
           });
       });
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots/_filling", {
+        fetch("/api/stats/slots/_filling/0", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())
@@ -342,6 +348,51 @@ export default defineComponent({
             (this.perseries = p["percentages"]),
               (this.chartOptionsGlobalFilling = {
                 ...this.chartOptionsGlobalFilling,
+                ...{
+                  labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
+                },
+              });
+          });
+      });
+      shared.securityAccess(this.$router, (v) => {
+        fetch("/api/stats/slots/_filling/1", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            (this.perseriesDay1 = p["percentages"]),
+              (this.chartOptionsDay1 = {
+                ...this.chartOptionsDay1,
+                ...{
+                  labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
+                },
+              });
+          });
+      });
+      shared.securityAccess(this.$router, (v) => {
+        fetch("/api/stats/slots/_filling/2", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            (this.perseriesDay2 = p["percentages"]),
+              (this.chartOptionsDay2 = {
+                ...this.chartOptionsDay2,
+                ...{
+                  labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
+                },
+              });
+          });
+      });
+      shared.securityAccess(this.$router, (v) => {
+        fetch("/api/stats/slots/_filling/3", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            (this.perseriesDay3 = p["percentages"]),
+              (this.chartOptionsDay3 = {
+                ...this.chartOptionsDay3,
                 ...{
                   labels: _.map(p["labels"], (i) => "Filled at " + i + "%"),
                 },
@@ -373,8 +424,4 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
-
-/*.chartDayFilling-item {
- 
-}*/
 </style>
