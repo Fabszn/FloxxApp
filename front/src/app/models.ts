@@ -1,3 +1,6 @@
+import { stringify } from "querystring";
+import { stringify } from "querystring";
+import { stringify } from "querystring";
 
 class Hit {
     hitid: string;
@@ -58,6 +61,43 @@ class Mapping {
     }
 }
 
+class Talk {
+    talkType: string = "";
+    title: string = "";
+    constructor(tt: string, title: string) {
+        this.talkType = tt;
+        this.title = title;
+    }
+
+}
+
+class StatItem {
+    slotId: string;
+    talk: Talk;
+    percentage: number = 0;
+    roomid: string;
+    fromtime: string;
+    totime: string;
+    day: String;
+
+    constructor(si: string,
+        t: Talk,
+        perc: number,
+        roomid: string,
+        ft: string,
+        tt: string,
+        day: string
+    ) {
+        this.slotId = si;
+        this.talk = t;
+        this.percentage = perc;
+        this.roomid = roomid;
+        this.fromtime = this.fromtime;
+        this.totime = this.totime;
+        this.day = day;
+    }
+}
+
 
 class Conference {
     confTitle: string = "";
@@ -94,7 +134,7 @@ class Conference {
 }
 
 
-export { TrackHitInfo, User, Conference, Mapping }
+export { TrackHitInfo, User, Conference, Mapping, StatItem, Talk }
 
 
 

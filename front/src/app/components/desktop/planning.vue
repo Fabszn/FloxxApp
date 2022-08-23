@@ -7,9 +7,7 @@
         </button>
       </div>
     </div>
-    <div>
-      <br />
-    </div>
+    <div class="screen-title">Planning</div>
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">
@@ -105,7 +103,7 @@ export default defineComponent({
   },
   methods: {
     backMenu: function () {
-      this.$router.push("/admin");
+      this.$router.push("/adminMenu");
     },
     getUserId: function (user) {
 
@@ -222,11 +220,7 @@ function beforeOpen(slotId) {
 }
 
 
-/*function reInitModal(thisref) {
-  thisref.selectedUserId = "";
-  thisref.selectedSlotId = "";
-  thisref.actualUserNameSelected = "";
-}*/
+
 
 function computeUser(user) {
   if (_.isNull(user)) {

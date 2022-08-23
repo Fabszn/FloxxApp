@@ -16,6 +16,7 @@
         </button>
       </div>
     </div>
+    <div class="screen-title">Rooms Mapping</div>
     <b-input-group size="sm">
       <b-form-input
         v-model="filter"
@@ -24,7 +25,7 @@
         placeholder="Type to Search"
       ></b-form-input>
       <b-input-group-append>
-        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+        <b-button :disabled="!filter" @click="filter = null">Clear</b-button>
       </b-input-group-append>
     </b-input-group>
 
@@ -137,7 +138,7 @@ export default defineComponent({
       return computeUser(user);
     },
     backAdminMenu: function () {
-      this.$router.push("/admin");
+      this.$router.push("/adminMenu");
     },
     validateSelection: function (value) {
       this.selectedUserId = value.id;
@@ -154,7 +155,7 @@ export default defineComponent({
       fetch("/api/set-user", {
         method: "POST",
         body: JSON.stringify({ slotId: this.currentConf.slotId }),
-        headers: shared.tokenHandle(),
+        headers: shared.tokenHandle()
       }).then((p) => {
         reloadData.bind(this)();
         this.dialogState = false;

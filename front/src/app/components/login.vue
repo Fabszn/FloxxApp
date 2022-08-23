@@ -46,7 +46,7 @@ export default {
       login: "",
       password: "",
       loginFailedMsg: true,
-      notAuthorized: true
+      notAuthorized: true,
     };
   },
   created() {
@@ -57,29 +57,38 @@ export default {
   },
   methods: {
     processForm: function () {
-      fetch(
-          "/login",
-          {
+      Promise.all([
+          fetch("/login", {
             body: JSON.stringify({
-            login: this.login,
-            mdp: this.password,
-          }),
-            method: "POST"
-          }
-        )
-        .then(( (response) => response.json()))
-        .then(
-          (r) => {
-            shared.storeToken(r.token, r.isAdmin, r.name);
-            this.$store.commit("setUsername", r.name);
-            this.$router.push("/menu");
-          },  
-          (r) => {
-            this.loginFailedMsg = false;
-            console.error(r)
-            
-          }
-        );
+              login: this.login,
+              mdp: this.password,
+            }),
+            method: "POST",
+          })
+            .then((response) => response.json())
+            .then(
+              (r) => {
+                shared.storeToken(r.token, r.isAdmin, r.name);
+                this.$store.commit("setUsername", r.name);
+              },
+              (r) => {
+                this.loginFailedMsg = false;
+                console.error(r);
+              }
+            ),
+          fetch("/api/days", { method: "GET" })
+            .then((response) => response.json())
+            .then(
+              (r) => {
+                this.$store.commit("setConfDays", r);
+              },
+              (r) => {
+                this.loginFailedMsg = false;
+                console.error(r);
+              }
+            ),
+        ])
+        .then((v) => this.$router.push("/menu"));
     },
   },
 };

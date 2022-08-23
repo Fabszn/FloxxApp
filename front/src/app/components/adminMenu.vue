@@ -22,10 +22,10 @@
     <div>
       <button
         type="button"
-        v-on:click="navToStats"
+        v-on:click="navToFilling"
         class="btn btn-primary btn-lg block"
       >
-        Statistiques
+        Rooms filling
       </button>
     </div>
     <!--<div>
@@ -46,12 +46,21 @@
         Rooms mapping
       </button>
     </div>
+    <div>
+      <button
+        type="button"
+        v-on:click="navToStats"
+        class="btn btn-primary block"
+      >
+        Statistics
+      </button>
+    </div>
     <button
       type="button"
       class="btn btn-primary block"
       v-on:click="navToDesktopMenu"
     >
-      Desktop.
+      Planning
     </button>
   </div>
 </template>
@@ -71,14 +80,17 @@ export default {
     navToRCMng: function () {
       this.$router.push("/redcoatmng");
     },
-    navToStats: function () {
-      this.$router.push("/statistiques");
+    navToFilling: function () {
+      this.$router.push("/filling");
     },
     navToMapping: function () {
       this.$router.push("/mappingRC");
     },
     navToDesktopMenu: function () {
       this.$router.push("/planning");
+    },
+    navToStats: function () {
+      this.$router.push("/statistics");
     },
   },
 };

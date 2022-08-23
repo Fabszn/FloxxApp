@@ -9,7 +9,6 @@ import scala.util.{ Failure, Try }
 
 lazy val frontProd      = taskKey[Unit]("package Prod mode")
 lazy val frontDev      = taskKey[Unit]("package Dev mode")
-//lazy val webpackDev      = taskKey[Unit]("package Dev mode")
 lazy val webpackProd     = taskKey[Unit]("package Prod mode")
 lazy val floxxCopyFile   = taskKey[Unit]("prepare and copy file to engine directory")
 lazy val floxxCleanFiles   = taskKey[Unit]("clean directories")
@@ -122,13 +121,6 @@ front / yarnInstall := {
 
 ThisBuild / scalaVersion := "2.13.8"
 
-scalacOptions := Seq(
-  "-Ypartial-unification",
-  "-Ywarn-unused:_",
-  "-Ywarn-dead-code",
-  "-deprecation"
-)
-
 lazy val commonsSettings = wartRemoverSettings ++ Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
@@ -174,6 +166,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= circe,
     libraryDependencies ++= testcontainers,
     libraryDependencies ++= sttp,
+    libraryDependencies += scalaTest,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",
         "com.lihaoyi"            %% "requests"       % "0.7.0",

@@ -28,12 +28,6 @@ object StaticApi {
     }
 
     case req @ GET -> Root / path if path.nonEmpty && !excludePaths.contains(path)  => {
-
-      println(s"path : ${path}")
-      println(s"path : ${path}")
-      println(s"path : ${path}")
-      println(s"path : ${path}")
-      println(s"path : ${path}")
       static("/assets/index.html", req)
     }
 

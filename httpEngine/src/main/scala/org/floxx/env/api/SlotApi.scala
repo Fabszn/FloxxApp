@@ -1,6 +1,5 @@
 package org.floxx.env.api
 
-//import io.circe.generic.auto._
 import io.circe.syntax._
 import org.floxx.UserInfo
 import org.floxx.domain.Slot.Day

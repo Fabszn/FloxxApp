@@ -16,10 +16,7 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import 'gitart-vue-dialog/dist/style.css'
 import { GDialog } from 'gitart-vue-dialog'
 import Toast from "vue-toastification";
-// Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
-
-
 
 
 
@@ -27,7 +24,8 @@ import "vue-toastification/dist/index.css";
 const store = createStore({
     state: {
         username: "-",
-        rooms: []
+        rooms: [],
+        confDays: []
     },
     mutations: {
         setUsername(state, name) {
@@ -35,6 +33,9 @@ const store = createStore({
         },
         setRooms(state, rooms) {
             state.rooms = rooms;
+        },
+        setConfDays(state, confDays) {
+            state.confDays = confDays;
         }
     }
 });
@@ -56,6 +57,8 @@ const app = createApp(App, {
         }
     }
 })
+
+
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 
