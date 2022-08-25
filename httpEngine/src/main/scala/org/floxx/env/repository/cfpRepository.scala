@@ -15,6 +15,7 @@ object cfpRepository {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
     def insertSlots(slotList: Seq[Slot]): Task[Long]
+    @deprecated
     def addSlots(slots: Seq[Slot]): Task[Int]
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
@@ -36,7 +37,7 @@ object cfpRepository {
           )
         )
       ).map(_.sum).provide(env)
-
+    @deprecated
     override def addSlots(slotList: Seq[Slot]): Task[Int] =
       ZIO
         .collectAll {

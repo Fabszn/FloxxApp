@@ -53,7 +53,6 @@ object trackService {
                         logger.error("No slot found", e)
                         List.empty[domain.Slot]
                     }
-
                   }
                 )
               }

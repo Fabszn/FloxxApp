@@ -115,7 +115,8 @@ package object repository {
         _.fromTime -> "fromTime",
         _.toTime -> "toTime",
         _.talk -> "talk ",
-        _.day -> "day"
+        _.day -> "day",
+        _.yearSlot -> "year_slot"
       )
     )
 
