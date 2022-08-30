@@ -1,13 +1,13 @@
 package org.floxx.env.configuration
 
-import org.floxx.domain.ConfDay
+import org.floxx.domain.{ConfDay, CurrentYear}
 import pureconfig._
 import pureconfig.generic.auto._
 import zio._
 
 object config {
 
-  final case class Cfp(url: String, days: List[ConfDay])
+  final case class Cfp(currentYear:CurrentYear,url: String, days: List[ConfDay])
   final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
   final case class Track(delayBefore: Int, delayAfter: Int)

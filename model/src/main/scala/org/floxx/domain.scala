@@ -2,15 +2,19 @@ package org.floxx
 
 import io.circe._
 import io.circe.generic.auto._
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
-import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
+import org.floxx.domain.Slot.{Day, FromTime, ToTime}
 import org.floxx.model.SlotId
 
+import java.text.SimpleDateFormat
+import java.time.{LocalDateTime, ZoneOffset}
 import scala.util.Try
 
 object domain {
+
+  final case class CurrentYear(value:Int) extends AnyVal
 
   final case class ConfDay(dayIndex: DayIndex, dayValue: DayValue)
 
@@ -127,10 +131,17 @@ object domain {
       fromTime: Slot.FromTime,
       toTime: Slot.ToTime,
       talk: Option[Talk],
-      day: Slot.Day
+      day: Slot.Day,
+      yearSlot:CurrentYear
   )
 
   object Slot {
+
+    private def millis2Year(m:Long):CurrentYear = {
+      val ldt =  new SimpleDateFormat("yyyy")
+      CurrentYear(ldt.format(m).toInt)
+    }
+
     final case class Id(value: String) extends AnyVal
     final case class FromTime(value: String) extends AnyVal
     final case class ToTime(value: String) extends AnyVal
@@ -142,22 +153,25 @@ object domain {
     implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) =>
       s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
 
+    implicit val decodeSlot: Decoder[Slot] = (c: HCursor) => {
+      for {
+        slotId <- c.downField("slotId").as[String]
+        roomId <- c.downField("roomId").as[String]
+        fromTime <- c.downField("fromTime").as[String]
+        toTime <- c.downField("toTime").as[String]
+        talk <- c.downField("talk").as[Option[Talk]]
+        day <- c.downField("day").as[String]
+        currentYear <- c.downField("fromTimeMillis").as[Long]
+      } yield {
+        new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Slot.Day(day),millis2Year(currentYear) )
+      }
+    }
+
+
   }
 
   final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
   final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
 
-  implicit val decodeFoo: Decoder[Slot] = (c: HCursor) => {
-    for {
-      slotId <- c.downField("slotId").as[String]
-      roomId <- c.downField("roomId").as[String]
-      fromTime <- c.downField("fromTime").as[String]
-      toTime <- c.downField("toTime").as[String]
-      talk <- c.downField("talk").as[Option[Talk]]
-      day <- c.downField("day").as[String]
-    } yield {
-      new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Slot.Day(day))
-    }
-  }
 
 }
