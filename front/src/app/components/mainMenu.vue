@@ -68,6 +68,7 @@ export default {
     },
     backDisconnect: function () {
       shared.cleanToken();
+      this.$store.commit("setUsername", "");
       this.$router.push("/");
     },
   },
