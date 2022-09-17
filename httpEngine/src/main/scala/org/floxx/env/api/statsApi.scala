@@ -10,7 +10,7 @@ import org.http4s.circe.CirceEntityCodec._
 import org.http4s.dsl.Http4sDsl
 import zio.interop.catz._
 import io.circe.generic.semiauto._
-import org.floxx.domain.ConfDay.{DayIndex, DayIndexVar}
+import org.floxx.domain.ConfDay.DayIndexVar
 
 object statsApi {
 
