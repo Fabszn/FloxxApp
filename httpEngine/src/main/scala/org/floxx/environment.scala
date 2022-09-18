@@ -28,7 +28,7 @@ object environment {
   val userRepo  = dbTransactor >>> userRepository.layer
 
   //services
-  val adminSer    = userRepo ++ cfpRepo >>> adminService.layer
+  val adminSer    = userRepo ++ cfpRepo ++ config.layer >>> adminService.layer
   val trackSer    = (cfpRepo ++ config.layer) >>> trackService.layer
   val hitSer      = (trackSer ++ hitRepo ++ config.layer) >>> hitService.layer
   val securitySer = (loggingLayer ++ userRepo ++ config.layer) >>> securityService.layer
