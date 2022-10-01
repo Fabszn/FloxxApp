@@ -25,7 +25,7 @@ object hitRepository {
       val nextHitId = UUID.randomUUID.toString
       transaction {
         run(quote(hitHistory.insertValue(lift(hit.copy(hitid = Some(nextHitId))))))
-          .provide(env)
+          .provideService(env)
           .flatMap(
             _ =>
               run(
@@ -34,21 +34,21 @@ object hitRepository {
                     .insertValue(lift(HitLatest(hit.hitSlotId, nextHitId)))
                     .onConflictUpdate(_.hitSlotId)((t, e) => t.hitid -> e.hitid)
                 )
-              ).provide(env)
+              ).provideService(env)
           )
 
       }
-    }.provide(env)
+    }.provideService(env)
 
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]] =
-      run(quote(hitHistory.filter(h => liftQuery(slotIds).contains(h.hitSlotId)))).provide(env)
+      run(quote(hitHistory.filter(h => liftQuery(slotIds).contains(h.hitSlotId)))).provideService(env)
 
   }
 
-  val layer: RLayer[Has[DataSource], Has[HitRepo]] = (HitRepoCfg(_)).toLayer
+  val layer: RLayer[DataSource, HitRepo] = (HitRepoCfg(_)).toLayer
 
-  def save(hit: Hit): RIO[Has[HitRepo], Long] = ZIO.serviceWith[HitRepo](_.save(hit))
-  def loadHitBy(slotIds: Seq[Slot.Id]): RIO[Has[HitRepo], Seq[Hit]] =
-    ZIO.serviceWith[HitRepo](_.loadHitBy(slotIds))
+  def save(hit: Hit): RIO[HitRepo, Long] = ZIO.serviceWithZIO[HitRepo](_.save(hit))
+  def loadHitBy(slotIds: Seq[Slot.Id]): RIO[HitRepo, Seq[Hit]] =
+    ZIO.serviceWithZIO[HitRepo](_.loadHitBy(slotIds))
 
 }

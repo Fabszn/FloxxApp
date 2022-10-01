@@ -18,23 +18,23 @@ object userRepository {
     import QuillContext._
     val env = Has(dataSource)
     override def userByUserId(login: String): Task[Option[AuthUser]] =
-      run(quote(authUser.filter(_.userId.contains(lift(login))))).map(_.headOption).provide(env)
+      run(quote(authUser.filter(_.userId.contains(lift(login))))).map(_.headOption).provideService(env)
 
     override def allUsers: Task[Seq[SimpleUser]] =
-      run(quote(simpleUser)).provide(env)
+      run(quote(simpleUser)).provideService(env)
 
     override def insertUsers(users: Seq[AuthUser]): Task[Long] =
-      run(quote(liftQuery(users).foreach(u => authUser.insertValue(u)))).provide(env).map(_.sum)
+      run(quote(liftQuery(users).foreach(u => authUser.insertValue(u)))).provideService(env).map(_.sum)
   }
 
-  val layer: RLayer[Has[DataSource], Has[UserRepo]] = (UserRepoService(_)).toLayer
+  val layer: RLayer[DataSource, UserRepo] = (UserRepoService(_)).toLayer
 
-  def userByLogin(login: String): RIO[Has[UserRepo], Option[AuthUser]] =
-    ZIO.serviceWith[UserRepo](_.userByUserId(login))
+  def userByLogin(login: String): RIO[UserRepo, Option[AuthUser]] =
+    ZIO.serviceWithZIO[UserRepo](_.userByUserId(login))
 
-  def allUser: RIO[Has[UserRepo], Seq[SimpleUser]] =
-    ZIO.serviceWith[UserRepo](_.allUsers)
+  def allUser: RIO[UserRepo, Seq[SimpleUser]] =
+    ZIO.serviceWithZIO[UserRepo](_.allUsers)
 
-  def insertUsers(users: Seq[AuthUser]): RIO[Has[UserRepo], Long] =
-    ZIO.serviceWith[UserRepo](_.insertUsers(users))
+  def insertUsers(users: Seq[AuthUser]): RIO[UserRepo, Long] =
+    ZIO.serviceWithZIO[UserRepo](_.insertUsers(users))
 }

@@ -19,17 +19,17 @@ object statsRepository {
     import QuillContext._
     val env = Has(dataSource)
     override def hitsListWithPercentage(): Task[Seq[StatItem]] =
-      run(quote(stats)).provide(env)
+      run(quote(stats)).provideService(env)
 
     override def aggregatePercentageByDay(dayValue: DayValue): Task[Seq[AggPercentageItem]] =
-      run(quote(statsPerc.filter(_.day == lift(dayValue)))) .provide(env) >>= (l => Task(l.map(v => AggPercentageItem(v.percentage, v.label))))
+      run(quote(statsPerc.filter(_.day == lift(dayValue)))) .provideService(env) flatMap (l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label))))
 
     override def aggregatePercentageGlobal: Task[List[AggPercentageItem]] =
-      run(quote(statsPercGlobal)).provide(env) >>= (l => Task(l.map(v => AggPercentageItem(v.percentage, v.label))))
+      run(quote(statsPercGlobal)).provideService(env) flatMap (l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label))))
   }
 
-  val layer: RLayer[Has[DataSource], Has[StatsRepo]] = (StatsRepository(_)).toLayer
+  val layer: RLayer[DataSource, StatsRepo] = (StatsRepository(_)).toLayer
 
-  def hitsListWithPercentage: RIO[Has[StatsRepo], Seq[StatItem]] = ZIO.serviceWith[StatsRepo](_.hitsListWithPercentage())
+  def hitsListWithPercentage: RIO[StatsRepo, Seq[StatItem]] = ZIO.serviceWithZIO[StatsRepo](_.hitsListWithPercentage())
 
 }

@@ -8,11 +8,12 @@ import zio.test.environment.TestEnvironment
 import zio.test._
 
 import scala.io.Source
+import zio.test.ZIOSpecDefault
 
-object MapCfpToSlotsTest extends DefaultRunnableSpec {
+object MapCfpToSlotsTest extends ZIOSpecDefault {
   override def spec: Spec[TestEnvironment, TestFailure[Any], TestSuccess] =
     suite("A slots' list")(
-      testM("json is parsed") {
+      test("json is parsed") {
         val json = Source.fromResource("test.json")
         for {
           j <- ZIO.fromEither(parse(json.mkString)).mapError(e => new Exception(s"Slots' Json file cannot be parsed ${e.message} ${e.getCause}"))

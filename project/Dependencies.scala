@@ -4,9 +4,9 @@ import sbt._
 object Dependencies {
 
   object Version {
-    lazy val zioVersion                 = "1.0.13"
+    lazy val zioVersion                 = "2.0.2"
     lazy val zioLoggingVersion          = "0.5.14"
-    lazy val `zio-interop`              = "3.2.9.0"
+    lazy val `zio-interop`              = "3.3.0"
     lazy val Http4sVersion              = "0.23.14"
     lazy val Http4sBlazeVersion         = "0.23.12"
     lazy val chimneyVersion             = "0.6.1"
@@ -66,7 +66,7 @@ object Dependencies {
     "org.http4s" %% "http4s-blaze-client" % Http4sBlazeVersion
   lazy val http4sDsl          = "org.http4s"            %% "http4s-dsl"       % Http4sVersion
   lazy val http4sCircle       = "org.http4s"            %% "http4s-circe"     % Http4sVersion
-  lazy val `zio-interop-cats` = "dev.zio"               %% "zio-interop-cats" % Version.`zio-interop`
+  lazy val `zio-interop-cats` = "dev.zio"               %% "zio-interop-cats" % `zio-interop`
   lazy val logback            = "ch.qos.logback"        % "logback-classic"   % "1.2.3"
   lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.14.1"
 
