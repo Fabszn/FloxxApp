@@ -5,7 +5,7 @@ import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
 import org.floxx.env.service.trackService.TrackService
 import org.floxx.model
-import org.floxx.model.{ Hit, TrackHitInfo }
+import org.floxx.model.{Hit, TrackHitInfo}
 import zio._
 
 object hitService {
@@ -77,7 +77,14 @@ object hitService {
   }
 
   val layer: RLayer[TrackService with HitRepo with Configuration, HitService] =
-    (HitServiceImpl(_, _, _)).toLayer
+    ZLayer {
+      for {
+        trackService <- ZIO.service[TrackService]
+        hitRepo <- ZIO.service[HitRepo]
+        conf <- ZIO.service[Configuration]
+      } yield HitServiceImpl(trackService, hitRepo, conf)
+    }
+
 
   def hit(hit: Hit): RIO[HitService, Long]                    = ZIO.serviceWithZIO[HitService](_.hit(hit))
   def currentTracks: RIO[HitService, Map[Slot.Id, model.Hit]] = ZIO.serviceWithZIO[HitService](_.currentTracks)

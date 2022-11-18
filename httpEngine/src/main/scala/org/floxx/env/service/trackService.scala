@@ -127,7 +127,15 @@ object trackService {
 
   }
 
-  def layer: RLayer[SlotRepo with Configuration, TrackService] = (TrackServiceImpl(_, _)).toLayer
+  def layer: RLayer[SlotRepo with Configuration, TrackService] =
+    ZLayer {
+      for {
+        slotRepo <- ZIO.service[SlotRepo]
+        conf <- ZIO.service[Configuration]
+      } yield TrackServiceImpl(slotRepo, conf)
+    }
+
+
 
   def readDataFromCfpDevoxx(): RIO[TrackService, Int] = ZIO.serviceWithZIO[TrackService](_.readDataFromCfpDevoxx())
   def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =

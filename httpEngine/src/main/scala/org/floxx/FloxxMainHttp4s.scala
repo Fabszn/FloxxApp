@@ -2,18 +2,28 @@ package org.floxx
 
 import cats.syntax.all._
 import org.floxx.env.api._
-import org.floxx.env.configuration.config.{ getConf, GlobalConfig }
-import org.floxx.environment.{ appEnvironnement, AppEnvironment }
+import org.floxx.env.configuration.config
+import org.floxx.env.configuration.config.{ getConf, Configuration, GlobalConfig }
+import org.floxx.env.repository.{ cfpRepository, hitRepository, statsRepository, userRepository, QuillContext }
+import org.floxx.env.service.trackService.TrackService
+import org.floxx.env.service.{ adminService, hitService, securityService, statService, trackService }
+
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
 import org.http4s.server.{ AuthMiddleware, Router }
 import org.joda.time.DateTimeZone
 import zio._
-import zio.Clock
 import zio.interop.catz._
-import zio.logging.Logging
 
 object FloxxMainHttp4s extends zio.ZIOAppDefault {
+
+  type AppEnvironment =
+    Configuration
+      with TrackService
+      with hitService.HitService
+      with securityService.SecurityService
+      with statService.StatsService
+      with adminService.AdminService with zio.Scope
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
     ZIO.runtime[AppEnvironment].flatMap { _ =>
@@ -56,8 +66,20 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
 
   override def run =
     server
-      .provideLayer(appEnvironnement)
-      .fold[ExitCode](
+      .provide(
+        Scope.default,
+        config.layer,
+        QuillContext.dataSourceLayer,
+        hitRepository.layer,
+        cfpRepository.layer,
+        statsRepository.layer,
+        userRepository.layer,
+        adminService.layer,
+        trackService.layer,
+        hitService.layer,
+        securityService.layer,
+        statService.layer
+      ).fold[ExitCode](
         ex => {
           ExitCode.failure
         },

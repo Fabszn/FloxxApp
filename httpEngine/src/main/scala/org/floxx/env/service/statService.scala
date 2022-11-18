@@ -32,7 +32,14 @@ object statService {
 
   }
 
-  def layer: RLayer[StatsRepo with Configuration, StatsService] = (StatsServiceImpl(_, _)).toLayer
+  def layer: RLayer[StatsRepo with Configuration, StatsService] =
+    ZLayer {
+      for {
+        statsRepo <- ZIO.service[StatsRepo]
+        conf <- ZIO.service[Configuration]
+      } yield StatsServiceImpl(statsRepo, conf)
+    }
+
 
   def slotsStatus: RIO[StatsService, Seq[StatItem]] = ZIO.serviceWithZIO[StatsService](_.slotsStatus)
   def globalPercentageStatus(idxDay: DayIndex): RIO[StatsService, Seq[AggPercentageItem]] =

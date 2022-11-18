@@ -53,7 +53,15 @@ object adminService {
     }
 
   val layer: RLayer[SlotRepo with UserRepo with Configuration, AdminService] =
-    (AdminServiceImpl(_, _, _)).toLayer
+    ZLayer {
+      for {
+        slotRepo <- ZIO.service[SlotRepo]
+        userRepo <- ZIO.service[UserRepo]
+        conf <- ZIO.service[Configuration]
+      } yield AdminServiceImpl(slotRepo, userRepo, conf)
+    }
+
+
 
   def insertUserSlotMapping(mapping: Mapping): RIO[AdminService, Long] =
     ZIO.serviceWithZIO[AdminService](_.insertUserSlotMapping(mapping))

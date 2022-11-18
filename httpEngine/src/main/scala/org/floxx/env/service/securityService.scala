@@ -76,11 +76,18 @@ object securityService {
       )
   }
 
-  def layer: RLayer[UserRepo with Configuration, SecurityService] = (SecurityServiceImpl(_, _)).toLayer
+  def layer: RLayer[UserRepo with Configuration, SecurityService] =
+    ZLayer {
+      for {
+        userRepo <- ZIO.service[UserRepo]
+        conf <- ZIO.service[Configuration]
+      } yield SecurityServiceImpl(userRepo, conf)
+    }
+
 
   def authentification(user: String, mdp: String): RIO[SecurityService, AuthenticatedUser] =
     ZIO.serviceWithZIO[SecurityService](_.authentification(user, mdp))
-  def checkAuthentification(token: String): RIO[SecurityService, Option[UserInfo]] =
-    ZIO.serviceWithZIO[SecurityService](_.checkAuthentification(token))
+  /*def checkAuthentification(token: String): RIO[SecurityService, Option[UserInfo]] =
+    ZIO.serviceWithZIO[SecurityService](_.checkAuthentification(token))*/
 
 }

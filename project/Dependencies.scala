@@ -11,7 +11,7 @@ object Dependencies {
     lazy val Http4sBlazeVersion         = "0.23.12"
     lazy val chimneyVersion             = "0.6.1"
     lazy val circeVersion               = "0.14.1"
-    lazy val quillVersion               = "3.16.3"
+    lazy val quillVersion               = "4.6.0"
     lazy val testcontainersVersion      = "1.16.3"
     lazy val testcontainersScalaVersion = "0.39.12"
     lazy val driverPostgresVersion      = "42.2.23"
