@@ -14,14 +14,16 @@ import sttp.client3.circe._
 import zio._
 import zio.test.Assertion._
 import zio.test.TestAspect._
-import zio.test.environment.TestEnvironment
 import zio.test._
 
-object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtures{
-  override def spec: Spec[TestEnvironment, TestFailure[Throwable], TestSuccess] =
+
+
+
+object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
+  override def spec: Spec[TestEnvironment with Scope, Throwable] =
     {
       suite("Engine")(
-        testM("login") {
+        test("login") {
           for {
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             response <- backend
@@ -35,7 +37,7 @@ object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtu
               )
           } yield assert(response.body.map(_.name))(isRight(equalTo("fabrice Sznajderman")))
         },
-        testM("mappingUserSlot") {
+        test("mappingUserSlot") {
           for {
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             authResp <- backend
@@ -58,12 +60,10 @@ object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtu
           } yield assert(resp.body.map(_.length))(isRight(equalTo(3)))
         }
       ) @@ beforeAll {
-        ZIO.tupled(
-          userRepository.insertUsers(users),
-          cfpRepository.insertSlots(slots),
-          cfpRepository.addMapping(userSlots1),
+          userRepository.insertUsers(users)  <+>
+          cfpRepository.insertSlots(slots) <+>
+          cfpRepository.addMapping(userSlots1) <+>
           cfpRepository.addMapping(userSlots2)
-        )
       }
-    }.provideCustomLayerShared((appTestEnvironment >+> userRepository.layer >+> cfpRepository.layer).orDie)
+    }.provideLayerShared((testEnvironment ++ appTestEnvironment))
 }
