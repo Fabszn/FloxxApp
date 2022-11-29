@@ -6,6 +6,7 @@ import io.circe.generic.auto._
 import org.floxx.env.api.ApiTask
 import org.floxx.env.api.entriesPointApi.LoginResquest
 import org.floxx.env.repository._
+import org.floxx.env.service._
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.headers.Authorization
 import sttp.capabilities.fs2.Fs2Streams
@@ -16,11 +17,8 @@ import zio.test.Assertion._
 import zio.test.TestAspect._
 import zio.test._
 
-
-
-
 object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
-  override def spec: Spec[TestEnvironment with Scope, Throwable] =
+  override def spec =
     {
       suite("Engine")(
         test("login") {
@@ -65,5 +63,18 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
           cfpRepository.addMapping(userSlots1) <+>
           cfpRepository.addMapping(userSlots2)
       }
-    }.provideLayerShared((testEnvironment ++ appTestEnvironment))
+    }.provide(
+      Scope.default,
+      dbLayer,
+      hitRepository.layer,
+      cfpRepository.layer,
+      statsRepository.layer,
+      userRepository.layer,
+      hitService.layer,
+      securityService.layer,
+      statService.layer,
+      trackService.layer,
+      adminService.layer,
+      backendLayer
+      )
 }
