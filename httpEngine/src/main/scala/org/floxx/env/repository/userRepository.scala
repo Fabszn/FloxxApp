@@ -31,7 +31,6 @@ object userRepository {
     ZLayer {
       for {
         datasource <- ZIO.service[DataSource]
-
       } yield UserRepoService(datasource)
     }
 

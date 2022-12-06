@@ -18,11 +18,14 @@ import zio.test.TestAspect._
 import zio.test._
 
 object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
+
   override def spec =
     {
+
       suite("Engine")(
         test("login") {
           for {
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             response <- backend
               .send(
@@ -37,6 +40,10 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
         },
         test("mappingUserSlot") {
           for {
+            _ <- cfpRepository.insertSlots(slots) <+>
+              cfpRepository.addMapping(userSlots1) <+>
+              cfpRepository.addMapping(userSlots2)
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             authResp <- backend
               .send(
@@ -57,13 +64,8 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
               )
           } yield assert(resp.body.map(_.length))(isRight(equalTo(3)))
         }
-      ) @@ beforeAll {
-          userRepository.insertUsers(users)  <+>
-          cfpRepository.insertSlots(slots) <+>
-          cfpRepository.addMapping(userSlots1) <+>
-          cfpRepository.addMapping(userSlots2)
-      }
-    }.provide(
+      )
+      }.provide(
       Scope.default,
       dbLayer,
       hitRepository.layer,

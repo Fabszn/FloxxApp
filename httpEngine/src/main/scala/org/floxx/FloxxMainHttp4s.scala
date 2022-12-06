@@ -4,7 +4,7 @@ import cats.syntax.all._
 import org.floxx.env.api._
 import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.{ getConf, Configuration, GlobalConfig }
-import org.floxx.env.repository.{ cfpRepository, hitRepository, statsRepository, userRepository, QuillContext }
+import org.floxx.env.repository._
 import org.floxx.env.service.trackService.TrackService
 import org.floxx.env.service.{ adminService, hitService, securityService, statService, trackService }
 
@@ -23,7 +23,8 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       with hitService.HitService
       with securityService.SecurityService
       with statService.StatsService
-      with adminService.AdminService with zio.Scope
+      with adminService.AdminService
+      with Scope
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
     ZIO.runtime[AppEnvironment].flatMap { _ =>
@@ -65,7 +66,7 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
     ).orNotFound
 
   override def run =
-    server
+    migration.migration.provide(Scope.default,config.layer,QuillContext.dataSourceLayer,migration.layer) *> server
       .provide(
         Scope.default,
         config.layer,
