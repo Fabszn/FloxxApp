@@ -6,6 +6,7 @@ import io.circe.generic.auto._
 import org.floxx.env.api.ApiTask
 import org.floxx.env.api.entriesPointApi.LoginResquest
 import org.floxx.env.repository._
+import org.floxx.env.service._
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.headers.Authorization
 import sttp.capabilities.fs2.Fs2Streams
@@ -16,15 +17,15 @@ import zio.test.Assertion._
 import zio.test.TestAspect._
 import zio.test._
 
-
-
-
 object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
-  override def spec: Spec[TestEnvironment with Scope, Throwable] =
+
+  override def spec =
     {
+
       suite("Engine")(
         test("login") {
           for {
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             response <- backend
               .send(
@@ -39,6 +40,10 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
         },
         test("mappingUserSlot") {
           for {
+            _ <- cfpRepository.insertSlots(slots) <+>
+              cfpRepository.addMapping(userSlots1) <+>
+              cfpRepository.addMapping(userSlots2)
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             authResp <- backend
               .send(
@@ -59,11 +64,19 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
               )
           } yield assert(resp.body.map(_.length))(isRight(equalTo(3)))
         }
-      ) @@ beforeAll {
-          userRepository.insertUsers(users)  <+>
-          cfpRepository.insertSlots(slots) <+>
-          cfpRepository.addMapping(userSlots1) <+>
-          cfpRepository.addMapping(userSlots2)
-      }
-    }.provideLayerShared((testEnvironment ++ appTestEnvironment))
+      )
+      }.provide(
+      Scope.default,
+      dbLayer,
+      hitRepository.layer,
+      cfpRepository.layer,
+      statsRepository.layer,
+      userRepository.layer,
+      hitService.layer,
+      securityService.layer,
+      statService.layer,
+      trackService.layer,
+      adminService.layer,
+      backendLayer
+      )
 }

@@ -73,8 +73,8 @@ trait PostgresRunnableFixture {
 
   }
 
-  lazy val dbLayer: ZLayer[Clock with Console with System with Random with PostgreSQLContainer with Scope, Nothing, TestEnvironment with Configuration with DataSource] =
-    TestEnvironment.live >+> containerConfigLayer >+> QuillContext.dataSourceLayer.tap { ds =>
+  lazy val dbLayer =
+     containerLayer >>> containerConfigLayer >+> QuillContext.dataSourceLayer.tap { ds =>
       ZIO.attempt {
         val fw = Flyway
           .configure()

@@ -4,14 +4,13 @@ import io.circe.parser._
 import org.floxx.domain.Slot
 import zio.ZIO
 import zio.test.Assertion.equalTo
-import zio.test.environment.TestEnvironment
 import zio.test._
 
 import scala.io.Source
 import zio.test.ZIOSpecDefault
 
 object MapCfpToSlotsTest extends ZIOSpecDefault {
-  override def spec: Spec[TestEnvironment, TestFailure[Any], TestSuccess] =
+  override def spec =
     suite("A slots' list")(
       test("json is parsed") {
         val json = Source.fromResource("test.json")

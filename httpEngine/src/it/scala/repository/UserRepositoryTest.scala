@@ -1,8 +1,8 @@
 package repository
 
-import engine.EngineTest.appTestEnvironment
 import fixtures.{DataFixtures, PostgresRunnableFixture}
 import org.floxx.env.repository.userRepository
+import zio._
 import zio.test.Assertion.equalTo
 import zio.test.TestEnvironment
 import zio.test._
@@ -18,5 +18,5 @@ object UserRepositoryTest extends ZIOSpecDefault with PostgresRunnableFixture wi
           actual <- allUser
         } yield assert(actual.size)(equalTo(users.size))
       }
-    ).provideLayerShared(testEnvironment ++ appTestEnvironment)
+    ).provide(Scope.default, dbLayer, userRepository.layer)
 }
