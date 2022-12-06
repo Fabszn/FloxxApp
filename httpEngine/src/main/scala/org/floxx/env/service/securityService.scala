@@ -10,8 +10,7 @@ import org.floxx.{AuthentificationError, UserInfo}
 import org.http4s.circe.jsonOf
 import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
 import zio.interop.catz._
-import zio.logging.{Logger, Logging}
-import zio.{Has, RLayer, Task, _}
+import zio.{RLayer, Task, _}
 
 object securityService {
 
@@ -30,19 +29,19 @@ object securityService {
 
   }
 
-  case class SecurityServiceImpl(securityRepo: UserRepo, conf: Configuration, log: Logger[String]) extends SecurityService {
+  case class SecurityServiceImpl(securityRepo: UserRepo, conf: Configuration) extends SecurityService {
     // val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def checkAuthentification(token: String): Task[Option[UserInfo]] =
-      conf.getConf >>= (
+      conf.getConf flatMap (
             config =>
-              Task.fromTry(
+              ZIO.fromTry(
                 Jwt.decode(
                   token,
                   config.floxx.secret,
                   Seq(JwtAlgorithm.HS256)
                 )
-              ) >>= ((jwClaim: JwtClaim) => Task(decode[UserInfo](jwClaim.content).fold(_ => Option.empty[UserInfo], Some(_))))
+              ) flatMap ((jwClaim: JwtClaim) => ZIO.attempt(decode[UserInfo](jwClaim.content).fold(_ => Option.empty[UserInfo], Some(_))))
           )
 
     override def authentification(user: String, mdp: String): Task[AuthenticatedUser] =
@@ -50,10 +49,9 @@ object securityService {
         config <- conf.getConf
         userFound <- securityRepo.userByUserId(user)
         auth <- {
-          log.debug(s"user found $userFound") *>
           (userFound match {
             case Some(u) if u.mdp == mdp =>
-              Task(
+              ZIO.attempt(
                 AuthenticatedUser(
                   s"${u.firstName} ${u.lastName}",
                   tokenGenerator(
@@ -63,7 +61,7 @@ object securityService {
                   u.isAdmin
                 )
               )
-            case _ => Task.fail(AuthentificationError("login or pass is invalid"))
+            case _ => ZIO.fail(AuthentificationError("login or pass is invalid"))
           })
 
         }
@@ -78,11 +76,18 @@ object securityService {
       )
   }
 
-  def layer: RLayer[Has[UserRepo] with Has[Configuration] with Logging, Has[SecurityService]] = (SecurityServiceImpl(_, _, _)).toLayer
+  def layer: RLayer[UserRepo with Configuration, SecurityService] =
+    ZLayer {
+      for {
+        userRepo <- ZIO.service[UserRepo]
+        conf <- ZIO.service[Configuration]
+      } yield SecurityServiceImpl(userRepo, conf)
+    }
 
-  def authentification(user: String, mdp: String): RIO[Has[SecurityService], AuthenticatedUser] =
-    ZIO.serviceWith[SecurityService](_.authentification(user, mdp))
-  def checkAuthentification(token: String): RIO[Has[SecurityService], Option[UserInfo]] =
-    ZIO.serviceWith[SecurityService](_.checkAuthentification(token))
+
+  def authentification(user: String, mdp: String): RIO[SecurityService, AuthenticatedUser] =
+    ZIO.serviceWithZIO[SecurityService](_.authentification(user, mdp))
+  /*def checkAuthentification(token: String): RIO[SecurityService, Option[UserInfo]] =
+    ZIO.serviceWithZIO[SecurityService](_.checkAuthentification(token))*/
 
 }

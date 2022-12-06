@@ -2,17 +2,16 @@ package repository
 
 import fixtures.{DataFixtures, PostgresRunnableFixture}
 import org.floxx.env.repository.{cfpRepository, userRepository}
+import zio._
 import zio.test.Assertion.equalTo
-import zio.test.environment.TestEnvironment
 import zio.test._
 
-object CfpRepositoryTest extends DefaultRunnableSpec with PostgresRunnableFixture with DataFixtures {
+object CfpRepositoryTest extends ZIOSpecDefault with PostgresRunnableFixture with DataFixtures {
   import cfpRepository._
   import userRepository.insertUsers
 
-  override def spec: Spec[TestEnvironment, TestFailure[Any], TestSuccess] =
-    suite("Postgres UserRepository")(
-      testM("Get all Mappings") {
+  override def spec = suite("Postgres UserRepository")(
+      test("Get all Mappings") {
         for {
           _ <- insertUsers(users)
           _ <- insertSlots(slots)
@@ -21,5 +20,5 @@ object CfpRepositoryTest extends DefaultRunnableSpec with PostgresRunnableFixtur
           actual <- mappingUserSlot
         } yield assert(actual.size)(equalTo(3))
       }
-    ).provideCustomLayerShared((dbLayer >+> userRepository.layer >+> cfpRepository.layer).orDie)
+    ).provide(Scope.default, dbLayer, userRepository.layer, cfpRepository.layer)
 }

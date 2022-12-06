@@ -26,12 +26,12 @@ object statsApi {
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
     case GET -> Root / "stats" / "slots" as _ =>
-      statService.slotsStatus >>= (statItems => {
+      statService.slotsStatus flatMap (statItems => {
           val byDay: Map[String, Seq[StatItem]] = statItems.groupBy(_.day)
           Ok(byDay.map { case (k, s) => (k, s.groupBy(_.fromtime)) })
         })
     case GET -> Root / "stats" / "slots" / "_filling" / DayIndexVar(dayIdx) as _ =>
-      statService.globalPercentageStatus(dayIdx) >>= (aggItems => {
+      statService.globalPercentageStatus(dayIdx) flatMap (aggItems => {
           Ok(Result(aggItems.map(_.percentage), aggItems.map(_.label)))
         })
   }

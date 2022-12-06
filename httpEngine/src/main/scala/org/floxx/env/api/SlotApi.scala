@@ -47,7 +47,7 @@ object SlotApi {
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
     case GET -> Root / "read" as _ =>
-      trackService.readDataFromCfpDevoxx() >>= (nb => Ok(s"${nb} conferences have been imported"))
+      trackService.readDataFromCfpDevoxx() flatMap (nb => Ok(s"${nb} conferences have been imported"))
 
     /**
       * All slots actives currently
@@ -108,14 +108,14 @@ object SlotApi {
       } yield rep
 
     case GET -> Root / "slots" / idSlot as _ =>
-      trackService.loadSlot(idSlot) >>= {
+      trackService.loadSlot(idSlot) flatMap {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
         ) { Ok(_) }
       }
 
     case GET -> Root / "rooms" / roomId as _ =>
-      trackService.roomById(roomId) >>= {
+      trackService.roomById(roomId) flatMap {
         _.fold(
           NotFound(s"None room found for key ${roomId}")
         ) { s =>
@@ -124,7 +124,7 @@ object SlotApi {
       }
 
     case GET -> Root / "rooms" as _ =>
-      trackService.rooms >>= { (m: Map[Room.Id, Room.Name]) =>
+      trackService.rooms flatMap { (m: Map[Room.Id, Room.Name]) =>
         Ok(m.map { case (k, v) => k.value -> v.value })
       }
 

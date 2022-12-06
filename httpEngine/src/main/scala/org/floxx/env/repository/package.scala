@@ -2,12 +2,11 @@ package org.floxx.env
 
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
 import io.getquill.{Literal, PostgresZioJdbcContext}
-import org.floxx.domain.{AggregatePercenteItem, GlobalAggregatePercenteItem, Slot, StatItem, Talk, User}
+import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.{Configuration, getConf}
 import org.floxx.model.jsonModel.{Talk => JsTalk}
 import org.floxx.model.{AuthUser, Hit, HitLatest, SimpleUser}
-import org.flywaydb.core.Flyway
 import zio._
 
 import javax.sql.DataSource
@@ -16,10 +15,10 @@ package object repository {
 
   object QuillContext extends PostgresZioJdbcContext(Literal) {
 
-    val dataSourceLayer: RLayer[Has[Configuration], Has[DataSource]] =
-      getConf.toManaged_.flatMap { conf =>
-        ZManaged
-          .make(ZIO.effect {
+    val dataSourceLayer: RLayer[Configuration with Scope, DataSource] =
+      ZLayer.scoped {
+        getConf.flatMap { conf =>
+          ZIO.acquireRelease(ZIO.attempt {
             new HikariDataSource(
               new HikariConfig {
                 setJdbcUrl(conf.db.url)
@@ -30,19 +29,10 @@ package object repository {
                 setMinimumIdle(conf.db.minimumIdleSize)
               }
             )
-          })(ds => ZIO.effect(ds.close()).ignore)
-          .tap(
-            ds =>
-              Task {
-                Flyway
-                  .configure()
-                  .dataSource(ds)
-                  .load()
-                  .migrate()
-              }.toManaged_
-          )
-          .orDie
-      }.toLayer
+          })(ds => ZIO.attempt(ds.close()).orDie)
+
+        }
+      }
 
     implicit val str2talkMapping: MappedEncoding[String, Talk] = MappedEncoding[String, Talk](Talk.toString)
     implicit val talk2strMapping: MappedEncoding[Talk, String] = MappedEncoding[Talk, String](Talk.fromString)

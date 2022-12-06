@@ -6,6 +6,7 @@ import io.circe.generic.auto._
 import org.floxx.env.api.ApiTask
 import org.floxx.env.api.entriesPointApi.LoginResquest
 import org.floxx.env.repository._
+import org.floxx.env.service._
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.headers.Authorization
 import sttp.capabilities.fs2.Fs2Streams
@@ -14,15 +15,17 @@ import sttp.client3.circe._
 import zio._
 import zio.test.Assertion._
 import zio.test.TestAspect._
-import zio.test.environment.TestEnvironment
 import zio.test._
 
-object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtures{
-  override def spec: Spec[TestEnvironment, TestFailure[Throwable], TestSuccess] =
+object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
+
+  override def spec =
     {
+
       suite("Engine")(
-        testM("login") {
+        test("login") {
           for {
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             response <- backend
               .send(
@@ -35,8 +38,12 @@ object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtu
               )
           } yield assert(response.body.map(_.name))(isRight(equalTo("fabrice Sznajderman")))
         },
-        testM("mappingUserSlot") {
+        test("mappingUserSlot") {
           for {
+            _ <- cfpRepository.insertSlots(slots) <+>
+              cfpRepository.addMapping(userSlots1) <+>
+              cfpRepository.addMapping(userSlots2)
+            _ <- userRepository.insertUsers(users)
             backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
             authResp <- backend
               .send(
@@ -57,13 +64,19 @@ object EngineTest extends DefaultRunnableSpec with HttpAppFixture with DataFixtu
               )
           } yield assert(resp.body.map(_.length))(isRight(equalTo(3)))
         }
-      ) @@ beforeAll {
-        ZIO.tupled(
-          userRepository.insertUsers(users),
-          cfpRepository.insertSlots(slots),
-          cfpRepository.addMapping(userSlots1),
-          cfpRepository.addMapping(userSlots2)
-        )
-      }
-    }.provideCustomLayerShared((appTestEnvironment >+> userRepository.layer >+> cfpRepository.layer).orDie)
+      )
+      }.provide(
+      Scope.default,
+      dbLayer,
+      hitRepository.layer,
+      cfpRepository.layer,
+      statsRepository.layer,
+      userRepository.layer,
+      hitService.layer,
+      securityService.layer,
+      statService.layer,
+      trackService.layer,
+      adminService.layer,
+      backendLayer
+      )
 }

@@ -41,19 +41,19 @@ object adminApi {
       } yield r
 
     case GET -> Root / "mapping" as _ =>
-      adminService.mappingUserSlot >>= { uss =>
+      adminService.mappingUserSlot flatMap { uss =>
         Ok(uss)
       }
     case GET -> Root / "planning" as _ =>
-      adminService.planning >>= { uss =>
+      adminService.planning flatMap { uss =>
         Ok(uss)
       }
     case GET -> Root / "days" as _ =>
-      config.getConf >>= { conf =>
+      config.getConf flatMap { conf =>
         Ok(conf.cfp.days)
       }
     case _ @ GET -> Root / "users" as _ =>
-      adminService.loadUsers >>= (users => Ok(users))
+      adminService.loadUsers flatMap (users => Ok(users))
     case GET -> Root / "healthCheck" as _ => Ok("up and go")
 
   }

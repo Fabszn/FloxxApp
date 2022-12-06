@@ -3,13 +3,13 @@ package org.floxx.env
 import cats.data.{Kleisli, OptionT}
 import io.circe.generic.auto._
 import io.circe.parser.decode
-import org.floxx.environment.AppEnvironment
+import org.floxx.FloxxMainHttp4s.AppEnvironment
 import org.floxx.env.configuration.config.GlobalConfig
 import org.floxx.{UserInfo, logger}
 import org.http4s.Request
 import org.http4s.headers.Authorization
 import pdi.jwt.{Jwt, JwtAlgorithm}
-import zio.{RIO, Task}
+import zio._
 
 import scala.util.{Failure, Success}
 
@@ -32,7 +32,7 @@ package object api {
     Kleisli(
       request =>
         OptionT(
-          Task(
+          ZIO.attempt(
             request.headers
               .get(Authorization.name)
               .map(

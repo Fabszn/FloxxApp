@@ -5,7 +5,7 @@ import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
 import org.floxx.env.service.trackService.TrackService
 import org.floxx.model
-import org.floxx.model.{ Hit, TrackHitInfo }
+import org.floxx.model.{Hit, TrackHitInfo}
 import zio._
 
 object hitService {
@@ -23,7 +23,7 @@ object hitService {
     override def hit(hit: Hit): Task[Long] = hitRepo.save(hit)
 
     def transform(hits: Seq[Hit]): Task[Map[Slot.Id, Hit]] =
-      IO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
+      ZIO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
 
     override def currentTracks: Task[Map[Slot.Id, model.Hit]] =
       for {
@@ -44,7 +44,7 @@ object hitService {
         filteredHits <- transform(hits)
         filtered <- {
 
-          Task.succeed(currentSloIds.map { s =>
+          ZIO.succeed(currentSloIds.map { s =>
             {
               val hitInfo = filteredHits.get(s.slotId)
 
@@ -63,7 +63,7 @@ object hitService {
         filteredHits <- transform(hits)
         filtered <- {
 
-          Task.succeed(currentSloIds.map { s =>
+          ZIO.succeed(currentSloIds.map { s =>
             {
               val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
 
@@ -76,13 +76,20 @@ object hitService {
       }
   }
 
-  val layer: RLayer[Has[TrackService] with Has[HitRepo] with Has[Configuration], Has[HitService]] =
-    (HitServiceImpl(_, _, _)).toLayer
+  val layer: RLayer[TrackService with HitRepo with Configuration, HitService] =
+    ZLayer {
+      for {
+        trackService <- ZIO.service[TrackService]
+        hitRepo <- ZIO.service[HitRepo]
+        conf <- ZIO.service[Configuration]
+      } yield HitServiceImpl(trackService, hitRepo, conf)
+    }
 
-  def hit(hit: Hit): RIO[Has[HitService], Long]                    = ZIO.serviceWith[HitService](_.hit(hit))
-  def currentTracks: RIO[Has[HitService], Map[Slot.Id, model.Hit]] = ZIO.serviceWith[HitService](_.currentTracks)
-  def currentTracksWithHitInfo: RIO[Has[HitService], Seq[model.TrackHitInfo]] =
-    ZIO.serviceWith[HitService](_.currentTracksWithHitInfo)
-  def allTracksWithHitInfo: RIO[Has[HitService], Seq[model.TrackHitInfo]] = ZIO.serviceWith[HitService](_.allTracksWithHitInfo)
+
+  def hit(hit: Hit): RIO[HitService, Long]                    = ZIO.serviceWithZIO[HitService](_.hit(hit))
+  def currentTracks: RIO[HitService, Map[Slot.Id, model.Hit]] = ZIO.serviceWithZIO[HitService](_.currentTracks)
+  def currentTracksWithHitInfo: RIO[HitService, Seq[model.TrackHitInfo]] =
+    ZIO.serviceWithZIO[HitService](_.currentTracksWithHitInfo)
+  def allTracksWithHitInfo: RIO[HitService, Seq[model.TrackHitInfo]] = ZIO.serviceWithZIO[HitService](_.allTracksWithHitInfo)
 
 }

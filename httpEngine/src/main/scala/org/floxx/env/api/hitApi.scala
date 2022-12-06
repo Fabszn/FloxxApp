@@ -38,13 +38,13 @@ object hitApi {
       } yield r
 
     case GET -> Root / "tracks-infos" as _=>
-      hitService.currentTracksWithHitInfo >>= (r => Ok(r.asJson))
+      hitService.currentTracksWithHitInfo flatMap (r => Ok(r.asJson))
 
     case GET -> Root /  "all-tracks-infos" as _ =>
-      hitService.allTracksWithHitInfo  >>=  (r => Ok(r.asJson))
+      hitService.allTracksWithHitInfo  flatMap  (r => Ok(r.asJson))
 
     case GET -> Root /  "all-tracks-infos-for-attendees" as _ =>
-      hitService.allTracksWithHitInfo >>=  (r => Ok(r.asJson))
+      hitService.allTracksWithHitInfo flatMap  (r => Ok(r.asJson))
   }
 
 }

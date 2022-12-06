@@ -22,7 +22,7 @@ object statService {
     override def slotsStatus: Task[Seq[StatItem]] = statRepo.hitsListWithPercentage()
 
     override def globalPercentageStatus(idxDay: DayIndex): Task[Seq[AggPercentageItem]] =
-      conf.getConf >>= { conf =>
+      conf.getConf flatMap { conf =>
         val cd: Option[domain.ConfDay] = conf.cfp.days.find(_.dayIndex == idxDay)
         cd.fold(
           statRepo.aggregatePercentageGlobal
@@ -32,10 +32,17 @@ object statService {
 
   }
 
-  def layer: RLayer[Has[StatsRepo] with Has[Configuration], Has[StatsService]] = (StatsServiceImpl(_, _)).toLayer
+  def layer: RLayer[StatsRepo with Configuration, StatsService] =
+    ZLayer {
+      for {
+        statsRepo <- ZIO.service[StatsRepo]
+        conf <- ZIO.service[Configuration]
+      } yield StatsServiceImpl(statsRepo, conf)
+    }
 
-  def slotsStatus: RIO[Has[StatsService], Seq[StatItem]] = ZIO.serviceWith[StatsService](_.slotsStatus)
-  def globalPercentageStatus(idxDay: DayIndex): RIO[Has[StatsService], Seq[AggPercentageItem]] =
-    ZIO.serviceWith[StatsService](_.globalPercentageStatus((idxDay)))
+
+  def slotsStatus: RIO[StatsService, Seq[StatItem]] = ZIO.serviceWithZIO[StatsService](_.slotsStatus)
+  def globalPercentageStatus(idxDay: DayIndex): RIO[StatsService, Seq[AggPercentageItem]] =
+    ZIO.serviceWithZIO[StatsService](_.globalPercentageStatus((idxDay)))
 
 }

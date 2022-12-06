@@ -72,7 +72,7 @@ object trackService {
         })
         slots <- urlByDay.map(s).traverse(identity).map(_.fold(Nil)((a, b) => a ::: b))
 
-        nbLine <- computeRoomKey(slots) >>= slotRepo.addSlots
+        nbLine <- computeRoomKey(slots) flatMap slotRepo.addSlots
 
       } yield nbLine
 
@@ -86,7 +86,7 @@ object trackService {
     override def loadSlotByCriterias(userId: String, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
       for {
         slots <- slotRepo.allSlotsWithUserId(userId)
-        slot <- Task(slots.filter(isActiveFilter).toSeq)
+        slot <- ZIO.attempt(slots.filter(isActiveFilter).toSeq)
       } yield slot
 
     override def loadSlot(id: String): Task[Option[domain.Slot]] = slotRepo.getSlotById(id)
@@ -102,9 +102,9 @@ object trackService {
       config.getRooms.map(rs => rs.map { case (k, v) => Room.Id(k) -> Room.Name(v.getOrElse("None name")) })
 
     private def computeRoomKey(slots: List[domain.Slot]): Task[List[domain.Slot]] =
-      config.getConf >>= (
+      config.getConf flatMap (
             conf =>
-              Task.succeed(
+              ZIO.succeed(
                 slots
                   .filter(_.talk.isDefined)
                   .flatMap(s => {
@@ -120,25 +120,33 @@ object trackService {
       s.toSeq match {
         case s if (s.size > 1) => {
           logger.warn(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}")
-          Task.fail(IllegalStateError(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}"))
+          ZIO.fail(IllegalStateError(s"Too much slots selected for the following user ${userId} at ${LocalDateTime.now}"))
         }
-        case s => IO.succeed(s.headOption)
+        case s => ZIO.succeed(s.headOption)
       }
 
   }
 
-  def layer: RLayer[Has[SlotRepo] with Has[Configuration], Has[TrackService]] = (TrackServiceImpl(_, _)).toLayer
+  def layer: RLayer[SlotRepo with Configuration, TrackService] =
+    ZLayer {
+      for {
+        slotRepo <- ZIO.service[SlotRepo]
+        conf <- ZIO.service[Configuration]
+      } yield TrackServiceImpl(slotRepo, conf)
+    }
 
-  def readDataFromCfpDevoxx(): RIO[Has[TrackService], Int] = ZIO.serviceWith[TrackService](_.readDataFromCfpDevoxx())
-  def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[Has[TrackService], Seq[domain.Slot]] =
-    ZIO.serviceWith[TrackService](_.loadSlotByCriterias(isActiveFunction))
-  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[Has[TrackService], Seq[domain.Slot]] =
-    ZIO.serviceWith[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
-  def loadSlot(id: String): RIO[Has[TrackService], Option[domain.Slot]]   = ZIO.serviceWith[TrackService](_.loadSlot(id))
-  def roomById(id: String): RIO[Has[TrackService], Option[String]] = ZIO.serviceWith[TrackService](_.roomById(id))
-  def rooms: RIO[Has[TrackService], Map[Room.Id, Room.Name]]       = ZIO.serviceWith[TrackService](_.rooms)
-  def loadAllSlots: RIO[Has[TrackService], Seq[domain.Slot]]              = ZIO.serviceWith[TrackService](_.loadAllSlots)
-  def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[Has[TrackService], Seq[domain.Slot]] =
-    ZIO.serviceWith[TrackService](_.loadAllForCurrentUser(userId))
+
+
+  def readDataFromCfpDevoxx(): RIO[TrackService, Int] = ZIO.serviceWithZIO[TrackService](_.readDataFromCfpDevoxx())
+  def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
+    ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(isActiveFunction))
+  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
+    ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
+  def loadSlot(id: String): RIO[TrackService, Option[domain.Slot]]   = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
+  def roomById(id: String): RIO[TrackService, Option[String]] = ZIO.serviceWithZIO[TrackService](_.roomById(id))
+  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]]       = ZIO.serviceWithZIO[TrackService](_.rooms)
+  def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]              = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
+  def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
+    ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))
 
 }
