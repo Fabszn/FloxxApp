@@ -108,7 +108,7 @@ floxxCleanFiles := {
 }
 
 frontDev := {
-  if (buildFront(front.base, "development") != 0) throw new Exception("Something went wrong when running webpack.")
+  if (buildFront(front.base, "development") != 0) throw new Exception("Something went wrong when running yarn.")
 }
 
 frontProd := {

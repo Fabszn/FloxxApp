@@ -31,6 +31,8 @@ Floxx is deployed has 3 environments :
 Install project : 
 
   - `yarn install` :  _is used to install all dependencies for a project. This is most commonly used when you have just checked out code for a project, or when another developer on the project has added a new dependency that you need to pick up._
+  - `yarn install --global vite` : _is used to install vite tool (requiered by the project)_  
+        _
 
 Build project dev : 
 
