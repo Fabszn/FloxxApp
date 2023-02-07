@@ -34,6 +34,8 @@ object statsApi {
       statService.globalPercentageStatus(dayIdx) flatMap (aggItems => {
           Ok(Result(aggItems.map(_.percentage), aggItems.map(_.label)))
         })
+    case GET -> Root / "stats" / "slots" / "_filling"  as _ =>
+      statService.slotsStatus flatMap ( Ok(_))
   }
 
 }

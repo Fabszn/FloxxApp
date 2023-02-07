@@ -1,12 +1,13 @@
 package org.floxx.env.service
 
-import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
-import org.floxx.domain.{ AggPercentageItem, AggregatePercenteItem, StatItem }
+import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import org.floxx.domain.{AggPercentageItem, AggregatePercenteItem, StatItem}
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.statsRepository.StatsRepo
 import zio._
 import cats.implicits._
 import org.floxx.domain
+import org.floxx.env.api.SlotApi.SlotItem
 import zio.interop.catz._
 
 object statService {
@@ -15,6 +16,7 @@ object statService {
 
     def slotsStatus: Task[Seq[StatItem]]
     def globalPercentageStatus(idxDay: DayIndex): Task[Seq[AggPercentageItem]]
+    def globalPercentageStatus: Task[Seq[AggPercentageItem]]
 
   }
 
@@ -29,7 +31,7 @@ object statService {
         )(selectedDay => statRepo.aggregatePercentageByDay(selectedDay.dayValue))
       }
 
-
+    override def globalPercentageStatus: Task[Seq[AggPercentageItem]] = statRepo.aggregatePercentageGlobal
   }
 
   def layer: RLayer[StatsRepo with Configuration, StatsService] =
@@ -44,5 +46,6 @@ object statService {
   def slotsStatus: RIO[StatsService, Seq[StatItem]] = ZIO.serviceWithZIO[StatsService](_.slotsStatus)
   def globalPercentageStatus(idxDay: DayIndex): RIO[StatsService, Seq[AggPercentageItem]] =
     ZIO.serviceWithZIO[StatsService](_.globalPercentageStatus((idxDay)))
+
 
 }
