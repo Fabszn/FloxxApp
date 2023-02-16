@@ -53,7 +53,7 @@ object domain {
   }
 
   case class StatItem(
-      slotId: Option[SlotId],
+      slotId: Option[Slot.Id],
       talk: Talk,
       percentage: Option[Int],
       roomid: String,

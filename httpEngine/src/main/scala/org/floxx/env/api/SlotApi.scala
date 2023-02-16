@@ -8,7 +8,7 @@ import org.floxx.domain.{Room, Slot}
 import org.floxx.env.configuration.config
 import org.floxx.env.service.{timeUtils, trackService}
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
-import org.floxx.model.{Hit, SlotId}
+import org.floxx.model.Hit
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
@@ -27,7 +27,7 @@ object SlotApi {
 
   import dsl._
 
-  case class SlotItem(id: SlotId, name: String)
+  case class SlotItem(id: Slot.Id, name: String)
 
   object SlotItem {
     implicit val format = jsonOf[ApiTask, SlotItem]
