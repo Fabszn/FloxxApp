@@ -81,7 +81,7 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
         securityService.layer,
         statService.layer
       ).fold[ExitCode](
-        ex => {
+        _ => {
           ExitCode.failure
         },
         _ => {

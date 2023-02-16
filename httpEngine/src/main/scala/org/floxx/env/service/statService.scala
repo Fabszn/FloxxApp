@@ -1,14 +1,12 @@
 package org.floxx.env.service
 
-import org.floxx.domain.ConfDay.{DayIndex, DayValue}
-import org.floxx.domain.{AggPercentageItem, AggregatePercenteItem, StatItem}
+import org.floxx.domain.ConfDay.DayIndex
+import org.floxx.domain.{AggPercentageItem, StatItem}
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.statsRepository.StatsRepo
 import zio._
-import cats.implicits._
 import org.floxx.domain
-import org.floxx.env.api.SlotApi.SlotItem
-import zio.interop.catz._
+
 
 object statService {
 

@@ -1,6 +1,5 @@
 package org.floxx.env.api
 
-
 import io.circe.Encoder
 import org.floxx.UserInfo
 import org.floxx.env.service.statService
@@ -12,30 +11,38 @@ import zio.interop.catz._
 import io.circe.generic.semiauto._
 import org.floxx.domain.ConfDay.DayIndexVar
 
+import java.util
+import scala.collection.immutable.SortedMap
+
 object statsApi {
 
   val dsl = Http4sDsl[ApiTask]
 
   final case class Result(labels: Seq[Int], percentages: Seq[Int])
-  object Result{
+  object Result {
     implicit val enc: Encoder[Result] = deriveEncoder[Result]
   }
-
 
   import dsl._
 
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
     case GET -> Root / "stats" / "slots" as _ =>
       statService.slotsStatus flatMap (statItems => {
-          val byDay: Map[String, Seq[StatItem]] = statItems.groupBy(_.day)
-          Ok(byDay.map { case (k, s) => (k, s.groupBy(_.fromtime)) })
-        })
+        val byDay: Map[String, Seq[StatItem]] = statItems.groupBy(_.day)
+        Ok(byDay.map { case (day, s) => (day, orderMapKey(s.groupBy(_.fromtime))) })
+      })
     case GET -> Root / "stats" / "slots" / "_filling" / DayIndexVar(dayIdx) as _ =>
       statService.globalPercentageStatus(dayIdx) flatMap (aggItems => {
-          Ok(Result(aggItems.map(_.percentage), aggItems.map(_.label)))
-        })
-    case GET -> Root / "stats" / "slots" / "_filling"  as _ =>
-      statService.slotsStatus flatMap ( Ok(_))
+        Ok(Result(aggItems.map(_.percentage), aggItems.map(_.label)))
+      })
+    case GET -> Root / "stats" / "slots" / "_filling" as _ =>
+      statService.slotsStatus flatMap (Ok(_))
   }
+
+  def orderMapKey(s: Map[String, Seq[StatItem]]): Map[String, Seq[StatItem]] = {
+    SortedMap.from(s)
+
+  }
+
 
 }

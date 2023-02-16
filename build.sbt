@@ -136,6 +136,7 @@ lazy val model = (project in file("model"))
     libraryDependencies ++= quill,
     libraryDependencies += `zio-interop-cats`
   )
+addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full)
 
 lazy val httpEngine = (project in file("httpEngine"))
   .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
