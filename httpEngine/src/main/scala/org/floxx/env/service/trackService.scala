@@ -10,7 +10,7 @@ import org.http4s.blaze.client.BlazeClientBuilder
 
 import zio._
 import zio.interop.catz._
-import zio.interop.catz.implicits.rts
+//import zio.interop.catz.implicits.rts
 
 object trackService {
 

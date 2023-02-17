@@ -197,9 +197,9 @@ export default defineComponent({
     const per252 = ref(0);
     const per253 = ref(0);
 
-    const col243 = ref("green");
     const colAmphiB = ref("green");
     const colMaillot = ref("green");
+    const col243 = ref("green");
     const col241 = ref("green");
     const col242 = ref("green");
     const col251 = ref("green");

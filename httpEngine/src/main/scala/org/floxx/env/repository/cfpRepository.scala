@@ -15,8 +15,8 @@ object cfpRepository {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
     def insertSlots(slotList: Seq[Slot]): Task[Long]
-    @deprecated
-    def addSlots(slots: Seq[Slot]): Task[Int]
+    /*@deprecated
+    def addSlots(slots: Seq[Slot]): Task[Int]*/
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
     def getSlotById(id: String): Task[Option[Slot]]
@@ -36,7 +36,7 @@ object cfpRepository {
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
-    @deprecated
+    /*@deprecated
     override def addSlots(slotList: Seq[Slot]): Task[Int] =
       ZIO
         .collectAll {
@@ -61,7 +61,7 @@ object cfpRepository {
               } yield ()
           )
         }
-        .map(_.length)
+        .map(_.length)*/
 
     override def addMapping(m: Mapping): Task[Long] = {
       m.userId
