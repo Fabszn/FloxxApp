@@ -5,11 +5,10 @@ import io.circe.generic.auto._
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Slot.{Day, FromTime, ToTime}
-import org.floxx.model.SlotId
+import org.floxx.domain.Slot.Day
+
 
 import java.text.SimpleDateFormat
-import java.time.{LocalDateTime, ZoneOffset}
 import scala.util.Try
 
 object domain {
@@ -62,11 +61,11 @@ object domain {
       day: String
   )
 
-  object StatItem {
+  /*object StatItem {
 
     implicit val dec: Decoder[StatItem] = deriveDecoder[StatItem]
     implicit val enc: Encoder[StatItem] = deriveEncoder[StatItem]
-  }
+  }*/
 
   object Mapping {
     case class UserSlot(user: Option[User.SimpleUser], slot: Slot)

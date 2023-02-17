@@ -38,7 +38,7 @@
       hover
       v-model:sort-by="sortBy"
       v-model:sort-desc="sortDesc"
-      :fields="fields"
+      :fields="fields"  
       :items="items"
       :filter="filter"
     >

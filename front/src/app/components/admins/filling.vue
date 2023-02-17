@@ -33,9 +33,10 @@
       :items="items"
       :filter="filter"
     >
-      <template v-slot:cell(slotId)="data">{{ data.value.id }}</template>
-      <template v-slot:cell(percentage)="data">{{ data.value }}</template>
-      <template v-slot:head(slotId)>Slot</template>
+    <template v-slot:head(slotId)>Slot</template>
+      <template v-slot:head(percentage)>Percentage</template>
+      <template v-slot:cell(slotId)="data">{{ data.item.slotId }}</template>
+      <template v-slot:cell(percentage)="data">{{ data.item.percentage }}</template>     
     </b-table>
   </div>
 </template>
@@ -65,6 +66,7 @@ export default {
         })
         .then((response) => response.json())
         .then(p => {
+          console.log(p)
           this.items = p;
         });
     });
