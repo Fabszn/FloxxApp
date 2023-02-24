@@ -185,13 +185,12 @@ export default defineComponent({
       var itemId = this.$route.params.slotid;
       fetch("/api/slots/" + itemId, {
         headers: shared.tokenHandle(),
-      })
-        .then((response) => response.json())
+      }).then((response) => response.json())
         .then((p) => {
           this.title = p.talk.title;
           this.talkType = p.talk.talkType;
           this.room = p.roomId;
-        });
+        });      
     });
   },
   methods: {

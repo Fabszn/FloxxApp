@@ -9,7 +9,7 @@ object Dependencies {
     lazy val `zio-interop`              = "3.3.0"
     lazy val Http4sVersion              = "0.23.14"
     lazy val Http4sBlazeVersion         = "0.23.12"
-    lazy val chimneyVersion             = "0.6.1"
+    lazy val chimneyVersion             = "0.6.2"
     lazy val circeVersion               = "0.14.1"
     lazy val quillVersion               = "4.6.0"
     lazy val testcontainersVersion      = "1.16.3"
@@ -20,9 +20,11 @@ object Dependencies {
     lazy val sttpVersion                = "3.5.1"
     lazy val scalaTestVersion           = "3.2.13"
 
+
   }
 
-  lazy val flyway = "org.flywaydb" % "flyway-core" % flywayVersion
+
+  lazy val flyway  = "org.flywaydb" % "flyway-core" % flywayVersion
 
   lazy val shapeless = "com.chuusai" %% "shapeless" % shapelessVersion
 

@@ -122,7 +122,6 @@ object trackService {
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: String): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
   def roomById(id: String): RIO[TrackService, Option[String]]      = ZIO.serviceWithZIO[TrackService](_.roomById(id))
-  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]]            = ZIO.serviceWithZIO[TrackService](_.rooms)
   def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]            = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
   def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))

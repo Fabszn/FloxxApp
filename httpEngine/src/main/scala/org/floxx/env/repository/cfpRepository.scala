@@ -36,32 +36,7 @@ object cfpRepository {
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
-    /*@deprecated
-    override def addSlots(slotList: Seq[Slot]): Task[Int] =
-      ZIO
-        .collectAll {
-          slotList.map(
-            newSlot =>
-              for {
-                aSlot <- getSlotById(newSlot.slotId.value)
-                _ <- aSlot
-                  .fold(
-                    run(quote(slots.insertValue(lift(newSlot)))).provideEnvironment(ZEnvironment(dataSource))
-                  )(
-                    oldSlot =>
-                      run(
-                        quote(
-                          slots
-                            .filter(s => s.slotId == lift(oldSlot.slotId))
-                            .update(_.talk -> lift(Option(newSlot.talk.getOrElse(Talk("_", "_")))),
-                              _.roomId -> lift(newSlot.roomId))
-                        )
-                      ).provideEnvironment(ZEnvironment(dataSource))
-                  )
-              } yield ()
-          )
-        }
-        .map(_.length)*/
+
 
     override def addMapping(m: Mapping): Task[Long] = {
       m.userId
