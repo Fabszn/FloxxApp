@@ -1,7 +1,7 @@
 package org.floxx.env.repository
 
 import org.floxx.domain._
-import org.floxx.model. HitLatest
+import org.floxx.model.HitLatest
 import org.floxx.domain.Hit
 import zio._
 
@@ -10,6 +10,12 @@ import javax.sql.DataSource
 
 @SuppressWarnings(Array("org.wartremover.warts.Product"))
 object hitRepository {
+  val layer: RLayer[DataSource, HitRepo] =
+    ZLayer {
+      for {
+        dataSource <- ZIO.service[DataSource]
+      } yield HitRepoCfg(dataSource)
+    }
 
   trait HitRepo {
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]]
@@ -46,18 +52,11 @@ object hitRepository {
       run(quote(overflow.filter(o => liftQuery(slotIds).contains(o.slotId)))).provideEnvironment(ZEnvironment(dataSource))
 
     override def createOrUpdateOverflow(o: Overflow): Task[Long] =
-      run{
-        quote{
-          overflow.insertValue(o).onConflictUpdate(_.slotId)((t,e) => t.level -> e.level )
-        }
-      }.provideEnvironment(ZEnvironment(dataSource))
+      run(
+        quote(
+          overflow.insertValue(o).onConflictUpdate(_.slotId)((t, e) => t.level -> e.level)
+        )
+      ).provideEnvironment(ZEnvironment(dataSource))
   }
-
-  val layer: RLayer[DataSource, HitRepo] =
-    ZLayer {
-      for {
-        dataSource <- ZIO.service[DataSource]
-      } yield HitRepoCfg(dataSource)
-    }
 
 }
