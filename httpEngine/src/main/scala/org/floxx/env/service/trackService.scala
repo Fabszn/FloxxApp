@@ -55,11 +55,13 @@ object trackService {
       import cats.implicits._
 
       for {
-        conf <- {val c: Task[GlobalConfig] = config.getConf
-        c}
+        conf <- {
+          val c: Task[GlobalConfig] = config.getConf
+          c
+        }
         urlByDay = conf.cfp.days.map(d => s"${conf.cfp.url}${d.dayValue.value}")
         slots <- {
-          val t =urlByDay.map(s).traverse(identity).map(_.flatten)
+          val t = urlByDay.map(s).traverse(identity).map(_.flatten)
           t
         }
         computedSlotKey = computeRoomKey(slots, conf)
@@ -125,5 +127,6 @@ object trackService {
   def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]            = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
   def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))
+  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]] = ZIO.serviceWithZIO[TrackService](_.rooms)
 
 }

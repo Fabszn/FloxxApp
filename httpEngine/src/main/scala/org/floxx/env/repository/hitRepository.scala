@@ -54,7 +54,7 @@ object hitRepository {
     override def createOrUpdateOverflow(o: Overflow): Task[Long] =
       run(
         quote(
-          overflow.insertValue(o).onConflictUpdate(_.slotId)((t, e) => t.level -> e.level)
+          overflow.insertValue(lift(o)).onConflictUpdate(_.slotId)((t, e) => t.level -> e.level)
         )
       ).provideEnvironment(ZEnvironment(dataSource))
   }
