@@ -135,12 +135,20 @@
           </button>
         </div>
         <div>
-          <button
+
+          <button v-if="overflow"
             type="button"
             class="btn btn-secondary btn-lg block bred"
             v-on:click="hit(100)"
           >
             Over
+          </button>
+          <button v-else
+            type="button"
+            class="btn btn-secondary btn-lg block bred"
+            v-on:click="hit(100)"
+          >
+            100%
           </button>
         </div>
       </div>
@@ -164,11 +172,13 @@ export default defineComponent({
     const toast = useToast();
     const currentFill = ref(0);
     const currentColor = ref("green");
+    const overflow = ref(false)
 
     return {
       currentFill,
       currentColor,
       toast,
+      overflow
     };
   },
   data: function () {
@@ -183,13 +193,13 @@ export default defineComponent({
   created() {
     shared.securityAccess(this.$router, (p) => {
       var itemId = this.$route.params.slotid;
-      fetch("/api/slots/" + itemId, {
+      fetch("/api/tracks-infos/" + itemId, {
         headers: shared.tokenHandle(),
       }).then((response) => response.json())
         .then((p) => {
-          this.title = p.talk.title;
-          this.talkType = p.talk.talkType;
-          this.room = p.roomId;
+          this.title = p.slot.talk.title;
+          this.talkType = p.slot.talk.talkType;
+          this.room = p.slot.roomId;
         });      
     });
   },
@@ -208,7 +218,20 @@ export default defineComponent({
         this.currentFill = _.toInteger(perc);
         this.currentColor = shared.colorByPercentage(perc);
         this.toast.success("Percentage has been registered");
+        this.switchOverflow.bind(this)(perc);
       });
+    },
+    switchOverflow: function(perc){
+      
+      if(perc == 100 && this.overflow == true){
+        console.log("open popin");
+      }else if(perc != 100){
+        this.overflow=false;
+      } else {
+        this.overflow=true;
+      }
+      console.log("overflow " + this.overflow);
+      
     },
     backMySlots: function () {
       this.$router.push("/myslots");
@@ -233,6 +256,10 @@ export default defineComponent({
   margin: 6px 0px 0px 10px;
 }
 
+
+.bpurple {
+  background-color: red;
+}
 .bred {
   background-color: red;
 }

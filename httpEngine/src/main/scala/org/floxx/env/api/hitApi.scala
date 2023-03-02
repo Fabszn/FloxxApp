@@ -62,7 +62,7 @@ object hitApi {
       hitService.currentTracksWithHitInfo flatMap (r => Ok(r.asJson))
 
     case GET -> Root / "tracks-infos" / slotId as _ =>
-      hitService.currentTracksWithHitInfo flatMap (r => Ok(r.asJson))
+      hitService.tracksWithHitInfoBy(Slot.Id(slotId)) flatMap (r => Ok(r.asJson))
 
     case GET -> Root / "all-tracks-infos" as _ =>
       hitService.allTracksWithHitInfo flatMap (r => Ok(r.asJson))

@@ -23,7 +23,8 @@ object hitService {
 
     def hit(hit: Hit): Task[Long]
     def saveOrUpdateOverflow(overflow: Overflow): Task[Long]
-    def currentTracks: Task[Map[Slot.Id, Hit]]
+
+    def tracksWithHitInfoBy(slotId:Slot.Id): Task[Option[TrackHitInfo]]
     def currentTracksWithHitInfo: Task[Seq[TrackHitInfo]]
     def allTracksWithHitInfo: Task[Seq[TrackHitInfo]]
 
@@ -34,18 +35,6 @@ object hitService {
 
     def transform(hits: Seq[Hit]): Task[Map[Slot.Id, Hit]] =
       ZIO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
-
-    //todo refactor to return TrackInfo (make things standard)
-    override def currentTracks: Task[Map[Slot.Id, Hit]] =
-      for {
-        conf <- config.getConf
-        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
-        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
-        filtered <- transform(hits)
-
-      } yield {
-        filtered
-      }
 
     override def currentTracksWithHitInfo: Task[Seq[TrackHitInfo]] =
       for {
@@ -88,10 +77,32 @@ object hitService {
         filtered
       }
 
+
+    override def tracksWithHitInfoBy(slotId: Slot.Id): Task[Option[TrackHitInfo]] =
+      for {
+        currentSlots <- trackService.loadSlotByCriterias(_.slotId == slotId)
+        currentSlotIds = currentSlots.map(_.slotId)
+        hits <- hitRepo.loadHitBy(currentSlotIds)
+        overflows <- hitRepo.overflowBySlotId(currentSlotIds)
+        filteredHits <- transform(hits)
+        filtered = currentSlots.headOption.map { s =>
+          TrackHitInfo(
+            s.slotId,
+            s,
+            filteredHits.get(s.slotId),
+            overflows.find(_.slotId == s.slotId)
+          )
+        }
+
+      } yield {
+        filtered
+      }
+
     override def saveOrUpdateOverflow(overflow: Overflow): Task[Long] = hitRepo.createOrUpdateOverflow(overflow)
   }
 
   def hit(hit: Hit): RIO[HitService, Long]                    = ZIO.serviceWithZIO[HitService](_.hit(hit))
+  def tracksWithHitInfoBy(slotId:Slot.Id): RIO[HitService, Option[TrackHitInfo]] =ZIO.serviceWithZIO[HitService](_.tracksWithHitInfoBy(slotId))
   def currentTracksWithHitInfo: RIO[HitService, Seq[TrackHitInfo]] =
     ZIO.serviceWithZIO[HitService](_.currentTracksWithHitInfo)
   def allTracksWithHitInfo: RIO[HitService, Seq[TrackHitInfo]] = ZIO.serviceWithZIO[HitService](_.allTracksWithHitInfo)
