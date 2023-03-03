@@ -153,6 +153,22 @@
         </div>
       </div>
     </div>
+
+    <GDialog v-model="dialogState">
+      <div class="floxxmodal over">
+        <div class="modalinfo">
+          <div>
+           Hello from popin
+           <v-slider></v-slider>
+          </div>
+        </div>
+        <div class="buttonmodal">
+          <button type="button" v-on:click="hide" class="btn btn-secondary">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </GDialog>
   </div>
 </template>
 
@@ -183,6 +199,7 @@ export default defineComponent({
   },
   data: function () {
     return {
+      dialogState: false,
       id: this.$route.params.slotid,
       fill: { gradient: ["green"] },
       title: "",
@@ -222,16 +239,17 @@ export default defineComponent({
       });
     },
     switchOverflow: function(perc){
-      
       if(perc == 100 && this.overflow == true){
-        console.log("open popin");
+        this.dialogState = true;
       }else if(perc != 100){
         this.overflow=false;
       } else {
         this.overflow=true;
       }
-      console.log("overflow " + this.overflow);
-      
+    },
+    hide() {
+    console.log("close")
+      this.dialogState = false;
     },
     backMySlots: function () {
       this.$router.push("/myslots");
