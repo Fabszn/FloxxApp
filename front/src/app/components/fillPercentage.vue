@@ -159,7 +159,6 @@
         <div class="modalinfo">
           <div>
            Hello from popin
-           <v-slider></v-slider>
           </div>
         </div>
         <div class="buttonmodal">
