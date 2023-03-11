@@ -52,8 +52,8 @@
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
-          :percent="perAmphiB"
-          :fill-color="colAmphiB"
+          :percent="stateAmphiB.data.per"
+          :fill-color="stateAmphiB.data.color"
         />
         <div class="roomTitleCenter">Amphi B.</div>
       </div>
@@ -65,13 +65,13 @@
             :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill-color="col253"
+            :fill-color="state253.data.color"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="per253"
+            :percent="state253.data.per"
           />
           <div class="roomTitleCenter">Neuilly 253</div>
         </div>
@@ -81,13 +81,13 @@
             :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill-color="col252"
+            :fill-color="state252.data.color"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="per252"
+            :percent="state252.data.per"
           />
           <div class="roomTitleCenter">Neuilly 252</div>
         </div>
@@ -96,13 +96,13 @@
             :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill-color="col251"
+            :fill-color="state251.data.color"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="per251"
+            :percent="state251.data.per"
           />
           <div class="roomTitleCenter">Neuilly 251</div>
         </div>
@@ -114,9 +114,9 @@
             :reverse="false"
             line-cap="round"
             :start-angle="380"
-            :fill-color="col243"
+            :fill-color="state243.data.color"
             :show-percent="true"
-            :percent="per243"
+            :percent="state243.data.per"
             :viewport="true"
           />
           <div class="roomTitleCenter">Paris 243</div>
@@ -126,13 +126,13 @@
             :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill-color="col242"
+            :fill-color="state242.data.color"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
-            :percent="per242"
+            :percent="state242.data.per"
           />
           <div class="roomTitleCenter">Paris 242AB</div>
         </div>
@@ -141,12 +141,12 @@
             :size="globalSize"
             :reverse="false"
             line-cap="round"
-            :fill-color="col241"
+            :fill-color="state241.data.color"
             :animation-start-value="0.0"
             :start-angle="380"
             insert-mode="append"
             :thickness="5"
-            :percent="per241"
+            :percent="state241.data.per"
             :show-percent="true"
           />
           <div class="roomTitleCenter">Paris 241</div>
@@ -154,18 +154,18 @@
       </div>
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter" v-on:click="show('c_maillot')">
+      <div class="space-headerFooter" v-bind:class="{'overflowMedium':false,'overflowRequiere':true}" v-on:click="show('c_maillot')">
         <circle-progress
           :size="globalSize"
           :reverse="false"
           line-cap="round"
           :animation-start-value="0.0"
-          :fill-color="colMaillot"
+          :fill-color="stateMaillot.data.color"
           :start-angle="380"
           insert-mode="append"
           :thickness="5"
           :show-percent="true"
-          :percent="perMaillot"
+          :percent="stateMaillot.data.per"
         />
         <div class="roomTitleCenter">Maillot</div>
       </div>
@@ -176,55 +176,52 @@
 
 
 <script lang="ts">
+
+class StateRoom{
+  data = reactive({
+      per: ref(0),
+      color: ref("green"),
+      overflowState: ref("overflowMedium"),
+    });
+
+  constructor() {
+    //this.data = toRefs(this.data);
+  }
+
+}
+
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
 import { TrackHitInfo, Conference } from "../../models";
-import { defineComponent, ref } from "@vue/runtime-core";
+import { defineComponent, ref, reactive,toRefs } from "@vue/runtime-core";
 
 export default defineComponent({
   components: {
     CircleProgress,
   },
   setup() {
-    const perAmphiB = ref(0);
-    const perMaillot = ref(0);
-    const per243 = ref(0);
-    const per241 = ref(0);
-    const per242 = ref(0);
-    const per251 = ref(0);
-    const per252 = ref(0);
-    const per253 = ref(0);
-
-    const colAmphiB = ref("green");
-    const colMaillot = ref("green");
-    const col243 = ref("green");
-    const col241 = ref("green");
-    const col242 = ref("green");
-    const col251 = ref("green");
-    const col252 = ref("green");
-    const col253 = ref("green");
+    const stateAmphiB = new StateRoom();
+    const stateMaillot = new StateRoom();
+    const state243 = new StateRoom();
+    const state241 = new StateRoom();
+    const state242 = new StateRoom();
+    const state251 = new StateRoom();
+    const state252 = new StateRoom();
+    const state253 = new StateRoom();
 
     const globalSize = ref(100);
 
     return {
-      perAmphiB,
-      perMaillot,
-      per241,
-      per242,
-      per243,
-      per251,
-      per252,
-      per253,
-      col243,
-      col241,
-      col242,
-      col251,
-      col252,
-      col253,
-      colMaillot,
-      colAmphiB,
+      stateAmphiB,
+      stateMaillot,
+      state241,
+      state242,
+      state243,
+      state251,
+      state252,
+      state253,
       globalSize,
     };
   },
@@ -251,10 +248,7 @@ export default defineComponent({
     },
     backRooms: function () {
       this.$router.push("/menu");
-    },
-    update: function () {
-      this.percentage = 30;
-    },
+    }
   },
 });
 
@@ -270,7 +264,8 @@ function currentTracksWitHitInfo() {
         if (!_.isNull(value.hitInfo)) {
           shared.computeHit.bind(this)(
             value.hitInfo.percentage,
-            value.hitInfo.hitSlotId
+            value.hitInfo.hitSlotId,
+            value.hitInfo.overflow
           );
         }
       });
@@ -319,7 +314,14 @@ function beforeOpen(idSlot) {
 .space {
   margin: 20px;
 }
-
+.overflowMedium{
+  background-color: rgba(246, 141, 55, 0.817);
+  border-radius: 10px;
+}
+.overflowRequiere{
+  background-color: rgba(248, 65, 41, 0.817);
+  border-radius: 10px;
+}
 .roomTitleCenter {
   display: flex;
   justify-content: center;

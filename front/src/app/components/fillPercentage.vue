@@ -20,7 +20,7 @@
     <div class="d-flex justify-content-center">
       <div>
         <circle-progress
-          :size=100
+          :size="100"
           :reverse="false"
           line-cap="round"
           :fill-color="currentColor"
@@ -135,15 +135,16 @@
           </button>
         </div>
         <div>
-
-          <button v-if="overflow"
+          <button
+            v-if="overflow"
             type="button"
             class="btn btn-secondary btn-lg block bred"
             v-on:click="hit(100)"
           >
             Over
           </button>
-          <button v-else
+          <button
+            v-else
             type="button"
             class="btn btn-secondary btn-lg block bred"
             v-on:click="hit(100)"
@@ -157,8 +158,15 @@
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
-          <div>
-           Hello from popin
+          <div class="slider">
+            Hello from popin
+            <vue-slider
+              v-model="value"
+              :adsorb="true"
+              :data="data"
+              :marks="true"
+              @change="ch"
+            ></vue-slider>
           </div>
         </div>
         <div class="buttonmodal">
@@ -178,24 +186,34 @@ import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import _ from "lodash";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
 
 export default defineComponent({
   components: {
     CircleProgress,
+    VueSlider,
   },
   setup() {
     const toast = useToast();
     const currentFill = ref(0);
     const currentColor = ref("green");
-    const overflow = ref(false)
+    const overflow = ref(false);
+    const overflowIndex = {
+            1: "Non",
+            2: "Modéré",
+            3: "Requis",
+        }
 
     return {
       currentFill,
       currentColor,
       toast,
-      overflow
-    };
-  },
+      overflow,
+      overflowIndex 
+
+  }
+},
   data: function () {
     return {
       dialogState: false,
@@ -204,6 +222,8 @@ export default defineComponent({
       title: "",
       talkType: "",
       room: "",
+      data: ["Non", "Modéré", "Requis"],
+      value: "",
     };
   },
   created() {
@@ -211,12 +231,14 @@ export default defineComponent({
       var itemId = this.$route.params.slotid;
       fetch("/api/tracks-infos/" + itemId, {
         headers: shared.tokenHandle(),
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((p) => {
           this.title = p.slot.talk.title;
           this.talkType = p.slot.talk.talkType;
           this.room = p.slot.roomId;
-        });      
+          this.value = this.overflowIndex[2];
+        });
     });
   },
   methods: {
@@ -225,8 +247,8 @@ export default defineComponent({
     hit: function (perc) {
       fetch("/api/hit", {
         body: JSON.stringify({
-          "hitSlotId": this.$route.params.slotid,
-          "percentage": perc,
+          hitSlotId: this.$route.params.slotid,
+          percentage: perc,
         }),
         method: "POST",
         headers: shared.tokenHandle(),
@@ -237,21 +259,25 @@ export default defineComponent({
         this.switchOverflow.bind(this)(perc);
       });
     },
-    switchOverflow: function(perc){
-      if(perc == 100 && this.overflow == true){
+    switchOverflow: function (perc) {
+      if (perc == 100 && this.overflow == true) {
         this.dialogState = true;
-      }else if(perc != 100){
-        this.overflow=false;
+      } else if (perc != 100) {
+        this.overflow = false;
       } else {
-        this.overflow=true;
+        this.overflow = true;
       }
     },
     hide() {
-    console.log("close")
+      console.log("close");
       this.dialogState = false;
     },
     backMySlots: function () {
       this.$router.push("/myslots");
+    },
+    ch: function (va) {
+      
+      console.log(_.invert(this.overflowIndex)[va]);
     },
   },
 });
@@ -273,7 +299,6 @@ export default defineComponent({
   margin: 6px 0px 0px 10px;
 }
 
-
 .bpurple {
   background-color: red;
 }
@@ -286,4 +311,14 @@ export default defineComponent({
 .bgreen {
   background-color: #4caf50;
 }
+.slider {
+  padding: 18px 90px;
+}
+
+@media (max-width: 375px){
+  .slider {
+  padding: 18px 20px;
+}
+}
+
 </style>
