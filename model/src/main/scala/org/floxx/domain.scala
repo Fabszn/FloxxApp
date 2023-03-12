@@ -10,7 +10,7 @@ import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Overflow.Level
 import org.floxx.domain.Slot.Day
-import org.floxx.model.Hit
+
 
 import java.text.SimpleDateFormat
 import scala.util.Try

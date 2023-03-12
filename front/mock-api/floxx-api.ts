@@ -16,7 +16,29 @@ export default [
    {
     url: '/api/tracks-infos',
     method: 'get',
-    response : [{"hitSlotId":{"value":"wednesday_par243_t_13:30-16:30_2022"},"slot":{"slotId":{"value":"wednesday_par243_t_13:30-16:30_2022"},"roomId":{"value":"Paris 243"},"fromTime":{"value":"13:30"},"toTime":{"value":"16:30"},"talk":{"talkType":"University","title":"Initiation concrète à la compilation"},"day":{"value":"wednesday"},"yearSlot":{"value":2022}},"hitInfo":{"hitid":"7b848145-43a0-4c17-b56d-0c3f397d172a","hitSlotId":"wednesday_par243_t_13:30-16:30_2022","percentage":10,"dateTime":1678398281436,"userId":{"value":"fab-szn"}},"overflow":null}]
+    response : [{
+        "hitSlotId": "friday_d_par241_10:45-11:30_2022",
+        "slot": {
+          "slotId": "friday_d_par241_10:45-11:30_2022",
+          "roomId": "Paris 241",
+          "fromTime": "10:45",
+          "toTime": "11:30",
+          "talk": {
+            "talkType": "Conference",
+            "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
+          },
+          "day": "friday",
+          "yearSlot": 2022
+        },
+        "hitInfo": {
+          "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
+          "hitSlotId": "friday_d_par241_10:45-11:30_2022",
+          "percentage": 30,
+          "dateTime": 1650617250400,
+          "userId": "bab-cis"
+        },
+        "overflow": null
+      }]
    },
     {
         url: '/api/stats/slots',

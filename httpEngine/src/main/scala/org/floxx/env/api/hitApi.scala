@@ -1,19 +1,20 @@
 package org.floxx.env.api
 
-import io.circe.generic.auto._
 import io.circe.syntax._
 import org.floxx.UserInfo
 import org.floxx.domain.Overflow.Level
 import org.floxx.domain.User.SimpleUser
 import org.floxx.env.service.hitService
 import org.floxx.domain._
-import org.http4s.AuthedRoutes
+import org.http4s.{AuthedRoutes, EntityDecoder}
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.{Logger, LoggerFactory}
 import io.scalaland.chimney.dsl._
+import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 import zio.interop.catz._
+
 
 object hitApi {
 
@@ -34,7 +35,7 @@ object hitApi {
   }
 
   object HitRequest {
-    implicit val format = jsonOf[ApiTask, HitRequest]
+    implicit val format: EntityDecoder[ApiTask, HitRequest] = jsonOf[ApiTask, HitRequest]
   }
 
   final case class OverflowRequest(slotId: Slot.Id, level: Level)
@@ -59,16 +60,19 @@ object hitApi {
       } yield r
     }
     case GET -> Root / "tracks-infos" as _ =>
-      hitService.currentTracksWithHitInfo flatMap (r => Ok(r.asJson))
+      hitService.currentTracksWithHitInfo flatMap (Ok(_))
 
     case GET -> Root / "tracks-infos" / slotId as _ =>
-      hitService.tracksWithHitInfoBy(Slot.Id(slotId)) flatMap (r => Ok(r.asJson))
+      hitService.tracksWithHitInfoBy(Slot.Id(slotId)) flatMap (r => {
+        implicitly(r.asJson)
+        Ok(r.asJson)
+      })
 
     case GET -> Root / "all-tracks-infos" as _ =>
-      hitService.allTracksWithHitInfo flatMap (r => Ok(r.asJson))
+      hitService.allTracksWithHitInfo flatMap (Ok(_))
 
     case GET -> Root / "all-tracks-infos-for-attendees" as _ =>
-      hitService.allTracksWithHitInfo flatMap (r => Ok(r.asJson))
+      hitService.allTracksWithHitInfo flatMap (Ok(_))
   }
 
 }
