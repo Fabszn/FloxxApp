@@ -17,10 +17,10 @@ export default [
     url: '/api/tracks-infos',
     method: 'get',
     response : [{
-        "hitSlotId": "friday_d_par241_10:45-11:30_2022",
+        "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
         "slot": {
-          "slotId": "friday_d_par241_10:45-11:30_2022",
-          "roomId": "Paris 241",
+          "slotId": "friday_f_neu252_10:45-11:30_2022",
+          "roomId": "Neuilly 252",
           "fromTime": "10:45",
           "toTime": "11:30",
           "talk": {
@@ -32,12 +32,12 @@ export default [
         },
         "hitInfo": {
           "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
-          "hitSlotId": "friday_d_par241_10:45-11:30_2022",
-          "percentage": 30,
+          "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
+          "percentage": 100,
           "dateTime": 1650617250400,
           "userId": "bab-cis"
         },
-        "overflow": null
+        "overflow": 2
       }]
    },
     {

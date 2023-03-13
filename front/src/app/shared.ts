@@ -1,22 +1,13 @@
 import _ from 'lodash'
 
-function cc(p: number) {
-    var pi = _.toInteger(p);
-    if (pi <= 40) {
-        return "green";
-    } else if (pi > 40 && pi <= 70) {
-        return "orange";
-    } else if (pi > 70 && pi <= 100) {
-        return "red";
-    } else {
-        return "violet";
-    }
-}
+
+
+import { ref, reactive, toRefs } from "@vue/runtime-core";
 
 const overflowCssIndex = {
-    1: "backgroube",
-    2: "Modéré",
-    3: "Requis",
+    1: "overflowJustFull",
+    2: "overflowMedium",
+    3: "overflowRequiered",
 }
 
 var tokenKey = "X-Auth-Token"
@@ -51,36 +42,20 @@ export default {
     },
     readAdminEtat: function th() {
         return sessionStorage.getItem(pAdmin) == "true";
-    },
-    computeHit: function computeHit(p, key, o) {
-        if (key.includes("par243")) {
-            this.state243.data.per = _.toInteger(p);
-            this.state243.data.color = cc(p);
-            console.log("this.state243.data.per");
-            console.log(this.state243.data);
-        } else if (key.includes("c_maillot")) {
-            this.stateMaillot.data.per = _.toInteger(p);
-            this.stateMaillot.data.color = cc(p);
-        } else if (key.includes("b_amphi")) {
-            this.stateAmphiB.data.per = _.toInteger(p);
-            this.stateAmphiB.data.color = cc(p);
-        } else if (key.includes("par242AB")) {
-            this.state241.data.per = _.toInteger(p);
-            this.state241.data.color = cc(p);
-        } else if (key.includes("par241")) {
-            this.state241.data.per = _.toInteger(p);
-            this.state241.data.color = cc(p);
-        } else if (key.includes("f_neu251")) {
-            this.state251.data.per = _.toInteger(p);
-            this.state251.data.color = cc(p);
-        } else if (key.includes("e_neu252")) {
-            this.state252.data.per = _.toInteger(p);
-            this.state252.data.color = cc(p);
-        } else if (key.includes("neu253")) {
-            this.state253.data.per = _.toInteger(p);
-            this.state252.data.color = cc(p);
-        }
     }
 
+}
 
+
+function cc(p: number) {
+    var pi = _.toInteger(p);
+    if (pi <= 40) {
+        return "green";
+    } else if (pi > 40 && pi <= 70) {
+        return "orange";
+    } else if (pi > 70 && pi <= 100) {
+        return "red";
+    } else {
+        return "violet";
+    }
 }
