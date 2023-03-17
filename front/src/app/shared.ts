@@ -54,7 +54,7 @@ function cc(p: number) {
     } else if (pi > 40 && pi <= 70) {
         return "orange";
     } else if (pi > 70 && pi <= 100) {
-        return "red";
+        return "#8B0000";
     } else {
         return "violet";
     }

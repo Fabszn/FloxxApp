@@ -4,12 +4,22 @@ import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
+import org.floxx.env.configuration.config.Configuration
 import zio._
 
 import javax.sql.DataSource
 
 @SuppressWarnings(Array("org.wartremover.warts.Product"))
 object cfpRepository {
+
+  val layer: RLayer[DataSource with Configuration, SlotRepo] = {
+    ZLayer {
+      for {
+        dataSource <- ZIO.service[DataSource]
+        conf <- ZIO.service[Configuration]
+      } yield SlotRepoService(dataSource, conf)
+    }
+  }
 
   trait SlotRepo {
 
@@ -19,12 +29,12 @@ object cfpRepository {
     def addSlots(slots: Seq[Slot]): Task[Int]*/
     def allSlots: Task[Seq[Slot]]
     def allSlotsWithUserId(userID: String): Task[Set[Slot]]
-    def getSlotById(id: String): Task[Option[Slot]]
+    def getSlotById(id: Slot.Id): Task[Option[Slot]]
     def addMapping(m: Mapping): Task[Long]
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
   }
 
-  case class SlotRepoService(dataSource: DataSource) extends SlotRepo {
+  case class SlotRepoService(dataSource: DataSource, conf: Configuration) extends SlotRepo {
     import QuillContext._
 
     override def insertSlots(slotList: Seq[Slot]): Task[Long] =
@@ -36,7 +46,6 @@ object cfpRepository {
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
-
 
     override def addMapping(m: Mapping): Task[Long] = {
       m.userId
@@ -52,7 +61,10 @@ object cfpRepository {
         )
     }.provideEnvironment(ZEnvironment(dataSource))
 
-    override def allSlots: Task[Seq[Slot]] = run(quote(slots)).provideEnvironment(ZEnvironment(dataSource))
+    override def allSlots: Task[Seq[Slot]] =
+      conf.getConf.flatMap(
+        c => run(quote(slots.filter(_.yearSlot == lift(c.cfp.currentYear)))).provideEnvironment(ZEnvironment(dataSource))
+      )
 
     override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[Slot]] =
       run(quote(slots.filter(s => userSlots.filter(_.userId.contains(lift(userId))).map(_.slotId).contains(s.slotId))))
@@ -60,25 +72,23 @@ object cfpRepository {
 
     override def allSlotsWithUserId(userId: String): Task[Set[Slot]] = allSlotsByUserId(SimpleUser.Id(userId)).map(_.toSet)
 
-    override def getSlotById(id: String): Task[Option[Slot]] =
-      run(quote(slots.filter(s => s.slotId == lift(Slot.Id(id))))).map(_.headOption).provideEnvironment(ZEnvironment(dataSource))
+    override def getSlotById(id: Slot.Id): Task[Option[Slot]] =
+      run(quote(slots.filter(s => s.slotId == lift(id)))).map(_.headOption).provideEnvironment(ZEnvironment(dataSource))
 
     override def mappingUserSlot: Task[Seq[UserSlot]] =
-      run(quote {
-        for {
-          s <- slots
-          j <- userSlots.leftJoin(_.slotId == s.slotId)
-          u <- user.leftJoin(s => j.exists(_.userId.contains(s.userId)))
-        } yield (u, s)
-      }).provideEnvironment(ZEnvironment(dataSource)).map(_.map((UserSlot.apply _).tupled))
-  }
-
-  val layer: RLayer[DataSource, SlotRepo] = {
-    ZLayer {
-      for{
-        dataSource  <- ZIO.service[DataSource]
-      }yield SlotRepoService(dataSource)
-    }
+      conf.getConf
+        .flatMap(
+          c =>
+            run(quote {
+              for {
+                s <- slots.filter(_.yearSlot == lift(c.cfp.currentYear))
+                j <- userSlots.leftJoin(_.slotId == s.slotId)
+                u <- user.leftJoin(s => j.exists(_.userId.contains(s.userId)))
+              } yield (u, s)
+            })
+        )
+        .provideEnvironment(ZEnvironment(dataSource))
+        .map(_.map((UserSlot.apply _).tupled))
   }
 
   def insertSlots(slotList: Seq[Slot]): RIO[SlotRepo, Long] =

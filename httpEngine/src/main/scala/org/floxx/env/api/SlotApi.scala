@@ -108,7 +108,7 @@ object SlotApi {
       } yield rep
 
     case GET -> Root / "slots" / idSlot as _ =>
-      trackService.loadSlot(idSlot) flatMap {
+      trackService.loadSlot(Slot.Id(idSlot)) flatMap {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
         ) { Ok(_) }

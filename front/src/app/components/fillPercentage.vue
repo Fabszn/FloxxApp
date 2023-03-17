@@ -171,7 +171,7 @@
         </div>
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
-            Cancel
+            Close
           </button>
         </div>
       </div>
@@ -200,20 +200,19 @@ export default defineComponent({
     const currentColor = ref("green");
     const overflow = ref(false);
     const overflowIndex = {
-            1: "Non",
-            2: "Modéré",
-            3: "Requis",
-        }
+      1: "Non",
+      2: "Modéré",
+      3: "Requis",
+    };
 
     return {
       currentFill,
       currentColor,
       toast,
       overflow,
-      overflowIndex 
-
-  }
-},
+      overflowIndex,
+    };
+  },
   data: function () {
     return {
       dialogState: false,
@@ -234,10 +233,16 @@ export default defineComponent({
       })
         .then((response) => response.json())
         .then((p) => {
+          
           this.title = p.slot.talk.title;
           this.talkType = p.slot.talk.talkType;
           this.room = p.slot.roomId;
-          this.value = this.overflowIndex[2];
+          initPercentage.bind(this)(p.hitInfo.percentage);
+          if (_.isNull(p.overflow)) {
+            this.value = 0;
+          } else {
+            this.value = this.overflowIndex[p.overflow.level];
+          }
         });
     });
   },
@@ -276,11 +281,27 @@ export default defineComponent({
       this.$router.push("/myslots");
     },
     ch: function (va) {
-      
-      console.log(_.invert(this.overflowIndex)[va]);
+      fetch("/api/overflow", {
+        body: JSON.stringify({
+          slotId: this.$route.params.slotid,
+          level: _.invert(this.overflowIndex)[va]
+        }),
+        method: "POST",
+        headers: shared.tokenHandle(),
+      });
     },
   },
 });
+
+function initPercentage(perc) {
+  if (!_.isNull(perc)) {
+    this.currentFill = perc;
+    this.currentColor = shared.colorByPercentage(perc);
+    if (perc == 100) {
+      this.switchOverflow.bind(this)(perc);
+    }
+  }
+}
 </script>
 
 <style  scoped>
@@ -303,22 +324,21 @@ export default defineComponent({
   background-color: red;
 }
 .bred {
-  background-color: red;
+  background-color: #8B0000;
 }
 .borange {
-  background-color: #ffa500;
+  background-color: DarkOrange ;
 }
 .bgreen {
-  background-color: #4caf50;
+  background-color: #006400;
 }
 .slider {
   padding: 18px 90px;
 }
 
-@media (max-width: 375px){
+@media (max-width: 375px) {
   .slider {
-  padding: 18px 20px;
+    padding: 18px 20px;
+  }
 }
-}
-
 </style>

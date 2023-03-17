@@ -2,19 +2,20 @@ package org.floxx.env.api
 
 import io.circe.syntax._
 import org.floxx.UserInfo
-import org.floxx.domain.Overflow.Level
+import org.floxx.domain.Overflow.{ AffectedRoom, Level }
 import org.floxx.domain.User.SimpleUser
 import org.floxx.env.service.hitService
 import org.floxx.domain._
-import org.http4s.{AuthedRoutes, EntityDecoder}
+import org.http4s.{ AuthedRoutes, EntityDecoder }
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import io.scalaland.chimney.dsl._
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 import zio.interop.catz._
 
+import java.time.ZonedDateTime
 
 object hitApi {
 
@@ -43,6 +44,11 @@ object hitApi {
     implicit val format = jsonOf[ApiTask, OverflowRequest]
   }
 
+  final case class AffectedRoomRequest(slotId: Slot.Id, affectedRoom: AffectedRoom)
+  object AffectedRoomRequest {
+    implicit val format = jsonOf[ApiTask, AffectedRoomRequest]
+  }
+
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
     case ct @ POST -> Root / "hit" as user =>
       for {
@@ -54,9 +60,22 @@ object hitApi {
     case ct @ POST -> Root / "overflow" as _ => {
       for {
         overflowRequest <- ct.req.as[OverflowRequest]
-        of = overflowRequest.into[Overflow].transform
+        of = overflowRequest
+          .into[Overflow]
+          .withFieldConst(
+            _.datetime,
+            Overflow.DateTime(ZonedDateTime.now(defaultZoneId))
+          )
+          .transform
         _ <- hitService.saveOrUpdateOverflow(of)
         r <- Created("Overflow has been persisted (or update)")
+      } yield r
+    }
+    case ct @ POST -> Root / "overflow" / "_affectedRoom" as _ => {
+      for {
+        affectedRoomRequest <- ct.req.as[AffectedRoomRequest]
+        _ <- hitService.saveAffectedRoom(affectedRoomRequest.slotId, affectedRoomRequest.affectedRoom)
+        r <- Created("SlotId has been affected")
       } yield r
     }
     case GET -> Root / "tracks-infos" as _ =>

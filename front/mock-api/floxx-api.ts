@@ -13,39 +13,85 @@ class UserAuthenticated {
 
 
 export default [
-   {
-    url: '/api/tracks-infos',
-    method: 'get',
-    response : [{
-        "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
-        "slot": {
-          "slotId": "friday_f_neu252_10:45-11:30_2022",
-          "roomId": "Neuilly 252",
-          "fromTime": "10:45",
-          "toTime": "11:30",
-          "talk": {
-            "talkType": "Conference",
-            "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
-          },
-          "day": "friday",
-          "yearSlot": 2022
-        },
-        "hitInfo": {
-          "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
-          "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
-          "percentage": 100,
-          "dateTime": 1650617250400,
-          "userId": "bab-cis"
-        },
-        "overflow": 2
-      }]
-   },
+    {
+        url: '/api/tracks-infos',
+        method: 'get',
+        response: [{
+            "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
+            "slot": {
+                "slotId": "friday_f_neu252_10:45-11:30_2022",
+                "roomId": "Neuilly 252",
+                "fromTime": "10:45",
+                "toTime": "11:30",
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
+                },
+                "day": "friday",
+                "yearSlot": 2022
+            },
+
+            "hitInfo": {
+                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
+                "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
+                "percentage": 100,
+                "dateTime": 1650617250400,
+                "userId": "bab-cis"
+            },
+            "overflow": 2
+        }, {
+            "hitSlotId": "wednesday_par243_t_09:30-12:30",
+            "slot": {
+                "slotId": "wednesday_par243_t_09:30-12:30",
+                "roomId": "Paris 243",
+                "fromTime": "10:45",
+                "toTime": "11:30",
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
+                },
+                "day": "friday",
+                "yearSlot": 2022
+            },
+
+            "hitInfo": {
+                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
+                "hitSlotId": "wednesday_par243_t_09:30-12:30",
+                "percentage": 100,
+                "dateTime": 1650617250400,
+                "userId": "bab-cis"
+            },
+            "overflow": 1
+        }, {
+            "hitSlotId": "wednesday_par242AB_09:30-12:30",
+            "slot": {
+                "slotId": "wednesday_par242AB_09:30-12:30",
+                "roomId": "Paris 242",
+                "fromTime": "10:45",
+                "toTime": "11:30",
+                "talk": {
+                    "talkType": "Conference",
+                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
+                },
+                "day": "friday",
+                "yearSlot": 2022
+            },
+            "hitInfo": {
+                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
+                "hitSlotId": "wednesday_par242AB_09:30-12:30",
+                "percentage": 100,
+                "dateTime": 1650617250400,
+                "userId": "bab-cis"
+            },
+            "overflow": 3
+        }]
+    },
     {
         url: '/api/stats/slots',
         method: 'get',
         response: { "wednesday": { "13:30": [{ "slotId": { "id": "wednesday_lab3_13:30-16:30" }, "talk": { "talkType": "Hands-on Labs", "title": "Déployer Vault et Consul dans Kubernetes" }, "percentage": 100, "roomid": "Paris lab3", "fromtime": "13:30", "totime": "16:30", "day": "wednesday" }], "09:30": [{ "slotId": { "id": "wednesday_lab2_09:30-12:30" }, "talk": { "talkType": "Hands-on Labs", "title": "Cassons des tokens JWT" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "09:30", "totime": "12:30", "day": "wednesday" }] }, "friday": { "10:45": [{ "slotId": { "id": "friday_lab2_10:45-14:15" }, "talk": { "talkType": "Hands-on Labs", "title": "Event Storming par la Pratique" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "10:45", "totime": "14:15", "day": "friday" }], "11:45": [{ "slotId": { "id": "friday_neu253_t_11:45-12:30" }, "talk": { "talkType": "Conference", "title": "L'IA pour le bon usage des médicaments" }, "percentage": 100, "roomid": "Neuilly 253", "fromtime": "11:45", "totime": "12:30", "day": "friday" }, { "slotId": { "id": "friday_d_par241_11:45-12:30" }, "talk": { "talkType": "Conference", "title": "The Art of Java Type Patterns" }, "percentage": 20, "roomid": "Paris 241", "fromtime": "11:45", "totime": "12:30", "day": "friday" }] }, "thursday": { "10:45": [{ "slotId": { "id": "thursday_lab2_10:45-14:15" }, "talk": { "talkType": "Hands-on Labs", "title": "Le jeu du frigo - petit exercice de pensée systémique" }, "percentage": 60, "roomid": "Neuilly lab2", "fromtime": "10:45", "totime": "14:15", "day": "thursday" }] } }
     },
-     {
+    {
         url: '/api/stats/slots/_filling',
         method: 'get',
         response: { "labels": [10, 100, 20], "percentages": [2, 2, 35] }
@@ -64,7 +110,7 @@ export default [
         url: '/api/slots/wednesday_par243_t_13:30-16:30_2022',
         method: 'get',
         response: ({ query }) => {
-            return {"slotId":"wednesday_par243_t_13:30-16:30_2022","roomId":"Paris 243","fromTime":"13:30","toTime":"16:30","talk":{"talkType":"University","title":"Initiation concrète à la compilation"},"day":"wednesday","yearSlot":2022}
+            return { "slotId": "wednesday_par243_t_13:30-16:30_2022", "roomId": "Paris 243", "fromTime": "13:30", "toTime": "16:30", "talk": { "talkType": "University", "title": "Initiation concrète à la compilation" }, "day": "wednesday", "yearSlot": 2022 }
         }
     },
     {
@@ -78,7 +124,7 @@ export default [
         url: '/api/slots/_currentUser',
         method: 'get',
         response: ({ query }) => {
-            return [{"day":"wednesday","slots":[{"slotId":"wednesday_par243_t_13:30-16:30_2022","roomId":"Paris 243","fromTime":"13:30","toTime":"16:30","talk":{"talkType":"University","title":"Initiation concrète à la compilation"},"day":"wednesday","yearSlot":2022}],"currentActiveSlot":[]},{"day":"thursday","slots":[{"slotId":"thursday_lab1_10:45-14:15_2022","roomId":"Neuilly lab1","fromTime":"10:45","toTime":"14:15","talk":{"talkType":"Hands-on Labs","title":"Contract testing : la thérapie pour une meilleure communication"},"day":"thursday","yearSlot":2022},{"slotId":"thursday_lab2_10:45-14:15_2022","roomId":"Neuilly lab2","fromTime":"10:45","toTime":"14:15","talk":{"talkType":"Hands-on Labs","title":"Le jeu du frigo - petit exercice de pensée systémique"},"day":"thursday","yearSlot":2022},{"slotId":"thursday_neu253_t_16:45-17:30_2022","roomId":"Neuilly 253","fromTime":"16:45","toTime":"17:30","talk":{"talkType":"Conference","title":"Comment orchestrer une flotte de 200 clusters Kubernetes sur Microsoft Azure ?"},"day":"thursday","yearSlot":2022},{"slotId":"thursday_neu253_t_17:45-18:15_2022","roomId":"Neuilly 253","fromTime":"17:45","toTime":"18:15","talk":{"talkType":"Tools-in-Action","title":"Après la censure, l’auto censure… mais là c’est drôle, éducatif et avec de l’IA"},"day":"thursday","yearSlot":2022},{"slotId":"thursday_neu253_t_18:30-19:00_2022","roomId":"Neuilly 253","fromTime":"18:30","toTime":"19:00","talk":{"talkType":"Tools-in-Action","title":"Coder avec Crystal pour ne pas perdre la boule"},"day":"thursday","yearSlot":2022}],"currentActiveSlot":[]},{"day":"friday","slots":[{"slotId":"friday_par243_t_13:00-13:15_2022","roomId":"Paris 243","fromTime":"13:00","toTime":"13:15","talk":{"talkType":"Quickie","title":"Record du monde - Tour d’horizon et cas d’utilisation des records"},"day":"friday","yearSlot":2022},{"slotId":"friday_par243_t_13:30-14:15_2022","roomId":"Paris 243","fromTime":"13:30","toTime":"14:15","talk":{"talkType":"Conference","title":"Art & Entropie: Du Chaos dans ton Frontend"},"day":"friday","yearSlot":2022},{"slotId":"friday_par243_t_14:30-15:15_2022","roomId":"Paris 243","fromTime":"14:30","toTime":"15:15","talk":{"talkType":"Conference","title":"La signature électronique vue par des développeurs Java."},"day":"friday","yearSlot":2022},{"slotId":"friday_par243_t_15:30-16:15_2022","roomId":"Paris 243","fromTime":"15:30","toTime":"16:15","talk":{"talkType":"Conference","title":"Ensemble Programming Toolbox"},"day":"friday","yearSlot":2022}],"currentActiveSlot":[]}];
+            return [{ "day": "wednesday", "slots": [{ "slotId": "wednesday_par243_t_13:30-16:30_2022", "roomId": "Paris 243", "fromTime": "13:30", "toTime": "16:30", "talk": { "talkType": "University", "title": "Initiation concrète à la compilation" }, "day": "wednesday", "yearSlot": 2022 }], "currentActiveSlot": [] }, { "day": "thursday", "slots": [{ "slotId": "thursday_lab1_10:45-14:15_2022", "roomId": "Neuilly lab1", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Contract testing : la thérapie pour une meilleure communication" }, "day": "thursday", "yearSlot": 2022 }, { "slotId": "thursday_lab2_10:45-14:15_2022", "roomId": "Neuilly lab2", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Le jeu du frigo - petit exercice de pensée systémique" }, "day": "thursday", "yearSlot": 2022 }, { "slotId": "thursday_neu253_t_16:45-17:30_2022", "roomId": "Neuilly 253", "fromTime": "16:45", "toTime": "17:30", "talk": { "talkType": "Conference", "title": "Comment orchestrer une flotte de 200 clusters Kubernetes sur Microsoft Azure ?" }, "day": "thursday", "yearSlot": 2022 }, { "slotId": "thursday_neu253_t_17:45-18:15_2022", "roomId": "Neuilly 253", "fromTime": "17:45", "toTime": "18:15", "talk": { "talkType": "Tools-in-Action", "title": "Après la censure, l’auto censure… mais là c’est drôle, éducatif et avec de l’IA" }, "day": "thursday", "yearSlot": 2022 }, { "slotId": "thursday_neu253_t_18:30-19:00_2022", "roomId": "Neuilly 253", "fromTime": "18:30", "toTime": "19:00", "talk": { "talkType": "Tools-in-Action", "title": "Coder avec Crystal pour ne pas perdre la boule" }, "day": "thursday", "yearSlot": 2022 }], "currentActiveSlot": [] }, { "day": "friday", "slots": [{ "slotId": "friday_par243_t_13:00-13:15_2022", "roomId": "Paris 243", "fromTime": "13:00", "toTime": "13:15", "talk": { "talkType": "Quickie", "title": "Record du monde - Tour d’horizon et cas d’utilisation des records" }, "day": "friday", "yearSlot": 2022 }, { "slotId": "friday_par243_t_13:30-14:15_2022", "roomId": "Paris 243", "fromTime": "13:30", "toTime": "14:15", "talk": { "talkType": "Conference", "title": "Art & Entropie: Du Chaos dans ton Frontend" }, "day": "friday", "yearSlot": 2022 }, { "slotId": "friday_par243_t_14:30-15:15_2022", "roomId": "Paris 243", "fromTime": "14:30", "toTime": "15:15", "talk": { "talkType": "Conference", "title": "La signature électronique vue par des développeurs Java." }, "day": "friday", "yearSlot": 2022 }, { "slotId": "friday_par243_t_15:30-16:15_2022", "roomId": "Paris 243", "fromTime": "15:30", "toTime": "16:15", "talk": { "talkType": "Conference", "title": "Ensemble Programming Toolbox" }, "day": "friday", "yearSlot": 2022 }], "currentActiveSlot": [] }];
         }
     },
     {

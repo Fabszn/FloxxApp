@@ -4,28 +4,29 @@ import cats.effect.IO
 import io.circe._
 import io.circe.generic.auto._
 import org.http4s.circe.jsonOf
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import org.floxx.domain.AuthUser.{Firstname, Id, Lastname, Login, Mdp}
-import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import org.floxx.domain.AuthUser.{ Firstname, Id, Lastname, Login, Mdp }
+import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.Level
+import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
 import org.floxx.domain.Slot.Day
 
-
 import java.text.SimpleDateFormat
+import java.time.{ ZoneId, ZonedDateTime }
 import scala.util.Try
 
 object domain {
 
+  val defaultZoneId: ZoneId = ZoneId.of("Europe/Paris")
 
   final case class AuthUser(
-                             userId: Option[Id],
-                             login: Login,
-                             firstName: Firstname,
-                             lastName: Lastname,
-                             mdp: Mdp,
-                             isAdmin: Boolean = false
-                     )
+      userId: Option[Id],
+      login: Login,
+      firstName: Firstname,
+      lastName: Lastname,
+      mdp: Mdp,
+      isAdmin: Boolean = false
+  )
 
   object AuthUser {
     final case class Id(value: String) extends AnyVal
@@ -34,7 +35,6 @@ object domain {
     final case class Lastname(value: String) extends AnyVal
     final case class Mdp(value: String) extends AnyVal
   }
-
 
   final case class CurrentYear(value: Int) extends AnyVal
 
@@ -196,19 +196,30 @@ object domain {
   final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
   final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
 
-  case class TrackHitInfo(hitSlotId: Slot.Id, slot: Slot, hitInfo: Option[Hit], overflow: Option[Overflow]=Option.empty[Overflow])
+  case class TrackHitInfo(
+      hitSlotId: Slot.Id,
+      slot: Slot,
+      hitInfo: Option[Hit],
+      overflow: Option[Overflow] = Option.empty[Overflow]
+  )
 
   object TrackHitInfo {
 
     implicit val format = jsonOf[IO, TrackHitInfo]
   }
 
-  final case class Overflow(slotId: Slot.Id, level: Level)
+  final case class Overflow(
+      slotId: Slot.Id,
+      level: Level,
+      datetime: DateTime = DateTime(ZonedDateTime.now(defaultZoneId)),
+      affectedRoom: Option[AffectedRoom] = Option.empty[AffectedRoom]
+  )
 
   object Overflow {
 
     final case class Level(value: Int) extends AnyVal
-
+    final case class DateTime(value: ZonedDateTime) extends AnyVal
+    final case class AffectedRoom(value: String) extends AnyVal
 
   }
 

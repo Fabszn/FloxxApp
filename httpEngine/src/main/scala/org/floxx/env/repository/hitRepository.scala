@@ -3,6 +3,7 @@ package org.floxx.env.repository
 import org.floxx.domain._
 import org.floxx.model.HitLatest
 import org.floxx.domain.Hit
+import org.floxx.domain.Overflow.AffectedRoom
 import zio._
 
 import java.util.UUID
@@ -20,7 +21,8 @@ object hitRepository {
   trait HitRepo {
     def loadHitBy(slotIds: Seq[Slot.Id]): Task[Seq[Hit]]
     def overflowBySlotId(slotIds: Seq[Slot.Id]): Task[Seq[Overflow]]
-    def createOrUpdateOverflow(o: Overflow): Task[Long]
+    def createOrUpdateOverflowLevel(o: Overflow): Task[Long]
+    def updateOverflowAffectedRoom(slot: Slot, affectedRoom: Option[AffectedRoom]): Task[Long]
     def save(hit: Hit): Task[Long]
 
   }
@@ -51,12 +53,44 @@ object hitRepository {
     override def overflowBySlotId(slotIds: Seq[Slot.Id]): Task[Seq[Overflow]] =
       run(quote(overflow.filter(o => liftQuery(slotIds).contains(o.slotId)))).provideEnvironment(ZEnvironment(dataSource))
 
-    override def createOrUpdateOverflow(o: Overflow): Task[Long] =
+    override def createOrUpdateOverflowLevel(o: Overflow): Task[Long] =
       run(
         quote(
-          overflow.insertValue(lift(o)).onConflictUpdate(_.slotId)((t, e) => t.level -> e.level)
+          overflow
+            .insertValue(lift(o))
+            .onConflictUpdate(_.slotId)(
+              (t, e) => t.level -> e.level,
+              (t, e) => t.datetime -> e.datetime
+            )
         )
       ).provideEnvironment(ZEnvironment(dataSource))
+
+    override def updateOverflowAffectedRoom(slot: Slot, affectedRoom: Option[AffectedRoom]): Task[Long] =
+      transaction {
+        for {
+          existingOverflow <- run {
+            quote {
+              slots
+                .join(overflow)
+                .on((s, o) => s.slotId == o.slotId)
+                .filter {
+                  case (s, o) =>
+                    s.fromTime == lift(slot.fromTime) &&
+                    s.day == lift(slot.day) &&
+                    s.yearSlot == lift(slot.yearSlot) && o.affectedRoom == lift(affectedRoom)
+                }
+                .map(_._2)
+            }
+          }
+          _ <- run {
+            quote { liftQuery(existingOverflow).foreach(_ => overflow.update(_.affectedRoom -> Option.empty[AffectedRoom])) }
+          }
+          n <- run { quote { overflow.filter(_.slotId == lift(slot.slotId)).update(_.affectedRoom -> lift(affectedRoom)) } }
+
+        } yield n
+
+      }.provideEnvironment(ZEnvironment(dataSource))
+
   }
 
 }

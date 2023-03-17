@@ -24,27 +24,46 @@
         <p>Type : {{ selectedConf.confKind }}</p>
         <p>Salle : {{ selectedConf.room }}</p>
 
-        <!--<button
-          type="button"
-          v-clipboard:copy="twitterMessage"
-          v-clipboard:success="onCopy"
-          v-clipboard:error="onError"
-          class="btn btn-secondary"
-        >
-          Copy to clipboard
-          <font-awesome-icon icon="copy" />
-        </button>-->
-
         <div class="separate_b space">
           <p>{{ selectedConf.twitterMessage() }}</p>
+        </div>
+
+        <div class="buttonmodal">
+          <button
+            type="button"
+            v-on:click="
+              setOverflowRoomNeuilly(selectedConf.slotId, selectedConf.room)
+            "
+            class="btn btn-secondary"
+          >
+            Overflow Neuilly
+          </button>
+          <button
+            type="button"
+            v-on:click="
+              setOverflowRoomParis(selectedConf.slotId, selectedConf.room)
+            "
+            class="btn btn-secondary"
+          >
+            Overflow Paris
+          </button>
+        </div>
+        <div class="buttonmodal">
+          <button type="button" v-on:click="hide" class="btn btn-secondary">
+            Close
+          </button>
         </div>
       </div>
     </GDialog>
 
     <div class="d-flex justify-content-around separate-headfooter">
-      <div class="space-headerFooter"
-      v-bind:class="{overflowMedium: stateAmphiB.dataOS.overflowMedium, overflowRequiered: stateAmphiB.dataOS.overflowRequiered }"
-      v-on:click="show('b_amphi')">
+      <div
+        v-bind:class="{
+          overflowMedium: stateAmphiB.dataOS.overflowMedium,
+          overflowRequiered: stateAmphiB.dataOS.overflowRequiered,
+        }"
+        v-on:click="show('b_amphi')"
+      >
         <circle-progress
           :size="globalSize"
           :reverse="false"
@@ -60,11 +79,25 @@
         <div class="roomTitleCenter">Amphi B.</div>
       </div>
     </div>
+
+    <div v-bind:class="{ overflowinfo: showOverflow }">
+      <div class="overflow-info-room">
+        {{ roomOverflowNeuilly }}
+      </div>
+      <div class="overflow-info-room">
+        {{ roomOverflowParis }}
+      </div>
+    </div>
     <div class="d-flex justify-content-around">
       <div class="flex-column separate">
-        <div class="space" 
-        v-bind:class="{overflowMedium: state253.dataOS.overflowMedium, overflowRequiered: state253.dataOS.overflowRequiered }"
-        v-on:click="show('neu253')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state253.dataOS.overflowMedium,
+            overflowRequiered: state253.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('neu253')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -80,9 +113,14 @@
           <div class="roomTitleCenter">Neuilly 253</div>
         </div>
 
-        <div class="space"
-        v-bind:class="{ overflowMedium: state252.dataOS.overflowMedium, overflowRequiered: state252.dataOS.overflowRequiered }"
-        v-on:click="show('neu252')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state252.dataOS.overflowMedium,
+            overflowRequiered: state252.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('neu252')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -97,9 +135,14 @@
           />
           <div class="roomTitleCenter">Neuilly 252</div>
         </div>
-        <div class="space"
-        v-bind:class="{ overflowMedium: state251.dataOS.overflowMedium, overflowRequiered: state251.dataOS.overflowRequiered }"
-        v-on:click="show('neu251')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state251.dataOS.overflowMedium,
+            overflowRequiered: state251.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('neu251')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -116,9 +159,14 @@
         </div>
       </div>
       <div class="flex-column separate">
-        <div class="space"
-        v-bind:class="{ overflowMedium: state243.dataOS.overflowMedium, overflowRequiered: state243.dataOS.overflowRequiered }"
-        v-on:click="show('par243')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state243.dataOS.overflowMedium,
+            overflowRequiered: state243.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('par243')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -131,9 +179,14 @@
           />
           <div class="roomTitleCenter">Paris 243</div>
         </div>
-        <div class="space" 
-        v-bind:class="{ overflowMedium: state242.dataOS.overflowMedium, overflowRequiered: state242.dataOS.overflowRequiered }"
-        v-on:click="show('par242AB')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state242.dataOS.overflowMedium,
+            overflowRequiered: state242.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('par242AB')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -148,9 +201,14 @@
           />
           <div class="roomTitleCenter">Paris 242AB</div>
         </div>
-        <div class="space"
-        v-bind:class="{ overflowMedium: state241.dataOS.overflowMedium, overflowRequiered: state241.dataOS.overflowRequiered }"
-        v-on:click="show('241')">
+        <div
+          class="space"
+          v-bind:class="{
+            overflowMedium: state241.dataOS.overflowMedium,
+            overflowRequiered: state241.dataOS.overflowRequiered,
+          }"
+          v-on:click="show('241')"
+        >
           <circle-progress
             :size="globalSize"
             :reverse="false"
@@ -169,8 +227,10 @@
     </div>
     <div class="d-flex justify-content-around separate-headfooter">
       <div
-        class="space-headerFooter"
-        v-bind:class="{ overflowMedium: stateMaillot.dataOS.overflowMedium, overflowRequiered: stateMaillot.dataOS.overflowRequiered }"
+        v-bind:class="{
+          overflowMedium: stateMaillot.dataOS.overflowMedium,
+          overflowRequiered: stateMaillot.dataOS.overflowRequiered,
+        }"
         v-on:click="show('c_maillot')"
       >
         <circle-progress
@@ -194,49 +254,12 @@
 
 
 <script lang="ts">
-class StateRoom {
-  data = reactive({
-    per: ref(0),
-    color: ref("green"),
-    overflowState: ref(0),
-  });
-
-  dataOS = reactive({
-    overflowJustFull: ref(false),
-    overflowMedium: ref(false),
-    overflowRequiered: ref(false),
-  });
-
-  computeRoomState(idx: number) {
-    this.dataOS.overflowJustFull = false;
-    this.dataOS.overflowMedium = false;
-    this.dataOS.overflowRequiered = false;
-    switch (idx) {
-      case 1:
-        this.dataOS.overflowJustFull = true;
-        break;
-      case 2:
-        this.dataOS.overflowMedium = true;
-        break;
-      case 3:
-        this.dataOS.overflowRequiered = true;
-        break;
-      default:
-        console.error("index provided to compute overflow id unknown = " + idx);
-        this.dataOS.overflowJustFull = false;
-        this.dataOS.overflowMedium = false;
-        this.dataOS.overflowRequiered = false;
-    }
-  }
-  
-}
-
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
-import { TrackHitInfo, Conference } from "../../models";
-import { defineComponent, ref, reactive, toRefs } from "@vue/runtime-core";
+import { TrackHitInfo, Conference, StateRoom } from "../../models";
+import { defineComponent, ref, reactive } from "@vue/runtime-core";
 
 export default defineComponent({
   components: {
@@ -251,6 +274,9 @@ export default defineComponent({
     const state251 = new StateRoom();
     const state252 = new StateRoom();
     const state253 = new StateRoom();
+    const roomOverflowNeuilly = ref("");
+    const roomOverflowParis = ref("");
+    const showOverflow = ref(false);
 
     const globalSize = ref(100);
 
@@ -264,10 +290,15 @@ export default defineComponent({
       state252,
       state253,
       globalSize,
+      roomOverflowNeuilly,
+      roomOverflowParis,
+      showOverflow,
     };
   },
   data: () => ({
     dialogState: false,
+    overflowRoomParis: "O.Paris",
+    overflowRoomNeuilly: "O.Neuilly",
     hits: [],
     fill: { gradient: ["green"] },
     selectedConf: new Conference(),
@@ -281,6 +312,19 @@ export default defineComponent({
     show: function (idSlot: string) {
       beforeOpen.bind(this)(idSlot);
       this.dialogState = true;
+    },
+    setOverflowRoomNeuilly(slotId: String, roomId: String) {
+      this.showOverflow = true;
+      this.roomOverflowNeuilly = roomId;
+      setAffectedRoom.bind(this)(slotId, this.overflowRoomNeuilly);
+    },
+    setOverflowRoomParis(slotId: String, roomId: String) {
+      this.showOverflow = true;
+      this.roomOverflowParis = roomId;
+      setAffectedRoom.bind(this)(slotId, this.overflowRoomParis);
+    },
+    hide() {
+      this.dialogState = false;
     },
     progress_end: function () {},
     progress: function () {},
@@ -303,51 +347,56 @@ function currentTracksWitHitInfo() {
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
-          computeHit.bind(this)(
-            value.hitInfo.percentage,
-            value.hitInfo.hitSlotId,
-            value.overflow
+          let currentState: StateRoom = getState.bind(this)(
+            value.hitInfo.hitSlotId
           );
+          currentState.data.per = _.toInteger(value.hitInfo.percentage);
+          currentState.data.color = shared.colorByPercentage(
+            value.hitInfo.percentage
+          );
+          currentState.data.selected = value.selected;
+          currentState.data.affectedRoom = value.affectedRoom;
+          if (!_.isNull(value.overflow)) {
+            currentState.data.overflowState = value.overflow.level;
+            currentState.computeRoomState(value.overflow.level);
+            setOverflowAffect.bind(this)(value.overflow.affectedRoom, value);
+          }
+          
         }
       });
     });
 }
 
-function computeHit(p, key, o) {
-        if (key.includes("par243")) {
-            this.state243.data.per = _.toInteger(p);
-            this.state243.data.color = shared.colorByPercentage(p);
-            this.state243.computeRoomState(o)
-        } else if (key.includes("c_maillot")) {
-            this.stateMaillot.data.per = _.toInteger(p);
-            this.stateMaillot.data.color = shared.colorByPercentage(p);
-            this.stateMaillot.computeRoomState(o)
-        } else if (key.includes("b_amphi")) {
-            this.stateAmphiB.data.per = _.toInteger(p);
-            this.stateAmphiB.data.color = shared.colorByPercentage(p);
-            this.stateAmphiB.computeRoomState(o)
-        } else if (key.includes("par242AB")) {
-            this.state241.data.per = _.toInteger(p);
-            this.state241.data.color = shared.colorByPercentage(p);
-            this.state241.computeRoomState(o)
-        } else if (key.includes("par241")) {
-            this.state241.data.per = _.toInteger(p);
-            this.state241.data.color = shared.colorByPercentage(p);
-            this.state241.computeRoomState(o)
-        } else if (key.includes("neu251")) {
-            this.state251.data.per = _.toInteger(p);
-            this.state251.data.color = shared.colorByPercentage(p);
-            this.state251.computeRoomState(o)
-        } else if (key.includes("neu252")) {
-            this.state252.data.per = _.toInteger(p);
-            this.state252.data.color = shared.colorByPercentage(p);
-            this.state252.computeRoomState(o)
-        } else if (key.includes("neu253")) {
-            this.state253.data.per = _.toInteger(p);
-            this.state252.data.color = shared.colorByPercentage(p);
-            this.state252.computeRoomState(o)
-        }
-    }
+function getState(key: String) {
+  if (key.includes("par243")) {
+    return this.state243;
+  } else if (key.includes("c_maillot")) {
+    return this.stateMaillot;
+  } else if (key.includes("b_amphi")) {
+    return this.stateAmphiB;
+  } else if (key.includes("par242AB")) {
+    return this.state242;
+  } else if (key.includes("par241")) {
+    return this.state241;
+  } else if (key.includes("neu251")) {
+    return this.state251;
+  } else if (key.includes("neu252")) {
+    return this.state252;
+  } else if (key.includes("neu253")) {
+    return this.state253;
+  }
+}
+
+function setAffectedRoom(slotId: String, ar: String) {
+  fetch("/api/overflow/_affectedRoom", {
+    body: JSON.stringify({
+      slotId: slotId,
+      affectedRoom: ar,
+    }),
+    method: "POST",
+    headers: shared.tokenHandle(),
+  });
+}
 
 function beforeOpen(idSlot) {
   let currentr = (id: string) => {
@@ -357,13 +406,15 @@ function beforeOpen(idSlot) {
   };
   let current = currentr(idSlot);
   if (!_.isUndefined(current)) {
+    let currentState: StateRoom = getState.bind(this)(current.slot.slotId);
     this.selectedConf.updateInfo(
       current.slot.talk.title,
       current.slot.talk.talkType,
       current.slot.roomId,
       current.slot.fromTime,
       current.slot.toTime,
-      current.slot.slotId
+      current.slot.slotId,
+      currentState
     );
   } else {
     this.selectedConf.updateInfo(
@@ -372,10 +423,27 @@ function beforeOpen(idSlot) {
       "",
       "",
       "",
-      ""
+      "",
+      new StateRoom()
     );
   }
+
+  
 }
+function setOverflowAffect(affectedRoom, data) {
+  console.log(affectedRoom)
+    if (!_.isNull(affectedRoom)) {
+      this.showOverflow = true;
+      console.log(affectedRoom)
+      console.log(this.overflowRoomParis)
+      if (affectedRoom == this.overflowRoomParis) {
+        
+        this.setOverflowRoomParis(data.hitInfo.hitSlotId, data.slot.roomId);
+      } else {
+        this.setOverflowRoomNeuilly(data.hitInfo.hitSlotId, data.slot.roomId);
+      }
+    }
+  }
 </script>
 
 <style  scoped>
@@ -397,15 +465,24 @@ function beforeOpen(idSlot) {
   border-radius: 10px;
 }
 .overflowMedium {
-  background-color: rgba(246, 141, 55, 0.817);
+  background-color: rgba(246, 141, 55, 60%);
   border-radius: 10px;
 }
 .overflowRequiered {
-  background-color: rgba(248, 65, 41, 0.817);
+  background-color: rgba(72, 14, 14, 60%);
   border-radius: 10px;
 }
 .roomTitleCenter {
   display: flex;
   justify-content: center;
+}
+.overflow-info-room {
+  display: flex;
+  flex-direction: row;
+}
+.overflowinfo {
+  border: 1px solid rgba(246, 141, 55, 60%);
+  display: flex;
+  justify-content: space-around;
 }
 </style>
