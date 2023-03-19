@@ -4,15 +4,16 @@ import cats.effect.IO
 import io.circe._
 import io.circe.generic.auto._
 import org.http4s.circe.jsonOf
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
-import org.floxx.domain.AuthUser.{ Firstname, Id, Lastname, Login, Mdp }
-import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import org.floxx.domain.AuthUser.{Firstname, Id, Lastname, Login, Mdp}
+import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
+import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
+import org.floxx.domain.User.SimpleUser
 
 import java.text.SimpleDateFormat
-import java.time.{ ZoneId, ZonedDateTime }
+import java.time.{ZoneId, ZonedDateTime}
 import scala.util.Try
 
 object domain {
@@ -20,7 +21,7 @@ object domain {
   val defaultZoneId: ZoneId = ZoneId.of("Europe/Paris")
 
   final case class AuthUser(
-      userId: Option[Id],
+      userId: Option[SimpleUser.Id],
       login: Login,
       firstName: Firstname,
       lastName: Lastname,
@@ -102,6 +103,8 @@ object domain {
       final case class Id(value: String) extends AnyVal
       final case class Nom(value: String) extends AnyVal
       final case class Prenom(value: String) extends AnyVal
+
+
     }
 
   }

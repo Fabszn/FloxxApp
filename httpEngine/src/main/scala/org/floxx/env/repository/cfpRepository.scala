@@ -28,7 +28,7 @@ object cfpRepository {
     /*@deprecated
     def addSlots(slots: Seq[Slot]): Task[Int]*/
     def allSlots: Task[Seq[Slot]]
-    def allSlotsWithUserId(userID: String): Task[Set[Slot]]
+    def allSlotsWithUserId(userID: SimpleUser.Id): Task[Set[Slot]]
     def getSlotById(id: Slot.Id): Task[Option[Slot]]
     def addMapping(m: Mapping): Task[Long]
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
@@ -67,10 +67,10 @@ object cfpRepository {
       )
 
     override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[Slot]] =
-      run(quote(slots.filter(s => userSlots.filter(_.userId.contains(lift(userId))).map(_.slotId).contains(s.slotId))))
-        .provideEnvironment(ZEnvironment(dataSource))
+     conf.getConf flatMap (c => run(quote(slots.filter(s => s.yearSlot == lift(c.cfp.currentYear) && userSlots.filter(_.userId.contains(lift(userId))).map(_.slotId).contains(s.slotId))))
+        .provideEnvironment(ZEnvironment(dataSource)))
 
-    override def allSlotsWithUserId(userId: String): Task[Set[Slot]] = allSlotsByUserId(SimpleUser.Id(userId)).map(_.toSet)
+    override def allSlotsWithUserId(userId: SimpleUser.Id): Task[Set[Slot]] = allSlotsByUserId(userId).map(_.toSet)
 
     override def getSlotById(id: Slot.Id): Task[Option[Slot]] =
       run(quote(slots.filter(s => s.slotId == lift(id)))).map(_.headOption).provideEnvironment(ZEnvironment(dataSource))

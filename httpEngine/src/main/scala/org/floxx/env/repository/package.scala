@@ -6,7 +6,9 @@ import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.{ getConf, Configuration }
 import org.floxx.model.jsonModel.{ Talk => JsTalk }
-import org.floxx.model.{ AuthUser, HitLatest, SimpleUser }
+import org.floxx.model. HitLatest
+import org.floxx.domain. AuthUser
+import org.floxx.domain.User.SimpleUser
 import zio._
 
 import javax.sql.DataSource

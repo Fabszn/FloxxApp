@@ -78,7 +78,7 @@ object SlotApi {
 
       for {
         conf <- config.getConf
-        slots <- trackService.loadAllForCurrentUser(SimpleUser.Id(user.userId))
+        slots <- trackService.loadAllForCurrentUser(user.userId)
         currentSlotForCurrentUser <- trackService.loadSlotByCriterias(user.userId, timeUtils.extractDayAndStartTime(config = conf))
         rep <-
           Ok((slots.groupBy(_.day).map {

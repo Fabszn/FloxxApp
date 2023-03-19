@@ -16,7 +16,7 @@ object trackService {
   trait TrackService {
     def readDataFromCfpDevoxx(): Task[Long]
     def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
+    def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
     def loadSlot(id: Slot.Id): Task[Option[domain.Slot]]
     def loadAllSlots: Task[Seq[domain.Slot]]
     def roomById(id: String): Task[Option[String]]
@@ -75,7 +75,7 @@ object trackService {
         slots <- slotRepo.allSlots
       } yield slots.filter(isActiveFilter)
 
-    override def loadSlotByCriterias(userId: String, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
+    override def loadSlotByCriterias(userId: SimpleUser.Id, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
       for {
         slots <- slotRepo.allSlotsWithUserId(userId)
         slot <- ZIO.attempt(slots.filter(isActiveFilter).toSeq)
@@ -119,7 +119,7 @@ object trackService {
   def readDataFromCfpDevoxx(): RIO[TrackService, Long] = ZIO.serviceWithZIO[TrackService](_.readDataFromCfpDevoxx())
   def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(isActiveFunction))
-  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
+  def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: Slot.Id): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
   def roomById(id: String): RIO[TrackService, Option[String]]      = ZIO.serviceWithZIO[TrackService](_.roomById(id))

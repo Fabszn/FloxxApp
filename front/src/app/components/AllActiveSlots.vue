@@ -10,13 +10,13 @@
     <div class="screen-title">
       All actives slots
     </div>
-    <div v-for="item in items" :key="item.slotId.value">
+    <div v-for="item in items" :key="item.slotId">
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
-        v-on:click="selectSlot(item.slotId.value)"
+        v-on:click="selectSlot(item.slotId)"
       >
-        {{ item.roomId.value }} : {{ item.fromTime.value }} - {{ item.toTime.value }} {{item.day.value}}
+        {{ item.roomId }} : {{ item.fromTime }} - {{ item.toTime }} {{item.day}}
       </button>
     </div>
   </div>

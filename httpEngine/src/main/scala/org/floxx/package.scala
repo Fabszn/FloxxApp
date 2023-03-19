@@ -1,6 +1,8 @@
 package org
 
 
+import org.floxx.domain.AuthUser.Login
+import org.floxx.domain.User.SimpleUser
 import org.slf4j.{Logger, LoggerFactory}
 import zio._
 import zio.interop.catz._
@@ -11,7 +13,7 @@ package object floxx {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
 
-  case class UserInfo(userId: String, firstname: String, isAdmin: Boolean)
+  case class UserInfo(userId: SimpleUser.Id, firstname: Login, isAdmin: Boolean)
 
   object UserInfo {
 
@@ -19,7 +21,7 @@ package object floxx {
     import io.circe.generic.auto._
     implicit val format = jsonOf[Task, UserInfo]
 
-    def empty: UserInfo = UserInfo("-","-",isAdmin = false)
+    def empty: UserInfo = UserInfo(SimpleUser.Id("-"),Login("-"),isAdmin = false)
   }
 
   sealed trait FloxxError  {

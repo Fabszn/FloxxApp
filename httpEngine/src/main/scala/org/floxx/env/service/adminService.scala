@@ -7,7 +7,7 @@ import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.env.repository.userRepository.UserRepo
-import org.floxx.model.SimpleUser
+import org.floxx.domain.User.SimpleUser
 import zio._
 
 object adminService {

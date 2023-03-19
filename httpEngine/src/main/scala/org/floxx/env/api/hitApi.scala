@@ -53,7 +53,7 @@ object hitApi {
     case ct @ POST -> Root / "hit" as user =>
       for {
         hitItem <- ct.req.as[HitRequest]
-        _ <- hitService.hit(hitItem.toHit(SimpleUser.Id(user.userId)))
+        _ <- hitService.hit(hitItem.toHit(user.userId))
         r <- Created("Hit created")
       } yield r
 
