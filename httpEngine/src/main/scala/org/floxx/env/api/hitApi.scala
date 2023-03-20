@@ -44,7 +44,7 @@ object hitApi {
     implicit val format = jsonOf[ApiTask, OverflowRequest]
   }
 
-  final case class AffectedRoomRequest(slotId: Slot.Id, affectedRoom: AffectedRoom)
+  final case class AffectedRoomRequest(slotId: Slot.Id, affectedRoom: Option[AffectedRoom])
   object AffectedRoomRequest {
     implicit val format = jsonOf[ApiTask, AffectedRoomRequest]
   }

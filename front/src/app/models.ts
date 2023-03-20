@@ -97,6 +97,16 @@ class StatItem {
     }
 }
 
+class OverflowRoomState {
+    data = reactive({
+      slotId: ref(""),
+      roomId: ref("")
+    });
+}
+
+
+
+
 class StateRoom {
     data = reactive({
       per: ref(0),
@@ -175,7 +185,7 @@ class Conference {
 }
 
 
-export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, Talk }
+export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, Talk,OverflowRoomState }
 
 
 
