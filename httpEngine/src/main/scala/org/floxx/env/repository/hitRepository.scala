@@ -24,6 +24,7 @@ object hitRepository {
     def createOrUpdateOverflowLevel(o: Overflow): Task[Long]
     def updateOverflowAffectedRoom(slot: Slot, affectedRoom: Option[AffectedRoom]): Task[Long]
     def save(hit: Hit): Task[Long]
+    def deleteOverflow(slotId: Slot.Id): Task[Unit]
 
   }
 
@@ -91,6 +92,8 @@ object hitRepository {
 
       }.provideEnvironment(ZEnvironment(dataSource))
 
+    override def deleteOverflow(slotId: Slot.Id): Task[Unit] =
+      run(quote(overflow.filter(_.slotId == lift(slotId)).delete)).provideEnvironment(ZEnvironment(dataSource)).map(_ => ())
   }
 
 }

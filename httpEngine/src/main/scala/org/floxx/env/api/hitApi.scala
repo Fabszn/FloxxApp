@@ -17,7 +17,7 @@ import zio.interop.catz._
 
 import java.time.ZonedDateTime
 
-object hitApi {
+object  hitApi {
 
   val dsl = Http4sDsl[ApiTask]
 
@@ -71,10 +71,19 @@ object hitApi {
         r <- Created("Overflow has been persisted (or update)")
       } yield r
     }
+    case DELETE -> Root / "overflow" / sid as _ => {
+      for {
+        _ <- hitService.removeOverflow(Slot.Id(sid))
+        r <- Ok("Overflow has been deleted")
+      } yield r
+    }
     case ct @ POST -> Root / "overflow" / "_affectedRoom" as _ => {
       for {
         affectedRoomRequest <- ct.req.as[AffectedRoomRequest]
-        _ <- hitService.saveAffectedRoom(affectedRoomRequest.slotId, affectedRoomRequest.affectedRoom)
+        _ <- hitService.saveAffectedRoom(
+          affectedRoomRequest.slotId,
+          affectedRoomRequest.affectedRoom
+        )
         r <- Created("SlotId has been affected")
       } yield r
     }

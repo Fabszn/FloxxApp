@@ -233,7 +233,6 @@ export default defineComponent({
       })
         .then((response) => response.json())
         .then((p) => {
-          
           this.title = p.slot.talk.title;
           this.talkType = p.slot.talk.talkType;
           this.room = p.slot.roomId;
@@ -262,6 +261,11 @@ export default defineComponent({
         this.currentColor = shared.colorByPercentage(perc);
         this.toast.success("Percentage has been registered");
         this.switchOverflow.bind(this)(perc);
+        // DELETE Overflow value
+      });
+      fetch("/api/overflow/" + this.$route.params.slotid, {
+        method: "DELETE",
+        headers: shared.tokenHandle(),
       });
     },
     switchOverflow: function (perc) {
@@ -274,7 +278,6 @@ export default defineComponent({
       }
     },
     hide() {
-      console.log("close");
       this.dialogState = false;
     },
     backMySlots: function () {
@@ -284,7 +287,7 @@ export default defineComponent({
       fetch("/api/overflow", {
         body: JSON.stringify({
           slotId: this.$route.params.slotid,
-          level: _.invert(this.overflowIndex)[va]
+          level: _.invert(this.overflowIndex)[va],
         }),
         method: "POST",
         headers: shared.tokenHandle(),
@@ -324,10 +327,10 @@ function initPercentage(perc) {
   background-color: red;
 }
 .bred {
-  background-color: #8B0000;
+  background-color: #8b0000;
 }
 .borange {
-  background-color: DarkOrange ;
+  background-color: DarkOrange;
 }
 .bgreen {
   background-color: #006400;
