@@ -2,31 +2,33 @@ package fixtures
 
 import org.floxx.domain.{CurrentYear, Room, Slot, Talk, User}
 import org.floxx.env.api.adminApi.Mapping
-import org.floxx.model.AuthUser
+import org.floxx.domain.AuthUser
+import org.floxx.domain.AuthUser.{Firstname, Lastname, Login, Mdp}
+import org.floxx.domain.User.SimpleUser
 
 trait DataFixtures {
   val users = Seq(
     AuthUser(
-      userId = Option("aheritier"),
-      login = "aheritier@gmail.com",
-      firstName = "Arnaud",
-      lastName = "Heritier",
-      mdp = "123",
+      userId = Option(SimpleUser.Id("aheritier")),
+      login = Login("aheritier@gmail.com"),
+      firstName =Firstname( "Arnaud"),
+      lastName = Lastname( "Heritier"),
+      mdp = Mdp("123"),
       isAdmin = true
     ),
     AuthUser(
-      userId = Option("fsznaj"),
-      login = "fabszn@pm.me",
-      firstName = "fabrice",
-      lastName = "Sznajderman",
-      mdp = "123"
+      userId = Option(SimpleUser.Id("fsznaj")),
+      login = Login("fabszn@pm.me"),
+      firstName = Firstname("fabrice"),
+      lastName = Lastname("Sznajderman"),
+      mdp = Mdp("123")
     ),
     AuthUser(
-      userId = Option("mpierre"),
-      login = "mpierre@pm.me",
-      firstName = "Michel",
-      lastName = "Pierre",
-      mdp = "123"
+      userId = Option(SimpleUser.Id("mpierre")),
+      login = Login("mpierre@pm.me"),
+      firstName = Firstname("Michel"),
+      lastName = Lastname("Pierre"),
+      mdp = Mdp("123")
     )
   )
 

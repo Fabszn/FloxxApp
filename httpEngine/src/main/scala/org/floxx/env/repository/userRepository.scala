@@ -1,6 +1,8 @@
 package org.floxx.env.repository
 
-import org.floxx.model.{AuthUser, SimpleUser}
+import org.floxx.domain.AuthUser
+import org.floxx.domain.AuthUser.Login
+import org.floxx.domain.User.SimpleUser
 import zio._
 
 import javax.sql.DataSource
@@ -9,7 +11,7 @@ import javax.sql.DataSource
 object userRepository {
 
   trait UserRepo {
-    def userByUserId(login: String): Task[Option[AuthUser]]
+    def userByUserId(login: SimpleUser.Id): Task[Option[AuthUser]]
     def allUsers: Task[Seq[SimpleUser]]
     def insertUsers(users: Seq[AuthUser]): Task[Long]
   }
@@ -17,7 +19,7 @@ object userRepository {
   case class UserRepoService(dataSource: DataSource) extends UserRepo {
     import QuillContext._
 
-    override def userByUserId(login: String): Task[Option[AuthUser]] =
+    override def userByUserId(login: SimpleUser.Id): Task[Option[AuthUser]] =
       run(quote(authUser.filter(_.userId.contains(lift(login))))).map(_.headOption).provideEnvironment(ZEnvironment(dataSource))
 
     override def allUsers: Task[Seq[SimpleUser]] =
@@ -35,8 +37,6 @@ object userRepository {
     }
 
 
-  def userByLogin(login: String): RIO[UserRepo, Option[AuthUser]] =
-    ZIO.serviceWithZIO[UserRepo](_.userByUserId(login))
 
   def allUser: RIO[UserRepo, Seq[SimpleUser]] =
     ZIO.serviceWithZIO[UserRepo](_.allUsers)

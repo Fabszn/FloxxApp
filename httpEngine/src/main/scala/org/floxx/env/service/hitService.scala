@@ -1,95 +1,127 @@
 package org.floxx.env.service
 
-import org.floxx.domain.Slot
+import org.floxx.domain.Overflow.AffectedRoom
+import org.floxx.domain.{ Slot, TrackHitInfo }
 import org.floxx.env.configuration.config.Configuration
 import org.floxx.env.repository.hitRepository.HitRepo
 import org.floxx.env.service.trackService.TrackService
-import org.floxx.model
-import org.floxx.model.{Hit, TrackHitInfo}
+import org.floxx.domain._
+import org.floxx.env.repository.cfpRepository.SlotRepo
 import zio._
 
 object hitService {
 
+  val layer: RLayer[TrackService with SlotRepo with HitRepo with Configuration, HitService] =
+    ZLayer {
+      for {
+        trackService <- ZIO.service[TrackService]
+        hitRepo <- ZIO.service[HitRepo]
+        slotRepo <- ZIO.service[SlotRepo]
+        conf <- ZIO.service[Configuration]
+      } yield HitServiceImpl(trackService, slotRepo, hitRepo, conf)
+    }
+
   trait HitService {
 
     def hit(hit: Hit): Task[Long]
-    def currentTracks: Task[Map[Slot.Id, model.Hit]]
-    def currentTracksWithHitInfo: Task[Seq[model.TrackHitInfo]]
-    def allTracksWithHitInfo: Task[Seq[model.TrackHitInfo]]
+    def saveOrUpdateOverflow(overflow: Overflow): Task[Long]
+    def removeOverflow(slotId: Slot.Id): Task[Unit]
+    def saveAffectedRoom(slotId: Slot.Id, affectedRoom: Option[AffectedRoom]): Task[Long]
+    def tracksWithHitInfoBy(slotId: Slot.Id): Task[Option[TrackHitInfo]]
+    def currentTracksWithHitInfo: Task[Seq[TrackHitInfo]]
+    def allTracksWithHitInfo: Task[Seq[TrackHitInfo]]
 
   }
 
-  case class HitServiceImpl(trackService: TrackService, hitRepo: HitRepo, config: Configuration) extends HitService {
+  case class HitServiceImpl(trackService: TrackService, slotRepo: SlotRepo, hitRepo: HitRepo, config: Configuration)
+      extends HitService {
     override def hit(hit: Hit): Task[Long] = hitRepo.save(hit)
 
     def transform(hits: Seq[Hit]): Task[Map[Slot.Id, Hit]] =
       ZIO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
 
-    override def currentTracks: Task[Map[Slot.Id, model.Hit]] =
-      for {
-        conf <- config.getConf
-        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
-        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
-        filtered <- transform(hits)
-
-      } yield {
-        filtered
-      }
-
     override def currentTracksWithHitInfo: Task[Seq[TrackHitInfo]] =
       for {
         conf <- config.getConf
-        currentSloIds <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
-        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
+        currentSlots <- trackService.loadSlotByCriterias(timeUtils.extractDayAndStartTime(config = conf))
+        currentSlotIds = currentSlots.map(_.slotId)
+        hits <- hitRepo.loadHitBy(currentSlotIds)
+        overflows <- hitRepo.overflowBySlotId(currentSlotIds)
         filteredHits <- transform(hits)
-        filtered <- {
-
-          ZIO.succeed(currentSloIds.map { s =>
-            {
-              val hitInfo = filteredHits.get(s.slotId)
-
-              TrackHitInfo(s.slotId, s, hitInfo)
-            }
-          })
+        filtered = currentSlots.map { s =>
+          TrackHitInfo(
+            s.slotId,
+            s,
+            filteredHits.get(s.slotId),
+            overflows.find(_.slotId == s.slotId)
+          )
         }
+
       } yield {
         filtered
       }
 
     override def allTracksWithHitInfo: Task[Seq[TrackHitInfo]] =
       for {
-        currentSloIds <- trackService.loadSlotByCriterias(_ => true)
-        hits <- hitRepo.loadHitBy(currentSloIds.map(_.slotId))
+        currentSlots <- trackService.loadSlotByCriterias(_ => true)
+        currentSlotIds = currentSlots.map(_.slotId)
+        hits <- hitRepo.loadHitBy(currentSlotIds)
+        overflows <- hitRepo.overflowBySlotId(currentSlotIds)
         filteredHits <- transform(hits)
-        filtered <- {
-
-          ZIO.succeed(currentSloIds.map { s =>
-            {
-              val hitInfo = filteredHits.get(s.slotId) //.find(h => h.hitSlotId == s.slotId)
-
-              TrackHitInfo(s.slotId, s, hitInfo)
-            }
-          })
+        filtered = currentSlots.map { s =>
+          TrackHitInfo(
+            s.slotId,
+            s,
+            filteredHits.get(s.slotId),
+            overflows.find(_.slotId == s.slotId)
+          )
         }
+
       } yield {
         filtered
       }
+
+    override def tracksWithHitInfoBy(slotId: Slot.Id): Task[Option[TrackHitInfo]] =
+      for {
+        currentSlots <- trackService.loadSlotByCriterias(_.slotId == slotId)
+        currentSlotIds = currentSlots.map(_.slotId)
+        hits <- hitRepo.loadHitBy(currentSlotIds)
+        overflows <- hitRepo.overflowBySlotId(currentSlotIds)
+        filteredHits <- transform(hits)
+        filtered = currentSlots.headOption.map { s =>
+          TrackHitInfo(
+            s.slotId,
+            s,
+            filteredHits.get(s.slotId),
+            overflows.find(_.slotId == s.slotId)
+          )
+        }
+
+      } yield {
+        filtered
+      }
+
+    override def saveOrUpdateOverflow(overflow: Overflow): Task[Long] = hitRepo.createOrUpdateOverflowLevel(overflow)
+
+    override def saveAffectedRoom(slotId: Slot.Id, affectedRoom: Option[AffectedRoom]): Task[Long] =
+      (for {
+        affectedRoom <- ZIO.attempt(affectedRoom)
+        current <- slotRepo.getSlotById(slotId).some
+        n <- hitRepo.updateOverflowAffectedRoom(current, affectedRoom)
+      } yield n).orElse(ZIO.succeed(0L))
+
+    override def removeOverflow(slotId: Slot.Id): Task[Unit] = hitRepo.deleteOverflow(slotId)
   }
 
-  val layer: RLayer[TrackService with HitRepo with Configuration, HitService] =
-    ZLayer {
-      for {
-        trackService <- ZIO.service[TrackService]
-        hitRepo <- ZIO.service[HitRepo]
-        conf <- ZIO.service[Configuration]
-      } yield HitServiceImpl(trackService, hitRepo, conf)
-    }
-
-
-  def hit(hit: Hit): RIO[HitService, Long]                    = ZIO.serviceWithZIO[HitService](_.hit(hit))
-  def currentTracks: RIO[HitService, Map[Slot.Id, model.Hit]] = ZIO.serviceWithZIO[HitService](_.currentTracks)
-  def currentTracksWithHitInfo: RIO[HitService, Seq[model.TrackHitInfo]] =
+  def hit(hit: Hit): RIO[HitService, Long] = ZIO.serviceWithZIO[HitService](_.hit(hit))
+  def tracksWithHitInfoBy(slotId: Slot.Id): RIO[HitService, Option[TrackHitInfo]] =
+    ZIO.serviceWithZIO[HitService](_.tracksWithHitInfoBy(slotId))
+  def currentTracksWithHitInfo: RIO[HitService, Seq[TrackHitInfo]] =
     ZIO.serviceWithZIO[HitService](_.currentTracksWithHitInfo)
-  def allTracksWithHitInfo: RIO[HitService, Seq[model.TrackHitInfo]] = ZIO.serviceWithZIO[HitService](_.allTracksWithHitInfo)
+  def allTracksWithHitInfo: RIO[HitService, Seq[TrackHitInfo]] = ZIO.serviceWithZIO[HitService](_.allTracksWithHitInfo)
+  def saveOrUpdateOverflow(o: Overflow): RIO[HitService, Long] = ZIO.serviceWithZIO[HitService](_.saveOrUpdateOverflow(o))
+  def saveAffectedRoom(slotId: Slot.Id, affectedRoom: Option[AffectedRoom]): RIO[HitService, Long] =
+    ZIO.serviceWithZIO[HitService](_.saveAffectedRoom(slotId, affectedRoom))
+  def removeOverflow(slotId: Slot.Id): RIO[HitService, Unit] = ZIO.serviceWithZIO[HitService](_.removeOverflow(slotId))
 
 }

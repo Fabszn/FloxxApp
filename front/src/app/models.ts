@@ -1,6 +1,5 @@
-import { stringify } from "querystring";
-import { stringify } from "querystring";
-import { stringify } from "querystring";
+import _ from "lodash";
+import {reactive, ref}  from "@vue/runtime-core";
 
 class Hit {
     hitid: string;
@@ -98,6 +97,54 @@ class StatItem {
     }
 }
 
+class OverflowRoomState {
+    data = reactive({
+      slotId: ref(""),
+      roomId: ref("")
+    });
+}
+
+
+
+
+class StateRoom {
+    data = reactive({
+      per: ref(0),
+      color: ref("green"),
+      overflowState: ref(0),
+      selected:ref(false),
+      affectedRoom: ref("")
+    });
+  
+    dataOS = reactive({
+      overflowJustFull: ref(false),
+      overflowMedium: ref(false),
+      overflowRequiered: ref(false),
+    });
+  
+    computeRoomState(idx: number) {
+      this.dataOS.overflowJustFull = false;
+      this.dataOS.overflowMedium = false;
+      this.dataOS.overflowRequiered = false;
+      switch (idx) {
+        case 1:
+          this.dataOS.overflowJustFull = true;
+          break;
+        case 2:
+          this.dataOS.overflowMedium = true;
+          break;
+        case 3:
+          this.dataOS.overflowRequiered = true;
+          break;
+        default:
+          console.error("index provided to compute overflow id unknown = " + idx);
+          this.dataOS.overflowJustFull = false;
+          this.dataOS.overflowMedium = false;
+          this.dataOS.overflowRequiered = false;
+      }
+    }  
+  }
+
 
 class Conference {
     confTitle: string = "";
@@ -105,15 +152,17 @@ class Conference {
     room: string = "";
     fromTime: string = "";
     toTime: string = "";
-    slotId: String = ""
+    slotId: String = "";
+    stateRoom:StateRoom;
 
-    updateInfo(title: string, kind: string, room: string, from: string, to: string, slotId) {
+    updateInfo(title: string, kind: string, room: string, from: string, to: string, slotId, stateRoom:StateRoom) {
         this.confTitle = title;
         this.confKind = kind;
         this.fromTime = from;
         this.toTime = to;
         this.room = room;
         this.slotId = slotId;
+        this.stateRoom = stateRoom;
     }
 
     resetData() {
@@ -123,18 +172,20 @@ class Conference {
         this.toTime = "";
         this.room = "";
         this.slotId = "";
+        this.stateRoom = new StateRoom;
     }
 
-    twitterMessage(): string {
-        return "La salle " + this.room + " [" + this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
-
+    twitterMessage(): string {       
+        if (_.trim(this.room).length == 0) {
+            return "Nothing to publish for now..."
+        } else {
+            return "La salle " + this.room + " [" + this.fromTime + " - " + this.toTime + "] " + this.confTitle + " est en OVERFLOW ....  @DevoxxFR";
+        }
     }
-
-
 }
 
 
-export { TrackHitInfo, User, Conference, Mapping, StatItem, Talk }
+export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, Talk,OverflowRoomState }
 
 
 

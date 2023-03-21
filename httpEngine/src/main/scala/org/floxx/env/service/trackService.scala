@@ -1,24 +1,23 @@
 package org.floxx.env.service
 
-import org.floxx.domain.Room
+import org.floxx.domain.{Room, Slot}
 import org.floxx.domain.User.SimpleUser
-import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
+import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.env.repository.cfpRepository.SlotRepo
 import org.floxx.domain
 import org.http4s.Response
 import org.http4s.blaze.client.BlazeClientBuilder
-
 import zio._
 import zio.interop.catz._
-import zio.interop.catz.implicits.rts
+//import zio.interop.catz.implicits.rts
 
 object trackService {
 
   trait TrackService {
     def readDataFromCfpDevoxx(): Task[Long]
     def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
-    def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
-    def loadSlot(id: String): Task[Option[domain.Slot]]
+    def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
+    def loadSlot(id: Slot.Id): Task[Option[domain.Slot]]
     def loadAllSlots: Task[Seq[domain.Slot]]
     def roomById(id: String): Task[Option[String]]
     def rooms: Task[Map[Room.Id, Room.Name]]
@@ -37,13 +36,13 @@ object trackService {
             client.get(url) { r: Response[Task] =>
               r.as[String].map { rt =>
                 parse(rt).fold(
-                  e => {
+                  _ => {
                     List.empty[domain.Slot]
                   },
                   j => {
                     j.hcursor.downField("slots").as[Seq[domain.Slot]] match {
                       case Right(l) => l.toList
-                      case Left(e) =>
+                      case Left(_) =>
                         List.empty[domain.Slot]
                     }
                   }
@@ -55,11 +54,13 @@ object trackService {
       import cats.implicits._
 
       for {
-        conf <- {val c: Task[GlobalConfig] = config.getConf
-        c}
+        conf <- {
+          val c: Task[GlobalConfig] = config.getConf
+          c
+        }
         urlByDay = conf.cfp.days.map(d => s"${conf.cfp.url}${d.dayValue.value}")
         slots <- {
-          val t =urlByDay.map(s).traverse(identity).map(_.flatten)
+          val t = urlByDay.map(s).traverse(identity).map(_.flatten)
           t
         }
         computedSlotKey = computeRoomKey(slots, conf)
@@ -74,13 +75,13 @@ object trackService {
         slots <- slotRepo.allSlots
       } yield slots.filter(isActiveFilter)
 
-    override def loadSlotByCriterias(userId: String, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
+    override def loadSlotByCriterias(userId: SimpleUser.Id, isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
       for {
         slots <- slotRepo.allSlotsWithUserId(userId)
         slot <- ZIO.attempt(slots.filter(isActiveFilter).toSeq)
       } yield slot
 
-    override def loadSlot(id: String): Task[Option[domain.Slot]] = slotRepo.getSlotById(id)
+    override def loadSlot(id: Slot.Id): Task[Option[domain.Slot]] = slotRepo.getSlotById(id)
 
     override def roomById(id: String): Task[Option[String]] =
       config.getRooms.map(_(id))
@@ -118,13 +119,13 @@ object trackService {
   def readDataFromCfpDevoxx(): RIO[TrackService, Long] = ZIO.serviceWithZIO[TrackService](_.readDataFromCfpDevoxx())
   def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(isActiveFunction))
-  def loadSlotByCriterias(userID: String, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
+  def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
-  def loadSlot(id: String): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
+  def loadSlot(id: Slot.Id): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
   def roomById(id: String): RIO[TrackService, Option[String]]      = ZIO.serviceWithZIO[TrackService](_.roomById(id))
-  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]]            = ZIO.serviceWithZIO[TrackService](_.rooms)
   def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]            = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
   def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))
+  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]] = ZIO.serviceWithZIO[TrackService](_.rooms)
 
 }

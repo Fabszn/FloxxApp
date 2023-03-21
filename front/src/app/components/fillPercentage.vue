@@ -14,13 +14,13 @@
 
     <div class="d-flex flex-column justify-content-center">
       <div class="title separate">{{ title }}</div>
-      <div>{{ talkType }} - {{ room.value }}</div>
+      <div>{{ talkType }} - {{ room }}</div>
     </div>
 
     <div class="d-flex justify-content-center">
       <div>
         <circle-progress
-          :size=100
+          :size="100"
           :reverse="false"
           line-cap="round"
           :fill-color="currentColor"
@@ -136,15 +136,46 @@
         </div>
         <div>
           <button
+            v-if="overflow"
             type="button"
             class="btn btn-secondary btn-lg block bred"
             v-on:click="hit(100)"
           >
             Over
           </button>
+          <button
+            v-else
+            type="button"
+            class="btn btn-secondary btn-lg block bred"
+            v-on:click="hit(100)"
+          >
+            100%
+          </button>
         </div>
       </div>
     </div>
+
+    <GDialog v-model="dialogState">
+      <div class="floxxmodal over">
+        <div class="modalinfo">
+          <div class="slider">
+            Hello from popin
+            <vue-slider
+              v-model="value"
+              :adsorb="true"
+              :data="data"
+              :marks="true"
+              @change="ch"
+            ></vue-slider>
+          </div>
+        </div>
+        <div class="buttonmodal">
+          <button type="button" v-on:click="hide" class="btn btn-secondary">
+            Close
+          </button>
+        </div>
+      </div>
+    </GDialog>
   </div>
 </template>
 
@@ -155,42 +186,62 @@ import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import _ from "lodash";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
 
 export default defineComponent({
   components: {
     CircleProgress,
+    VueSlider,
   },
   setup() {
     const toast = useToast();
     const currentFill = ref(0);
     const currentColor = ref("green");
+    const overflow = ref(false);
+    const overflowIndex = {
+      1: "Non",
+      2: "Modéré",
+      3: "Requis",
+    };
 
     return {
       currentFill,
       currentColor,
       toast,
+      overflow,
+      overflowIndex,
     };
   },
   data: function () {
     return {
+      dialogState: false,
       id: this.$route.params.slotid,
       fill: { gradient: ["green"] },
       title: "",
       talkType: "",
       room: "",
+      data: ["Non", "Modéré", "Requis"],
+      value: "",
     };
   },
   created() {
     shared.securityAccess(this.$router, (p) => {
       var itemId = this.$route.params.slotid;
-      fetch("/api/slots/" + itemId, {
+      fetch("/api/tracks-infos/" + itemId, {
         headers: shared.tokenHandle(),
       })
         .then((response) => response.json())
         .then((p) => {
-          this.title = p.talk.title;
-          this.talkType = p.talk.talkType;
-          this.room = p.roomId;
+          this.title = p.slot.talk.title;
+          this.talkType = p.slot.talk.talkType;
+          this.room = p.slot.roomId;
+          initPercentage.bind(this)(p.hitInfo.percentage);
+          if (_.isNull(p.overflow)) {
+            this.value = 0;
+          } else {
+            this.value = this.overflowIndex[p.overflow.level];
+          }
         });
     });
   },
@@ -200,8 +251,8 @@ export default defineComponent({
     hit: function (perc) {
       fetch("/api/hit", {
         body: JSON.stringify({
-          "hitSlotId": this.$route.params.slotid,
-          "percentage": perc,
+          hitSlotId: this.$route.params.slotid,
+          percentage: perc,
         }),
         method: "POST",
         headers: shared.tokenHandle(),
@@ -209,13 +260,51 @@ export default defineComponent({
         this.currentFill = _.toInteger(perc);
         this.currentColor = shared.colorByPercentage(perc);
         this.toast.success("Percentage has been registered");
+        this.switchOverflow.bind(this)(perc);
+        // DELETE Overflow value
       });
+      fetch("/api/overflow/" + this.$route.params.slotid, {
+        method: "DELETE",
+        headers: shared.tokenHandle(),
+      });
+    },
+    switchOverflow: function (perc) {
+      if (perc == 100 && this.overflow == true) {
+        this.dialogState = true;
+      } else if (perc != 100) {
+        this.overflow = false;
+      } else {
+        this.overflow = true;
+      }
+    },
+    hide() {
+      this.dialogState = false;
     },
     backMySlots: function () {
       this.$router.push("/myslots");
     },
+    ch: function (va) {
+      fetch("/api/overflow", {
+        body: JSON.stringify({
+          slotId: this.$route.params.slotid,
+          level: _.invert(this.overflowIndex)[va],
+        }),
+        method: "POST",
+        headers: shared.tokenHandle(),
+      });
+    },
   },
 });
+
+function initPercentage(perc) {
+  if (!_.isNull(perc)) {
+    this.currentFill = perc;
+    this.currentColor = shared.colorByPercentage(perc);
+    if (perc == 100) {
+      this.switchOverflow.bind(this)(perc);
+    }
+  }
+}
 </script>
 
 <style  scoped>
@@ -234,13 +323,25 @@ export default defineComponent({
   margin: 6px 0px 0px 10px;
 }
 
-.bred {
+.bpurple {
   background-color: red;
 }
+.bred {
+  background-color: #8b0000;
+}
 .borange {
-  background-color: #ffa500;
+  background-color: DarkOrange;
 }
 .bgreen {
-  background-color: #4caf50;
+  background-color: #006400;
+}
+.slider {
+  padding: 18px 90px;
+}
+
+@media (max-width: 375px) {
+  .slider {
+    padding: 18px 20px;
+  }
 }
 </style>

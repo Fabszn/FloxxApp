@@ -1,20 +1,43 @@
 package org.floxx
 
+import cats.effect.IO
 import io.circe._
 import io.circe.generic.auto._
+import org.http4s.circe.jsonOf
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import org.floxx.domain.AuthUser.{Firstname, Id, Lastname, Login, Mdp}
 import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Slot.{Day, FromTime, ToTime}
-import org.floxx.model.SlotId
+import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
+import org.floxx.domain.Slot.Day
+import org.floxx.domain.User.SimpleUser
 
 import java.text.SimpleDateFormat
-import java.time.{LocalDateTime, ZoneOffset}
+import java.time.{ZoneId, ZonedDateTime}
 import scala.util.Try
 
 object domain {
 
-  final case class CurrentYear(value:Int) extends AnyVal
+  val defaultZoneId: ZoneId = ZoneId.of("Europe/Paris")
+
+  final case class AuthUser(
+      userId: Option[SimpleUser.Id],
+      login: Login,
+      firstName: Firstname,
+      lastName: Lastname,
+      mdp: Mdp,
+      isAdmin: Boolean = false
+  )
+
+  object AuthUser {
+    final case class Id(value: String) extends AnyVal
+    final case class Login(value: String) extends AnyVal
+    final case class Firstname(value: String) extends AnyVal
+    final case class Lastname(value: String) extends AnyVal
+    final case class Mdp(value: String) extends AnyVal
+  }
+
+  final case class CurrentYear(value: Int) extends AnyVal
 
   final case class ConfDay(dayIndex: DayIndex, dayValue: DayValue)
 
@@ -62,12 +85,6 @@ object domain {
       day: String
   )
 
-  object StatItem {
-
-    implicit val dec: Decoder[StatItem] = deriveDecoder[StatItem]
-    implicit val enc: Encoder[StatItem] = deriveEncoder[StatItem]
-  }
-
   object Mapping {
     case class UserSlot(user: Option[User.SimpleUser], slot: Slot)
 
@@ -86,6 +103,8 @@ object domain {
       final case class Id(value: String) extends AnyVal
       final case class Nom(value: String) extends AnyVal
       final case class Prenom(value: String) extends AnyVal
+
+
     }
 
   }
@@ -132,13 +151,13 @@ object domain {
       toTime: Slot.ToTime,
       talk: Option[Talk],
       day: Slot.Day,
-      yearSlot:CurrentYear
+      yearSlot: CurrentYear
   )
 
   object Slot {
 
-    private def millis2Year(m:Long):CurrentYear = {
-      val ldt =  new SimpleDateFormat("yyyy")
+    private def millis2Year(m: Long): CurrentYear = {
+      val ldt = new SimpleDateFormat("yyyy")
       CurrentYear(ldt.format(m).toInt)
     }
 
@@ -163,15 +182,56 @@ object domain {
         day <- c.downField("day").as[String]
         currentYear <- c.downField("fromTimeMillis").as[Long]
       } yield {
-        new Slot(Slot.Id(slotId), Room.Id(roomId), FromTime(fromTime), ToTime(toTime), talk, Slot.Day(day),millis2Year(currentYear) )
+        new Slot(
+          Slot.Id(slotId),
+          Room.Id(roomId),
+          FromTime(fromTime),
+          ToTime(toTime),
+          talk,
+          Slot.Day(day),
+          millis2Year(currentYear)
+        )
       }
     }
-
 
   }
 
   final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
   final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
 
+  case class TrackHitInfo(
+      hitSlotId: Slot.Id,
+      slot: Slot,
+      hitInfo: Option[Hit],
+      overflow: Option[Overflow] = Option.empty[Overflow]
+  )
+
+  object TrackHitInfo {
+
+    implicit val format = jsonOf[IO, TrackHitInfo]
+  }
+
+  final case class Overflow(
+      slotId: Slot.Id,
+      level: Level,
+      datetime: DateTime = DateTime(ZonedDateTime.now(defaultZoneId)),
+      affectedRoom: Option[AffectedRoom] = Option.empty[AffectedRoom]
+  )
+
+  object Overflow {
+
+    final case class Level(value: Int) extends AnyVal
+    final case class DateTime(value: ZonedDateTime) extends AnyVal
+    final case class AffectedRoom(value: String) extends AnyVal
+
+  }
+
+  case class Hit(
+      hitid: Option[String] = None,
+      hitSlotId: String,
+      percentage: Int,
+      dateTime: Long = System.currentTimeMillis(),
+      userId: domain.User.SimpleUser.Id
+  )
 
 }

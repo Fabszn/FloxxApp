@@ -75,8 +75,9 @@ export default {
                 this.loginFailedMsg = false;
                 console.error(r);
               }
-            ),
-          fetch("/api/days", { method: "GET" })
+            ).then(e => fetch("/api/days", {
+             method: "GET",
+             headers: shared.tokenHandle() })
             .then((response) => response.json())
             .then(
               (r) => {
@@ -86,7 +87,8 @@ export default {
                 this.loginFailedMsg = false;
                 console.error(r);
               }
-            ),
+            )),
+          
         ])
         .then((v) => this.$router.push("/menu"));
     },

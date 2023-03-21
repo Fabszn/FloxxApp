@@ -14,3 +14,4 @@ desktopApp/node_modules
 desktopApp/dist
 front/yarn-error.log
 metals.sbt
+*/**/local.conf

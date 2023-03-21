@@ -318,7 +318,7 @@ export default defineComponent({
     },
     setSelectedSlot() {
       const dataToDisplay =
-        this.stats[this.selectedDay.label][this.selectedSlot.label];
+        this.stats[this.selectedDay.label][this.selectedSlot .label];
       this.chartOptionsBySlotTime = {
         ...this.chartOptionsBySlotTime,
         ...{

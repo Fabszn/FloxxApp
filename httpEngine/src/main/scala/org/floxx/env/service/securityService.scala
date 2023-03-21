@@ -3,6 +3,8 @@ package org.floxx.env.service
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
+import org.floxx.domain.AuthUser.{Login, Mdp}
+import org.floxx.domain.User.SimpleUser
 import org.floxx.env.api.ApiTask
 import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.env.repository.userRepository.UserRepo
@@ -24,7 +26,7 @@ object securityService {
 
   trait SecurityService {
 
-    def authentification(user: String, mdp: String): Task[AuthenticatedUser]
+    def authentification(user: SimpleUser.Id, mdp: Mdp): Task[AuthenticatedUser]
     def checkAuthentification(token: String): Task[Option[UserInfo]]
 
   }
@@ -34,17 +36,19 @@ object securityService {
 
     override def checkAuthentification(token: String): Task[Option[UserInfo]] =
       conf.getConf flatMap (
-            config =>
-              ZIO.fromTry(
-                Jwt.decode(
-                  token,
-                  config.floxx.secret,
-                  Seq(JwtAlgorithm.HS256)
-                )
-              ) flatMap ((jwClaim: JwtClaim) => ZIO.attempt(decode[UserInfo](jwClaim.content).fold(_ => Option.empty[UserInfo], Some(_))))
-          )
+          config =>
+            ZIO.fromTry(
+              Jwt.decode(
+                token,
+                config.floxx.secret,
+                Seq(JwtAlgorithm.HS256)
+              )
+            ) flatMap (
+                (jwClaim: JwtClaim) => ZIO.attempt(decode[UserInfo](jwClaim.content).fold(_ => Option.empty[UserInfo], Some(_)))
+            )
+        )
 
-    override def authentification(user: String, mdp: String): Task[AuthenticatedUser] =
+    override def authentification(user: SimpleUser.Id, mdp: Mdp): Task[AuthenticatedUser] =
       for {
         config <- conf.getConf
         userFound <- securityRepo.userByUserId(user)
@@ -53,9 +57,13 @@ object securityService {
             case Some(u) if u.mdp == mdp =>
               ZIO.attempt(
                 AuthenticatedUser(
-                  s"${u.firstName} ${u.lastName}",
+                  s"${u.firstName.value} ${u.lastName.value}",
                   tokenGenerator(
-                    UserInfo(u.userId.getOrElse("no ID"), u.login, u.isAdmin),
+                    UserInfo(
+                      u.userId.getOrElse(SimpleUser.Id("no ID")),
+                      u.login,
+                      u.isAdmin
+                    ),
                     config
                   ),
                   u.isAdmin
@@ -84,10 +92,7 @@ object securityService {
       } yield SecurityServiceImpl(userRepo, conf)
     }
 
-
-  def authentification(user: String, mdp: String): RIO[SecurityService, AuthenticatedUser] =
+  def authentification(user: SimpleUser.Id, mdp: Mdp): RIO[SecurityService, AuthenticatedUser] =
     ZIO.serviceWithZIO[SecurityService](_.authentification(user, mdp))
-  /*def checkAuthentification(token: String): RIO[SecurityService, Option[UserInfo]] =
-    ZIO.serviceWithZIO[SecurityService](_.checkAuthentification(token))*/
 
 }

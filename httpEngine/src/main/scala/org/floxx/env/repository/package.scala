@@ -1,12 +1,14 @@
 package org.floxx.env
 
-import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import io.getquill.{Literal, PostgresZioJdbcContext}
+import com.zaxxer.hikari.{ HikariConfig, HikariDataSource }
+import io.getquill.{ Literal, PostgresZioJdbcContext }
 import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
-import org.floxx.env.configuration.config.{Configuration, getConf}
-import org.floxx.model.jsonModel.{Talk => JsTalk}
-import org.floxx.model.{AuthUser, Hit, HitLatest, SimpleUser}
+import org.floxx.env.configuration.config.{ getConf, Configuration }
+import org.floxx.model.jsonModel.{ Talk => JsTalk }
+import org.floxx.model. HitLatest
+import org.floxx.domain. AuthUser
+import org.floxx.domain.User.SimpleUser
 import zio._
 
 import javax.sql.DataSource
@@ -134,6 +136,13 @@ package object repository {
         "user_slots",
         _.userId -> "userId",
         _.slotId -> "slotId"
+      )
+    )
+
+    val overflow = quote(
+      querySchema[Overflow](
+        "overflow",
+        _.slotId -> "fkslotid"
       )
     )
 

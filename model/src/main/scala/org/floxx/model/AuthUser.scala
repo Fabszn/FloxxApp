@@ -1,6 +1,7 @@
 package org.floxx.model
 
-case class AuthUser(
+@deprecated("use domain.AuthUser")
+final case class AuthUser(
     userId: Option[String],
     login: String,
     firstName: String,
@@ -8,3 +9,4 @@ case class AuthUser(
     mdp: String,
     isAdmin: Boolean = false
 )
+
