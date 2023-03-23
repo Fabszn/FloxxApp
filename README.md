@@ -60,3 +60,24 @@ Locally :
  - Upgrade version on front-end side 
  
 
+# Makefile and ASDF
+
+If you are using ASDF (http://asdf-vm.com/) you can just call `make setup` to install all the required software (java, sbt, node, yarn ...). The only pre-requisite not managed by ASDF is docker (compose).
+
+You can start the backend with `make launch-backend` and you access to the application from http://localhost:8081 (postgresql is automatically started with `docker compose` if needed)
+
+You can start the frontend with a mock of the backend with `make launch-frontend` and access to the application from http://localhost:8082
+
+Makefile targets are:
+
+```
+clean                          Clean build output
+clean-docker                   Clean docker data
+docker-backend-restart         Restart Postgres DB
+docker-backend-start           Start Postgres DB
+docker-backend-stop            Stop Postgres DB
+help                           Describe all available targets.
+launch-backend                 Start the application backend
+launch-frontend                Start the application frontend
+setup                          install (and configure) all the tools using ASDF ( http://asdf-vm.com/ )
+```
