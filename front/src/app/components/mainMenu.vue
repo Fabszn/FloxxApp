@@ -22,7 +22,7 @@
             type="button"
             class="btn btn-secondary btn-lg block"
             v-on:click="navToAllActSlots"
-          >All actives slots</button>
+          >All actives' slots</button>
       </div>
       <div>
           <button
@@ -79,7 +79,8 @@ export default {
 <style  scoped>
 .block {
   width: 100%;
-  background-color: #4caf50;
+  border:1px solid #f6f2c9;
+  background-color: #218233;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;

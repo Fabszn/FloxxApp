@@ -29,7 +29,7 @@
           <p>{{ selectedConf.twitterMessage() }}</p>
         </div>
 
-        <div class="buttonmodal">
+        <div class="buttonmodal" v-if="this.adminState">
           <button
             type="button"
             v-on:click="
@@ -348,6 +348,8 @@ export default defineComponent({
     shared.securityAccess(this.$router, (p) => {
       currentTracksWitHitInfo.bind(this)();
     });
+    this.adminState = shared.readAdminEtat();
+  
   },
   methods: {
     showDetailsTalk: function (idSlot: string) {
@@ -355,7 +357,8 @@ export default defineComponent({
       this.dialogDetailsTalkState = true;
     },
     showOverflowAction: function () {
-      this.dialogOverflowState = true;
+      //can access only by admin
+      this.dialogOverflowState = this.adminState;
     },
     setOverflowRoomNeuilly(slotId: String, roomId: String) {
       this.showOverflow = true;
