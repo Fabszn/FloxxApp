@@ -53,12 +53,13 @@ export default {
 
 <style  scoped>
 .block {
-  width: 100%;
-  background-color: #4caf50;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
+    width: 100%;
+    border: 1px solid #f6f2c9;
+    background-color: #218233;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
 }
  
 
