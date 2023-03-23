@@ -100,8 +100,8 @@ export default {
 .block {
   display: block;
   width: 100%;
-  border: none;
-  background-color: #3399ff;
+  border: 1px solid #f6f2c9;
+  background-color: #202bbb;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
