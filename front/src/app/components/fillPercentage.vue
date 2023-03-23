@@ -5,7 +5,7 @@
         <button
           v-on:click="backMySlots"
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-secondary navbtn"
         >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>

@@ -4,13 +4,13 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-around separate-headfooter">
       <div>
-        <button v-on:click="backRooms" type="button" class="btn btn-secondary">
+        <button v-on:click="backRooms" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
 
       <div>
-        <button v-on:click="refresh" type="button" class="btn btn-secondary">
+        <button v-on:click="refresh" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="sync" />
         </button>
       </div>

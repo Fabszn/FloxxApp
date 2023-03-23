@@ -126,6 +126,10 @@
     background-color: #2E2E2E;
 }
 
+.navbtn {
+    background-color: #2E2E2E !important;
+}
+
 .floxxmodal {
     display: flex;
     flex-direction: column;

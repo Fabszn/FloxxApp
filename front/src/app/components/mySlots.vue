@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>

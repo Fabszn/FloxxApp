@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backDisconnect" type="button" class="btn btn-secondary">
+        <button v-on:click="backDisconnect" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="sign-out-alt" />
         </button>
       </div>
