@@ -16,75 +16,9 @@ export default [
     {
         url: '/api/tracks-infos',
         method: 'get',
-        response: [{
-            "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
-            "slot": {
-                "slotId": "friday_f_neu252_10:45-11:30_2022",
-                "roomId": "Neuilly 252",
-                "fromTime": "10:45",
-                "toTime": "11:30",
-                "talk": {
-                    "talkType": "Conference",
-                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
-                },
-                "day": "friday",
-                "yearSlot": 2022
-            },
+        response: [{ "hitSlotId": "friday_b_amphi_10:45-11:30_2022", "slot": { "slotId": "friday_b_amphi_10:45-11:30_2022", "roomId": "Amphi bleu", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Migrer de Spring MVC à Spring Web Flux" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "a6a753d4-fcea-471d-a8fb-535c673b711d", "hitSlotId": "friday_b_amphi_10:45-11:30_2022", "percentage": 70, "dateTime": 1650618700482, "userId": "ala-reg" }, "overflow": null }, { "hitSlotId": "friday_c_maillot_10:45-11:30_2022", "slot": { "slotId": "friday_c_maillot_10:45-11:30_2022", "roomId": "Maillot", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Comment OpenTelemetry peut transformer votre monitoring en unifiant vos logs/metrics/traces" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "6fd63335-b829-491e-b0dc-1432154be94b", "hitSlotId": "friday_c_maillot_10:45-11:30_2022", "percentage": 70, "dateTime": 1679761266758, "userId": "fab-szn" }, "overflow": null }, { "hitSlotId": "friday_par242AB_10:45-11:30_2022", "slot": { "slotId": "friday_par242AB_10:45-11:30_2022", "roomId": "Paris 242AB ", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Microservices, DDD et bootstrapping pour faire un départ lancé." }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "7039e41a-d259-4385-a6e5-eb89b2faaca7", "hitSlotId": "friday_par242AB_10:45-11:30_2022", "percentage": 60, "dateTime": 1679761157681, "userId": "fab-szn" }, "overflow": null }, { "hitSlotId": "friday_d_par241_10:45-11:30_2022", "slot": { "slotId": "friday_d_par241_10:45-11:30_2022", "roomId": "Paris 241", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "02c56544-1a72-4c6e-ad6d-04b0a95adcf7", "hitSlotId": "friday_d_par241_10:45-11:30_2022", "percentage": 20, "dateTime": 1679761297681, "userId": "fab-szn" }, "overflow": null }, { "hitSlotId": "friday_par243_t_10:45-11:30_2022", "slot": { "slotId": "friday_par243_t_10:45-11:30_2022", "roomId": "Paris 243", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "React dans tous ses états" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "ff924bc5-ecaf-4577-bc84-64ed5f021e8c", "hitSlotId": "friday_par243_t_10:45-11:30_2022", "percentage": 100, "dateTime": 1650617323757, "userId": "ste-bra" }, "overflow": null }, { "hitSlotId": "friday_neu253_t_10:45-11:30_2022", "slot": { "slotId": "friday_neu253_t_10:45-11:30_2022", "roomId": "Neuilly 253", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Exploring Linux Memory Usage and IO Performance in Cloud Native Applications" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "7e6b1539-e7e5-4e3a-8f3a-66f313c7c841", "hitSlotId": "friday_neu253_t_10:45-11:30_2022", "percentage": 20, "dateTime": 1679761325486, "userId": "fab-szn" }, "overflow": null }, { "hitSlotId": "friday_f_neu251_10:45-11:30_2022", "slot": { "slotId": "friday_f_neu251_10:45-11:30_2022", "roomId": "Neuilly 251", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "10 ans de Devoxx FR et de Java" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "c9fd6bd7-ce41-43a2-9695-32ec006cfdc7", "hitSlotId": "friday_f_neu251_10:45-11:30_2022", "percentage": 100, "dateTime": 1650616945724, "userId": "mau-cah" }, "overflow": null }, { "hitSlotId": "friday_e_neu252_10:45-11:30_2022", "slot": { "slotId": "friday_e_neu252_10:45-11:30_2022", "roomId": "Neuilly 252AB", "fromTime": "10:45", "toTime": "11:30", "talk": { "talkType": "Conference", "title": "Développ(eur|euse) Senior avec 6 ans d’expérience, et après ?" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "e8228713-7b5f-43f8-87bd-23076bf30f37", "hitSlotId": "friday_e_neu252_10:45-11:30_2022", "percentage": 30, "dateTime": 1679761250226, "userId": "fab-szn" }, "overflow": null }, { "hitSlotId": "friday_lab1_10:45-14:15_2022", "slot": { "slotId": "friday_lab1_10:45-14:15_2022", "roomId": "Neuilly lab1", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Atelier Computer Vision avec TensorFlow " }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "abeebf0f-8af7-4892-86c1-2b00a02c7d3e", "hitSlotId": "friday_lab1_10:45-14:15_2022", "percentage": 70, "dateTime": 1650618403321, "userId": "eri-lem" }, "overflow": null }, { "hitSlotId": "friday_lab2_10:45-14:15_2022", "slot": { "slotId": "friday_lab2_10:45-14:15_2022", "roomId": "Neuilly lab2", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Event Storming par la Pratique" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "bae6eff9-0a03-4cdf-81a0-77b52f9199b1", "hitSlotId": "friday_lab2_10:45-14:15_2022", "percentage": 100, "dateTime": 1650618250204, "userId": "eri-lem" }, "overflow": null }, { "hitSlotId": "friday_lab3_10:45-14:15_2022", "slot": { "slotId": "friday_lab3_10:45-14:15_2022", "roomId": "Paris lab3", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Gérer ses environnements de travail avec Nix." }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "a3567b32-48e1-4136-ba72-0a33a7e0c8f2", "hitSlotId": "friday_lab3_10:45-14:15_2022", "percentage": 40, "dateTime": 1650626237300, "userId": "dav-dew" }, "overflow": null }, { "hitSlotId": "friday_lab4_10:45-14:15_2022", "slot": { "slotId": "friday_lab4_10:45-14:15_2022", "roomId": "Paris lab4", "fromTime": "10:45", "toTime": "14:15", "talk": { "talkType": "Hands-on Labs", "title": "Découpe mon monolithe" }, "day": "friday", "yearSlot": 2022 }, "hitInfo": { "hitid": "208cc991-3e46-45b2-8461-8fdf05cf29db", "hitSlotId": "friday_lab4_10:45-14:15_2022", "percentage": 90, "dateTime": 1650626254686, "userId": "dav-dew" }, "overflow": null }]
 
-            "hitInfo": {
-                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
-                "hitSlotId": "friday_f_neu252_10:45-11:30_2022",
-                "percentage": 100,
-                "dateTime": 1650617250400,
-                "userId": "bab-cis"
-            },
-            "overflow": 2
-        }, {
-            "hitSlotId": "wednesday_par243_t_09:30-12:30",
-            "slot": {
-                "slotId": "wednesday_par243_t_09:30-12:30",
-                "roomId": "Paris 243",
-                "fromTime": "10:45",
-                "toTime": "11:30",
-                "talk": {
-                    "talkType": "Conference",
-                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
-                },
-                "day": "friday",
-                "yearSlot": 2022
-            },
 
-            "hitInfo": {
-                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
-                "hitSlotId": "wednesday_par243_t_09:30-12:30",
-                "percentage": 100,
-                "dateTime": 1650617250400,
-                "userId": "bab-cis"
-            },
-            "overflow": 1
-        }, {
-            "hitSlotId": "wednesday_par242AB_09:30-12:30",
-            "slot": {
-                "slotId": "wednesday_par242AB_09:30-12:30",
-                "roomId": "Paris 242",
-                "fromTime": "10:45",
-                "toTime": "11:30",
-                "talk": {
-                    "talkType": "Conference",
-                    "title": "Kafka Streams @ Carrefour : du big data à la vitesse de l'éclair"
-                },
-                "day": "friday",
-                "yearSlot": 2022
-            },
-            "hitInfo": {
-                "hitid": "50027a27-5e18-4945-aab6-629e8b6936ac",
-                "hitSlotId": "wednesday_par242AB_09:30-12:30",
-                "percentage": 100,
-                "dateTime": 1650617250400,
-                "userId": "bab-cis"
-            },
-            "overflow": 3
-        }]
     },
     {
         url: '/api/stats/slots',

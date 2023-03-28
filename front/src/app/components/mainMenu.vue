@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backDisconnect" type="button" class="btn btn-secondary">
+        <button v-on:click="backDisconnect" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="sign-out-alt" />
         </button>
       </div>
@@ -78,13 +78,13 @@ export default {
 
 <style  scoped>
 .block {
-  width: 100%;
-  border:1px solid #f6f2c9;
-  background-color: #218233;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
+    width: 100%;
+    border: 1px solid #f6f2c9;
+    background-color: #218233;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
 }
 </style>
 

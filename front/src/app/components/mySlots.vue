@@ -2,7 +2,11 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backMenu" type="button" class="btn btn-secondary">
+        <button
+          v-on:click="backMenu"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
@@ -37,8 +41,8 @@ export default {
   },
   created: function () {
     fetch("/api/slots/_currentUser", {
-        headers: shared.tokenHandle(),
-      })
+      headers: shared.tokenHandle(),
+    })
       .then((response) => response.json())
       .then((p) => {
         this.items = p;
@@ -46,10 +50,15 @@ export default {
   },
   methods: {
     isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
-      function toSlotIdVal(slot){return slot.slotId}
-      
-      return _.includes(_.map(currentActiveSlot, toSlotIdVal),currentSlot.slotId)
-      
+      function toSlotIdVal(slot) {
+        return slot.slotId;
+      }
+
+      return _.includes(
+        _.map(currentActiveSlot, toSlotIdVal),
+        currentSlot.slotId
+      );
+
       /*if (_.isNull(currentActiveSlot)) {
         return false;
       } else {
@@ -70,7 +79,8 @@ export default {
 <style  scoped>
 .block {
   width: 100%;
-  background-color: #4caf50;
+  border: 1px solid #f6f2c9;
+  background-color: #218233;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
@@ -78,12 +88,13 @@ export default {
 }
 
 .active {
+  border: 1px solid #f6f2c9;
   background-color: rgb(212, 112, 31) !important;
 }
 
 .dayTitle {
   font-size: 24px;
-  text-transform: capitalize;
+  text-transform: capitalize !important ;
   color: cornsilk;
 }
 </style>

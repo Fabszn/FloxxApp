@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <div class="global-parent separate-headfooter">
+      <div class="d-flex justify-content-around separate-headfooter">
         <div>
           <button
             v-on:click="backAdminMenu"
             type="button"
-            class="btn btn-secondary"
+            class="btn btn-secondary navbtn"
           >
             <font-awesome-icon icon="arrow-circle-left" />
           </button>
