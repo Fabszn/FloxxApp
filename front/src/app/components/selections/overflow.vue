@@ -4,13 +4,21 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-around separate-headfooter">
       <div>
-        <button v-on:click="backRooms" type="button" class="btn btn-secondary navbtn">
+        <button
+          v-on:click="backRooms"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
 
       <div>
-        <button v-on:click="refresh" type="button" class="btn btn-secondary navbtn">
+        <button
+          v-on:click="refresh"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
           <font-awesome-icon icon="sync" />
         </button>
       </div>
@@ -18,7 +26,6 @@
     <div class="screen-title">Overflow</div>
     <GDialog v-model="dialogDetailsTalkState">
       <div class="gdialog">
-
         <p>
           {{ selectedConf.confTitle }}
         </p>
@@ -63,7 +70,6 @@
 
     <GDialog v-model="dialogOverflowState">
       <div class="gdialog">
-    
         <div class="buttonmodal">
           <button
             type="button"
@@ -116,7 +122,10 @@
       </div>
     </div>
 
-    <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
+    <div
+      v-bind:class="{ overflowinfo: showOverflow }"
+      v-on:click="showOverflowAction()"
+    >
       <div class="overflow-info-room">
         {{ infoOverflowNeuilly.data.roomId }}
       </div>
@@ -349,7 +358,6 @@ export default defineComponent({
       currentTracksWitHitInfo.bind(this)();
     });
     this.adminState = shared.readAdminEtat();
-  
   },
   methods: {
     showDetailsTalk: function (idSlot: string) {
@@ -405,20 +413,26 @@ function currentTracksWitHitInfo() {
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
-          let currentState: StateRoom = getState.bind(this)(
+          var currentState: StateRoom = getState.bind(this)(
             value.hitInfo.hitSlotId
           );
-          currentState.data.per = _.toInteger(value.hitInfo.percentage);
-          currentState.data.color = shared.colorByPercentage(
-            value.hitInfo.percentage
-          );
-          currentState.data.selected = value.selected;
-          currentState.data.affectedRoom = value.affectedRoom;
-          if (!_.isNull(value.overflow)) {
-            currentState.data.overflowState = value.overflow.level;
-            currentState.computeRoomState(value.overflow.level);
-            
-            initOverflowAffectedRoom.bind(this)(value.overflow.affectedRoom, value);
+
+          if (!_.isUndefined(currentState)) {
+            currentState.data.per = _.toInteger(value.hitInfo.percentage);
+            currentState.data.color = shared.colorByPercentage(
+              value.hitInfo.percentage
+            );
+            currentState.data.selected = value.selected;
+            currentState.data.affectedRoom = value.affectedRoom;
+            if (!_.isNull(value.overflow)) {
+              currentState.data.overflowState = value.overflow.level;
+              currentState.computeRoomState(value.overflow.level);
+
+              initOverflowAffectedRoom.bind(this)(
+                value.overflow.affectedRoom,
+                value
+              );
+            }
           }
         }
       });
@@ -465,13 +479,16 @@ function unsetAffectedRoom(ar: String) {
     slotId = this.infoOverflowParis.data.slotId;
     this.infoOverflowParis = new OverflowRoomState();
   }
-  if(this.infoOverflowNeuilly.data.slotId == "" && this.infoOverflowParis.data.slotId == ""){
+  if (
+    this.infoOverflowNeuilly.data.slotId == "" &&
+    this.infoOverflowParis.data.slotId == ""
+  ) {
     this.showOverflow = false;
   }
 
   fetch("/api/overflow/_affectedRoom", {
     body: JSON.stringify({
-      slotId: slotId
+      slotId: slotId,
     }),
     method: "POST",
     headers: shared.tokenHandle(),
@@ -517,7 +534,6 @@ function initOverflowAffectedRoom(affectedRoom, data) {
     } else {
       this.infoOverflowNeuilly.data.roomId = data.slot.roomId;
       this.infoOverflowNeuilly.data.slotId = data.hitInfo.hitSlotId;
-      
     }
   }
 }
@@ -558,7 +574,7 @@ function initOverflowAffectedRoom(affectedRoom, data) {
   flex-direction: row;
 }
 .overflowinfo {
-  border: 1px solid rgba(246, 141, 55, 60%);
+  border: 4px solid rgba(246, 141, 55, 60%);
   display: flex;
   justify-content: space-around;
 }

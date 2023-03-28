@@ -159,7 +159,9 @@
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div class="slider">
-            Hello from popin
+            Give more details.
+            <br>
+            <br>
             <vue-slider
               v-model="value"
               :adsorb="true"
@@ -200,9 +202,9 @@ export default defineComponent({
     const currentColor = ref("green");
     const overflow = ref(false);
     const overflowIndex = {
-      1: "Non",
-      2: "Modéré",
-      3: "Requis",
+      1: "Full",
+      2: "Moderate",
+      3: "Required",
     };
 
     return {
@@ -221,7 +223,7 @@ export default defineComponent({
       title: "",
       talkType: "",
       room: "",
-      data: ["Non", "Modéré", "Requis"],
+      data: ["Full", "Moderate", "Required"],
       value: "",
     };
   },
