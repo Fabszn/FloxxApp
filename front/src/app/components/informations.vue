@@ -1,0 +1,182 @@
+<template>
+  
+    <div class="d-flex justify-content-center separate-headfooter">
+      <div>
+        <button
+          v-on:click="backMenu"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </div>
+    </div>
+
+    
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg block"
+        v-on:click="navToOverf"
+      >
+        Info
+      </button>
+   
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg block"
+        v-on:click="navToOverf"
+      >
+        Info 2
+      </button>
+    </div>
+
+    <GDialog v-model="dialogState">
+      <div class="floxxmodal over">
+        <div class="modalinfo">
+          <div class="slider">
+           
+           
+          </div>
+        </div>
+        <div class="buttonmodal">
+          <button type="button" v-on:click="hide" class="btn btn-secondary">
+            Close
+          </button>
+        </div>
+      </div>
+    </GDialog>
+  
+</template>
+
+<script>
+import shared from "../shared";
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
+import { defineComponent, ref } from "@vue/runtime-core";
+import { useToast } from "vue-toastification";
+import _ from "lodash";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+
+export default defineComponent({
+  components: {
+    CircleProgress,
+    VueSlider,
+  },
+  setup() {
+    const toast = useToast();
+    const currentFill = ref(0);
+    const currentColor = ref("green");
+    const overflow = ref(false);
+    const overflowIndex = {
+      1: "Full",
+      2: "Moderate",
+      3: "Required",
+    };
+
+    return {
+      currentFill,
+      currentColor,
+      toast,
+      overflow,
+      overflowIndex,
+    };
+  },
+  data: function () {
+    return {
+      dialogState: false,
+      id: this.$route.params.slotid,
+      fill: { gradient: ["green"] },
+      title: "",
+      talkType: "",
+      room: "",
+      data: ["Full", "Moderate", "Required"],
+      value: "",
+    };
+  },
+  created() {
+    shared.securityAccess(this.$router, (p) => {
+      var itemId = this.$route.params.slotid;
+      fetch("/api/tracks-infos/" + itemId, {
+        headers: shared.tokenHandle(),
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          this.title = p.slot.talk.title;
+          this.talkType = p.slot.talk.talkType;
+          this.room = p.slot.roomId;
+          initPercentage.bind(this)(p.hitInfo.percentage);
+          if (_.isNull(p.overflow)) {
+            this.value = 0;
+          } else {
+            this.value = this.overflowIndex[p.overflow.level];
+          }
+        });
+    });
+  },
+  methods: {
+    progress_end: function () {},
+    progress: function () {},
+    hit: function (perc) {
+      fetch("/api/hit", {
+        body: JSON.stringify({
+          hitSlotId: this.$route.params.slotid,
+          percentage: perc,
+        }),
+        method: "POST",
+        headers: shared.tokenHandle(),
+      }).then((p) => {
+        this.currentFill = _.toInteger(perc);
+        this.currentColor = shared.colorByPercentage(perc);
+        this.toast.success("Percentage has been registered");
+        this.switchOverflow.bind(this)(perc);
+        // DELETE Overflow value
+      });
+      fetch("/api/overflow/" + this.$route.params.slotid, {
+        method: "DELETE",
+        headers: shared.tokenHandle(),
+      });
+    },
+    switchOverflow: function (perc) {
+      if (perc == 100 && this.overflow == true) {
+        this.dialogState = true;
+      } else if (perc != 100) {
+        this.overflow = false;
+      } else {
+        this.overflow = true;
+      }
+    },
+    hide() {
+      this.dialogState = false;
+    },
+    backMenu: function () {
+      this.$router.push("/menu");
+    },
+    ch: function (va) {
+      fetch("/api/overflow", {
+        body: JSON.stringify({
+          slotId: this.$route.params.slotid,
+          level: _.invert(this.overflowIndex)[va],
+        }),
+        method: "POST",
+        headers: shared.tokenHandle(),
+      });
+    },
+  },
+});
+
+
+</script>
+
+<style  scoped>
+.block {
+  width: 100%;
+  border: 1px solid #f6f2c9;
+  background-color: #30260f;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+</style>

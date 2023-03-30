@@ -7,6 +7,7 @@ import org.http4s.circe.jsonOf
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.floxx.domain.AuthUser.{Firstname, Id, Lastname, Login, Mdp}
 import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import org.floxx.domain.Information.{Content, DateCreate, Title}
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
@@ -233,5 +234,17 @@ object domain {
       dateTime: Long = System.currentTimeMillis(),
       userId: domain.User.SimpleUser.Id
   )
+
+  case class Information(id:Information.Id, title:Title, content:Content, dateCreate:DateCreate, isArchived:Boolean)
+
+  object Information {
+    final case class Id(value:Long) extends AnyVal
+    final case class Title(value:String) extends AnyVal
+    final case class Content(value:String) extends AnyVal
+    final case class DateCreate(value: ZonedDateTime) extends AnyVal
+
+  }
+
+  final case class InformationReadStatus(userId:SimpleUser.Id, infoId:Information.Id)
 
 }

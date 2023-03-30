@@ -31,6 +31,13 @@
             v-on:click="navToOverf"
           >Overflow</button>
       </div>
+      <div>
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg block"
+            v-on:click="informations"
+          >Informations</button>
+      </div>
       <div v-if="adminState" >
           <button  type="button"
           class="btn btn-secondary btn-lg block"
@@ -65,6 +72,9 @@ export default {
     },
     navToAllActSlots: function () {
       this.$router.push("/allactivesslots");
+    },
+    informations: function () {
+      this.$router.push("/informations");
     },
     backDisconnect: function () {
       shared.cleanToken();
