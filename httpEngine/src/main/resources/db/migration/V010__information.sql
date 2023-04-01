@@ -1,5 +1,8 @@
+CREATE SEQUENCE info_seq;
+
+
 CREATE TABLE informations (
-pkid_information  BIGINT PRIMARY KEY,
+pkid_information  BIGINT PRIMARY KEY default nextval('info_seq'),
 title varchar(35) not null,
 content varchar not null,
 date_create timestamp with time zone not null,

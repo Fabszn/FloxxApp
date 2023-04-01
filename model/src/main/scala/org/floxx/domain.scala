@@ -235,13 +235,18 @@ object domain {
       userId: domain.User.SimpleUser.Id
   )
 
-  case class Information(id:Information.Id, title:Title, content:Content, dateCreate:DateCreate, isArchived:Boolean)
+  case class Information(id:Information.Id = Information.Id(-1), title:Title, content:Content, dateCreate:DateCreate=DateCreate.now(), isArchived:Boolean=false)
 
   object Information {
     final case class Id(value:Long) extends AnyVal
     final case class Title(value:String) extends AnyVal
     final case class Content(value:String) extends AnyVal
     final case class DateCreate(value: ZonedDateTime) extends AnyVal
+    object DateCreate{
+      def now():DateCreate = DateCreate(ZonedDateTime.now())
+    }
+
+    implicit val format = jsonOf[IO, Information]
 
   }
 

@@ -3,14 +3,14 @@ package org.floxx
 import cats.syntax.all._
 import org.floxx.env.api._
 import org.floxx.env.configuration.config
-import org.floxx.env.configuration.config.{ getConf, Configuration, GlobalConfig }
+import org.floxx.env.configuration.config.{Configuration, GlobalConfig, getConf}
 import org.floxx.env.repository._
 import org.floxx.env.service.trackService.TrackService
-import org.floxx.env.service.{ adminService, hitService, securityService, statService, trackService }
-
+import org.floxx.env.service._
+import org.floxx.env.service.informationService.InformationService
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
-import org.http4s.server.{ AuthMiddleware, Router }
+import org.http4s.server.{AuthMiddleware, Router}
 import org.joda.time.DateTimeZone
 import zio._
 import zio.interop.catz._
@@ -24,6 +24,7 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       with securityService.SecurityService
       with statService.StatsService
       with adminService.AdminService
+      with informationService.InformationService
       with Scope
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
@@ -53,7 +54,8 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       hitApi.api <+>
       SlotApi.api <+>
       adminApi.api <+>
-      statsApi.api
+      statsApi.api <+>
+      informationApi.api
     )
   }
 
@@ -66,7 +68,12 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
     ).orNotFound
 
   override def run =
-    migration.migration.provide(Scope.default,config.layer,QuillContext.dataSourceLayer,migration.layer) *> server
+    migration.migration.provide(
+      Scope.default,
+      config.layer,
+      QuillContext.dataSourceLayer,
+      migration.layer
+    ) *> server
       .provide(
         Scope.default,
         config.layer,
@@ -79,8 +86,11 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
         trackService.layer,
         hitService.layer,
         securityService.layer,
-        statService.layer
-      ).fold[ExitCode](
+        statService.layer,
+        informationRepository.layer,
+        informationService.layer
+      )
+      .fold[ExitCode](
         _ => {
           ExitCode.failure
         },

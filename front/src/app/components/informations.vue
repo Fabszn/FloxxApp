@@ -16,8 +16,7 @@
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
-        v-on:click="navToOverf"
-      >
+        v-on:click="navToOverf">
         Info
       </button>
    

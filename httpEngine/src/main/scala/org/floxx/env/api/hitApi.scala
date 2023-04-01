@@ -10,7 +10,7 @@ import org.http4s.{ AuthedRoutes, EntityDecoder }
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.slf4j.{ Logger, LoggerFactory }
+
 import io.scalaland.chimney.dsl._
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 import zio.interop.catz._
@@ -23,7 +23,7 @@ object  hitApi {
 
   import dsl._
 
-  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
     def toHit(userId: SimpleUser.Id): Hit =

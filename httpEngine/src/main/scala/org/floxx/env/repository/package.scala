@@ -36,6 +36,8 @@ package object repository {
         }
       }
 
+    implicit val informationInsertMeta = insertMeta[Information](_.id)
+
     implicit val str2talkMapping: MappedEncoding[String, Talk] = MappedEncoding[String, Talk](Talk.toString)
     implicit val talk2strMapping: MappedEncoding[Talk, String] = MappedEncoding[Talk, String](Talk.fromString)
 
