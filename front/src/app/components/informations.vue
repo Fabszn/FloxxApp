@@ -1,9 +1,16 @@
 <template>
   
-    <div class="d-flex justify-content-center separate-headfooter">
-      <div>
+    <div>
+      <div class="d-flex justify-space-between separate-headfooter">
         <button
           v-on:click="backMenu"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+        <button
+          v-on:click="addInformation"
           type="button"
           class="btn btn-secondary navbtn"
         >
@@ -33,10 +40,7 @@
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
-          <div class="slider">
-           
-           
-          </div>
+          Create information
         </div>
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
@@ -117,40 +121,15 @@ export default defineComponent({
   methods: {
     progress_end: function () {},
     progress: function () {},
-    hit: function (perc) {
-      fetch("/api/hit", {
-        body: JSON.stringify({
-          hitSlotId: this.$route.params.slotid,
-          percentage: perc,
-        }),
-        method: "POST",
-        headers: shared.tokenHandle(),
-      }).then((p) => {
-        this.currentFill = _.toInteger(perc);
-        this.currentColor = shared.colorByPercentage(perc);
-        this.toast.success("Percentage has been registered");
-        this.switchOverflow.bind(this)(perc);
-        // DELETE Overflow value
-      });
-      fetch("/api/overflow/" + this.$route.params.slotid, {
-        method: "DELETE",
-        headers: shared.tokenHandle(),
-      });
-    },
-    switchOverflow: function (perc) {
-      if (perc == 100 && this.overflow == true) {
-        this.dialogState = true;
-      } else if (perc != 100) {
-        this.overflow = false;
-      } else {
-        this.overflow = true;
-      }
-    },
     hide() {
       this.dialogState = false;
     },
     backMenu: function () {
       this.$router.push("/menu");
+    },
+    addInformation: function () {
+      this.dialogState = true;
+      console.info("open information")
     },
     ch: function (va) {
       fetch("/api/overflow", {
