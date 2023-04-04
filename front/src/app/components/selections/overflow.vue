@@ -316,6 +316,7 @@ export default defineComponent({
     CircleProgress,
   },
   setup() {
+    const adminState = ref(false)
     const stateAmphiB = new StateRoom();
     const stateMaillot = new StateRoom();
     const state243 = new StateRoom();
@@ -342,6 +343,7 @@ export default defineComponent({
       infoOverflowNeuilly,
       infoOverflowParis,
       showOverflow,
+      adminState
     };
   },
   data: () => ({

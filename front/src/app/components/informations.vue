@@ -1,7 +1,7 @@
 <template>
   
-    <div>
-      <div class="d-flex justify-space-between separate-headfooter">
+    
+      <div class="d-flex justify-content-center separate-headfooter">
         <button
           v-on:click="backMenu"
           type="button"
@@ -9,17 +9,20 @@
         >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
-        <button
-          v-on:click="addInformation"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
       </div>
-    </div>
+    
+<div v-if="this.adminState">
+  <button
+        type="button"
+        class="btn btn-secondary btn-lg new-information"
+        v-on:click="addInformation">
+        Add new Info
+      </button>
+
+</div>
 
     
+<div class="info-list">
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
@@ -27,7 +30,7 @@
         Info
       </button>
    
-    <div>
+    
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
@@ -40,7 +43,20 @@
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
-          Create information
+          Add new information
+
+          <div>
+        <label for="title">Title</label>
+        <input
+          id="title"
+          
+          class="form-control"
+          v-model="title"
+          placeholder="Enter password"
+        />
+      </div>
+
+
         </div>
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
@@ -68,6 +84,7 @@ export default defineComponent({
     VueSlider,
   },
   setup() {
+    const adminState = ref(false);
     const toast = useToast();
     const currentFill = ref(0);
     const currentColor = ref("green");
@@ -117,6 +134,7 @@ export default defineComponent({
           }
         });
     });
+    this.adminState = shared.readAdminEtat();
   },
   methods: {
     progress_end: function () {},
@@ -156,5 +174,18 @@ export default defineComponent({
   font-size: 16px;
   cursor: pointer;
   text-align: center;
+}
+.new-information{
+  width: 100%;
+  border: 1px solid #f6f2c9;
+  background-color: #7d210d;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.info-list{
+  margin: 10px;
 }
 </style>
