@@ -44,15 +44,22 @@ object statsRepository {
         .provideEnvironment(ZEnvironment(dataSource))
 
     override def aggregatePercentageByDay(dayValue: DayValue): Task[Seq[AggPercentageItem]] =
-      run(quote(statsPerc.filter(_.day == lift(dayValue)))).provideEnvironment(ZEnvironment(dataSource)) flatMap (
-          l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label)))
-      )
+      conf.getConf
+        .flatMap { c =>
+          run(quote(statsPerc.filter(s => s.day == lift(dayValue) && s.year == lift(c.cfp.currentYear.value))))
+            .provideEnvironment(ZEnvironment(dataSource)) flatMap (
+              l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label)))
+          )
+        }
 
     override def aggregatePercentageGlobal: Task[List[AggPercentageItem]] =
-      run(quote(statsPercGlobal)).provideEnvironment(ZEnvironment(dataSource)) flatMap (
-          l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label)))
-      )
+      conf.getConf
+        .flatMap { c =>
+          run(quote(statsPercGlobal.filter(_.year == lift(c.cfp.currentYear.value))))
+            .provideEnvironment(ZEnvironment(dataSource)) flatMap (
+              l => ZIO.attempt(l.map(v => AggPercentageItem(v.percentage, v.label)))
+          )
+        }
   }
-
 
 }

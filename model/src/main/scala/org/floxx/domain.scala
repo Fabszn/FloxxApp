@@ -58,7 +58,7 @@ object domain {
 
   final case class AggPercentageItem(percentage: Int, label: Int)
 
-  final case class AggregatePercenteItem(percentage: Int, label: Int, day: DayValue)
+  final case class AggregatePercenteItem(percentage: Int, label: Int, day: DayValue, year:Int)
 
   object AggregatePercenteItem {
 
@@ -67,7 +67,7 @@ object domain {
 
   }
 
-  final case class GlobalAggregatePercenteItem(percentage: Int, label: Int)
+  final case class GlobalAggregatePercenteItem(percentage: Int, label: Int, year: Int)
 
   object GlobalAggregatePercenteItem {
 
