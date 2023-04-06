@@ -82,6 +82,18 @@ export default [
         response: ({ query }) => {
             return new UserAuthenticated("Fabrice Sznajderman", "token", true);
         }
+    }, {
+        url: '/api/informations/_unread',
+        method: 'get',
+        response: [7]
+    }, {
+        url: '/api/informations/_markAsRead/7',
+        method: 'patch',
+        response: [7]   
+    }, {
+        url: '/api/informations',
+        method: 'get',
+        response: ({ query }) => [{ "id": 1, "title": "Code Wifif", "content": "tezez", "dateCreate": "2023-04-04T19:18:12.522462Z", "isArchived": false }, { "id": 2, "title": "Tartanpion", "content": "Fabrice Snaff", "dateCreate": "2023-04-04T20:24:42.337868Z", "isArchived": false }, { "id": 3, "title": "test", "content": "test", "dateCreate": "2023-04-04T20:26:15.718382Z", "isArchived": false }, { "id": 4, "title": "Heure de déjeuner", "content": "12h30", "dateCreate": "2023-04-05T06:50:05.359285Z", "isArchived": false }, { "id": 7, "title": "Last one", "content": "Laster oneuh", "dateCreate": "2023-04-05T06:59:21.378673Z", "isArchived": false }]
     },
     {
         url: '/api/planning',

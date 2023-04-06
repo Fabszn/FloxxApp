@@ -1,139 +1,156 @@
 <template>
-  
-    
-      <div class="d-flex justify-content-center separate-headfooter">
-        <button
-          v-on:click="backMenu"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
-      </div>
-    
-<div v-if="this.adminState">
-  <button
-        type="button"
-        class="btn btn-secondary btn-lg new-information"
-        v-on:click="addInformation">
-        Add new Info
-      </button>
+  <div class="d-flex justify-content-center separate-headfooter">
+    <button
+      v-on:click="backMenu"
+      type="button"
+      class="btn btn-secondary navbtn"
+    >
+      <font-awesome-icon icon="arrow-circle-left" />
+    </button>
+  </div>
 
-</div>
+  <div v-if="this.adminState">
+    <button
+      type="button"
+      class="btn btn-secondary btn-lg new-information"
+      v-on:click="addInformation"
+    >
+      Add new Info
+    </button>
+  </div>
 
-    
-<div class="info-list">
+  <div class="info-list">
+    <div v-for="item in items" :key="item.id">
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
-        v-on:click="navToOverf">
-        Info
-      </button>
-   
-    
-      <button
-        type="button"
-        class="btn btn-secondary btn-lg block"
-        v-on:click="navToOverf"
+        v-on:click="readInformation(item.id)"
       >
-        Info 2
+        {{ item.title }}
+        <span
+          class="badge text-bg-secondary text-bg-danger"
+          v-if="isNewInfo(item.id)"
+          >New</span
+        >
       </button>
     </div>
+  </div>
 
-    <GDialog v-model="dialogState">
-      <div class="floxxmodal over">
-        <div class="modalinfo">
-          Add new information
+  <GDialog v-model="dialogState">
+    <div class="floxxmodal over">
+      <div class="modalinfo">
+        Add new information
 
-          <div>
-        <label for="title">Title</label>
-        <input
-          id="title"
-          
-          class="form-control"
-          v-model="title"
-          placeholder="Enter password"
-        />
-      </div>
-
-
+        <div>
+          <label for="title">Title</label>
+          <input
+            id="title"
+            class="form-control"
+            v-model="title"
+            placeholder="Information title"
+          />
+          <label for="content">Content</label>
+          <textarea
+            rows="4"
+            cols="50"
+            id="content"
+            class="form-control"
+            v-model="content"
+            placeholder="Information content"
+          ></textarea>
         </div>
-        <div class="buttonmodal">
-          <button type="button" v-on:click="hide" class="btn btn-secondary">
-            Close
-          </button>
+      </div>
+      <div class="buttonmodal">
+        <button type="button" v-on:click="hide" class="btn btn-secondary">
+          Close
+        </button>
+        <button
+          type="button"
+          v-on:click="saveInformation"
+          class="btn btn-secondary"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </GDialog>
+  <GDialog v-model="dialogStateRead">
+    <div class="floxxmodal over">
+      <div class="modalinfo">
+        <div class="info-title">
+          <p class="info-title-">{{ this.currentReadInfo.title }}</p>
+        </div>
+        <div class="info-content">
+          <p class="info-content">{{ this.currentReadInfo.content }}</p>
         </div>
       </div>
-    </GDialog>
-  
+      <div class="buttonmodal">
+        <button type="button" v-on:click="hideRead" class="btn btn-secondary">
+          Close
+        </button>
+        <button
+          v-if="this.adminState"
+          type="button"
+          v-on:click="archiveInformation(currentReadInfo.id)"
+          class="btn btn-secondary"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </GDialog>
 </template>
 
 <script>
 import shared from "../shared";
-import "vue3-circle-progress/dist/circle-progress.css";
-import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import _ from "lodash";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
+import { Information } from "../models";
 
 export default defineComponent({
-  components: {
-    CircleProgress,
-    VueSlider,
-  },
   setup() {
+    const items = ref(Array[Information]);
+    const unReadInfoId = ref([]);
+    const currentReadInfo = new Information(-1, "sdqs", "qsdsq", "qsdsq");
+    const title = "";
+    const content = "";
     const adminState = ref(false);
     const toast = useToast();
-    const currentFill = ref(0);
-    const currentColor = ref("green");
-    const overflow = ref(false);
-    const overflowIndex = {
-      1: "Full",
-      2: "Moderate",
-      3: "Required",
-    };
+    const refreshInfoList= ref(0)
 
     return {
-      currentFill,
-      currentColor,
       toast,
-      overflow,
-      overflowIndex,
+      adminState,
+      title,
+      content,
+      items,
+      currentReadInfo,
+      unReadInfoId,
+      refreshInfoList
     };
   },
   data: function () {
     return {
       dialogState: false,
-      id: this.$route.params.slotid,
-      fill: { gradient: ["green"] },
-      title: "",
-      talkType: "",
-      room: "",
-      data: ["Full", "Moderate", "Required"],
-      value: "",
+      dialogStateRead: false,
     };
   },
   created() {
     shared.securityAccess(this.$router, (p) => {
-      var itemId = this.$route.params.slotid;
-      fetch("/api/tracks-infos/" + itemId, {
-        headers: shared.tokenHandle(),
-      })
-        .then((response) => response.json())
-        .then((p) => {
-          this.title = p.slot.talk.title;
-          this.talkType = p.slot.talk.talkType;
-          this.room = p.slot.roomId;
-          initPercentage.bind(this)(p.hitInfo.percentage);
-          if (_.isNull(p.overflow)) {
-            this.value = 0;
-          } else {
-            this.value = this.overflowIndex[p.overflow.level];
-          }
-        });
+      Promise.all([
+        fetch("/api/informations", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            this.items = map2Information(p);
+          }),
+        ,
+        reloadUnRead.bind(this)(),
+      ]);
     });
+
     this.adminState = shared.readAdminEtat();
   },
   methods: {
@@ -142,27 +159,90 @@ export default defineComponent({
     hide() {
       this.dialogState = false;
     },
+    hideRead() {
+      this.currentReadInfo.reset();
+      this.dialogStateRead = false;
+    },
     backMenu: function () {
       this.$router.push("/menu");
     },
     addInformation: function () {
       this.dialogState = true;
-      console.info("open information")
     },
-    ch: function (va) {
-      fetch("/api/overflow", {
+    saveInformation: function () {
+      fetch("/api/informations", {
+        headers: shared.tokenHandle(),
         body: JSON.stringify({
-          slotId: this.$route.params.slotid,
-          level: _.invert(this.overflowIndex)[va],
+          title: this.title,
+          content: this.content,
         }),
         method: "POST",
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          this.items = map2Information(p);
+          this.title = "";
+          this.content = "";
+          reloadUnRead.bind(this)();
+        });
+      this.dialogState = false;
+    },
+    archiveInformation: function (infoId) {
+      fetch("/api/informations/_archive/" + infoId, {
         headers: shared.tokenHandle(),
-      });
+        method: "PATCH",
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          this.items = map2Information(p);
+        });
+      this.dialogStateRead = false;
+    },
+    isNewInfo: function (infoId) {
+      return _.size(_.filter(this.unReadInfoId, (id) => infoId == id)) > 0;
+    },
+    readInformation: function (infoId) {
+      const ci = _.filter(this.items, (item) => item.id == infoId)[0];
+      this.currentReadInfo.updateInfo(
+        ci.id,
+        ci.title,
+        ci.content,
+        ci.dateCreate
+      );
+      markInfoAsRead.bind(this)(infoId);
+      this.dialogStateRead = true;
     },
   },
 });
 
+function reloadUnRead() {
+  return fetch("/api/informations/_unread", {
+    headers: shared.tokenHandle(),
+  })
+    .then((response) => response.json())
+    .then((p) => {
+      this.unReadInfoId = p;
+    });
+}
 
+function markInfoAsRead(infoId) {
+  return fetch("/api/informations/_markAsRead/" + infoId, {
+    headers: shared.tokenHandle(),
+    method: "PATCH",
+  }).then((response) => response.json())
+    .then((p) => {
+      this.unReadInfoId = p;
+    });
+}
+
+function map2Information(jsonresp) {
+  var r = _.map(
+    jsonresp,
+    (info) =>
+      new Information(info.id, info.title, info.content, info.dateCreate)
+  );
+  return r;
+}
 </script>
 
 <style  scoped>
@@ -175,7 +255,7 @@ export default defineComponent({
   cursor: pointer;
   text-align: center;
 }
-.new-information{
+.new-information {
   width: 100%;
   border: 1px solid #f6f2c9;
   background-color: #7d210d;
@@ -185,7 +265,19 @@ export default defineComponent({
   text-align: center;
 }
 
-.info-list{
+.info-list {
   margin: 10px;
+}
+.newInfo {
+  background-color: #7d210d;
+}
+
+.info-content {
+  background-color: #30260f;
+  color: #f6f2c9;
+}
+.info-title {
+  background-color: cadetblue;
+  color: #f6f2c9;
 }
 </style>

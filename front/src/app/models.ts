@@ -185,7 +185,36 @@ class Conference {
 }
 
 
-export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, Talk,OverflowRoomState }
+class Information {
+    id:number = -1;
+    title: string = "totot";
+    content: string = "";
+    dateCreate:String="";
+
+    constructor(_id:number, _title:string, _content:string, _dateCreate:string){
+        this.id = _id;
+        this.title=_title;
+        this.content=_content;
+        this.dateCreate=_dateCreate;
+    }
+
+    updateInfo(_id:number, _title:string, _content:string, _dateCreate:string){
+        this.id = _id;
+        this.title=_title;
+        this.content=_content;
+        this.dateCreate=_dateCreate;
+    }
+
+    reset(){
+        this.id = -1;
+        this.title="";
+        this.content="";
+        this.dateCreate="";
+    }
+}
+
+
+export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, Talk,OverflowRoomState, Information }
 
 
 
