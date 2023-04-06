@@ -273,11 +273,21 @@ function map2Information(jsonresp) {
 }
 
 .info-content {
+  border-radius: 10px;
   background-color: #30260f;
   color: #f6f2c9;
+  margin: 5px;
+  height: 180px;
+  overflow: auto;
 }
 .info-title {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  border-radius: 10px;
   background-color: cadetblue;
   color: #f6f2c9;
+  margin: 5px;
 }
+
 </style>
