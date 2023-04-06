@@ -46,8 +46,8 @@ object informationApi {
       } yield r
     case _ @PATCH -> Root / "informations" / "_markAsRead" / LongVar(infoId) as user =>
       for {
-        _ <- informationService.markAsRead(user.userId, Information.Id(infoId))
-        r <- Ok(s"Information with id = ${infoId} is marked as read")
+        unreads <- informationService.markAsRead(user.userId, Information.Id(infoId))
+        r <- Ok(unreads)
       } yield r
     case _ @PATCH -> Root / "informations" / "_archive" / LongVar(infoId) as _ =>
       for {
