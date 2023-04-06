@@ -6,8 +6,8 @@ import org.floxx.domain._
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.{ getConf, Configuration }
 import org.floxx.model.jsonModel.{ Talk => JsTalk }
-import org.floxx.model. HitLatest
-import org.floxx.domain. AuthUser
+import org.floxx.model.HitLatest
+import org.floxx.domain.AuthUser
 import org.floxx.domain.User.SimpleUser
 import zio._
 
@@ -35,6 +35,8 @@ package object repository {
 
         }
       }
+
+    implicit val informationInsertMeta = insertMeta[Information](_.id)
 
     implicit val str2talkMapping: MappedEncoding[String, Talk] = MappedEncoding[String, Talk](Talk.toString)
     implicit val talk2strMapping: MappedEncoding[Talk, String] = MappedEncoding[Talk, String](Talk.fromString)
@@ -144,6 +146,14 @@ package object repository {
         "overflow",
         _.slotId -> "fkslotid"
       )
+    )
+
+    val information = quote(
+      querySchema[Information]("informations", _.id -> "pkid_information")
+    )
+
+    val informationReadStatus = quote(
+      querySchema[InformationReadStatus]("information_read_status", _.userId -> "userid", _.infoId -> "fkid_information")
     )
 
   }

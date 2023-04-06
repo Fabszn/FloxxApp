@@ -11,6 +11,7 @@ import planning from './components/desktop/planning.vue'
 import allactivesslots from './components/AllActiveSlots.vue'
 import reload from './components/reload.vue'
 import statistiques from './components/admins/statistiques.vue'
+import informations from './components/informations.vue'
 
 export const routes = [{
     path: '/',
@@ -63,5 +64,9 @@ export const routes = [{
 }, {
     path: '/reload/:pathRoute',
     component: reload,
+    children: []
+}, {
+    path: '/informations',
+    component: informations,
     children: []
 }];

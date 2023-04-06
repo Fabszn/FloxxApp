@@ -77,6 +77,8 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
       statService.layer,
       trackService.layer,
       adminService.layer,
+      informationService.layer,
+      informationRepository.layer,
       backendLayer
       )
 }

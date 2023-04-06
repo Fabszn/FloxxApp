@@ -33,7 +33,7 @@ object SlotApi {
     implicit val format = jsonOf[ApiTask, SlotItem]
   }
 
-  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
 
   case class HitRequest(hitSlotId: String, percentage: Int) {
     def toHit(userId: SimpleUser.Id): Hit =

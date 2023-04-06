@@ -54,6 +54,5 @@ object statsRepository {
       )
   }
 
-  def hitsListWithPercentage: RIO[StatsRepo, Seq[StatItem]] = ZIO.serviceWithZIO[StatsRepo](_.hitsListWithPercentage())
 
 }
