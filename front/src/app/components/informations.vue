@@ -50,14 +50,8 @@
             placeholder="Information title"
           />
           <label for="content">Content</label>
-          <textarea
-            rows="4"
-            cols="50"
-            id="content"
-            class="form-control"
-            v-model="content"
-            placeholder="Information content"
-          ></textarea>
+          <QuillEditor theme="snow" contentType="html" v-model:content="content" placeholder="Information content" />
+        
         </div>
       </div>
       <div class="buttonmodal">
@@ -107,14 +101,19 @@ import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import _ from "lodash";
 import { Information } from "../models";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default defineComponent({
+  components: {
+    QuillEditor
+  },
   setup() {
     const items = ref(Array[Information]);
     const unReadInfoId = ref([]);
-    const currentReadInfo = new Information(-1, "sdqs", "qsdsq", "qsdsq");
+    const currentReadInfo = new Information(-1, "", "", "");
     const title = "";
-    const content = "";
+    const content = ref(null);
     const adminState = ref(false);
     const toast = useToast();
     const refreshInfoList= ref(0)
@@ -170,7 +169,7 @@ export default defineComponent({
       this.dialogState = true;
     },
     saveInformation: function () {
-      fetch("/api/informations", {
+      /*fetch("/api/informations", {
         headers: shared.tokenHandle(),
         body: JSON.stringify({
           title: this.title,
@@ -184,7 +183,9 @@ export default defineComponent({
           this.title = "";
           this.content = "";
           reloadUnRead.bind(this)();
-        });
+        });*/
+        console.info("save " + this.content);
+        
       this.dialogState = false;
     },
     archiveInformation: function (infoId) {
