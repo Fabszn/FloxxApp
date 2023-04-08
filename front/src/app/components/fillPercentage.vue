@@ -9,6 +9,14 @@
         >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
+        &nbsp;
+        <button
+          v-on:click="sendPicture"
+          type="button"
+          class="btn btn-secondary"
+        >
+          <font-awesome-icon icon="photo-film" />
+        </button>
       </div>
     </div>
 
@@ -238,6 +246,8 @@ export default defineComponent({
           this.title = p.slot.talk.title;
           this.talkType = p.slot.talk.talkType;
           this.room = p.slot.roomId;
+          this.day = p.slot.day;
+          this.fromTime = p.slot.fromTime;
           initPercentage.bind(this)(p.hitInfo.percentage);
           if (_.isNull(p.overflow)) {
             this.value = 0;
@@ -284,6 +294,15 @@ export default defineComponent({
     },
     backMySlots: function () {
       this.$router.push("/myslots");
+    },
+    sendPicture: function () {
+      var day = this.day;
+      var room = this.room;
+      var start = this.fromTime;
+      var subject = `${day} ${room} ${start}`;
+      var encodedSubject = encodeURIComponent(subject);
+      var mailtoLink = "mailto:photos@devoxx.fr?subject=" + encodedSubject;
+      window.open(mailtoLink, "_blank");
     },
     ch: function (va) {
       fetch("/api/overflow", {
