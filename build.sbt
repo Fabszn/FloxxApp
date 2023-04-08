@@ -74,6 +74,7 @@ deliveryTask := {
 }
 
 httpResourceDir := (httpEngine / Compile / resourceDirectory).value
+ThisBuild / useCoursier := false
 
 floxxCopyFile := {
   Try {
