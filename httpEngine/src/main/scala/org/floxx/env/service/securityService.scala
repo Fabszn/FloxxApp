@@ -16,7 +16,7 @@ import zio.{RLayer, Task, _}
 
 object securityService {
 
-  //utilisateur déjà identifier TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
+  //utilisateur déjà identifié TODO à renommer !! par AuthenticatedUSer <- mettre dans le token en enlevant des champs et ajoutant d'autres
   case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
 
   object AuthenticatedUser {
