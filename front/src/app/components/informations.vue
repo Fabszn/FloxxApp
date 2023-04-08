@@ -41,17 +41,21 @@
       <div class="modalinfo">
         Add new information
 
-        <div>
-          <label for="title">Title</label>
+        <div class="title-edit">
           <input
             id="title"
             class="form-control"
             v-model="title"
-            placeholder="Information title"
+            placeholder="Title"
           />
-          <label for="content">Content</label>
-          <QuillEditor theme="snow" contentType="html" v-model:content="content" placeholder="Information content" />
-        
+        </div>
+        <div class="content-edit">
+          <QuillEditor
+            theme="snow"
+            contentType="html"
+            v-model:content="content"
+            placeholder="Information ... "
+          />
         </div>
       </div>
       <div class="buttonmodal">
@@ -75,7 +79,12 @@
           <p class="info-title-">{{ this.currentReadInfo.title }}</p>
         </div>
         <div class="info-content">
-          <p class="info-content">{{ this.currentReadInfo.content }}</p>
+          <QuillEditor
+            theme="bubble"
+            :options="options"
+            contentType="html"
+            v-model:content="this.currentReadInfo.content"
+          />
         </div>
       </div>
       <div class="buttonmodal">
@@ -101,12 +110,12 @@ import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import _ from "lodash";
 import { Information } from "../models";
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 export default defineComponent({
   components: {
-    QuillEditor
+    QuillEditor,
   },
   setup() {
     const items = ref(Array[Information]);
@@ -116,7 +125,8 @@ export default defineComponent({
     const content = ref(null);
     const adminState = ref(false);
     const toast = useToast();
-    const refreshInfoList= ref(0)
+    const refreshInfoList = ref(0);
+    const readOnlyContent = new Boolean(true)
 
     return {
       toast,
@@ -126,13 +136,17 @@ export default defineComponent({
       items,
       currentReadInfo,
       unReadInfoId,
-      refreshInfoList
+      refreshInfoList,
+      readOnlyContent,
     };
   },
   data: function () {
     return {
       dialogState: false,
       dialogStateRead: false,
+      options: {
+        readOnly: true,
+      },
     };
   },
   created() {
@@ -169,7 +183,7 @@ export default defineComponent({
       this.dialogState = true;
     },
     saveInformation: function () {
-      /*fetch("/api/informations", {
+      fetch("/api/informations", {
         headers: shared.tokenHandle(),
         body: JSON.stringify({
           title: this.title,
@@ -183,9 +197,7 @@ export default defineComponent({
           this.title = "";
           this.content = "";
           reloadUnRead.bind(this)();
-        });*/
-        console.info("save " + this.content);
-        
+        });
       this.dialogState = false;
     },
     archiveInformation: function (infoId) {
@@ -230,7 +242,8 @@ function markInfoAsRead(infoId) {
   return fetch("/api/informations/_markAsRead/" + infoId, {
     headers: shared.tokenHandle(),
     method: "PATCH",
-  }).then((response) => response.json())
+  })
+    .then((response) => response.json())
     .then((p) => {
       this.unReadInfoId = p;
     });
@@ -255,7 +268,14 @@ function map2Information(jsonresp) {
   font-size: 16px;
   cursor: pointer;
   text-align: center;
+  
 }
+
+button:hover{
+  color: #30260f;
+  background-color: burlywood;
+}
+
 .new-information {
   width: 100%;
   border: 1px solid #f6f2c9;
@@ -271,6 +291,17 @@ function map2Information(jsonresp) {
 }
 .newInfo {
   background-color: #7d210d;
+}
+
+.content-edit{
+  border-radius: 10px;
+  background-color: rgb(248, 248, 246);
+  color: #30260f;
+}
+
+.title-edit{
+  border-radius: 10px;
+  margin: 5px;
 }
 
 .info-content {
@@ -290,5 +321,4 @@ function map2Information(jsonresp) {
   color: #f6f2c9;
   margin: 5px;
 }
-
 </style>
