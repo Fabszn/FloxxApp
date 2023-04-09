@@ -18,7 +18,7 @@ One third screen exists. Its aims is to provide to the attendees same overview a
 
 Floxx is deployed has 3 environments : 
 
-    - Developer : Local machine -> **l ocalhost:8081 **
+    - Developer : Local machine -> **localhost:8081 **
     - Production : Devoxx clever cloud account -> ** floxx-app.cleverapps.io **
 
 # Tools 
