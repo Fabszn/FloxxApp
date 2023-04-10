@@ -48,7 +48,10 @@
         v-on:click="informations"
       >
         Informations
-        <span :class="{'text-bg-danger': this.isUnreadMessage}" class="badge text-bg-secondary" >{{ this.nbUnreadMessage }}</span
+        <span
+          :class="{ 'text-bg-danger': this.isUnreadMessage }"
+          class="badge text-bg-secondary"
+          >{{ this.nbUnreadMessage }}</span
         >
       </button>
     </div>
@@ -78,17 +81,17 @@ export default {
     this.adminState = shared.readAdminEtat();
   },
   created() {
-    fetch("/api/informations/_unread", {
-      method: "GET",
-      headers: shared.tokenHandle(),
-    })
-      .then((response) => response.json())
-      .then((p) => {
-        this.nbUnreadMessage = _.size(p);
-        this.isUnreadMessage = this.nbUnreadMessage > 0;
-      });
-
-    shared.securityAccess(this.$router, (p) => {});
+    shared.securityAccess(this.$router, (p) => {
+      fetch("/api/informations/_unread", {
+        method: "GET",
+        headers: shared.tokenHandle(),
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          this.nbUnreadMessage = _.size(p);
+          this.isUnreadMessage = this.nbUnreadMessage > 0;
+        });
+    });
   },
   methods: {
     navToOverf: function () {
@@ -109,7 +112,7 @@ export default {
     backDisconnect: function () {
       shared.cleanToken();
       this.$store.commit("setUsername", "");
-      this.$router.push("/");
+      this.$router.push("/login");
     },
   },
 };
@@ -117,8 +120,7 @@ export default {
 
 
 <style  scoped>
-button:hover{
-  
+button:hover {
   background-color: #3b8a4b;
 }
 .block {

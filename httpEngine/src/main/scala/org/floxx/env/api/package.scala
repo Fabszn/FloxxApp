@@ -31,9 +31,8 @@ package object api {
   def authUser(conf: GlobalConfig): Kleisli[OT, Request[ApiTask], UserInfo] =
     Kleisli(
       request => {
-
         OptionT(
-          ZIO.logInfo(request.cookies.map(_.name).toString) *> ZIO.attempt(
+           ZIO.attempt(
             request.headers
               .get(Authorization.name)
               .map(
