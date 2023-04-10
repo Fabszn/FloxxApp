@@ -8,7 +8,7 @@ import vSelect from 'vue-select'
 import lodash from 'vue-lodash';
 import './floxxStyle.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSync, faSignInAlt, faArrowCircleLeft, faSignOutAlt, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faSync, faSignInAlt, faArrowCircleLeft, faSignOutAlt, faCopy, faPhotoFilm} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -64,7 +64,7 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.component('v-select', vSelect) // --> Move locally
 
-library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy)
+library.add(faSignInAlt, faSync, faArrowCircleLeft, faSignOutAlt, faCopy, faPhotoFilm)
 
 app.use(router)
 
