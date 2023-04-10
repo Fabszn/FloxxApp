@@ -13,7 +13,7 @@
         <button
           v-on:click="sendPicture"
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-secondary navbtn"
         >
           <font-awesome-icon icon="photo-film" />
         </button>
