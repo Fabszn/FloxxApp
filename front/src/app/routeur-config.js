@@ -9,12 +9,17 @@ import mappingRCR from './components/admins/mappingRCR.vue'
 import mySlots from './components/mySlots.vue'
 import planning from './components/desktop/planning.vue'
 import allactivesslots from './components/AllActiveSlots.vue'
-import reload from './components/reload.vue'
 import statistiques from './components/admins/statistiques.vue'
 import informations from './components/informations.vue'
+import loadapp from './components/loadApp.vue'
 
 export const routes = [{
     path: '/',
+    component: loadapp,
+    children: []
+}, {
+
+    path: '/login',
     component: login,
     children: []
 }, {
@@ -60,10 +65,6 @@ export const routes = [{
 }, {
     path: '/statistics',
     component: statistiques,
-    children: []
-}, {
-    path: '/reload/:pathRoute',
-    component: reload,
     children: []
 }, {
     path: '/informations',

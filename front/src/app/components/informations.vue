@@ -126,7 +126,7 @@ export default defineComponent({
     const adminState = ref(false);
     const toast = useToast();
     const refreshInfoList = ref(0);
-    const readOnlyContent = new Boolean(true)
+    const readOnlyContent = new Boolean(true);
 
     return {
       toast,
@@ -183,32 +183,34 @@ export default defineComponent({
       this.dialogState = true;
     },
     saveInformation: function () {
-      fetch("/api/informations", {
-        headers: shared.tokenHandle(),
-        body: JSON.stringify({
-          title: this.title,
-          content: this.content,
-        }),
-        method: "POST",
-      })
-        .then((response) => response.json())
-        .then((p) => {
-          this.items = map2Information(p);
-          this.title = "";
-          this.content = "";
-          reloadUnRead.bind(this)();
-        });
+      shared.securityAccess(this.$router, (p) =>
+        fetch("/api/informations", {
+          headers: shared.tokenHandle(),
+          body: JSON.stringify({
+            title: this.title,
+            content: this.content,
+          }),
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            this.items = map2Information(p);
+            this.title = "";
+            this.content = "";
+            reloadUnRead.bind(this)();
+          })
+      );
       this.dialogState = false;
     },
     archiveInformation: function (infoId) {
-      fetch("/api/informations/_archive/" + infoId, {
+      shared.securityAccess(this.$router, (p) =>fetch("/api/informations/_archive/" + infoId, {
         headers: shared.tokenHandle(),
         method: "PATCH",
       })
         .then((response) => response.json())
         .then((p) => {
           this.items = map2Information(p);
-        });
+        }));
       this.dialogStateRead = false;
     },
     isNewInfo: function (infoId) {
@@ -239,14 +241,14 @@ function reloadUnRead() {
 }
 
 function markInfoAsRead(infoId) {
-  return fetch("/api/informations/_markAsRead/" + infoId, {
+  return shared.securityAccess(this.$router, (p) =>fetch("/api/informations/_markAsRead/" + infoId, {
     headers: shared.tokenHandle(),
     method: "PATCH",
   })
     .then((response) => response.json())
     .then((p) => {
       this.unReadInfoId = p;
-    });
+    }));
 }
 
 function map2Information(jsonresp) {
@@ -268,10 +270,9 @@ function map2Information(jsonresp) {
   font-size: 16px;
   cursor: pointer;
   text-align: center;
-  
 }
 
-button:hover{
+button:hover {
   color: #30260f;
   background-color: burlywood;
 }
@@ -293,13 +294,13 @@ button:hover{
   background-color: #7d210d;
 }
 
-.content-edit{
+.content-edit {
   border-radius: 10px;
   background-color: rgb(248, 248, 246);
   color: #30260f;
 }
 
-.title-edit{
+.title-edit {
   border-radius: 10px;
   margin: 5px;
 }

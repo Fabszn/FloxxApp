@@ -18,7 +18,9 @@ object StaticApi {
   val excludePaths =Seq("infos", "favicon.ico")
 
   def api=  HttpRoutes.of[ApiTask] {
-    case req @ GET -> Root  => static("/assets/index.html", req)
+    case req @ GET -> Root  => {
+      static("/assets/index.html", req)
+    }
 
     case req @ GET -> Root / path if path.contains("index") && path.endsWith(".js") => {
       static(s"/assets/${path}", req)
