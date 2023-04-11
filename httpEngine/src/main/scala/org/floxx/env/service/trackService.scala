@@ -59,10 +59,7 @@ object trackService {
           c
         }
         urlByDay = conf.cfp.days.map(d => s"${conf.cfp.url}${d.dayValue.value}")
-        slots <- {
-          val t = urlByDay.map(s).traverse(identity).map(_.flatten)
-          t
-        }
+        slots <- urlByDay.map(s).traverse(identity).map(_.flatten)
         computedSlotKey = computeRoomKey(slots, conf)
         nbLine <- slotRepo.insertSlots(computedSlotKey)
 

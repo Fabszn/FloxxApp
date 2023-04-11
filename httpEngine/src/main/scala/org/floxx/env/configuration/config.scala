@@ -55,7 +55,8 @@ object config {
       "lab1" -> Some("Neuilly lab1"),
       "lab2" -> Some("Neuilly lab2"),
       "lab3" -> Some("Paris lab3"),
-      "lab4" -> Some("Paris lab4")
+      "lab4" -> Some("Paris lab4"),
+      "par201_u" -> Some("Paris 201")
     )
   }
 
