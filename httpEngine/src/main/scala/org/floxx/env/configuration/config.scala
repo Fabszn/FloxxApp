@@ -11,7 +11,15 @@ object config {
   final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
   final case class DevMode(isActivated:Boolean= false, currentDay:String, currentTime: String)
-  final case class Track(delayBefore: Int, delayAfter: Int, devMode:DevMode)
+  final case class Track(delayBefore: Int,
+                         delayAfter: Int,
+                         delayAfterUniversity: Int,
+                         delayAfterTia: Int,
+                         delayAfterConf: Int,
+                         delayAfterQuickie: Int,
+                         delayAfterKeynote: Int,
+                         delayAfterHol: Int,
+                         devMode:DevMode)
 
 
 

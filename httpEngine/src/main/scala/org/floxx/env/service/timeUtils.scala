@@ -2,6 +2,7 @@ package org.floxx.env.service
 
 import org.floxx.domain
 import org.floxx.domain.Slot.Day
+import org.floxx.domain.Talk
 import org.floxx.env.configuration.config.GlobalConfig
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{ DateTime, DateTimeZone, LocalTime }
@@ -47,13 +48,26 @@ object timeUtils {
     (currentDay == slot.day) &&
     (currentTime.isAfter(trackStartTime.minusMinutes(config.track.delayBefore))
     || currentTime.isEqual(trackStartTime.minusMinutes(config.track.delayBefore))) &&
-    (currentTime.isBefore(trackStartTime.plusMinutes(config.track.delayAfter))
-    || currentTime.isEqual(trackStartTime.plusMinutes(config.track.delayAfter))) &&
+    (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk,config)))
+    || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk,config)))) &&
     (currentTime.isBefore(trackEndTime)
     || currentTime.isEqual(trackEndTime)) &&
     !(slot.roomId.value.startsWith("22") ||
     slot.roomId.value.startsWith("23") ||
     slot.roomId.value.startsWith("21") ||
     slot.roomId.value.startsWith("20"))
+  }
+
+  def computeDelayAfterTime(talk: Option[Talk], config: GlobalConfig): Int = {
+    val delay = talk.map(_.talkType).fold(config.track.delayAfter) {
+      case "University" => config.track.delayAfterUniversity
+      case "Tools-in-Action" => config.track.delayAfterTia
+      case "Conference" => config.track.delayAfterConf
+      case "Quickie" => config.track.delayAfterQuickie
+      case "Keynote" => config.track.delayAfterKeynote
+      case "Hands-on Labs" => config.track.delayAfterHol
+    }
+    logger.info(s"kind Talk : $talk, computed delay : $delay")
+    delay
   }
 }
