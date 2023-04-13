@@ -2,7 +2,11 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button v-on:click="backMenu" type="button" class="btn btn-secondary navbtn">
+        <button
+          v-on:click="backMenu"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
@@ -12,12 +16,121 @@
       <tabs>
         <div v-for="item in items" :key="item.day">
           <tab :name="item.day">
+            <p class="kindTitle">Amphi bleu / Maillot</p>
             <div class="grid">
-              <div class="track" v-for="room in item.rooms" :key="room.roomId">
+              <div
+                class="track"
+                v-for="room in composeFilter(
+                  filterByGpr('Maillot', item.rooms),
+                  filterByGpr('Amphi', item.rooms)
+                )"
+                :key="room.roomId"
+              >
                 <div class="header">{{ room.roomId }}</div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffected(slot.user)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                <div
+                  v-on:click="show(slot.slot.slotId, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId"
+                >
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
+
+                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <p class="kindTitle">Neuilly</p>
+            <div class="grid">
+              <div
+                class="track"
+                v-for="room in filterByGpr('Neuilly 25', item.rooms)"
+                :key="room.roomId"
+              >
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+
+                <div
+                  v-on:click="show(slot.slot.slotId, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId"
+                >
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
+
+                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Labs Neuilly</p>
+            <div class="grid">
+              <div
+                class="track"
+                v-for="room in filterByGpr('Neuilly 23', item.rooms)"
+                :key="room.roomId"
+              >
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+
+                <div
+                  v-on:click="show(slot.slot.slotId, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId"
+                >
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
+
+                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Paris</p>
+            <div class="grid">
+              <div
+                class="track"
+                v-for="room in filterByGpr('Paris 24', item.rooms)"
+                :key="room.roomId"
+              >
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+
+                <div
+                  v-on:click="show(slot.slot.slotId, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId"
+                >
+                  {{ slot.slot.fromTime }}
+                  {{ slot.slot.toTime }}
+
+                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Labs Paris</p>
+            <div class="grid">
+              <div
+                class="track"
+                v-for="room in composeFilter(
+                  filterByGpr('Paris 22', item.rooms),
+                  filterByGpr('Paris 20', item.rooms)
+                )"
+                :key="room.roomId"
+              >
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+
+                <div
+                  v-on:click="show(slot.slot.slotId, slot.user)"
+                  v-bind:class="isAffected(slot.user)"
+                  class="block"
+                  v-for="slot in room.slots"
+                  :key="slot.slot.slotId"
+                >
                   {{ slot.slot.fromTime }}
                   {{ slot.slot.toTime }}
 
@@ -53,7 +166,11 @@
           <button type="button" v-on:click="remove" class="btn btn-secondary">
             Remove
           </button>
-          <button type="button" v-on:click="saveMapping" class="btn btn-secondary">
+          <button
+            type="button"
+            v-on:click="saveMapping"
+            class="btn btn-secondary"
+          >
             Save
           </button>
         </div>
@@ -66,47 +183,42 @@
 import shared from "../../shared";
 import { User, Conference, Mapping } from "../../models";
 import _ from "lodash";
-import { defineComponent, ref } from 'vue'
-import { Tabs, Tab } from 'vue3-tabs-component';
+import { defineComponent, ref } from "vue";
+import { Tabs, Tab } from "vue3-tabs-component";
 import { useToast } from "vue-toastification";
-
-
-
 
 export default defineComponent({
   setup() {
     const toast = useToast();
-    const selectedUser = ref(null)
-    const users = ref(new Array<User>())
+    const selectedUser = ref(null);
+    const users = ref(new Array<User>());
 
     return {
       selectedUser,
       users,
-      toast
-    }
+      toast,
+    };
   },
   components: {
     Tabs,
-    Tab
+    Tab,
   },
   data: function () {
     return {
       dialogState: false,
       items: {}, //todo -> add type
       actualUserNameSelected: "",
-      currentConf: new Conference()
+      currentConf: new Conference(),
     };
   },
   created: function () {
     loadPlanning.bind(this)();
-
   },
   methods: {
     backMenu: function () {
       this.$router.push("/adminMenu");
     },
     getUserId: function (user) {
-
       if (_.isNull(user)) {
         return "";
       } else {
@@ -120,7 +232,7 @@ export default defineComponent({
       }
       return {
         affectedBox: !_.isNull(user),
-        userIdVal: !_.isNull(user)
+        userIdVal: !_.isNull(user),
       };
 
       //
@@ -129,12 +241,7 @@ export default defineComponent({
       if (_.isNull(user)) {
         return "-";
       } else {
-        return (
-          user.prenom +
-          " " +
-          _.upperCase(user.nom.substring(0, 1)) +
-          "."
-        );
+        return user.prenom + " " + _.upperCase(user.nom.substring(0, 1)) + ".";
       }
     },
 
@@ -150,14 +257,11 @@ export default defineComponent({
       this.dialogState = false;
     },
     remove() {
-      fetch(
-        "/api/set-user",
-        {
-          body: JSON.stringify({ "slotId":  this.currentConf.slotId}),
-          method: "POST",
-          headers: shared.tokenHandle(),
-        }
-      )
+      fetch("/api/set-user", {
+        body: JSON.stringify({ slotId: this.currentConf.slotId }),
+        method: "POST",
+        headers: shared.tokenHandle(),
+      })
         //.then((response) => response.json())
         .then((p) => {
           loadPlanning.bind(this)();
@@ -169,24 +273,35 @@ export default defineComponent({
       if (_.isNull(this.selectedUser)) {
         this.toast.error("Red coat must be filled");
       } else {
-        let mapping = new Mapping(this.selectedUser.id, this.currentConf.slotId)
-        fetch(
-          "/api/set-user",
-          {
-            body: JSON.stringify(mapping),
-            method: "POST",
-            headers: shared.tokenHandle(),
-          }
-        ).then((p) => {
+        let mapping = new Mapping(
+          this.selectedUser.id,
+          this.currentConf.slotId
+        );
+        fetch("/api/set-user", {
+          body: JSON.stringify(mapping),
+          method: "POST",
+          headers: shared.tokenHandle(),
+        }).then((p) => {
           this.selectedUser = null;
           loadPlanning.bind(this)();
-          this.dialogState = false
+          this.dialogState = false;
           this.toast.success("Mapping done!");
         });
       }
     },
     refresh: function () {
       loadPlanning.bind(this)();
+    },
+    composeFilter: (arr1: [], arr2: []) => {
+      return _.concat(arr1, arr2);
+    },
+    filterByGpr: (groupName: String, rooms) => {
+      return _.filter(rooms, (ro) => {
+        return _.startsWith(ro.roomId, groupName);
+      });
+    },
+    cleanHeader: (roomId: String) => {
+      return _.split(roomId, " ")[1];
     },
   },
 });
@@ -198,7 +313,8 @@ function beforeOpen(slotId) {
     })
       .then((response) => response.json())
       .then((p) => {
-        this.currentConf.updateInfo(p.talk.title,
+        this.currentConf.updateInfo(
+          p.talk.title,
           p.talk.talkType,
           p.roomId,
           p.fromTime,
@@ -219,9 +335,6 @@ function beforeOpen(slotId) {
   });
 }
 
-
-
-
 function computeUser(user) {
   if (_.isNull(user)) {
     return "-";
@@ -234,24 +347,25 @@ function loadPlanning() {
   shared.securityAccess(this.$router, (p) => {
     fetch("/api/planning", {
       headers: shared.tokenHandle(),
-    }).then((response) => response.json())
+    })
+      .then((response) => response.json())
       .then((r) => {
         this.items = r;
       });
-  }
-  )
+  });
 }
-
-
 </script>
 
 <style  scoped>
+
 .header {
+  display: flex;
   background-color: #61bf9b;
   padding: 14px 28px;
   font-size: 20px;
   cursor: pointer;
   margin: 5px;
+  justify-content: center;
 }
 
 .block {
@@ -270,6 +384,7 @@ function loadPlanning() {
 .grid {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .affectedBox {
@@ -280,5 +395,32 @@ function loadPlanning() {
 .affected {
   font-weight: bold;
   color: aquamarine;
+}
+
+.kindTitle {
+  display: flex;
+  font-size: 24px;
+  text-transform: capitalize !important ;
+  color: cornsilk;
+  justify-content: center;
+}
+@media  screen and (max-width: 600px) {
+  .header {
+    display: flex;
+    background-color: #61bf9b;
+    padding: 7px 14px;
+    font-size: 10px;
+    cursor: pointer;
+    margin: 2px;
+    justify-content: center;
+  }
+
+  .block {
+    background-color: #3399ff;
+    padding: 7px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    margin: 2px;
+  }
 }
 </style>
