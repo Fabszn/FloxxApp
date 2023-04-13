@@ -20,7 +20,10 @@
             <div class="grid">
               <div
                 class="track"
-                v-for="room in composeFilter(filterByGpr('Maillot', item.rooms),filterByGpr('Amphi', item.rooms))"
+                v-for="room in composeFilter(
+                  filterByGpr('Maillot', item.rooms),
+                  filterByGpr('Amphi', item.rooms)
+                )"
                 :key="room.roomId"
               >
                 <div class="header">{{ room.roomId }}</div>
@@ -39,7 +42,7 @@
                 </div>
               </div>
             </div>
-           
+
             <p class="kindTitle">Neuilly</p>
             <div class="grid">
               <div
@@ -47,7 +50,7 @@
                 v-for="room in filterByGpr('Neuilly 25', item.rooms)"
                 :key="room.roomId"
               >
-                <div class="header">{{ room.roomId }}</div>
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -70,7 +73,7 @@
                 v-for="room in filterByGpr('Neuilly 23', item.rooms)"
                 :key="room.roomId"
               >
-                <div class="header">{{ room.roomId }}</div>
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -93,7 +96,7 @@
                 v-for="room in filterByGpr('Paris 24', item.rooms)"
                 :key="room.roomId"
               >
-                <div class="header">{{ room.roomId }}</div>
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -113,10 +116,13 @@
             <div class="grid">
               <div
                 class="track"
-                v-for="room in composeFilter(filterByGpr('Paris 22', item.rooms),filterByGpr('Paris 20', item.rooms))"
+                v-for="room in composeFilter(
+                  filterByGpr('Paris 22', item.rooms),
+                  filterByGpr('Paris 20', item.rooms)
+                )"
                 :key="room.roomId"
               >
-                <div class="header">{{ room.roomId }}</div>
+                <div class="header">{{ cleanHeader(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -132,7 +138,6 @@
                 </div>
               </div>
             </div>
-           
           </tab>
         </div>
       </tabs>
@@ -287,13 +292,16 @@ export default defineComponent({
     refresh: function () {
       loadPlanning.bind(this)();
     },
-    composeFilter: (arr1:[], arr2:[]) => {
+    composeFilter: (arr1: [], arr2: []) => {
       return _.concat(arr1, arr2);
     },
     filterByGpr: (groupName: String, rooms) => {
       return _.filter(rooms, (ro) => {
         return _.startsWith(ro.roomId, groupName);
       });
+    },
+    cleanHeader: (roomId: String) => {
+      return _.split(roomId, " ")[1];
     },
   },
 });
@@ -349,12 +357,15 @@ function loadPlanning() {
 </script>
 
 <style  scoped>
+
 .header {
+  display: flex;
   background-color: #61bf9b;
   padding: 14px 28px;
   font-size: 20px;
   cursor: pointer;
   margin: 5px;
+  justify-content: center;
 }
 
 .block {
@@ -373,6 +384,7 @@ function loadPlanning() {
 .grid {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .affectedBox {
@@ -385,9 +397,30 @@ function loadPlanning() {
   color: aquamarine;
 }
 
-.kindTitle{
+.kindTitle {
+  display: flex;
   font-size: 24px;
   text-transform: capitalize !important ;
   color: cornsilk;
+  justify-content: center;
+}
+@media  screen and (max-width: 600px) {
+  .header {
+    display: flex;
+    background-color: #61bf9b;
+    padding: 7px 14px;
+    font-size: 10px;
+    cursor: pointer;
+    margin: 2px;
+    justify-content: center;
+  }
+
+  .block {
+    background-color: #3399ff;
+    padding: 7px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    margin: 2px;
+  }
 }
 </style>
