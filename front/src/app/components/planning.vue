@@ -30,15 +30,18 @@
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
+                  v-bind:class="isAffectedClass(slot.user)"
                   class="block"
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId"
                 >
-                  {{ slot.slot.fromTime }}
-                  {{ slot.slot.toTime }}
+                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
 
-                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                  </div>
+                  <div v-else></div>
                 </div>
               </div>
             </div>
@@ -54,15 +57,18 @@
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
+                  v-bind:class="isAffectedClass(slot.user)"
                   class="block"
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId"
                 >
-                  {{ slot.slot.fromTime }}
-                  {{ slot.slot.toTime }}
+                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
 
-                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                  </div>
+                  <div v-else></div>
                 </div>
               </div>
             </div>
@@ -77,15 +83,18 @@
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
+                  v-bind:class="isAffectedClass(slot.user)"
                   class="block"
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId"
                 >
-                  {{ slot.slot.fromTime }}
-                  {{ slot.slot.toTime }}
+                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
 
-                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                  </div>
+                  <div v-else></div>
                 </div>
               </div>
             </div>
@@ -100,15 +109,18 @@
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
+                  v-bind:class="isAffectedClass(slot.user)"
                   class="block"
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId"
                 >
-                  {{ slot.slot.fromTime }}
-                  {{ slot.slot.toTime }}
+                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
 
-                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                  </div>
+                  <div v-else></div>
                 </div>
               </div>
             </div>
@@ -126,15 +138,17 @@
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
-                  v-bind:class="isAffected(slot.user)"
+                  v-bind:class="isAffectedClass(slot.user)"
                   class="block"
                   v-for="slot in room.slots"
                   :key="slot.slot.slotId"
                 >
-                  {{ slot.slot.fromTime }}
-                  {{ slot.slot.toTime }}
+                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
 
-                  <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,22 +168,28 @@
               {{ actualUserNameSelected }}
             </p>
           </div>
-          <div>
+          <div v-if="adminState">
             <v-select :options="users" v-model="selectedUser"></v-select>
           </div>
         </div>
 
         <div class="buttonmodal">
           <button type="button" v-on:click="hide" class="btn btn-secondary">
-            Cancel
+            Close
           </button>
-          <button type="button" v-on:click="remove" class="btn btn-secondary">
+          <button
+            type="button"
+            v-on:click="remove"
+            class="btn btn-secondary"
+            v-if="adminState"
+          >
             Remove
           </button>
           <button
             type="button"
             v-on:click="saveMapping"
             class="btn btn-secondary"
+            v-if="adminState"
           >
             Save
           </button>
@@ -180,8 +200,8 @@
 </template>
 
 <script lang="ts">
-import shared from "../../shared";
-import { User, Conference, Mapping } from "../../models";
+import shared from "../shared";
+import { User, Conference, Mapping } from "../models";
 import _ from "lodash";
 import { defineComponent, ref } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
@@ -192,11 +212,13 @@ export default defineComponent({
     const toast = useToast();
     const selectedUser = ref(null);
     const users = ref(new Array<User>());
+    const adminState = false;
 
     return {
       selectedUser,
       users,
       toast,
+      adminState,
     };
   },
   components: {
@@ -211,12 +233,15 @@ export default defineComponent({
       currentConf: new Conference(),
     };
   },
+  mounted() {
+    this.adminState = shared.readAdminEtat();
+  },
   created: function () {
     loadPlanning.bind(this)();
   },
   methods: {
     backMenu: function () {
-      this.$router.push("/adminMenu");
+      this.$router.push("/menu");
     },
     getUserId: function (user) {
       if (_.isNull(user)) {
@@ -225,7 +250,7 @@ export default defineComponent({
         user.userId;
       }
     },
-    isAffected: function (user) {
+    isAffectedClass: function (user) {
       var userIdVal = "NoData";
       if (!_.isNull(user)) {
         userIdVal = user.userId;
@@ -233,9 +258,12 @@ export default defineComponent({
       return {
         affectedBox: !_.isNull(user),
         userIdVal: !_.isNull(user),
+        blockColor: _.isNull(user) && this.adminState,
       };
-
-      //
+    },
+    isSlotShouldBeDisplay: function (user) {
+      //if no user and mode admin then hide block
+      return (_.isNull(user) && this.adminState) || !_.isNull(user);
     },
     displayUser: function (user) {
       if (_.isNull(user)) {
@@ -357,7 +385,6 @@ function loadPlanning() {
 </script>
 
 <style  scoped>
-
 .header {
   display: flex;
   background-color: #61bf9b;
@@ -368,8 +395,10 @@ function loadPlanning() {
   justify-content: center;
 }
 
-.block {
+.blockColor {
   background-color: #3399ff;
+}
+.block {
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
@@ -404,7 +433,7 @@ function loadPlanning() {
   color: cornsilk;
   justify-content: center;
 }
-@media  screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .header {
     display: flex;
     background-color: #61bf9b;
@@ -416,7 +445,6 @@ function loadPlanning() {
   }
 
   .block {
-    background-color: #3399ff;
     padding: 7px 14px;
     font-size: 13px;
     cursor: pointer;

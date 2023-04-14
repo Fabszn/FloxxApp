@@ -45,7 +45,7 @@
       <button
         type="button"
         class="btn btn-secondary btn-lg block"
-        v-on:click="informations"
+        v-on:click="navToInformations"
       >
         Informations
         <span
@@ -53,6 +53,16 @@
           class="badge text-bg-secondary"
           >{{ this.nbUnreadMessage }}</span
         >
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg block"
+        v-on:click="navToPlanning"
+      >
+        Planning
+       
       </button>
     </div>
     <div v-if="adminState">
@@ -72,7 +82,7 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      adminState: true,
+      adminState: false,
       isUnreadMessage: false,
       nbUnreadMessage: 0,
     };
@@ -106,9 +116,13 @@ export default {
     navToAllActSlots: function () {
       this.$router.push("/allactivesslots");
     },
-    informations: function () {
+    navToInformations: function () {
       this.$router.push("/informations");
     },
+    navToPlanning: function () {
+      this.$router.push("/planning");
+    },
+    
     backDisconnect: function () {
       shared.cleanToken();
       this.$store.commit("setUsername", "");

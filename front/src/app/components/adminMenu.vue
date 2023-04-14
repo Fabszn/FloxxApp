@@ -55,13 +55,13 @@
         Statistics
       </button>
     </div>
-    <button
+    <!--<button
       type="button"
       class="btn btn-primary block"
       v-on:click="navToDesktopMenu"
     >
       Planning
-    </button>
+    </button>-->
   </div>
 </template>
 
@@ -86,9 +86,6 @@ export default {
     },
     navToMapping: function () {
       this.$router.push("/mappingRC");
-    },
-    navToDesktopMenu: function () {
-      this.$router.push("/planning");
     },
     navToStats: function () {
       this.$router.push("/statistics");
