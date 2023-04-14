@@ -59,15 +59,16 @@ object timeUtils {
   }
 
   def computeDelayAfterTime(talk: Option[Talk], config: GlobalConfig): Int = {
-    val delay = talk.map(_.talkType).fold(config.track.delayAfter) {
+    /*val delay = talk.map(_.talkType).fold(config.track.delayAfter) {
       case "University" => config.track.delayAfterUniversity
       case "Tools-in-Action" => config.track.delayAfterTia
       case "Conference" => config.track.delayAfterConf
       case "Quickie" => config.track.delayAfterQuickie
       case "Keynote" => config.track.delayAfterKeynote
       case "Hands-on Labs" => config.track.delayAfterHol
-    }
-    logger.info(s"kind Talk : $talk, computed delay : $delay")
+    }*/
+    //logger.info(s"kind Talk : $talk, computed delay : $delay")
+    val delay = 40
     delay
   }
 }
