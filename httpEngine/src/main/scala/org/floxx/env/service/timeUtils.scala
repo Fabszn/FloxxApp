@@ -48,8 +48,8 @@ object timeUtils {
     (currentDay == slot.day) &&
     (currentTime.isAfter(trackStartTime.minusMinutes(config.track.delayBefore))
     || currentTime.isEqual(trackStartTime.minusMinutes(config.track.delayBefore))) &&
-    (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk,config)))
-    || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk,config)))) &&
+    (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk, config)))
+    || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk, config)))) &&
     (currentTime.isBefore(trackEndTime)
     || currentTime.isEqual(trackEndTime)) &&
     !(slot.roomId.value.startsWith("22") ||
@@ -58,17 +58,14 @@ object timeUtils {
     slot.roomId.value.startsWith("20"))
   }
 
-  def computeDelayAfterTime(talk: Option[Talk], config: GlobalConfig): Int = {
-    /*val delay = talk.map(_.talkType).fold(config.track.delayAfter) {
+  def computeDelayAfterTime(talk: Option[Talk], config: GlobalConfig): Int =
+    talk.map(_.talkType).fold(config.track.delayAfter) {
       case "University" => config.track.delayAfterUniversity
       case "Tools-in-Action" => config.track.delayAfterTia
       case "Conference" => config.track.delayAfterConf
       case "Quickie" => config.track.delayAfterQuickie
       case "Keynote" => config.track.delayAfterKeynote
       case "Hands-on Labs" => config.track.delayAfterHol
-    }*/
-    //logger.info(s"kind Talk : $talk, computed delay : $delay")
-    val delay = 40
-    delay
-  }
+    }
+
 }
