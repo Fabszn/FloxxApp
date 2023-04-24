@@ -10,13 +10,8 @@
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
         &nbsp;
-        <button
-          v-on:click="sendPicture"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
-          <font-awesome-icon icon="photo-film" />
-        </button>
+        <input type="file" id="imageFile" capture="environment" accept="image/*" />
+        
       </div>
     </div>
 
