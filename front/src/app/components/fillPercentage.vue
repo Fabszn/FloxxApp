@@ -11,6 +11,7 @@
         </button>
         &nbsp;
         <input type="file" id="imageFile" capture="environment" accept="image/*" />
+        htllo
         
       </div>
     </div>
