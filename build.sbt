@@ -15,7 +15,7 @@ lazy val floxxCleanFiles   = taskKey[Unit]("clean directories")
 lazy val yarnInstall     = taskKey[Unit]("install front project")
 lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
 lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
-lazy val deliveryTask    = taskKey[Unit]("push last version to prod")
+lazy val prodDeliveryTask    = taskKey[Unit]("push last version to prod")
 lazy val gotToMaster     = taskKey[Unit]("put index on master")
 
 def yarnInstall(file: File) =
@@ -27,7 +27,7 @@ def buildFront(file: File, mode: String) =
     file
   ) !
 
-def addFrontFile =
+def addCompiledFrontFile() =
   Process(
     "git add ."
   ) !
@@ -37,13 +37,14 @@ def commitFrontFile =
     "git commit -m 'release front files'"
   ) !
 
-def delivery =
+def delivery(branch:String) = {
   Process(
-    "git push origin prod"
+    s"git push origin ${branch}"
   ) !
+}
 
 handleFrontFile := {
-  addFrontFile
+  addCompiledFrontFile()
   commitFrontFile
 }
 
@@ -67,10 +68,10 @@ gotToMaster := {
   pull("master")
 }
 
-deliveryTask := {
+prodDeliveryTask := {
   checkout("prod")
   mergeMaster
-  delivery
+  delivery("prod")
 }
 
 httpResourceDir := (httpEngine / Compile / resourceDirectory).value
@@ -82,7 +83,6 @@ floxxCopyFile := {
     //clean
     IO.delete((httpResourceDir.value / "assets"))
     IO.createDirectory((httpResourceDir.value / "assets"))
-
 
     IO.copyDirectory(
       (front / baseDirectory).value / "dist/assets",
@@ -222,7 +222,7 @@ val pushVersionToProd = ReleaseStep(action = st => {
   // val releaseVersion = extracted.get(Keys.version)
   checkout("prod")
   mergeMaster
-  delivery
+  delivery("prod")
   checkout("master")
   st
 })
