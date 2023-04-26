@@ -10,9 +10,20 @@
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
         &nbsp;
-        <input type="file" id="imageFile" capture="environment" accept="image/*" />
-        htllo
-        
+        <input
+          type="file"
+          id="imageFile"
+          capture="environment"
+          accept="image/*"
+          class="buttonHidden"
+        />
+        <button
+          v-on:click="openTwitterPopin"
+          type="button"
+          class="btn btn-secondary navbtn"
+        >
+          <font-awesome-icon icon="photo-film" />
+        </button>
       </div>
     </div>
 
@@ -159,13 +170,43 @@
       </div>
     </div>
 
+    <GDialog v-model="dialogTwitterState">
+      <div class="floxxmodal over">
+        <div class="modalinfo">
+          <input
+            type="file"
+            id="imageFile"
+            :onchange="onFileChanged"
+            capture="environment"
+            accept="image/*"
+          />
+        </div>
+        <div class="buttonmodal">
+          <button
+            type="button"
+            v-on:click="hideTwitter"
+            class="btn btn-secondary"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            v-on:click="sendPhoto"
+            class="btn btn-secondary"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </GDialog>
+
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
         <div class="modalinfo">
           <div class="slider">
             Give more details.
-            <br>
-            <br>
+            <br />
+            <br />
             <vue-slider
               v-model="value"
               :adsorb="true"
@@ -176,7 +217,11 @@
           </div>
         </div>
         <div class="buttonmodal">
-          <button type="button" v-on:click="hide" class="btn btn-secondary">
+          <button
+            type="button"
+            v-on:click="hideOverflow"
+            class="btn btn-secondary"
+          >
             Close
           </button>
         </div>
@@ -201,6 +246,7 @@ export default defineComponent({
     VueSlider,
   },
   setup() {
+    const fileItem= ref()
     const toast = useToast();
     const currentFill = ref(0);
     const currentColor = ref("green");
@@ -217,11 +263,13 @@ export default defineComponent({
       toast,
       overflow,
       overflowIndex,
+      fileItem,
     };
   },
   data: function () {
     return {
       dialogState: false,
+      dialogTwitterState: false,
       id: this.$route.params.slotid,
       fill: { gradient: ["green"] },
       title: "",
@@ -285,20 +333,47 @@ export default defineComponent({
         this.overflow = true;
       }
     },
-    hide() {
+    hideOverflow() {
       this.dialogState = false;
+    },
+    hideTwitter() {
+      this.dialogTwitterState = false;
     },
     backMySlots: function () {
       this.$router.push("/myslots");
     },
-    sendPicture: function () {
-      var day = this.day;
+    onFileChanged: function($event) {
+      console.log("onfile changed");
+    const target = $event.target;
+            if (target && target.files) {
+              console.log(target.files[0]);
+              this.fileItem = target.files[0];
+            }
+          }, 
+    sendPhoto: function () {
+      console.log (this.fileItem)
+      let formData = new FormData();
+      formData.append("file", this.fileItem);
+      fetch("http://localhost:5000/photo", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    openTwitterPopin: function () {
+      this.dialogTwitterState = true;
+
+      /*var day = this.day;
       var room = this.room;
       var start = this.fromTime;
       var subject = `${day} ${room} ${start}`;
-      var encodedSubject = encodeURIComponent(subject);
-      var mailtoLink = "mailto:photos@devoxx.fr?subject=" + encodedSubject;
-      window.open(mailtoLink, "_blank");
+      var encodedSubject = encodeURIComponent(subject);*/
+      // in fact, the best should be to open a popin.. describe twitter message + accès to camera display image
     },
     ch: function (va) {
       fetch("/api/overflow", {
@@ -327,6 +402,10 @@ function initPercentage(perc) {
 <style  scoped>
 .limit {
   width: 50%;
+}
+
+.buttonHidden {
+  display: none;
 }
 
 .block {
