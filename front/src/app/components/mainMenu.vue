@@ -75,6 +75,16 @@
       </button>
     </div>
   </div>
+  <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg block"
+        v-on:click="navToPageTest"
+      >
+        PAGE TEST
+  
+      </button>
+    </div>
 </template>
 <script>
 import shared from "../shared";
@@ -121,6 +131,9 @@ export default {
     },
     navToPlanning: function () {
       this.$router.push("/planning");
+    },
+    navToPageTest: function () {
+      this.$router.push("/floxx-test");
     },
     
     backDisconnect: function () {

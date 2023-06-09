@@ -12,6 +12,7 @@ import allactivesslots from './components/AllActiveSlots.vue'
 import statistiques from './components/admins/statistiques.vue'
 import informations from './components/informations.vue'
 import loadapp from './components/loadApp.vue'
+import pageTest from './components/test/pageTest.vue'
 
 export const routes = [{
     path: '/',
@@ -69,5 +70,9 @@ export const routes = [{
 }, {
     path: '/informations',
     component: informations,
+    children: []
+}, {
+    path: '/floxx-test',
+    component: pageTest,
     children: []
 }];
