@@ -41,7 +41,7 @@ export default defineComponent({
       console.log(this.fileItem);
       let formData = new FormData();
       formData.append("file", this.fileItem);
-      fetch("http://floxx-ia.cleverapps.io/photo", {
+      fetch("https://floxx-ia.cleverapps.io/photo", {
         method: "POST",
         body: formData,
       }).then((response) => response.json())
