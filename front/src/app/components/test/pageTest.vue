@@ -1,6 +1,6 @@
 <template>
-  Hello world!
-
+  
+  
   <div>
     <input
       type="file"
@@ -12,6 +12,9 @@
     <button type="button" v-on:click="sendPhoto" class="btn btn-secondary">
       Send
     </button>
+    <div>
+    Number of people : <input v-model="nbPersonne"/>
+  </div>
   </div>
 </template>
 
@@ -20,6 +23,11 @@ import { defineComponent, ref } from "@vue/runtime-core";
 
 export default defineComponent({
   setup() {},
+  data: function () {
+    return {
+      nbPersonne: "",
+    };
+  },
   methods: {
     onFileChanged: function ($event) {
       console.log("onfile changed");
@@ -36,9 +44,9 @@ export default defineComponent({
       fetch("http://floxx-ia.cleverapps.io/photo", {
         method: "POST",
         body: formData,
-      })
+      }).then((response) => response.json())
         .then((res) => {
-          console.log(res);
+          this.nbPersonne = res.nbp;
         })
         .catch((err) => {
           console.log(err);
