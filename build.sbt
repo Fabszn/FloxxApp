@@ -196,7 +196,7 @@ lazy val wartRemoverSettings = Seq(
     )
 )
 
-lazy val front      = (project in file("front"))
+lazy val front  = (project in file("front"))
 
 addCommandAlias(
   "runDev",
