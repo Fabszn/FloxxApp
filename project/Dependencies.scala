@@ -70,7 +70,7 @@ object Dependencies {
   lazy val http4sCircle       = "org.http4s"            %% "http4s-circe"     % Http4sVersion
   lazy val `zio-interop-cats` = "dev.zio"               %% "zio-interop-cats" % `zio-interop`
   lazy val logback            = "ch.qos.logback"        % "logback-classic"   % "1.2.3"
-  lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.14.1"
+  lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.15.0"
 
   lazy val sttp = Seq(
     "com.softwaremill.sttp.client3" %% "cats"           % sttpVersion,
