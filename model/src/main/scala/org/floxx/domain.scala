@@ -252,4 +252,24 @@ object domain {
 
   final case class InformationReadStatus(userId:SimpleUser.Id, infoId:Information.Id)
 
+  object error{
+
+    trait FloxxError{
+      def msg:String
+    }
+    final case class LoadCfpDataError(msg:String) extends FloxxError
+
+    case class InvalidError(msg: String) extends FloxxError
+
+    case class AuthentificationError(msg: String) extends FloxxError
+
+    case class IllegalStateError(message: String) extends Throwable
+
+    case class DatabaseError(msg: String) extends FloxxError
+
+    case class ConfigurationError(msg: String) extends FloxxError
+
+    case class HttpExternalCallError(message:String) extends Throwable
+  }
+
 }

@@ -6,10 +6,11 @@ import io.circe.syntax.EncoderOps
 import org.floxx.domain.AuthUser
 import org.floxx.domain.AuthUser.{ Login, Mdp }
 import org.floxx.domain.User.SimpleUser
+import org.floxx.domain.error.{ AuthentificationError, FloxxError }
 import org.floxx.env.api.ApiTask
 import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
 import org.floxx.env.repository.userRepository.UserRepo
-import org.floxx.{ AuthentificationError, UserInfo }
+import org.floxx.UserInfo
 import org.http4s.circe.jsonOf
 import pdi.jwt.{ Jwt, JwtAlgorithm, JwtClaim }
 import zio.interop.catz._
@@ -34,59 +35,64 @@ object securityService {
   }
 
   trait SecurityService {
-    def readUserById(userId: SimpleUser.Id): Task[Option[AuthUser]]
-    def authentification(user: SimpleUser.Id, mdp: Mdp): Task[AuthenticatedUser]
-    def checkAuthentification(token: String): Task[Option[UserInfo]]
+    def readUserById(userId: SimpleUser.Id): IO[FloxxError,Option[AuthUser]]
+    def authentification(user: SimpleUser.Id, mdp: Mdp): IO[AuthentificationError,AuthenticatedUser]
+    def checkAuthentification(token: String): IO[AuthentificationError, UserInfo]
 
   }
 
   case class SecurityServiceImpl(userRepo: UserRepo, conf: Configuration) extends SecurityService {
 
-    override def readUserById(userId: SimpleUser.Id): Task[Option[AuthUser]] =
+    override def readUserById(userId: SimpleUser.Id): IO[FloxxError,Option[AuthUser]] =
       userRepo.userByUserId(userId)
 
-    override def checkAuthentification(token: String): Task[Option[UserInfo]] =
-      conf.getConf flatMap (
-          config =>
-            ZIO.fromTry(
-              Jwt.decode(
-                token,
-                config.floxx.secret,
-                Seq(JwtAlgorithm.HS256)
-              )
-            ) flatMap (
-                (jwClaim: JwtClaim) => ZIO.attempt(decode[UserInfo](jwClaim.content).fold(_ => Option.empty[UserInfo], Some(_)))
-            )
-        )
-
-    override def authentification(user: SimpleUser.Id, mdp: Mdp): Task[AuthenticatedUser] =
+    override def checkAuthentification(token: String): IO[AuthentificationError, UserInfo] =
       for {
-        config <- conf.getConf
-        userFound <- userRepo.userByUserId(user)
-        auth <- {
-          (userFound match {
-            case Some(u) if u.mdp == mdp =>
-              ZIO.attempt(
-                AuthenticatedUser(
-                  s"${u.firstName.value} ${u.lastName.value}",
-                  tokenGenerator(
-                    UserInfo(
-                      u.userId.getOrElse(SimpleUser.Id("no ID")),
-                      u.login,
-                      u.isAdmin
-                    ),
-                    config
+        config <- conf.getConf.mapError(err => AuthentificationError(err.msg))
+        jwtClaim <- ZIO
+          .fromTry(
+            Jwt.decode(
+              token,
+              config.floxx.secret,
+              Seq(JwtAlgorithm.HS256)
+            )
+          )
+          .mapError(err => AuthentificationError(err.getMessage))
+        userInfo <- ZIO.fromEither(decode[UserInfo](jwtClaim.content)).mapError(err => AuthentificationError(err.getMessage))
+
+      } yield userInfo
+
+    override def authentification(user: SimpleUser.Id, mdp: Mdp): IO[AuthentificationError,AuthenticatedUser] =
+      for {
+        config <- conf.getConf.mapError(err => AuthentificationError(err.msg))
+        userFound <- userRepo.userByUserId(user).mapError(err => AuthentificationError(err.msg))
+        auth <-
+          userFound .fold(ZIO.fail(AuthentificationError("login or pass is invalid")))(u => {
+            if(u.mdp == mdp) {
+              ZIO.succeed(  AuthenticatedUser(s"${u.firstName.value} ${u.lastName.value}",
+                tokenGenerator(
+                  UserInfo(
+                    u.userId.getOrElse(SimpleUser.Id("no ID")),
+                    u.login,
+                    u.isAdmin
                   ),
-                  u.isAdmin
-                )
-              )
-            case _ => ZIO.fail(AuthentificationError("login or pass is invalid"))
+                  config
+                ),
+                u.isAdmin
+              ))
+            }else{
+              ZIO.fail(AuthentificationError("login or pass is invalid"))
+            }
+
+
           })
 
-        }
 
-      } yield auth
 
+
+
+      }yield auth
+      }
     private def tokenGenerator(info: UserInfo, conf: GlobalConfig): String =
       Jwt.encode(
         info.asJson.noSpaces,

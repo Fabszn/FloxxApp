@@ -4,9 +4,10 @@ import sbt._
 object Dependencies {
 
   object Version {
-    lazy val zioVersion                 = "2.0.2"
-    lazy val zioLoggingVersion          = "0.5.14"
-    lazy val `zio-interop`              = "3.3.0"
+    lazy val zioVersion                 = "2.0.21"
+    lazy val zioLoggingVersion          = "2.2.0"
+    lazy val `zio-interop`              = "23.1.0.0"
+    lazy val sttpZioClient              = "4.0.0-M8"
     lazy val Http4sVersion              = "0.23.14"
     lazy val Http4sBlazeVersion         = "0.23.12"
     lazy val chimneyVersion             = "0.6.2"
@@ -72,13 +73,8 @@ object Dependencies {
   lazy val logback            = "ch.qos.logback"        % "logback-classic"   % "1.2.3"
   lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.15.0"
 
-  lazy val sttp = Seq(
-    "com.softwaremill.sttp.client3" %% "cats"           % sttpVersion,
-    "com.softwaremill.sttp.client3" %% "core"           % sttpVersion,
-    "com.softwaremill.sttp.client3" %% "fs2"            % sttpVersion,
-    "com.softwaremill.sttp.client3" %% "circe"          % sttpVersion,
-    "com.softwaremill.sttp.client3" %% "http4s-backend" % sttpVersion
-  )
+  lazy val sttp = Seq("com.softwaremill.sttp.client4" %% "zio" % sttpZioClient,
+    "com.softwaremill.sttp.client4" %% "circe" % sttpZioClient)
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 

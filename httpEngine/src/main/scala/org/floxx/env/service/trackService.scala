@@ -14,6 +14,7 @@ import zio.interop.catz._
 object trackService {
 
   trait TrackService {
+    def loadDataFromCFP(): Task[Long]
     def readDataFromCfpDevoxx(): Task[Long]
     def loadSlotByCriterias(isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
     def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
@@ -25,7 +26,9 @@ object trackService {
   }
 
   case class TrackServiceImpl(slotRepo: SlotRepo, config: Configuration) extends TrackService {
+    override def loadDataFromCFP(): Task[Long] = ???
 
+    //@deprecated(message = " use  : loadDataFromCFP")
     override def readDataFromCfpDevoxx(): Task[Long] = {
       @Deprecated //todo ("to be reworked !!! ")
       def s(url: String) =
