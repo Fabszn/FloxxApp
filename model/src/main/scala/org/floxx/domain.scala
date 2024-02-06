@@ -262,6 +262,7 @@ object domain {
     case class InvalidError(msg: String) extends FloxxError
 
     case class AuthentificationError(msg: String) extends FloxxError
+    case class ParsingError(msg: String) extends FloxxError
 
     case class IllegalStateError(message: String) extends Throwable
 

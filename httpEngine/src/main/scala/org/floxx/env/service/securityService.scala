@@ -4,17 +4,18 @@ import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import org.floxx.domain.AuthUser
-import org.floxx.domain.AuthUser.{ Login, Mdp }
+import org.floxx.domain.AuthUser.{Login, Mdp}
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.error.{ AuthentificationError, FloxxError }
+import org.floxx.domain.error.{AuthentificationError, FloxxError}
 import org.floxx.env.api.ApiTask
-import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
+import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.env.repository.userRepository.UserRepo
 import org.floxx.UserInfo
+import org.floxx.env.service.securityService.{AuthenticatedUser, SecurityService}
 import org.http4s.circe.jsonOf
-import pdi.jwt.{ Jwt, JwtAlgorithm, JwtClaim }
+import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
 import zio.interop.catz._
-import zio.{ RLayer, Task, _ }
+import zio.{RLayer, Task, _}
 
 object securityService {
 
@@ -27,7 +28,7 @@ object securityService {
       } yield SecurityServiceImpl(userRepo, conf)
     }
 
-  case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
+  final case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
 
   object AuthenticatedUser {
 
@@ -41,7 +42,7 @@ object securityService {
 
   }
 
-  case class SecurityServiceImpl(userRepo: UserRepo, conf: Configuration) extends SecurityService {
+  final case class SecurityServiceImpl(userRepo: UserRepo, conf: Configuration) extends SecurityService {
 
     override def readUserById(userId: SimpleUser.Id): IO[FloxxError,Option[AuthUser]] =
       userRepo.userByUserId(userId)
@@ -92,7 +93,7 @@ object securityService {
 
 
       }yield auth
-      }
+
     private def tokenGenerator(info: UserInfo, conf: GlobalConfig): String =
       Jwt.encode(
         info.asJson.noSpaces,
@@ -101,11 +102,11 @@ object securityService {
       )
   }
 
-  def authentification(user: SimpleUser.Id, mdp: Mdp): RIO[SecurityService, AuthenticatedUser] =
+  def authentification(user: SimpleUser.Id, mdp: Mdp): ZIO[SecurityService,AuthentificationError, AuthenticatedUser] =
     ZIO.serviceWithZIO[SecurityService](_.authentification(user, mdp))
-  def checkAuthentification(token: String): RIO[SecurityService, Option[UserInfo]] =
+  def checkAuthentification(token: String): ZIO[SecurityService,AuthentificationError, UserInfo] =
     ZIO.serviceWithZIO[SecurityService](_.checkAuthentification(token))
-  def loadUserById(userId: SimpleUser.Id): RIO[SecurityService, Option[AuthUser]] =
+  def loadUserById(userId: SimpleUser.Id): ZIO[SecurityService,FloxxError, Option[AuthUser]] =
     ZIO.serviceWithZIO[SecurityService](_.readUserById(userId))
 
 }
