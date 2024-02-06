@@ -254,23 +254,22 @@ object domain {
 
   object error{
 
-    trait FloxxError{
+    sealed trait FloxxError extends Exception{
       def msg:String
     }
     final case class LoadCfpDataError(msg:String) extends FloxxError
 
-    case class InvalidError(msg: String) extends FloxxError
+    final case class AuthentificationError(msg: String) extends FloxxError
 
-    case class AuthentificationError(msg: String) extends FloxxError
-    case class ParsingError(msg: String) extends FloxxError
+    final case class ParsingError(msg: String) extends FloxxError
 
-    case class IllegalStateError(message: String) extends Throwable
+    final case class IllegalStateError(message: String) extends Throwable
 
-    case class DatabaseError(msg: String) extends FloxxError
+    final case class DatabaseError(msg: String) extends FloxxError
 
-    case class ConfigurationError(msg: String) extends FloxxError
+    final case class ConfigurationError(msg: String) extends FloxxError
 
-    case class HttpExternalCallError(message:String) extends Throwable
+    final case class HttpExternalCallError(message:String) extends Throwable
   }
 
 }

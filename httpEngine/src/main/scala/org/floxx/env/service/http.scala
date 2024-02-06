@@ -3,16 +3,14 @@ package org.floxx.env.service
 import org.floxx.domain
 import org.floxx.domain.Slot
 import org.floxx.domain.error.{ FloxxError, LoadCfpDataError }
-import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
+import org.floxx.env.configuration.config.Configuration
 import sttp.capabilities.zio.ZioStreams
 import sttp.client4._
 import sttp.client4.httpclient.zio.HttpClientZioBackend
 import sttp.client4.circe._
 import zio._
 import zio.interop.catz._
-import cats.syntax.traverse._
 import cats.implicits._
-import io.circe
 
 object http {
 
@@ -47,8 +45,7 @@ object http {
                 .send(backend)
                 .mapError(err => LoadCfpDataError(err.getMessage))
                 .flatMap(r => ZIO.fromEither(r.body.leftMap(responseError => LoadCfpDataError(responseError.getMessage))))
-            }
-            .sequence)
+            }.sequence)
             .map(_.flatten)
 
         }
