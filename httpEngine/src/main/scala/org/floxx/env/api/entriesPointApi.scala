@@ -1,16 +1,17 @@
 package org.floxx.env.api
 
-import org.http4s.{ HttpDate, HttpRoutes, Request, RequestCookie, ResponseCookie, SameSite }
+import org.http4s._
 import io.circe.generic.auto._
 import org.floxx.{ domain, BuildInfo }
 import org.floxx.domain.AuthUser.Mdp
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.error.{ AuthentificationError, FloxxError, ParsingError }
+import org.floxx.domain.error.{ AuthentificationError, ParsingError }
 import org.floxx.env.service.securityService
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import zio.{ URIO, ZIO }
+
+import zio._
 import zio.interop.catz._
 
 import java.time.{ ZoneId, ZonedDateTime }
@@ -24,9 +25,9 @@ object entriesPointApi {
   case class LoginResquest(login: SimpleUser.Id, mdp: Mdp)
   object LoginResquest {
 
-    implicit val formatMdp          = jsonOf[ApiTask, Mdp]
-    implicit val formatSimpleUserId = jsonOf[ApiTask, SimpleUser.Id]
-    implicit val formatLoginRequest = jsonOf[ApiTask, LoginResquest]
+    implicit val formatMdp: EntityDecoder[ApiTask, Mdp] = jsonOf[ApiTask, Mdp]
+    implicit val formatSimpleUserId: EntityDecoder[ApiTask, SimpleUser.Id] = jsonOf[ApiTask, SimpleUser.Id]
+    implicit val formatLoginRequest: EntityDecoder[ApiTask, LoginResquest] = jsonOf[ApiTask, LoginResquest]
   }
 
   implicit val decoder = jsonOf[ApiTask, LoginResquest]
@@ -37,17 +38,18 @@ object entriesPointApi {
   def api = HttpRoutes.of[ApiTask] {
     case req @ POST -> Root / "try-reco" => {
 
+      implicitly(Ok(""))
+
       for {
-        info: (String, Option[domain.AuthUser]) <- processCookie(req)
-        response <- info.fold(BadRequest("auth has failed")) {
-          case (token, userInfo) =>
-            Ok(
-              AuthenticatedUser(
-                s"${userInfo.firstName.value} ${userInfo.lastName.value}",
-                token,
-                userInfo.isAdmin
-              )
+        info <- processCookie(req)
+        response <- info._2.fold(Unauthorized) { userInfo =>
+          Ok(
+            AuthenticatedUser(
+              s"${userInfo.firstName.value} ${userInfo.lastName.value}",
+              info._1,
+              userInfo.isAdmin
             )
+          )
         }
       } yield response
     }
