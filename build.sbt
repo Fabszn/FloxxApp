@@ -179,20 +179,20 @@ lazy val httpEngine = (project in file("httpEngine"))
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "org.floxx"
   )
- // .dependsOn(model)
+
 
 Compile / packageDoc / mappings := Seq()
 
 lazy val wartRemoverSettings = Seq(
   Compile / compile / wartremoverErrors ++= Seq(
-      /*Wart.Any,*/
+      Wart.Any,
       Wart.AsInstanceOf,
       Wart.Product,
       Wart.Return,
       Wart.Null,
       Wart.OptionPartial,
       Wart.EitherProjectionPartial
-      /*,Wart.StringPlusAny*/
+
     )
 )
 
