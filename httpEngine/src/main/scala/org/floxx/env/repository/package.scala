@@ -7,7 +7,7 @@ import org.floxx.domain.Talk
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.{ getConf, Configuration }
 
-import org.floxx.model.HitLatest
+
 import org.floxx.domain.AuthUser
 import org.floxx.domain.User.SimpleUser
 import zio._

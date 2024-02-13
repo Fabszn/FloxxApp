@@ -269,6 +269,8 @@ object domain {
     implicit val hitDecoder: Decoder[Hit] = deriveDecoder[Hit]
   }
 
+  final case class HitLatest(hitSlotId: String, hitid: String)
+
   case class Information(
       id: Information.Id = Information.Id(-1),
       title: Title,
