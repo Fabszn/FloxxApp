@@ -1,14 +1,14 @@
 package fixtures
 
 import com.dimafeng.testcontainers.PostgreSQLContainer
-import org.floxx.env.configuration.config.{ rooms, Configuration, GlobalConfig }
+import org.floxx.domain.error.ConfigurationError
+import org.floxx.env.configuration.config.{Configuration, GlobalConfig, rooms}
 import org.floxx.env.repository.QuillContext
 import org.flywaydb.core.Flyway
 import org.testcontainers.utility.DockerImageName
 import pureconfig.ConfigSource
 import pureconfig.error.ConfigReaderException
 import pureconfig.generic.auto._
-
 import zio._
 import zio.test.TestEnvironment
 
@@ -48,9 +48,9 @@ trait PostgresRunnableFixture {
 
       } yield {
         new Configuration {
-          override def getConf: Task[GlobalConfig] = ZIO.fromEither(
+          override def getConf = ZIO.fromEither(
             ConfigSource.default.load[GlobalConfig] match {
-              case Left(e) => Left(ConfigReaderException(e))
+              case Left(e) => Left(ConfigurationError(s"$e"))
               case Right(value) =>
                 Right(
                   value.copy(
@@ -65,7 +65,7 @@ trait PostgresRunnableFixture {
             }
           )
 
-          override def getRooms: Task[Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
+          override def getRooms: IO[ConfigurationError,Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
         }
       }
 

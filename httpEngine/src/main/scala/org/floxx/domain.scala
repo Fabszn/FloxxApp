@@ -2,19 +2,22 @@ package org.floxx
 
 import cats.effect.IO
 import io.circe._
-import io.circe.generic.auto._
+
+import io.circe.generic.extras.semiauto._
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+
 import org.http4s.circe.jsonOf
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import org.floxx.domain.AuthUser.{Firstname, Id, Lastname, Login, Mdp}
-import org.floxx.domain.ConfDay.{DayIndex, DayValue}
-import org.floxx.domain.Information.{Content, DateCreate, Title}
+import org.floxx.domain.AuthUser._
+import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
+import org.floxx.domain.Information.{ Content, DateCreate, Title }
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
+import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
+import org.http4s.EntityDecoder
 
 import java.text.SimpleDateFormat
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.{ ZoneId, ZonedDateTime }
 import scala.util.Try
 
 object domain {
@@ -33,9 +36,17 @@ object domain {
   object AuthUser {
     final case class Id(value: String) extends AnyVal
     final case class Login(value: String) extends AnyVal
+    object Login {
+      implicit val enc: Encoder[Login] = deriveUnwrappedEncoder[Login]
+      implicit val dec: Decoder[Login] = deriveUnwrappedDecoder[Login]
+    }
     final case class Firstname(value: String) extends AnyVal
     final case class Lastname(value: String) extends AnyVal
     final case class Mdp(value: String) extends AnyVal
+    object Mdp {
+      implicit val MdpIdDecoder: Decoder[Mdp] = deriveUnwrappedDecoder[Mdp]
+      implicit val MdpIdEncoder: Encoder[Mdp] = deriveUnwrappedEncoder[Mdp]
+    }
   }
 
   final case class CurrentYear(value: Int) extends AnyVal
@@ -45,27 +56,29 @@ object domain {
   object ConfDay {
 
     final case class DayIndex(value: Int) extends AnyVal
+    object DayIndex {
+      implicit val dayIndexDecoder: Decoder[DayIndex] = deriveUnwrappedDecoder[DayIndex]
+    }
     object DayIndexVar {
       def unapply(s: String): Option[DayIndex] =
-        if (s.nonEmpty)
+        if (s.nonEmpty) {
           Try(DayIndex(s.toInt)).toOption
-        else
+        } else {
           Option.empty[DayIndex]
+        }
+
     }
     final case class DayValue(value: String) extends AnyVal
+    object DayValue {
+      implicit val dayValueDecoder: Decoder[DayValue] = deriveUnwrappedDecoder[DayValue]
+    }
+    implicit val confDayDecoder: Decoder[ConfDay] = deriveDecoder[ConfDay]
 
   }
 
   final case class AggPercentageItem(percentage: Int, label: Int)
 
-  final case class AggregatePercenteItem(percentage: Int, label: Int, day: DayValue, year:Int)
-
-  object AggregatePercenteItem {
-
-    implicit val dec: Decoder[AggregatePercenteItem] = deriveDecoder[AggregatePercenteItem]
-    implicit val enc: Encoder[AggregatePercenteItem] = deriveEncoder[AggregatePercenteItem]
-
-  }
+  final case class AggregatePercenteItem(percentage: Int, label: Int, day: DayValue, year: Int)
 
   final case class GlobalAggregatePercenteItem(percentage: Int, label: Int, year: Int)
 
@@ -100,12 +113,13 @@ object domain {
 
     case class SimpleUser(userId: SimpleUser.Id, nom: SimpleUser.Nom, prenom: SimpleUser.Prenom)
     object SimpleUser {
-
       final case class Id(value: String) extends AnyVal
+      object Id {
+        implicit val dec: Decoder[SimpleUser.Id] = deriveUnwrappedDecoder[SimpleUser.Id]
+        implicit val enc: Encoder[SimpleUser.Id] = deriveUnwrappedEncoder[SimpleUser.Id]
+      }
       final case class Nom(value: String) extends AnyVal
       final case class Prenom(value: String) extends AnyVal
-
-
     }
 
   }
@@ -135,7 +149,7 @@ object domain {
     }
   }
 
-  case class Talk(talkType: String, title: String)
+  final case class Talk(talkType: String, title: String)
   object Talk {
 
     def fromString(t: Talk): String = s"${t.talkType}%${t.title}"
@@ -143,6 +157,8 @@ object domain {
       val vs = t.split("%")
       Talk(vs(0), vs(1))
     }
+    implicit val talkDecoder: Decoder[Talk] = deriveDecoder[Talk]
+    implicit val talkEncoder: Encoder[Talk] = deriveEncoder[Talk]
   }
 
   final case class Slot(
@@ -163,6 +179,10 @@ object domain {
     }
 
     final case class Id(value: String) extends AnyVal
+    object Id {
+      implicit val idDecoder: Decoder[Id] = deriveUnwrappedDecoder[Id]
+
+    }
     final case class FromTime(value: String) extends AnyVal
     final case class ToTime(value: String) extends AnyVal
     final case class Day(value: String) extends AnyVal
@@ -209,22 +229,33 @@ object domain {
 
   object TrackHitInfo {
 
-    implicit val format = jsonOf[IO, TrackHitInfo]
+    implicit val trackHitInfoDecoder: Decoder[TrackHitInfo] = deriveDecoder[TrackHitInfo]
+    implicit val format: EntityDecoder[IO, TrackHitInfo]    = jsonOf[IO, TrackHitInfo]
   }
 
   final case class Overflow(
       slotId: Slot.Id,
       level: Level,
-      datetime: DateTime = DateTime(ZonedDateTime.now(defaultZoneId)),
+      datetime: DateTime                 = DateTime(ZonedDateTime.now(defaultZoneId)),
       affectedRoom: Option[AffectedRoom] = Option.empty[AffectedRoom]
   )
 
   object Overflow {
 
     final case class Level(value: Int) extends AnyVal
+    object Level {
+      implicit val levelDecoder: Decoder[Level] = deriveUnwrappedDecoder[Level]
+    }
     final case class DateTime(value: ZonedDateTime) extends AnyVal
+    object DateTime {
+      implicit val dateTimeDecoder: Decoder[DateTime] = deriveUnwrappedDecoder[DateTime]
+    }
     final case class AffectedRoom(value: String) extends AnyVal
+    object AffectedRoom {
+      implicit val affectedRoomDecoder: Decoder[AffectedRoom] = deriveUnwrappedDecoder[AffectedRoom]
+    }
 
+    implicit val overflowDecoder: Decoder[Overflow] = deriveDecoder[Overflow]
   }
 
   case class Hit(
@@ -234,42 +265,77 @@ object domain {
       dateTime: Long = System.currentTimeMillis(),
       userId: domain.User.SimpleUser.Id
   )
+  object Hit {
+    implicit val hitDecoder: Decoder[Hit] = deriveDecoder[Hit]
+  }
 
-  case class Information(id:Information.Id = Information.Id(-1), title:Title, content:Content, dateCreate:DateCreate=DateCreate.now(), isArchived:Boolean=false)
+  case class Information(
+      id: Information.Id = Information.Id(-1),
+      title: Title,
+      content: Content,
+      dateCreate: DateCreate = DateCreate.now(),
+      isArchived: Boolean    = false
+  )
 
   object Information {
-    final case class Id(value:Long) extends AnyVal
-    final case class Title(value:String) extends AnyVal
-    final case class Content(value:String) extends AnyVal
+    final case class Id(value: Long) extends AnyVal
+    object Id {
+      implicit val idDecoder: Decoder[Id] = deriveUnwrappedDecoder[Id]
+
+    }
+    final case class Title(value: String) extends AnyVal
+    object Title {
+      implicit val titleDecoder: Decoder[Title] = deriveUnwrappedDecoder[Title]
+
+    }
+    final case class Content(value: String) extends AnyVal
+    object Content {
+      implicit val contentDecoder: Decoder[Content] = deriveUnwrappedDecoder[Content]
+
+    }
     final case class DateCreate(value: ZonedDateTime) extends AnyVal
-    object DateCreate{
-      def now():DateCreate = DateCreate(ZonedDateTime.now())
+
+    object DateCreate {
+      implicit val dateCreateDecoder: Decoder[DateCreate] = deriveUnwrappedDecoder[DateCreate]
+      def now(): DateCreate                               = DateCreate(ZonedDateTime.now())
     }
 
-    implicit val format = jsonOf[IO, Information]
+    implicit val informationDecoder: Decoder[Information] = deriveDecoder[Information]
+    implicit val format: EntityDecoder[IO, Information]   = jsonOf[IO, Information]
 
   }
 
-  final case class InformationReadStatus(userId:SimpleUser.Id, infoId:Information.Id)
+  final case class InformationReadStatus(userId: SimpleUser.Id, infoId: Information.Id)
 
-  object error{
+  object jwt {
 
-    sealed trait FloxxError extends Exception{
-      def msg:String
+    case class UserInfo(userId: SimpleUser.Id, firstname: Login, isAdmin: Boolean)
+
+    object UserInfo {
+
+      implicit val enc: Encoder[UserInfo] = deriveEncoder[UserInfo]
+      implicit val dec: Decoder[UserInfo] = deriveDecoder[UserInfo]
+
+      def empty: UserInfo = UserInfo(SimpleUser.Id("-"), Login("-"), isAdmin = false)
     }
-    final case class LoadCfpDataError(msg:String) extends FloxxError
+
+  }
+
+  object error {
+
+    sealed trait FloxxError extends Exception {
+      def msg: String
+    }
+    final case class LoadCfpDataError(msg: String) extends FloxxError
 
     final case class AuthentificationError(msg: String) extends FloxxError
 
     final case class ParsingError(msg: String) extends FloxxError
 
-    final case class IllegalStateError(message: String) extends Throwable
-
     final case class DatabaseError(msg: String) extends FloxxError
 
     final case class ConfigurationError(msg: String) extends FloxxError
 
-    final case class HttpExternalCallError(message:String) extends Throwable
   }
 
 }

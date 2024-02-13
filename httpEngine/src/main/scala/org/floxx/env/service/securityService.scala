@@ -1,21 +1,23 @@
 package org.floxx.env.service
 
+import io.circe.Encoder
 import io.circe.generic.auto._
+import io.circe.generic.semiauto.deriveEncoder
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import org.floxx.domain.AuthUser
-import org.floxx.domain.AuthUser.{ Login, Mdp }
+import org.floxx.domain.AuthUser.{Login, Mdp}
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.error.{ AuthentificationError, FloxxError }
+import org.floxx.domain.error.{AuthentificationError, FloxxError}
 import org.floxx.env.api.ApiTask
-import org.floxx.env.configuration.config.{ Configuration, GlobalConfig }
+import org.floxx.env.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.env.repository.userRepository.UserRepo
-import org.floxx.UserInfo
-import org.floxx.env.service.securityService.{ AuthenticatedUser, SecurityService }
+import org.floxx.domain.jwt.UserInfo
+import org.floxx.env.service.securityService.{AuthenticatedUser, SecurityService}
 import org.http4s.circe.jsonOf
-import pdi.jwt.{ Jwt, JwtAlgorithm, JwtClaim }
+import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
 import zio.interop.catz._
-import zio.{ RLayer, Task, _ }
+import zio._
 
 object securityService {
 
@@ -31,7 +33,7 @@ object securityService {
   final case class AuthenticatedUser(name: String, token: String, isAdmin: Boolean = false)
 
   object AuthenticatedUser {
-
+    implicit val authenticatedUserEncoder: Encoder[AuthenticatedUser] = deriveEncoder[AuthenticatedUser]
     implicit val format = jsonOf[ApiTask, AuthenticatedUser]
   }
 
@@ -50,6 +52,7 @@ object securityService {
     override def checkAuthentification(token: String): IO[AuthentificationError, UserInfo] =
       for {
         config <- conf.getConf.mapError(err => AuthentificationError(err.msg))
+        _ <- ZIO.logInfo(s"Token $token")
         jwtClaim <- ZIO
           .fromTry(
             Jwt.decode(
@@ -58,8 +61,8 @@ object securityService {
               Seq(JwtAlgorithm.HS256)
             )
           )
-          .mapError(err => AuthentificationError(err.getMessage))
-        userInfo <- ZIO.fromEither(decode[UserInfo](jwtClaim.content)).mapError(err => AuthentificationError(err.getMessage))
+          .mapError(err => AuthentificationError(s"Decode token error : $token ::> ${err.getMessage}"))
+        userInfo <- ZIO.fromEither(decode[UserInfo](jwtClaim.content)).mapError(err => AuthentificationError(s"Parse JwtClaim error : $jwtClaim ::> ${err.getMessage}"))
 
       } yield userInfo
 

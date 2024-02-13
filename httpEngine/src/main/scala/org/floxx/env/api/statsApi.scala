@@ -2,7 +2,6 @@ package org.floxx.env.api
 
 import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
-import org.floxx.UserInfo
 import org.floxx.env.service.statService
 import org.floxx.domain.StatItem
 import org.http4s.AuthedRoutes
@@ -10,7 +9,7 @@ import org.http4s.circe.CirceEntityCodec._
 import org.http4s.dsl.Http4sDsl
 import zio.interop.catz._
 import org.floxx.domain.ConfDay.DayIndexVar
-import io.circe.syntax._
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 
 import scala.collection.immutable.SortedMap

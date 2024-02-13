@@ -21,18 +21,17 @@ object Dependencies {
     lazy val sttpVersion                = "3.5.1"
     lazy val scalaTestVersion           = "3.2.13"
 
-
   }
 
-
-  lazy val flyway  = "org.flywaydb" % "flyway-core" % flywayVersion
+  lazy val flyway = "org.flywaydb" % "flyway-core" % flywayVersion
 
   lazy val shapeless = "com.chuusai" %% "shapeless" % shapelessVersion
 
   lazy val circe = Seq(
-    "io.circe" %% "circe-core"    % Version.circeVersion,
-    "io.circe" %% "circe-generic" % Version.circeVersion,
-    "io.circe" %% "circe-parser"  % Version.circeVersion
+    "io.circe" %% "circe-core"    % circeVersion,
+    "io.circe" %% "circe-generic" % circeVersion,
+    "io.circe" %% "circe-generic-extras" % circeVersion,
+    "io.circe" %% "circe-parser"  % circeVersion
   )
 
   lazy val quill = Seq(
@@ -73,8 +72,12 @@ object Dependencies {
   lazy val logback            = "ch.qos.logback"        % "logback-classic"   % "1.2.3"
   lazy val pureConfig         = "com.github.pureconfig" %% "pureconfig"       % "0.15.0"
 
-  lazy val sttp = Seq("com.softwaremill.sttp.client4" %% "zio" % sttpZioClient,
-    "com.softwaremill.sttp.client4" %% "circe" % sttpZioClient)
+  lazy val sttp = Seq(
+    "com.softwaremill.sttp.client4" %% "zio"   % sttpZioClient,
+    "com.softwaremill.sttp.client4" %% "circe" % sttpZioClient,
+    "com.softwaremill.sttp.client4" %% "fs2" % sttpZioClient,
+    "com.softwaremill.sttp.client4" %% "http4s-backend" % sttpZioClient
+  )
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 

@@ -1,14 +1,14 @@
 package org.floxx.env.api
 
 import io.circe.syntax._
-import org.floxx.UserInfo
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.{Room, Slot}
 import org.floxx.env.configuration.config
 import org.floxx.env.service.{timeUtils, trackService}
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
-import org.floxx.model.Hit
+import org.floxx.domain.Hit
+import org.floxx.domain.jwt.UserInfo
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf

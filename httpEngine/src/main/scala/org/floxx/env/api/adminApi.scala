@@ -1,9 +1,9 @@
 package org.floxx.env.api
 
 
-import org.floxx.UserInfo
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.env.configuration.config
 import org.floxx.env.service.adminService
 import org.http4s.circe.CirceEntityEncoder._

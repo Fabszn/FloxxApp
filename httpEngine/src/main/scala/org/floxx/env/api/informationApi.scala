@@ -1,10 +1,8 @@
 package org.floxx.env.api
 
-import cats.data.OptionT
-import org.floxx.UserInfo
 import org.floxx.domain.Information
-import org.floxx.domain.Information.{ Content, Title }
-import org.floxx.domain.User.SimpleUser
+import org.floxx.domain.Information.{Content, Title}
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.env.service.informationService
 import org.http4s.AuthedRoutes
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._

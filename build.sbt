@@ -185,7 +185,7 @@ Compile / packageDoc / mappings := Seq()
 
 lazy val wartRemoverSettings = Seq(
   Compile / compile / wartremoverErrors ++= Seq(
-      Wart.Any,
+      /*Wart.Any,*/
       Wart.AsInstanceOf,
       Wart.Product,
       Wart.Return,

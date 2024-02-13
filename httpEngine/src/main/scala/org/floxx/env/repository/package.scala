@@ -3,9 +3,10 @@ package org.floxx.env
 import com.zaxxer.hikari.{ HikariConfig, HikariDataSource }
 import io.getquill.{ Literal, PostgresZioJdbcContext }
 import org.floxx.domain._
+import org.floxx.domain.Talk
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.env.configuration.config.{ getConf, Configuration }
-import org.floxx.model.jsonModel.{ Talk => JsTalk }
+
 import org.floxx.model.HitLatest
 import org.floxx.domain.AuthUser
 import org.floxx.domain.User.SimpleUser
@@ -41,8 +42,7 @@ package object repository {
     implicit val str2talkMapping: MappedEncoding[String, Talk] = MappedEncoding[String, Talk](Talk.toString)
     implicit val talk2strMapping: MappedEncoding[Talk, String] = MappedEncoding[Talk, String](Talk.fromString)
 
-    implicit val str2jstalkMapping: MappedEncoding[String, JsTalk] = MappedEncoding[String, JsTalk](JsTalk.toString)
-    implicit val jstalk2strMapping: MappedEncoding[JsTalk, String] = MappedEncoding[JsTalk, String](JsTalk.fromString)
+
 
     val authUser = quote(
       querySchema[AuthUser](
