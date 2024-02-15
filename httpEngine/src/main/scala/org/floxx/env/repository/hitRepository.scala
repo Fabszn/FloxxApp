@@ -1,7 +1,7 @@
 package org.floxx.env.repository
 
 import org.floxx.domain._
-import org.floxx.model.HitLatest
+import org.floxx.domain.HitLatest
 import org.floxx.domain.Hit
 import org.floxx.domain.Overflow.AffectedRoom
 import zio._

@@ -1,17 +1,16 @@
 package org.floxx.env.api
 
 import io.circe.syntax._
-import org.floxx.UserInfo
-import org.floxx.domain.Overflow.{ AffectedRoom, Level }
+import org.floxx.domain.Overflow.{AffectedRoom, Level}
 import org.floxx.domain.User.SimpleUser
 import org.floxx.env.service.hitService
 import org.floxx.domain._
-import org.http4s.{ AuthedRoutes, EntityDecoder }
+import org.http4s.{AuthedRoutes, EntityDecoder}
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-
 import io.scalaland.chimney.dsl._
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.env.utils.json.CirceValueClassCustomAuto._
 import zio.interop.catz._
 

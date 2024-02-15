@@ -1,13 +1,13 @@
 package org.floxx
 
 import cats.syntax.all._
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.env.api._
 import org.floxx.env.configuration.config
 import org.floxx.env.configuration.config.{Configuration, GlobalConfig, getConf}
 import org.floxx.env.repository._
 import org.floxx.env.service.trackService.TrackService
 import org.floxx.env.service._
-import org.floxx.env.service.informationService.InformationService
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
 import org.http4s.server.{AuthMiddleware, Router}

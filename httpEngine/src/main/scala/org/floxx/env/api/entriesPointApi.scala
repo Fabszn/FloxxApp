@@ -1,20 +1,20 @@
 package org.floxx.env.api
 
-import org.http4s.{ HttpDate, HttpRoutes, Request,ResponseCookie, SameSite }
-import io.circe.generic.auto._
-import org.floxx.{ domain, BuildInfo }
+import io.circe._
+import io.circe.generic.semiauto.deriveDecoder
 import org.floxx.domain.AuthUser.Mdp
 import org.floxx.domain.User.SimpleUser
+import org.floxx.domain.error.{AuthentificationError, ParsingError}
 import org.floxx.env.service.securityService
 import org.floxx.env.service.securityService.AuthenticatedUser
+import org.floxx.domain
+import org.http4s._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-
-import zio.{ URIO, ZIO }
+import zio._
 import zio.interop.catz._
 
-import java.time.{ ZoneId, ZonedDateTime }
-
+import java.time._
 
 object entriesPointApi {
 
@@ -22,43 +22,44 @@ object entriesPointApi {
 
   import dsl._
 
-  case class LoginResquest(login: String, mdp: String)
-  object LoginResquest {
-
-    implicit val formatMdp          = jsonOf[ApiTask, Mdp]
-    implicit val formatSimpleUserId = jsonOf[ApiTask, SimpleUser.Id]
-    implicit val formatLoginRequest = jsonOf[ApiTask, LoginResquest]
+  case class LoginRequest(login: SimpleUser.Id, mdp: Mdp)
+  object LoginRequest {
+    implicit val loginResquestDecoder: Decoder[LoginRequest] = deriveDecoder[LoginRequest]
   }
+  implicit val SimpleUserIdEntityDecoder: EntityDecoder[ApiTask, SimpleUser.Id] = jsonOf[ApiTask, SimpleUser.Id]
+  implicit val mdpEntityDecoder: EntityDecoder[ApiTask, SimpleUser.Id] = jsonOf[ApiTask, SimpleUser.Id]
+  implicit val LoginRequestEntityDecoder: EntityDecoder[ApiTask, LoginRequest] = jsonOf[ApiTask, LoginRequest]
 
-  implicit val decoder = jsonOf[ApiTask, LoginResquest]
+
+
   implicit val d       = jsonEncoderOf[ApiTask, AuthenticatedUser]
   case class User(name: String, token: String, isAdmin: Boolean)
-
 
   val floxx_auth = "floxx_auth"
   def api = HttpRoutes.of[ApiTask] {
     case req @ POST -> Root / "try-reco" => {
-
-      for {
+      (for {
         info <- processCookie(req)
-        response <- info.fold(BadRequest("auth has failed")) {
-          case (token, userInfo) =>
+        response <- info._2 match {
+          case None => BadRequest("Not authorized")
+          case Some(userInfo) =>
             Ok(
               AuthenticatedUser(
                 s"${userInfo.firstName.value} ${userInfo.lastName.value}",
-                token,
+                info._1,
                 userInfo.isAdmin
               )
             )
         }
-      } yield response
-
+      } yield response).catchSome{
+        case AuthentificationError(msg) => BadRequest(s"$msg")
+      }
     }
-    case req @ POST -> Root / "login" =>
+    case req @ POST -> Root / "login" => {
       for {
-        loginInfo <- req.as[LoginResquest]
-        auth <- securityService.authentification(SimpleUser.Id(loginInfo.login), Mdp(loginInfo.mdp))
-        now <- ZIO.attempt(HttpDate.unsafeFromZonedDateTime(ZonedDateTime.now(ZoneId.of("Europe/Paris")).plusHours(24)))
+        loginInfo <- req.as[LoginRequest].mapError(err => ParsingError(err.getMessage))
+        auth <- securityService.authentification(loginInfo.login, loginInfo.mdp)
+        now = HttpDate.unsafeFromZonedDateTime(ZonedDateTime.now(ZoneId.of("Europe/Paris")).plusHours(24))
         resp <- Ok(auth)
       } yield resp.addCookie(
         ResponseCookie(
@@ -71,15 +72,22 @@ object entriesPointApi {
           sameSite = Option(SameSite.Strict)
         )
       )
+    }.catchSome {
+      case ParsingError(msg) => Forbidden(msg)
+      case _: AuthentificationError => Forbidden()
+      case err => InternalServerError(err.getMessage)
+    }
     case _ @GET -> Root / "infos" =>
-      Ok(BuildInfo.version)
+      Ok(org.floxx.BuildInfo.version)
   }
 
-  private def processCookie(req: Request[ApiTask]): URIO[securityService.SecurityService, Option[(String, domain.AuthUser)]] =
-    (for {
-      r <- ZIO.attempt(req.cookies.find(c => c.name == floxx_auth)).some
-      userInfo <- securityService.checkAuthentification(r.content).some
-      u <- securityService.loadUserById(userInfo.userId).some
-    } yield (r.content, u)).option
+  private def processCookie(
+      req: Request[ApiTask]
+  ): ZIO[securityService.SecurityService, Throwable, (String, Option[domain.AuthUser])] =
+    for {
+      r <- ZIO.succeed(req.cookies.find(c => c.name == floxx_auth).fold("No token available")(_.content))
+      userInfo <- securityService.checkAuthentification(r)
+      u <- securityService.loadUserById(userInfo.userId)
+    } yield (r, u)
 
 }

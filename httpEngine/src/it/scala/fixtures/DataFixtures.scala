@@ -1,9 +1,10 @@
 package fixtures
 
-import org.floxx.domain.{CurrentYear, Room, Slot, Talk, User}
+import org.floxx.domain.{CurrentYear, Room, Slot, User}
 import org.floxx.env.api.adminApi.Mapping
 import org.floxx.domain.AuthUser
 import org.floxx.domain.AuthUser.{Firstname, Lastname, Login, Mdp}
+import org.floxx.domain.Slot.{Kind, Title}
 import org.floxx.domain.User.SimpleUser
 
 trait DataFixtures {
@@ -47,7 +48,8 @@ trait DataFixtures {
       Room.Id("neu253_t"),
       Slot.FromTime("09:30"),
       Slot.ToTime("12:30"),
-      Option(Talk("test1", "test1")),
+      Kind("test1"),
+      Title("test1"),
       Slot.Day("monday"),
       CurrentYear(2022)
     ),
@@ -56,7 +58,8 @@ trait DataFixtures {
       Room.Id("b_amphi"),
       Slot.FromTime("13:30"),
       Slot.ToTime("16:30"),
-      Option(Talk("test2", "test2")),
+      Kind("test2"),
+      Title("test2"),
       Slot.Day("monday"),
       CurrentYear(2022)
     ),
@@ -65,7 +68,8 @@ trait DataFixtures {
       Room.Id("b_amphi"),
       Slot.FromTime("10:30"),
       Slot.ToTime("11:30"),
-      Option(Talk("test3", "test3")),
+      Kind("test3"),
+      Title("test3"),
       Slot.Day("monday"),
       CurrentYear(2022)
     )

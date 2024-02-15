@@ -3,18 +3,19 @@ package engine
 import fixtures.{DataFixtures, HttpAppFixture}
 import io.circe.JsonObject
 import io.circe.generic.auto._
+import org.floxx.domain.AuthUser.Mdp
+import org.floxx.domain.User.SimpleUser
 import org.floxx.env.api.ApiTask
-import org.floxx.env.api.entriesPointApi.LoginResquest
+import org.floxx.env.api.entriesPointApi.LoginRequest
 import org.floxx.env.repository._
 import org.floxx.env.service._
 import org.floxx.env.service.securityService.AuthenticatedUser
 import org.http4s.headers.Authorization
 import sttp.capabilities.fs2.Fs2Streams
-import sttp.client3._
-import sttp.client3.circe._
+import sttp.client4._
+import sttp.client4.circe._
 import zio._
 import zio.test.Assertion._
-import zio.test.TestAspect._
 import zio.test._
 
 object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
@@ -26,13 +27,13 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
         test("login") {
           for {
             _ <- userRepository.insertUsers(users)
-            backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
+            backend <- ZIO.service[StreamBackend[ApiTask, Fs2Streams[ApiTask]]]
             response <- backend
               .send(
                 basicRequest
                   .post(uri"/login")
                   .body(
-                    LoginResquest("fsznaj", "123")
+                    LoginRequest(SimpleUser.Id("fsznaj"), Mdp("123"))
                   )
                   .response(asJson[AuthenticatedUser])
               )
@@ -44,13 +45,13 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
               cfpRepository.addMapping(userSlots1) <+>
               cfpRepository.addMapping(userSlots2)
             _ <- userRepository.insertUsers(users)
-            backend <- ZIO.service[SttpBackend[ApiTask, Fs2Streams[ApiTask]]]
+            backend <- ZIO.service[StreamBackend[ApiTask, Fs2Streams[ApiTask]]]
             authResp <- backend
               .send(
                 basicRequest
                   .post(uri"/login")
                   .body(
-                    LoginResquest("aheritier", "123")
+                    LoginRequest(SimpleUser.Id("aheritier"), Mdp("123"))
                   )
                   .response(asJson[AuthenticatedUser])
               )

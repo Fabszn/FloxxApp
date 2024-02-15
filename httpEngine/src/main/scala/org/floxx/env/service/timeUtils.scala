@@ -1,12 +1,12 @@
 package org.floxx.env.service
 
 import org.floxx.domain
-import org.floxx.domain.Slot.Day
-import org.floxx.domain.Talk
+import org.floxx.domain.Slot
+import org.floxx.domain.Slot.{Day, Kind}
 import org.floxx.env.configuration.config.GlobalConfig
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{ DateTime, DateTimeZone, LocalTime }
-import org.slf4j.{ Logger, LoggerFactory }
+import org.joda.time.{DateTime, DateTimeZone, LocalTime}
+import org.slf4j.{Logger, LoggerFactory}
 
 object timeUtils {
 
@@ -48,8 +48,8 @@ object timeUtils {
     (currentDay == slot.day) &&
     (currentTime.isAfter(trackStartTime.minusMinutes(config.track.delayBefore))
     || currentTime.isEqual(trackStartTime.minusMinutes(config.track.delayBefore))) &&
-    (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk, config)))
-    || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.talk, config)))) &&
+    (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.kind, config)))
+    || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.kind, config)))) &&
     (currentTime.isBefore(trackEndTime)
     || currentTime.isEqual(trackEndTime)) &&
     !(slot.roomId.value.startsWith("22") ||
@@ -58,14 +58,14 @@ object timeUtils {
     slot.roomId.value.startsWith("20"))
   }
 
-  def computeDelayAfterTime(talk: Option[Talk], config: GlobalConfig): Int =
-    talk.map(_.talkType).fold(config.track.delayAfter) {
-      case "University" => config.track.delayAfterUniversity
-      case "Tools-in-Action" => config.track.delayAfterTia
-      case "Conference" => config.track.delayAfterConf
-      case "Quickie" => config.track.delayAfterQuickie
-      case "Keynote" => config.track.delayAfterKeynote
-      case "Hands-on Labs" => config.track.delayAfterHol
+  def computeDelayAfterTime(kind: Slot.Kind, config: GlobalConfig): Int =
+    kind match {
+      case Kind("University") => config.track.delayAfterUniversity
+      case Kind("Tools-in-Action") => config.track.delayAfterTia
+      case Kind("Conference") => config.track.delayAfterConf
+      case Kind("Quickie") => config.track.delayAfterQuickie
+      case Kind("Keynote") => config.track.delayAfterKeynote
+      case Kind("Hands-on Labs") => config.track.delayAfterHol
     }
 
 }

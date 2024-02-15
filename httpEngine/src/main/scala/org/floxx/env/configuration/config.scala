@@ -1,30 +1,48 @@
 package org.floxx.env.configuration
-
-import org.floxx.domain.{ConfDay, CurrentYear}
+import org.floxx.domain.error.FloxxError
+import org.floxx.domain.{ ConfDay, CurrentYear }
 import pureconfig._
 import pureconfig.generic.auto._
 import zio._
 
 object config {
 
-  final case class Cfp(currentYear:CurrentYear,url: String, days: List[ConfDay])
+  val layer: ULayer[Configuration] = ZLayer.succeed(ConfigurationService())
+
+  trait Configuration {
+    def getConf: IO[FloxxError, GlobalConfig]
+    def getRooms: IO[FloxxError, Map[String, Option[String]]]
+  }
+
+  private final case class ConfigurationService() extends Configuration {
+    override def getConf: IO[FloxxError, GlobalConfig] =
+      ZIO
+        .attempt(
+          ConfigSource.default.loadOrThrow[GlobalConfig]
+        )
+        .orDie
+
+    override def getRooms: IO[FloxxError,Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
+  }
+
+  final case class Cfp(currentYear: CurrentYear, url: String, days: List[ConfDay])
   final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
-  final case class DevMode(isActivated:Boolean= false, currentDay:String, currentTime: String)
-  final case class Track(delayBefore: Int,
-                         delayAfter: Int,
-                         delayAfterUniversity: Int,
-                         delayAfterTia: Int,
-                         delayAfterConf: Int,
-                         delayAfterQuickie: Int,
-                         delayAfterKeynote: Int,
-                         delayAfterHol: Int,
-                         devMode:DevMode)
+  final case class DevMode(isActivated: Boolean = false, currentDay: String, currentTime: String)
 
+  final case class Track(
+      delayBefore: Int,
+      delayAfter: Int,
+      delayAfterUniversity: Int,
+      delayAfterTia: Int,
+      delayAfterConf: Int,
+      delayAfterQuickie: Int,
+      delayAfterKeynote: Int,
+      delayAfterHol: Int,
+      devMode: DevMode
+  )
 
-
-
-  case class GlobalConfig(
+  final case class GlobalConfig(
       cfp: Cfp,
       db: Db,
       floxx: Floxx,
@@ -67,21 +85,6 @@ object config {
       "par201_u" -> Some("Paris 201")
     )
   }
-
-  trait Configuration {
-    def getConf: Task[GlobalConfig]
-    def getRooms: Task[Map[String, Option[String]]]
-  }
-
-  private final case class ConfigurationService() extends Configuration {
-    override def getConf: Task[GlobalConfig] = ZIO.attempt(
-      ConfigSource.default.loadOrThrow[GlobalConfig]
-    ).orDie
-
-    override def getRooms: Task[Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
-  }
-
-  val layer: ULayer[Configuration] = ZLayer.succeed(ConfigurationService())
 
   def getConf: RIO[Configuration, GlobalConfig] = ZIO.serviceWithZIO[Configuration](_.getConf)
 

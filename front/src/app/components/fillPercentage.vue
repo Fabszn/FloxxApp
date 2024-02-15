@@ -22,7 +22,7 @@
 
     <div class="d-flex flex-column justify-content-center">
       <div class="title separate">{{ title }}</div>
-      <div>{{ talkType }} - {{ room }}</div>
+      <div>{{ kind }} - {{ room }}</div>
     </div>
 
     <div class="d-flex justify-content-center">
@@ -229,7 +229,7 @@ export default defineComponent({
       id: this.$route.params.slotid,
       fill: { gradient: ["green"] },
       title: "",
-      talkType: "",
+      kind: "",
       room: "",
       data: ["Full", "Moderate", "Required"],
       value: "",
@@ -243,8 +243,8 @@ export default defineComponent({
       })
         .then((response) => response.json())
         .then((p) => {
-          this.title = p.slot.talk.title;
-          this.talkType = p.slot.talk.talkType;
+          this.title = p.slot.title;
+          this.kind = p.slot.kind;
           this.room = p.slot.roomId;
           this.day = p.slot.day;
           this.fromTime = p.slot.fromTime;

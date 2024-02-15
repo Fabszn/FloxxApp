@@ -42,7 +42,9 @@ object cfpRepository {
         quote(
           liftQuery(slotList).foreach(
             s =>
-              slots.insertValue(s).onConflictUpdate(_.slotId)((t, e) => t.talk -> Option(e.talk.getOrElse(lift(Talk("_", "_")))))
+              slots
+                .insertValue(s)
+                .onConflictUpdate(_.slotId)((t, e) => t.kind -> e.kind, (t, e) => t.title -> e.title)
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
@@ -67,8 +69,20 @@ object cfpRepository {
       )
 
     override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[Slot]] =
-     conf.getConf flatMap (c => run(quote(slots.filter(s => s.yearSlot == lift(c.cfp.currentYear) && userSlots.filter(_.userId.contains(lift(userId))).map(_.slotId).contains(s.slotId))))
-        .provideEnvironment(ZEnvironment(dataSource)))
+      conf.getConf flatMap (
+          c =>
+            run(
+              quote(
+                slots.filter(
+                  s =>
+                    s.yearSlot == lift(c.cfp.currentYear) && userSlots
+                      .filter(_.userId.contains(lift(userId)))
+                      .map(_.slotId)
+                      .contains(s.slotId)
+                )
+              )
+            ).provideEnvironment(ZEnvironment(dataSource))
+        )
 
     override def allSlotsWithUserId(userId: SimpleUser.Id): Task[Set[Slot]] = allSlotsByUserId(userId).map(_.toSet)
 

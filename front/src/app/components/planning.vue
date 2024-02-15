@@ -342,8 +342,8 @@ function beforeOpen(slotId) {
       .then((response) => response.json())
       .then((p) => {
         this.currentConf.updateInfo(
-          p.talk.title,
-          p.talk.talkType,
+          p.title,
+          p.kind,
           p.roomId,
           p.fromTime,
           p.toTime,
