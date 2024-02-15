@@ -323,7 +323,7 @@ export default defineComponent({
         ...this.chartOptionsBySlotTime,
         ...{
           xaxis: {
-            categories: _.map(dataToDisplay, (i) => i["talk"].title),
+            categories: _.map(dataToDisplay, (i) => i["title"]),
           },
         },
       };

@@ -95,7 +95,6 @@ object trackService {
 
     private def computeRoomKey(slots: Seq[domain.Slot], conf: GlobalConfig): Seq[domain.Slot] =
       slots
-        .filter(_.talk.isDefined)
         .flatMap(s => {
           conf.roomsMapping.get(s.roomId.value).map { r =>
             val sId = s"${s.day.value}_${s.roomId.value}_${s.fromTime.value}-${s.toTime.value}_${s.yearSlot.value}"

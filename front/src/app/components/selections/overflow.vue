@@ -507,8 +507,8 @@ function beforeOpen(idSlot) {
   if (!_.isUndefined(current)) {
     let currentState: StateRoom = getState.bind(this)(current.slot.slotId);
     this.selectedConf.updateInfo(
-      current.slot.talk.title,
-      current.slot.talk.talkType,
+      current.slot.title,
+      current.slot.kind,
       current.slot.roomId,
       current.slot.fromTime,
       current.slot.toTime,

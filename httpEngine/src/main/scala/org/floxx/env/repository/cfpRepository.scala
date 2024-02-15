@@ -44,7 +44,7 @@ object cfpRepository {
             s =>
               slots
                 .insertValue(s)
-                .onConflictUpdate(_.slotId)((t, e) => t.talk -> e.talk)
+                .onConflictUpdate(_.slotId)((t, e) => t.kind -> e.kind, (t, e) => t.title -> e.title)
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)

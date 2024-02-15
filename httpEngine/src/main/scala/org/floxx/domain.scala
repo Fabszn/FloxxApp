@@ -2,22 +2,21 @@ package org.floxx
 
 import cats.effect.IO
 import io.circe._
-
 import io.circe.generic.extras.semiauto._
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
-
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.http4s.circe.jsonOf
 import org.floxx.domain.AuthUser._
-import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
-import org.floxx.domain.Information.{ Content, DateCreate, Title }
+import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import org.floxx.domain.Information.{Content, DateCreate, Title}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
+import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
+import org.floxx.env.repository.QuillContext.Embedded
 import org.http4s.EntityDecoder
 
 import java.text.SimpleDateFormat
-import java.time.{ ZoneId, ZonedDateTime }
+import java.time.{ZoneId, ZonedDateTime}
 import scala.util.Try
 
 object domain {
@@ -91,7 +90,8 @@ object domain {
 
   case class StatItem(
       slotId: Option[Slot.Id],
-      talk: Talk,
+      kind:Slot.Kind,
+      title:Slot.Title,
       percentage: Option[Int],
       roomid: String,
       fromtime: String,
@@ -149,24 +149,14 @@ object domain {
     }
   }
 
-  final case class Talk(talkType: String, title: String)
-  object Talk {
-
-    def fromString(t: Talk): String = s"${t.talkType}%${t.title}"
-    def toString(t: String): Talk = {
-      val vs = t.split("%")
-      Talk(vs(0), vs(1))
-    }
-    implicit val talkDecoder: Decoder[Talk] = deriveDecoder[Talk]
-    implicit val talkEncoder: Encoder[Talk] = deriveEncoder[Talk]
-  }
 
   final case class Slot(
       slotId: Slot.Id,
       roomId: Room.Id,
       fromTime: Slot.FromTime,
       toTime: Slot.ToTime,
-      talk: Option[Talk],
+      kind:Slot.Kind,
+      title:Slot.Title,
       day: Slot.Day,
       yearSlot: CurrentYear
   )
@@ -186,6 +176,14 @@ object domain {
     final case class FromTime(value: String) extends AnyVal
     final case class ToTime(value: String) extends AnyVal
     final case class Day(value: String) extends AnyVal
+    final case class Kind(value: String) extends AnyVal
+    object Kind{
+      implicit val dec:Decoder[Slot.Kind] = deriveUnwrappedDecoder[Slot.Kind]
+    }
+    final case class Title(value: String) extends AnyVal
+    object Title{
+      implicit val dec:Decoder[Slot.Title] = deriveUnwrappedDecoder[Slot.Title]
+    }
     object Day {
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
     }
@@ -199,7 +197,8 @@ object domain {
         roomId <- c.downField("roomId").as[String]
         fromTime <- c.downField("fromTime").as[String]
         toTime <- c.downField("toTime").as[String]
-        talk <- c.downField("talk").as[Option[Talk]]
+        kind <- c.downField("talk").downField("kind").as[Slot.Kind]
+        title <- c.downField("talk").downField("title").as[Slot.Title]
         day <- c.downField("day").as[String]
         currentYear <- c.downField("fromTimeMillis").as[Long]
       } yield {
@@ -208,7 +207,8 @@ object domain {
           Room.Id(roomId),
           FromTime(fromTime),
           ToTime(toTime),
-          talk,
+          kind,
+          title,
           Slot.Day(day),
           millis2Year(currentYear)
         )
