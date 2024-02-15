@@ -2,7 +2,7 @@ package fixtures
 
 import com.dimafeng.testcontainers.PostgreSQLContainer
 import org.floxx.domain.error.ConfigurationError
-import org.floxx.env.configuration.config.{Configuration, GlobalConfig, rooms}
+import org.floxx.env.configuration.config.{ rooms, Configuration, GlobalConfig }
 import org.floxx.env.repository.QuillContext
 import org.flywaydb.core.Flyway
 import org.testcontainers.utility.DockerImageName
@@ -21,7 +21,7 @@ trait PostgresRunnableFixture {
       ZIO.acquireRelease {
         ZIO.attemptBlocking {
           val c = new PostgreSQLContainer(
-            dockerImageNameOverride = Option(DockerImageName.parse("postgres:12.7-alpine"))
+            dockerImageNameOverride = Option(DockerImageName.parse("postgres:15.5-alpine"))
           ).configure { a =>
             a.withCommand(
               "postgres",
@@ -65,7 +65,7 @@ trait PostgresRunnableFixture {
             }
           )
 
-          override def getRooms: IO[ConfigurationError,Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
+          override def getRooms: IO[ConfigurationError, Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
         }
       }
 
@@ -74,10 +74,11 @@ trait PostgresRunnableFixture {
   }
 
   lazy val dbLayer =
-     containerLayer >>> containerConfigLayer >+> QuillContext.dataSourceLayer.tap { ds =>
+    containerLayer >>> containerConfigLayer >+> QuillContext.dataSourceLayer.tap { ds =>
       ZIO.attempt {
         val fw = Flyway
           .configure()
+          .cleanDisabled(false)
           .dataSource(ds.get)
           .load()
         fw.clean()
