@@ -12,7 +12,7 @@ import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
-import org.floxx.env.repository.QuillContext.Embedded
+import org.floxx.repository.QuillContext.Embedded
 import org.http4s.EntityDecoder
 
 import java.text.SimpleDateFormat

@@ -1,7 +1,7 @@
 package fixtures
 
 import org.floxx.domain.{CurrentYear, Room, Slot, User}
-import org.floxx.env.api.adminApi.Mapping
+import org.floxx.api.adminApi.Mapping
 import org.floxx.domain.AuthUser
 import org.floxx.domain.AuthUser.{Firstname, Lastname, Login, Mdp}
 import org.floxx.domain.Slot.{Kind, Title}

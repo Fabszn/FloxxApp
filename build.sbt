@@ -126,17 +126,7 @@ lazy val commonsSettings = wartRemoverSettings ++ Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
 
-/*lazy val model = (project in file("model"))
-  .configs(IntegrationTest)
-  .settings(Defaults.itSettings)
-  .settings(commonsSettings)
-  .settings(
-    libraryDependencies += http4sCircle,
-    libraryDependencies ++= circe,
-    libraryDependencies ++= zio,
-    libraryDependencies ++= quill,
-    libraryDependencies += `zio-interop-cats`
-  )*/
+
 addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full)
 
 lazy val httpEngine = (project in file("httpEngine"))
