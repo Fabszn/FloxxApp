@@ -6,14 +6,14 @@ import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.{Room, Slot}
 import org.floxx.configuration.config
 import org.floxx.service.{timeUtils, trackService}
-import org.floxx.utils.json.CirceValueClassCustomAuto._
+import org.floxx.util.CirceValueClassCustomAuto._
 import org.floxx.domain.Hit
 import org.floxx.domain.jwt.UserInfo
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import org.http4s.dsl.Http4sDsl
-import org.slf4j.{Logger, LoggerFactory}
+
 import zio.interop.catz._
 
 import scala.collection.SortedSet

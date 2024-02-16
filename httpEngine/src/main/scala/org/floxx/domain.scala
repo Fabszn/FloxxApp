@@ -1,22 +1,23 @@
 package org.floxx
 
 import cats.effect.IO
+import io.circe.Decoder.Result
 import io.circe._
 import io.circe.generic.extras.semiauto._
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
 import org.http4s.circe.jsonOf
 import org.floxx.domain.AuthUser._
-import org.floxx.domain.ConfDay.{DayIndex, DayValue}
-import org.floxx.domain.Information.{Content, DateCreate, Title}
+import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
+import org.floxx.domain.Information.{ Content, DateCreate, Title }
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
+import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
-import org.floxx.repository.QuillContext.Embedded
+
 import org.http4s.EntityDecoder
 
 import java.text.SimpleDateFormat
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.{ ZoneId, ZonedDateTime }
 import scala.util.Try
 
 object domain {
@@ -90,8 +91,8 @@ object domain {
 
   case class StatItem(
       slotId: Option[Slot.Id],
-      kind:Slot.Kind,
-      title:Slot.Title,
+      kind: Slot.Kind,
+      title: Slot.Title,
       percentage: Option[Int],
       roomid: String,
       fromtime: String,
@@ -127,7 +128,6 @@ object domain {
   case class Room(id: Room.Id, name: Room.Name, capacity: Room.Capacity, setup: Room.Setup)
 
   object Room {
-    import io.circe.generic.semiauto._
 
     final case class Id(value: String) extends AnyVal
 
@@ -136,30 +136,101 @@ object domain {
     final case class Setup(value: String) extends AnyVal
 
     object Id {
-      implicit val enc: Encoder[Room.Id] = deriveEncoder[Room.Id]
-      implicit val dec: Decoder[Room.Id] = deriveDecoder[Room.Id]
+      implicit val enc: Encoder[Room.Id] = deriveUnwrappedEncoder[Room.Id]
+      implicit val dec: Decoder[Room.Id] = deriveUnwrappedDecoder[Room.Id]
 
       implicit val ordering: Ordering[Room.Id] = (x: Room.Id, y: Room.Id) => x.value.compareTo(y.value)
 
     }
     object Name {
-      implicit val enc: Encoder[Room.Name] = deriveEncoder[Room.Name]
-      implicit val dec: Decoder[Room.Name] = deriveDecoder[Room.Name]
-
+      implicit val enc: Encoder[Room.Name] = deriveUnwrappedEncoder[Room.Name]
+      implicit val dec: Decoder[Room.Name] = deriveUnwrappedDecoder[Room.Name]
     }
-  }
 
+  }
 
   final case class Slot(
       slotId: Slot.Id,
       roomId: Room.Id,
       fromTime: Slot.FromTime,
       toTime: Slot.ToTime,
-      kind:Slot.Kind,
-      title:Slot.Title,
+      kind: Slot.Kind,
+      title: Slot.Title,
       day: Slot.Day,
       yearSlot: CurrentYear
   )
+
+  final case class CfpSlot(
+      cfpSlotId: CfpSlot.Id,
+      roomId: domain.CfpSlot.RoomId,
+      roomName: domain.Room.Name,
+      fromDate: CfpSlot.FromDate,
+      toDate: CfpSlot.ToDate,
+      kind: Slot.Kind,
+      title: Slot.Title
+  )
+
+  object CfpSlot {
+
+    final case class Id(value: Long) extends AnyVal
+
+    object Id {
+      implicit val idDecoder: Decoder[Id] = deriveUnwrappedDecoder[Id]
+    }
+
+    final case class RoomId(value: Long) extends AnyVal
+    object RoomId {
+      implicit val roomIdDecoder: Decoder[RoomId] = deriveUnwrappedDecoder[RoomId]
+    }
+    final case class FromDate(value: ZonedDateTime) extends AnyVal
+    object FromDate {
+      implicit val fromDateDecoder: Decoder[FromDate] = deriveUnwrappedDecoder[FromDate]
+    }
+    final case class ToDate(value: ZonedDateTime) extends AnyVal
+    object ToDate {
+      implicit val toDateDecoder: Decoder[ToDate] = deriveUnwrappedDecoder[ToDate]
+    }
+
+    implicit val cfpSlotDecoder: Decoder[CfpSlot] = (c: HCursor) => {
+      for {
+        cfpslotId <- c.downField("id").as[CfpSlot.Id]
+        roomId <- c.downField("room").downField("id").as[RoomId]
+        roomName <- c.downField("room").downField("name").as[Room.Name]
+        fromDate <- c.downField("fromDate").as[FromDate]
+        toDate <- c.downField("toDate").as[ToDate]
+        kind <- c.downField("sessionType").downField("name").as[Slot.Kind]
+        title <- handleTitle(c)
+
+      } yield {
+        CfpSlot(
+          cfpslotId,
+          roomId,
+          roomName,
+          fromDate,
+          toDate,
+          kind,
+          title
+        )
+      }
+    }
+
+    private def handleTitle(c: HCursor): Result[Slot.Title] =
+      if (c.downField("proposal").succeeded) {
+        c.downField("proposal")
+          .values
+          .fold(Right(Slot.Title("---")).withLeft[DecodingFailure])(
+            _ => c.downField("proposal").downField("title").as[Slot.Title]
+          )
+      } else {
+        Right(Slot.Title("---"))
+      }
+
+    private def zonedDT2Year(m: ZonedDateTime): CurrentYear = {
+      val ldt = new SimpleDateFormat("yyyy")
+      CurrentYear(ldt.format(m).toInt)
+    }
+
+  }
 
   object Slot {
 
@@ -177,12 +248,12 @@ object domain {
     final case class ToTime(value: String) extends AnyVal
     final case class Day(value: String) extends AnyVal
     final case class Kind(value: String) extends AnyVal
-    object Kind{
-      implicit val dec:Decoder[Slot.Kind] = deriveUnwrappedDecoder[Slot.Kind]
+    object Kind {
+      implicit val dec: Decoder[Slot.Kind] = deriveUnwrappedDecoder[Slot.Kind]
     }
     final case class Title(value: String) extends AnyVal
-    object Title{
-      implicit val dec:Decoder[Slot.Title] = deriveUnwrappedDecoder[Slot.Title]
+    object Title {
+      implicit val dec: Decoder[Slot.Title] = deriveUnwrappedDecoder[Slot.Title]
     }
     object Day {
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)

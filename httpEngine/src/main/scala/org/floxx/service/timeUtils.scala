@@ -8,6 +8,9 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone, LocalTime}
 import org.slf4j.{Logger, LoggerFactory}
 
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 object timeUtils {
 
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
@@ -67,5 +70,9 @@ object timeUtils {
       case Kind("Keynote") => config.track.delayAfterKeynote
       case Kind("Hands-on Labs") => config.track.delayAfterHol
     }
+
+  def zdt2FormattedTime(zdt:ZonedDateTime):String = zdt.toLocalTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+  def zdt2DayOfWeek(zdt:ZonedDateTime):String = zdt.toLocalDateTime.getDayOfWeek.toString.toLowerCase.capitalize
+  def zdt2Year(zdt:ZonedDateTime):Int = zdt.toLocalDateTime.getYear
 
 }

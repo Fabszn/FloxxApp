@@ -1,0 +1,1395 @@
+[
+  {
+    "id": 2507,
+    "fromDate": "2023-10-06T06:30:00Z",
+    "toDate": "2023-10-06T07:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1153,
+      "name": "Exhibition Hall",
+      "weight": 1,
+      "capacity": 200
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 961,
+      "name": "Breakfast",
+      "duration": 60,
+      "pause": true,
+      "description": null,
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": null,
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": null
+  },
+  {
+    "id": 2509,
+    "fromDate": "2023-10-06T07:30:00Z",
+    "toDate": "2023-10-06T08:20:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1160,
+      "name": "Room 4",
+      "weight": 4,
+      "capacity": 348
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 48054,
+      "title": "The developer's guide to making money in the open-source galaxy",
+      "description": "Do you also dream about the 4-hour workweek? Ever wanted to go to conferences without having to ask your boss for permission?<br>In this talk, I'll share my personal story: the story behind JobRunr, an open-source distributed job scheduler that now pays my bills! I'll explain why it makes sense to learn different programming languages, I'll tell you all about the highs and the lows I encountered during the development of JobRunr, I'll show you how open-source can be a marketing bliss and I'll  enlighten you with my plans for the future.<br>After this session, you will know whether being a full-time open-source developer is something for you, how you can find product market fit and how you can also become your own boss!",
+      "summary": null,
+      "afterVideoURL": "https://www.youtube.com/embed/MJBNa5jNvJs",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1253,
+        "name": "People & Culture",
+        "description": "Personal development, leadership, working practices, mental health, diversity, inclusion and developer culture",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/People-Culture-no-text-copy.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 2814,
+          "firstName": "Ronald",
+          "lastName": "Dehuysser",
+          "fullName": "Ronald Dehuysser",
+          "bio": "Ronald Dehuysser - a beer-loving OSS developer and software architect from Belgium, creator of JobRunr, a distributed job scheduling engine that plugs right into Spring Boot, Quarkus and Micronaut.",
+          "anonymizedBio": "The speaker is a passionate OSS developer and software architect hailing from Europe, known for creating a distributed job scheduling engine that integrates seamlessly with Spring Boot, Quarkus, and Micronaut. They also have a well-documented love for beer.",
+          "company": "JobRunr",
+          "imageUrl": "https://lh3.googleusercontent.com/a-/AOh14GjAnq6BY--6_1G6cMV21ieYaZM0_lxaokhbDC7RBMs=s96-c",
+          "twitterHandle": "@rdehuyss"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Hacker"
+        },
+        {
+          "name": "marketing"
+        },
+        {
+          "name": "money"
+        },
+        {
+          "name": "open-source"
+        },
+        {
+          "name": "profit"
+        },
+        {
+          "name": "scheduler"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2510,
+    "fromDate": "2023-10-06T07:30:00Z",
+    "toDate": "2023-10-06T08:20:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1159,
+      "name": "Room 5",
+      "weight": 5,
+      "capacity": 649
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 8356,
+      "title": "How sand and Java are used to create the world’s most powerful chips",
+      "description": "We all use computer chips such as processors, memory and sensors in our daily lives. But how are they created? How did the chip creation process evolve and what future changes can we expect?<br>This session explains how computer chips are physically created by some of the most advanced machines on the planet. Did you know that these chips, nowadays, can contain more than one hundred million transistors per square millimeter?<br>Java software is used everywhere, also in the process of chip manufacturing. In my project at ASML we’re working on a relatively new analytics platform which is used to process the data from the machines. The application then visualizes the results in order to find issues or improvement areas. This information is used to change the configuration parameters of the physical machine in order to create more and better chips. I will explain, on a high level, how our applications look like and which Java technologies we use.",
+      "summary": "This session explains the creation process of computer chips using advanced machines. The chips can now contain over 100 million transistors per square millimeter. Java software is used in chip manufacturing and the speaker's project involves an analytics platform that processes data from the machines to find areas for improvement in order to create better chips. The speaker will give a high-level explanation of their application and the Java technologies used.",
+      "afterVideoURL": "https://www.youtube.com/embed/k3RI1cuYoWs",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2758,
+        "name": "Mind the Geek",
+        "description": "Developer candy: stuff we want to know about but dont (generally) at work, Robotics, biological computing, cybernetics, GPT related tech, new toys, tomorrows world",
+        "imageURL": "https://s3-eu-west-1.amazonaws.com/voxxeddays/webapp/images/0bac192f-aa3c-4288-bad0-4dd4abdbbdc1.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 5654,
+          "firstName": "Johan",
+          "lastName": "Janssen",
+          "fullName": "Johan Janssen",
+          "bio": "Johan is working as an architect at ASML. He has been working for various demanding companies where rapidly delivering high-quality software was very important. Johan regularly writes articles for InfoQ and Java magazines, mainly around Java. He spoke in 20 countries at more than 40 different conferences such as JavaOne, GOTO, Devoxx, JavaZone, J-Fall, J-Spring, Jfokus and JavaLand. Johan received the JavaOne Rock Star and Oracle Code One Star awards.",
+          "anonymizedBio": "The speaker is currently employed as an architect at a leading tech company. They have experience working for a number of demanding companies where the rapid delivery of high-quality software was imperative. The speaker frequently contributes articles to well-known tech and software publications, primarily focused on a popular programming language. They have presented in 20 countries at over 40 different conferences including notable ones like JavaOne, GOTO, Devoxx, JavaZone, and others. The speaker is the recipient of prestigious awards in the tech industry.",
+          "company": "ASML",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-14ce1699-7130-4592-827f-99e92753098a.jpg",
+          "twitterHandle": "@johanjanssen42"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "chips"
+        },
+        {
+          "name": "lithography"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2511,
+    "fromDate": "2023-10-06T07:30:00Z",
+    "toDate": "2023-10-06T08:20:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1158,
+      "name": "Room 6",
+      "weight": 6,
+      "capacity": 370
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 42856,
+      "title": "JavaFX Notebook",
+      "description": "JavaFX Notebook combines the power of Java and JavaFX with the ease of use of JShell into a rich notebook-style application. This technology demonstration will showcase some of the innovations we are working on to make it easy to get started with JavaFX, allowing you to enter and execute your code instantly and interactively to visualize your data immediately.<br>JavaFX enables developing application with lots of rich content, but even a simple HelloWorld app has a fair bit of ceremony. Visualizing data with JavaFX Charts is powerful, but has even more boilerplate. With JavaFX Notebook you will learn how to code interactively in JavaFX without initially having to learn the more difficult concepts, and how to easily visualize your data using built-in JavaFX charts.",
+      "summary": null,
+      "afterVideoURL": "https://www.youtube.com/embed/R9yhbaN5Xxs",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2754,
+        "name": "Java",
+        "description": "All aspects of Java as a platform: emerging or established, Java language, JVM (languages), JDK, frameworks, standards, performance.  This edition will have an extra focus on the Java 21 release.",
+        "imageURL": "https://s3-eu-west-1.amazonaws.com/voxxeddays/webapp/images/f63a6ff7-0b15-4feb-b0fb-06aad848e601.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 43054,
+          "firstName": "Kevin",
+          "lastName": "Rushforth",
+          "fullName": "Kevin Rushforth",
+          "bio": "Kevin Rushforth is a member of the Oracle Java Team and is the co-project lead for the OpenJFX project on OpenJDK. He has worked on Java Client APIs since 1997.",
+          "anonymizedBio": "The speaker is a member of a prominent Java Team of a renowned multinational technology corporation, and holds the position of co-project lead for an open source project on OpenJDK. The speaker has also been involved with Java Client APIs since 1997.",
+          "company": "Oracle Corporation",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-c7824ca2-cd39-455b-a517-c8c1f222fd3c.jpg",
+          "twitterHandle": ""
+        }
+      ],
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "JavaFX"
+        },
+        {
+          "name": "notebooks"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2508,
+    "fromDate": "2023-10-06T07:30:00Z",
+    "toDate": "2023-10-06T08:20:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1156,
+      "name": "Room 8",
+      "weight": 8,
+      "capacity": 694
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 39117,
+      "title": "Are Your Tests Slowing You Down?",
+      "description": "Testing is a Good Thing, right? Especially automated testing. But \"Good things come to those who wait\" is not something that's going to appeal to the busy developer. You want results, and you want them now. You're in The Zone working on a problem, and the last thing you want is to break your flow wrestling with your testing framework or waiting for the tests to finish running.<br>&nbsp;<br>More code means more tests. More coverage means more tests. More tests mean more time. Time that you want to spend being productive, creative, innovative. How can you balance the need for quality with the need for speed?<br>&nbsp;<br>In this talk, Trisha will identify issues that slow down developers when writing, running and debugging tests, and look at tools that can help developers with each of these problems. There will be live coding, analysis of social media poll results, an overview of solutions in this space, \"best practice\" recommendations, and machine learning will be mentioned at some point.",
+      "summary": "This talk explores the challenges faced by developers when it comes to writing, running, and debugging tests. It offers solutions, live coding, best practice recommendations, and touches on machine learning. The aim is to strike a balance between quality and speed in testing processes.",
+      "afterVideoURL": "https://www.youtube.com/embed/CNFEKCb72xo",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1701,
+        "name": "Development Practices",
+        "description": "All about Getting Stuff Done right. Methodologies, better practices, testing & tools.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/Dev-Practices-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 32572,
+          "firstName": "Trisha",
+          "lastName": "Gee",
+          "fullName": "Trisha Gee",
+          "bio": "Trisha is a software engineer, Java Champion and author. Trisha has developed Java applications for a range of industries of all sizes, including finance, manufacturing and non-profit, and she's a lead developer advocate at Gradle. She has expertise in Java high-performance systems and dabbles with Open Source development.<br>Trisha’s exceptionally passionate about sharing things that help real developers. That might be: getting them up to speed on the latest version of Java; teaching them tips and tricks to improve their productivity; or promoting healthy technical communities across the globe. Trisha values helping all developers level up their career and skills at every step of their journey.<br>Read more from Trisha in the books “Head First Java”, “Getting to Know IntelliJ IDEA”, “97 Things Every Java Developer Should Know” and “What to Look for in a Code Review”.",
+          "anonymizedBio": "The speaker is a distinguished software engineer, honored Java Champion, and published author. They have developed Java applications for various types of industries, both big and small; from financial to manufacturing, and even non-profit organizations. Holding a lead developer advocate role at a prominent tech company, they are particularly skilled in Java high-performance systems, and partake in Open Source development. \n\nTheir main passion lies in sharing knowledge that benefits professional developers in practical ways. This could involve: introducing them to the newest Java version, teaching useful tips to enhance their productivity; or encouraging thriving technical communities worldwide. The speaker is highly devoted to aiding all developers in advancing their careers and honing their skills, regardless of what stage they are at in their professional journey. \n\nTheir insight and expertise can be further explored in the books they have authored, such as \"Introducing Java\", \"Maximizing Productivity with IntelliJ IDEA\", \"Essential Knowledge for Java Developers\" and \"Navigating Code Review\".",
+          "company": "Gradle",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-2deb20d8-5c1f-4cd6-8f5c-ed631fb3315a.jpg",
+          "twitterHandle": "@trisha_gee"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Automated testing"
+        },
+        {
+          "name": "Continuous Integration"
+        },
+        {
+          "name": "IntelliJ IDEA"
+        },
+        {
+          "name": "Machine Learning"
+        },
+        {
+          "name": "developer productivity"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2512,
+    "fromDate": "2023-10-06T07:30:00Z",
+    "toDate": "2023-10-06T08:20:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1155,
+      "name": "Room 9",
+      "weight": 9,
+      "capacity": 398
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 70108,
+      "title": "What you can do with WebGPU?",
+      "description": "WebGPU is the successor to WebGL that brings the advancements of modern graphics APIs to the web. It is designed to be fast, portable, and easy to use.&nbsp;<br>In this talk, we will introduce WebGPU and show how it can be used to create high-performance graphics applications and perform data-parallel computation on the web and native platforms. We will also discuss the future of WebGPU.<br>This talk is aimed at developers who are interested in learning about WebGPU and how to use it. No prior experience with WebGPU is required.",
+      "summary": "WebGPU is a fast, portable, and user-friendly graphics API for web and native platforms. This talk introduces WebGPU, its applications in high-performance graphics and data-parallel computation, and discusses its future. No prior experience with WebGPU is necessary.",
+      "afterVideoURL": "https://www.youtube.com/embed/RR4FZ9L4AF4",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2760,
+        "name": "UI & UX",
+        "description": "UI, UX, front-end languages, frameworks and architectures.  This can include Angular, React, Vue, Blazor, Svelte, SCSS best practices etc.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/UI-UX-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 69910,
+          "firstName": "Corentin",
+          "lastName": "Wallez",
+          "fullName": "Corentin Wallez",
+          "bio": "Corentin is the co-chair of the WebGPU standardization group since it was created and also leads the implementation of WebGPU in Chromium. Before that he grew up in the hills of Pechabou and worked on other GPU technologies for the Web.",
+          "anonymizedBio": "The speaker is a co-chair of a notable WebGPU standardization group since its inception and also oversees its implementation in a widely utilized web project. Prior to that, the speaker resided in a hilly region and spent time working on various GPU technologies for the Web.",
+          "company": "Google",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-f0d23ee8-8943-44cb-920f-80a767711d85.jpg",
+          "twitterHandle": "@DaKangz"
+        },
+        {
+          "id": 69911,
+          "firstName": "François",
+          "lastName": "Beaufort",
+          "fullName": "François Beaufort",
+          "bio": "François Beaufort, Developer Program Engineer at Google<br>https://developer.chrome.com/authors/beaufortfrancois<br>François loves to dive into open source code to understand how things work in web browsers.",
+          "anonymizedBio": "The speaker is a Developer Program Engineer at a globally renowned tech company. Passionate about open source code, they enjoy delving deep into its structure to comprehend web browser functionalities. Their work can be found and followed on a prominent developer-focused platform.",
+          "company": "Google",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-45f5cf5d-2489-4332-9e52-4825d35cb14c.jpg",
+          "twitterHandle": null
+        }
+      ],
+      "tags": [
+        {
+          "name": "GPU programming"
+        },
+        {
+          "name": "graphics"
+        },
+        {
+          "name": "WebGPU"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2513,
+    "fromDate": "2023-10-06T08:20:00Z",
+    "toDate": "2023-10-06T08:35:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1153,
+      "name": "Exhibition Hall",
+      "weight": 1,
+      "capacity": 200
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 967,
+      "name": "Break",
+      "duration": 15,
+      "pause": true,
+      "description": null,
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": null,
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": null
+  },
+  {
+    "id": 2516,
+    "fromDate": "2023-10-06T08:35:00Z",
+    "toDate": "2023-10-06T09:25:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "Oracle Sponsor",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1160,
+      "name": "Room 4",
+      "weight": 4,
+      "capacity": 348
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 72001,
+      "title": "Moving Java Forward Together",
+      "description": "Modern application development is unrecognizable without Java. Rather than resting on our laurels, Oracle’s leadership continues to drive Java innovation forward. Equally important is Oracle's continuing stewardship of the Java ecosystem because without you, the community, Java doesn't move forward. The role you play is critical in ensuring Java's future for today as well as tomorrow and for the next decades ahead of us. In this session, you'll learn about the many ways YOU can help ensure Java remains the leading choice to build the future.",
+      "summary": "Learn how Oracle's Java leadership and the contribution of the community are vital in driving the innovation and continued success of Java as a leading application development platform. Discover the various ways you can contribute to ensuring Java's future.",
+      "afterVideoURL": "https://www.youtube.com/embed/2sZ6b7M_aYg",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1253,
+        "name": "People & Culture",
+        "description": "Personal development, leadership, working practices, mental health, diversity, inclusion and developer culture",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/People-Culture-no-text-copy.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 9652,
+          "firstName": "Sharat",
+          "lastName": "Chander",
+          "fullName": "Sharat Chander",
+          "bio": "Sharat Chander has worked in the IT industry for over 25 years for firms including Bell Atlantic, Verizon, Sun Microsystems, and Oracle. His background and technical specialty is in Java development tools, graphics design, and product/community management. Sharat has been actively involved in the Java community for over 20 years, helping drive greater Java awareness, acceptance, adoption, and advocacy. As Oracle’s senior director of Java Developer Engagement, Sharat served as the JavaOne conference content chairperson for 10 years, driven the technical content strategy and Java community involvement in multiple outreach channels, and continues to drive Java community loyalty program for Oracle. He is a frequent keynote speaker and participant in developer programs worldwide. Sharat holds a BS in corporate finance from the University of Maryland and an MBA in international business from Loyola College, Maryland. You can often find Sharat at global developer events and Java community meet-ups. When not growing visibility for Java, he follows his passion for baseball, actively coaching Little League teams and fanatically following his hometown Baltimore Orioles. You can find Sharat on Twitter at: https://twitter.com/Sharat_Chander",
+          "anonymizedBio": "<p>The speaker has over 25 years of experience in the IT industry, having worked for several notable companies. Their technical expertise lies in Java development tools, graphics design, and product/community management. They have been actively involved in the Java community for over two decades, contributing to the increased awareness, acceptance, adoption, and advocacy of Java. In their role as a senior director of Developer Engagement, they served as the conference content chairperson for a decade, drove the technical content strategy and community involvement in multiple outreach channels, and continue to drive a community loyalty program. They are a frequent keynote speaker and participant in developer programs worldwide. The speaker holds a BS in corporate finance from a university in Maryland and an MBA in international business from a college in Maryland. They are often found at global developer events and community meet-ups. When not promoting Java, they pursue their passion for baseball, actively coaching Little League teams and enthusiastically following their hometown baseball team. They can be found on Twitter via a provided link.</p>",
+          "company": "Oracle, Corp",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-c5433198-a9d9-466f-a47a-b76fedb5775e.jpeg",
+          "twitterHandle": "@Sharat_Chander"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Oracle"
+        },
+        {
+          "name": "stewardship"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2514,
+    "fromDate": "2023-10-06T08:35:00Z",
+    "toDate": "2023-10-06T09:25:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1159,
+      "name": "Room 5",
+      "weight": 5,
+      "capacity": 649
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 70106,
+      "title": "Making your @Beans Intelligent",
+      "description": "There is much discussion about AI in the general media and among geeks, sparked by the recent advancements in OpenAI’s ChatGPT.&nbsp;As a Java developer, how do I start making AI-powered apps?&nbsp;Drawing inspiration from successful Python projects such as LangChain and LlamaIndex, Spring AI has got you covered.&nbsp;An AI application isn’t just about the model; it is about the software engineering that makes your application solve real-world use cases, use cases that are not solved by simply asking ChatGPT on the web.&nbsp;In this session, we will start immediately with a hello world example and then introduce the domain language of AI applications and how you can solve real-world use cases such as Q&amp;A over your own documents.&nbsp;At the end of this talk, you will have the basics to make your @Beans intelligent!",
+      "summary": "Learn how to start making AI-powered apps as a Java developer with Spring AI. Discover how software engineering plays a vital role in creating AI applications that solve real-world use cases. From hello world examples to solving Q&A over your own documents, this session will provide you with the essentials to make your @Beans intelligent.",
+      "afterVideoURL": "https://www.youtube.com/embed/7OY9fKVxAFQ",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1252,
+        "name": "Data & AI",
+        "description": "Big Data, NoSQL, Machine learning, Deep Learning, Neural Networks, TensorFlow, Transformers, Large Language Models etc.",
+        "imageURL": "https://s3-eu-west-1.amazonaws.com/voxxeddays/webapp/images/e80e14f1-7a23-4a6d-a955-7a653973f6eb.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 69907,
+          "firstName": "Mark",
+          "lastName": "Pollack",
+          "fullName": "Mark Pollack",
+          "bio": "Dr. Mark Pollack has been a core Spring (Java) developer since 2003 and founded its Microsoft counterpart, Spring.NET, in 2004. Mark now leads the Spring Data project and co-leads the Spring XD that aims to simplify application development with new data technologies around big data and NoSQL databases. Prior to working on Spring project, Mark worked in offline computing in high-energy nuclear physics at Brookhaven National Laboratory and then moved to the financial services industry as a technical lead for front-office trading systems.",
+          "anonymizedBio": "The speaker has been a core developer of a prominent Java-based technology since 2003 and also initiated its Microsoft counterpart in 2004. Currently, the speaker spearheads a data-focused project and co-leads an application development initiative geared towards new data technologies around big data and NoSQL databases. Prior to these roles, a background in offline computing in high-energy nuclear physics at a renowned National Laboratory was gained. Subsequently, a move was made into the financial services industry serving as a technical lead for front-office trading systems.",
+          "company": "VMWare",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-44b5ea32-fc0d-49dd-836b-d1e24cc6bca1.jpeg",
+          "twitterHandle": null
+        }
+      ],
+      "tags": [
+        {
+          "name": "Spring Framework"
+        },
+        {
+          "name": "ChatGPT"
+        },
+        {
+          "name": "@Beans"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2515,
+    "fromDate": "2023-10-06T08:35:00Z",
+    "toDate": "2023-10-06T09:25:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1158,
+      "name": "Room 6",
+      "weight": 6,
+      "capacity": 370
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 4453,
+      "title": "The Panama Dojo: Black-Belt Programming with Java 21 and the FFM API",
+      "description": "One of the two major parts of Project Panama is the \"Foreign Function and Memory API\" (the \"FFM API\") which saw its third preview in Java 21 and will be finalized in Java 22. In this talk, we will explore how the FFM API enables native methods and memory access with pure Java code and how high performance and safety can be achieved at the same time. Fundamental concepts like MemorySegments, MemoryLayouts, Arenas, and native calls will be explained in detail and we will then build on these fundamental building blocks in a hands-on coding demo to customize their behavior and add functionality.<br>These newer building blocks will then be combined into a lightweight high-performance service architecture framework whereby we will use concepts like memory mapping, custom Arenas, trivial native calls, native linkers, and high-performance serialization. The building blocks shown can be reused across many typical and contemporary application domains. Who knows, maybe this can improve the performance and safety of your existing projects. There is only one way to find out: Let's break some boards in the Panama Dojo.",
+      "summary": "This talk explores the \"Foreign Function and Memory API\" of Project Panama, which enables native methods and memory access with pure Java code. It explains fundamental concepts and demonstrates how to customize their behavior. The talk also discusses using these building blocks in a high-performance service architecture framework, potentially improving the performance and safety of existing projects.",
+      "afterVideoURL": "https://www.youtube.com/embed/t8c1Q2wJOoM",
+      "audienceLevel": "ADVANCED",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2754,
+        "name": "Java",
+        "description": "All aspects of Java as a platform: emerging or established, Java language, JVM (languages), JDK, frameworks, standards, performance.  This edition will have an extra focus on the Java 21 release.",
+        "imageURL": "https://s3-eu-west-1.amazonaws.com/voxxeddays/webapp/images/f63a6ff7-0b15-4feb-b0fb-06aad848e601.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 4352,
+          "firstName": "Per",
+          "lastName": "Minborg",
+          "fullName": "Per Minborg",
+          "bio": "Per Minborg works in the Java Core Library team at Oracle, is an OpenJDK contributor, and is also a member of the Panama project team focusing on the FFM API. He is an inventor and developer with more than 20 years of Java coding experience. He has been a frequent contributor to various open-source projects, is a regular speaker at events, Oracle JavaOne alumnus, and co-author of the publication Modern Java.",
+          "anonymizedBio": "The speaker works in the Core Library team of a prominent software company, contributes to an open-source project, and is part of a project team focusing on a specific API. With over 20 years of coding experience in a popular programming language, the speaker is an inventor and developer. They have frequently contributed to various open-source projects, regularly speak at industry events, have attended a major software conference, and co-authored a publication on modern programming.",
+          "company": "Oracle, Inc",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-4f28e56d-f90a-42d2-a478-ebe81cc6f21e.png",
+          "twitterHandle": "@pminborg"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Calling native stuff"
+        },
+        {
+          "name": "Foreign Memory-Access APIs"
+        },
+        {
+          "name": "Java 21"
+        },
+        {
+          "name": "Panama"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2517,
+    "fromDate": "2023-10-06T08:35:00Z",
+    "toDate": "2023-10-06T09:25:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1156,
+      "name": "Room 8",
+      "weight": 8,
+      "capacity": 694
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 2905,
+      "title": "REST next level : Crafting domain-driven web APIs",
+      "description": "You have just coded your business logic by applying the principles of Domain-Driven Design! But when comes the time to write your API, you are facing a serious issue! All the intention and the expression of your domain go up in smoke to fit the blankness methods GET, POST, etc.<br>Denatured by the REST layer, the business workflow is then deported on the consumer side to compensate for the limited vocabulary of this well-known CRUD protocol...<br>During this talk, we will see how to bring the business intent back inside the REST API by finally being able to expose our domain services and aggregates' methods. The business workflow will also be encapsulated in the REST API in order to have the power to guide our consumers through the workflow of our domain.",
+      "summary": "This talk will address the issue of how Domain-Driven Design principles can be lost when writing REST APIs. The speaker will discuss how to bring the business intent back into the API and expose domain services and aggregates' methods. They will also explain how to encapsulate the business workflow within the API to guide consumers through the workflow of the domain.",
+      "afterVideoURL": "https://www.youtube.com/embed/bHc8Gudrhdo",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1701,
+        "name": "Development Practices",
+        "description": "All about Getting Stuff Done right. Methodologies, better practices, testing & tools.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/Dev-Practices-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 2810,
+          "firstName": "Julien",
+          "lastName": "Topçu",
+          "fullName": "Julien Topçu",
+          "bio": "I like to craft software with high business value using techniques from Domain-Driven Design, all powered by Xtreme Programming in the Kanban #NoEstimates philosophy. Member of the OWASP foundation, I evangelise on application security techniques in order to avoid being hacked properly.",
+          "anonymizedBio": "This speaker is passionate about creating high-value software utilizing techniques from Domain-Driven Design, all backed by Xtreme Programming in the Kanban #NoEstimates philosophy. As a member of a prominent web security foundation, the speaker actively promotes application security techniques to prevent successful hacking attempts.",
+          "company": "Shodo",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-cd9e047a-e8fe-4ff3-8e1c-c5224d934874.jpg",
+          "twitterHandle": "@JulienTopcu"
+        }
+      ],
+      "tags": [],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2518,
+    "fromDate": "2023-10-06T08:35:00Z",
+    "toDate": "2023-10-06T09:25:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1155,
+      "name": "Room 9",
+      "weight": 9,
+      "capacity": 398
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 42866,
+      "title": "Securing the Supply Chain for Your Java Applications",
+      "description": "Software supply chain security has never been more critical, and protecting our systems from bad actors and vulnerabilities is a constant challenge.<br>Do you know whether your Git commits are being manipulated without your knowledge? Are you confident that you have complete visibility of all the libraries and dependencies in your application JARs and container images? Can you trust the results of your vulnerability scanner? And how can you verify the integrity of your applications in production?<br>This presentation will show you how to secure the supply chain for your Java applications. We'll cover a range of techniques, patterns, and technologies for secure dependency management, source code integrity, safe builds, vulnerability scanning of Java source code and images, signing and verifying production artifacts, and patching strategies. We'll also explore options for handling supply chain security in a Kubernetes-native way.<br>But this isn't just a theoretical discussion. You'll see a live demonstration of the practices and technologies we'll discuss based on the cutting-edge SLSA framework and the CNCF WG Security research. We'll use open-source tools like Gradle, Sigstore, Cloud Native Buildpacks, Trivy, Syft, and Kyverno.",
+      "summary": "Learn how to secure the supply chain for your Java applications in this presentation. Covering techniques like secure dependency management, source code integrity, vulnerability scanning, artifact signing, and patching strategies. Explore Kubernetes-native options and see live demonstrations using open-source tools like Gradle, Sigstore, Trivy, and more.",
+      "afterVideoURL": "https://www.youtube.com/embed/ftPFxK8JPNM",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1255,
+        "name": "Security",
+        "description": "Encryption, defensive practices, tools and technologies to be secure, security testing etc.",
+        "imageURL": "https://voxxeddays.s3.eu-west-1.amazonaws.com/webapp/images/security-v2.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 43056,
+          "firstName": "Thomas",
+          "lastName": "Vitale",
+          "fullName": "Thomas Vitale",
+          "bio": "Thomas Vitale is a software engineer and architect specialized in building cloud native, resilient, and secure enterprise applications. He’s the author of “Cloud Native Spring in Action” published by Manning. Thomas designs and develops software solutions at Systematic, Denmark, where he’s been working on modernizing platforms and applications for the cloud native world, focusing on developer experience and security.<br>Some of his main interests and focus areas are Java, Spring Boot, Kubernetes, Knative, and cloud native technologies in general. Thomas supports continuous delivery practices and believes in a collaboration culture aimed at working together to deliver value to users, customers, and businesses. He likes contributing to open source projects in the Java and cloud native space, and sharing knowledge with the community.<br>Thomas has an MSc in Computer Engineering, specializing in software from the Polytechnic University of Turin (Italy). He is a CNCF Certified Kubernetes Application Developer, Pivotal Certified Spring Professional, and Red Hat Certified Specialist in OpenShift Application Development. His speaking engagements include those for Devoxx, SpringOne, Spring I/O, KubeCon+CloudNativeCon, GOTO, DevCon, DevTalks, and J4K.",
+          "anonymizedBio": "The speaker is an experienced software engineer and architect with a specialization in constructing resilient, secure, enterprise applications suitable for cloud native environments. Having authored a comprehensive guide on cloud native Spring published by a respected company, the speaker also holds a designing and development role at a tech company located in Northern Europe. The main focus of this role is modernizing platforms and applications for a cloud native world, with an emphasis on developer experience and security. \n\nBeing an enthusiast of Java, Spring Boot, Kubernetes, Knative, and cloud native technologies, the speaker also promotes practices related to continuous delivery. They value a collaborative culture and the delivery of value to users, customers, and businesses. Significant contributions have been made to various open source projects in the Java and cloud native space, and they appreciate sharing their knowledge with the community. \n\nThe speaker holds a Masters degree in Computer Engineering with a specialization in software from a renowned Italian university. They have earned certification as a Kubernetes Application Developer from a notable cloud native computing foundation, and are certified professionals in Spring and OpenShift Application Development. They have spoken at various notable tech events around the globe.",
+          "company": "Systematic",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-7505dc5d-2b0a-416e-a82c-3dbb0220c6d3.jpg",
+          "twitterHandle": "@vitalethomas"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Cloud Native Java"
+        },
+        {
+          "name": "Gradle"
+        },
+        {
+          "name": "Kubernetes"
+        },
+        {
+          "name": "Security"
+        },
+        {
+          "name": "cryptographic signing"
+        },
+        {
+          "name": "sigstore"
+        },
+        {
+          "name": "supply chain"
+        },
+        {
+          "name": "vulnerability scanner"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2519,
+    "fromDate": "2023-10-06T09:25:00Z",
+    "toDate": "2023-10-06T09:40:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1153,
+      "name": "Exhibition Hall",
+      "weight": 1,
+      "capacity": 200
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 967,
+      "name": "Break",
+      "duration": 15,
+      "pause": true,
+      "description": null,
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": null,
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": null
+  },
+  {
+    "id": 2520,
+    "fromDate": "2023-10-06T09:40:00Z",
+    "toDate": "2023-10-06T10:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1160,
+      "name": "Room 4",
+      "weight": 4,
+      "capacity": 348
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 70851,
+      "title": "Build Generative AI app in Project IDX and Firebase",
+      "description": "In this talk, we'll discover Project IDX, a new web-based developer environment, that enables you to bring your entire full-stack multiplatform app development workflow to the cloud. We'll learn how we can build a generative AI app using Firebase, PaLM2 and deploy it all within Project IDX right from the browser!",
+      "summary": null,
+      "afterVideoURL": "https://www.youtube.com/embed/zlSki_HMNWI",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2760,
+        "name": "UI & UX",
+        "description": "UI, UX, front-end languages, frameworks and architectures.  This can include Angular, React, Vue, Blazor, Svelte, SCSS best practices etc.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/UI-UX-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 70702,
+          "firstName": "Prakhar",
+          "lastName": "Srivastav",
+          "fullName": "Prakhar Srivastav",
+          "bio": "Prakhar Srivastav is a software engineer at Google, where he works on Project IDX and he's based out of San Francisco, CA. On Firebase Prakhar worked on launching phone-based auth, Crashlytics and In-app messaging. He is passionate about developer tools and outside of work he can found playing his guitar and making covers for his YouTube Channel",
+          "anonymizedBio": "The speaker is a software engineer at a leading tech company, contributing to an important project. They are based in a major Californian city. Their prior experience includes working on phone-based authentication, crash analytics, and in-app messaging in a reputed platform. They have a keen interest in developer tools. In their personal time, they enjoy playing guitar and creating music covers for a public video-sharing platform.",
+          "company": "Google",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-839798d2-d832-4b0d-94f6-45b403d0291a.jpeg",
+          "twitterHandle": "@prakharsriv9"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Firebase"
+        },
+        {
+          "name": "Google Cloud"
+        },
+        {
+          "name": "PaLM"
+        },
+        {
+          "name": "Project IDX"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2523,
+    "fromDate": "2023-10-06T09:40:00Z",
+    "toDate": "2023-10-06T10:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1159,
+      "name": "Room 5",
+      "weight": 5,
+      "capacity": 649
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 2914,
+      "title": "Your tests also need some architecting",
+      "description": "Have you ever found yourself grappling with a hard-to-maintain or brittle test code base?<br>Are your tests providing you with the confidence to refactor freely and safely?<br>Have you encountered confusion when faced with different testing styles or approaches in a project?<br>Should I write an integration test, unit tests, acceptance tests or a mixture?<br>How do you manage test fixtures?<br>The world of testing can be overwhelming.<br>Maintaining a robust and efficient test suite is paramount for the evolution of an application.<br>Tests play a pivotal role in safeguarding our codebases.<br>Yet, all too often, test codebases become a chaotic amalgamation of ideas and approaches, jeopardizing their true purpose.<br>A test suite that is difficult to work with can significantly hamper the productivity and velocity of both the development team and the product<br>When laying down the architecture of an application, the testing aspect is often given insufficient attention.<br>This can lead to fragmented and poorly designed test suites that fail to fulfill their intended purpose.<br>It's high time that we prioritize the testing aspect and treat it as a vital component of our application's architecture.<br>In this talk, we will explore the reasons and motivations behind testing, allowing us to effectively address the common pitfalls encountered in test codebases.&nbsp;<br>By understanding the core purposes of testing, we can implement strategies to create maintainable and efficient test suites, ensuring the success and growth of our software projects.",
+      "summary": "This talk emphasizes the importance of maintaining a robust and efficient test suite in order to ensure the success and growth of software projects. It highlights the common pitfalls encountered in test codebases and provides strategies for creating maintainable and efficient test suites.",
+      "afterVideoURL": "https://www.youtube.com/embed/T0p4FAJdYOQ",
+      "audienceLevel": "INTERMEDIATE",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1701,
+        "name": "Development Practices",
+        "description": "All about Getting Stuff Done right. Methodologies, better practices, testing & tools.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/Dev-Practices-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 2824,
+          "firstName": "Jonas",
+          "lastName": "Geiregat",
+          "fullName": "Jonas Geiregat",
+          "bio": "Curious software engineer with a focus on all things Java.<br>Currently working for <strong>Cymo</strong> specializing in event driven and streaming architectures.",
+          "anonymizedBio": "A passionate software engineer with a concentration on various Java aspects. Currently employed at a leading tech company, specializing in event-driven and streaming architectures.",
+          "company": "Cymo",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-26260b22-9a7d-4f68-9516-0618c51a2d1e.png",
+          "twitterHandle": "@jonas_grgt"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Architectures"
+        },
+        {
+          "name": "Automated testing"
+        },
+        {
+          "name": "JAVA"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2522,
+    "fromDate": "2023-10-06T09:40:00Z",
+    "toDate": "2023-10-06T10:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1158,
+      "name": "Room 6",
+      "weight": 6,
+      "capacity": 370
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 25101,
+      "title": "Flight recordings and mission control through thick clouds",
+      "description": "So you just deployed your application to prod like any other day. In a matter of minutes you see the thread pool filling up and clients timing out. First you roll back the code, then you start to investigate the logs and ask the infrastructure guys, but nothing obvious springs to mind. Then you go over every new commit with your team, but nothing really stands out. You are unable to reproduce the problem in either regression tests or load tests. This is the kind of situation where you need the flight recorder and mission control. It allows you to capture the nitty gritty details out of your JVM at runtime with a minimal amount of overhead.<br>Given that you run java 8 or later, both flight recorder and mission controls are now open source and free to use, even in production.<br>Unfortunately, at the same time that we got access to the tools, our applications moved into the cloud, running in barebone containers stripped of even the most essential tools, and no longer reachable over the network. So a lot of our toolbox just went out the window!<br>Fear not, we will connect the dots between the JDK tools and JVMs running in the cloud, using only open source tools and standards such as kubernetes and spring boot to achieve this.<br>The presentation is based on live demonstration.",
+      "summary": "This proposal abstract discusses the challenges of troubleshooting application performance issues in a cloud environment and introduces the use of flight recorder and mission control tools. With the applications moved into the cloud, traditional troubleshooting methods become ineffective. However, by utilizing open source tools and standards like Kubernetes and Spring Boot, the presenter aims to demonstrate how to connect the JDK tools with JVMs running in the cloud. The presentation will be based on live demonstrations.",
+      "afterVideoURL": "https://www.youtube.com/embed/fg_pMpkxaSE",
+      "audienceLevel": "ADVANCED",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 1254,
+        "name": "Build & Deploy",
+        "description": "Modern operational concerns, including build pipelines, orchestration, observability, monitoring, resilience, and compliance, as the software world embraces DevOps and cloud delivery.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/Build-Deploy-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 15352,
+          "firstName": "Martin",
+          "lastName": "Skarsaune",
+          "fullName": "Martin Skarsaune",
+          "bio": "Martin is a passionate developer and owner at Kantega. His primary interests are programming languages and tools. Martin is eager to learn and share at events such as JavaZone, JavaOne and Devoxx. Martin is an active jug member and contributes to several central open source projects in the Java monitoring tool space.",
+          "anonymizedBio": "The speaker is a dedicated developer and proprietor at a well-known tech company. Their primary interests lie in programming languages and tools. Always keen to learn and share, the speaker frequently participates in major industry events. They are an active member of a popular coding group and contribute to several central open source projects in the Java monitoring tool space.",
+          "company": "Kantega AS",
+          "imageUrl": "https://lh3.googleusercontent.com/a-/AOh14GhwfHxTi2RVDYBaHTGTGRDN-C5iqXd6F8afCibVEw=s96-c",
+          "twitterHandle": "@MSkarsaune"
+        }
+      ],
+      "tags": [
+        {
+          "name": "AWS Kubernetes"
+        },
+        {
+          "name": "Azure"
+        },
+        {
+          "name": "Cloud"
+        },
+        {
+          "name": "Google Cloud"
+        },
+        {
+          "name": "JMX beans"
+        },
+        {
+          "name": "Kubernetes"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2521,
+    "fromDate": "2023-10-06T09:40:00Z",
+    "toDate": "2023-10-06T10:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1156,
+      "name": "Room 8",
+      "weight": 8,
+      "capacity": 694
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 67952,
+      "title": "Java Language update",
+      "description": "In this illuminating session, Brian Goetz, the Java Language Architect, delves into the latest advancements and features that are shaping the future of the Java programming language. ",
+      "summary": null,
+      "afterVideoURL": "https://www.youtube.com/embed/TIHx6MNt79Y",
+      "audienceLevel": "BEGINNER",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2754,
+        "name": "Java",
+        "description": "All aspects of Java as a platform: emerging or established, Java language, JVM (languages), JDK, frameworks, standards, performance.  This edition will have an extra focus on the Java 21 release.",
+        "imageURL": "https://s3-eu-west-1.amazonaws.com/voxxeddays/webapp/images/f63a6ff7-0b15-4feb-b0fb-06aad848e601.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 67851,
+          "firstName": "Brian",
+          "lastName": "Goetz",
+          "fullName": "Brian Goetz",
+          "bio": "Brian Goetz is the Java Language Architect at Oracle and was the specification lead for JSR-335 (Lambda Expressions for the Java Programming Language). He is the author of&nbsp;<a href=\"http://amzn.to/2nzZnkl\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(58, 117, 176);\">Java Concurrency in Practice</a>&nbsp;and over 75 articles about Java development.",
+          "anonymizedBio": "The speaker is the Language Architect for a major software company, and previously led the specification for a notable programming language project. They have authored a well-regarded book on programming concurrency and have written over 75 articles on the subject of programming development.",
+          "company": "Oracle",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-bf38d344-a919-42e8-b07f-900715875e85.jpg",
+          "twitterHandle": null
+        }
+      ],
+      "tags": [
+        {
+          "name": "Future"
+        },
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Java 21"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2524,
+    "fromDate": "2023-10-06T09:40:00Z",
+    "toDate": "2023-10-06T10:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": "",
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1155,
+      "name": "Room 9",
+      "weight": 9,
+      "capacity": 398
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 951,
+      "name": "Conference",
+      "duration": 50,
+      "pause": false,
+      "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": {
+      "id": 38403,
+      "title": "A Deep Dive into Advanced TypeScript: A Live Coding Expedition",
+      "description": "Get ready to embark on a journey into the depths of TypeScript. We'll be exploring the often overlooked, yet powerful, features that lie beneath the surface of this versatile language.<br>But we're not just talking theory here – this exploration will be a hands-on experience. Each feature will be brought to life through real-world examples, all done in a live coding session. Join in as we shine a light on these secret TypeScript treasures and discover how they can elevate your coding skills to new heights.Recursive types, type permutations and a css validator written in typescript are just three of the cool topics we are going to cover during this talk.",
+      "summary": null,
+      "afterVideoURL": "https://www.youtube.com/embed/4SPkpIap4Ls",
+      "audienceLevel": "ADVANCED",
+      "language": null,
+      "totalFavourites": null,
+      "track": {
+        "id": 2760,
+        "name": "UI & UX",
+        "description": "UI, UX, front-end languages, frameworks and architectures.  This can include Angular, React, Vue, Blazor, Svelte, SCSS best practices etc.",
+        "imageURL": "https://devoxx-tracks.s3.eu-west-1.amazonaws.com/UI-UX-no-text.png"
+      },
+      "sessionType": {
+        "id": 951,
+        "name": "Conference",
+        "duration": 50,
+        "pause": false,
+        "description": "Tech sessions of 50 minutes on a range of different technologies, practices and methodologies.",
+        "cssColor": null
+      },
+      "speakers": [
+        {
+          "id": 5402,
+          "firstName": "Christian",
+          "lastName": "Woerz",
+          "fullName": "Christian Woerz",
+          "bio": "Christian is a fullstack engineer with over a decade of experience in coding. He started his professional journey by developing applications in Java and later joined the dark side by also using Typescript to create the corresponding user interfaces also. Nowadays he codes mainly in Typescript, Java, Kotlin, and if necessary, JavaScript.<br>Besides his daily work as a freelancer, he also enjoys teaching others by giving courses or attending conferences as a speaker and listener.<br>He always strives to improve his knowledge in all areas of software engineering and loves to write software that users love.",
+          "anonymizedBio": "The speaker is a full stack engineer with over ten years of experience in the field of coding. The initial stages of their professional career were marked by developing applications in Java, which later extended to Typescript for creating corresponding user interfaces. Currently, their preferred coding languages include Typescript, Java, Kotlin, and JavaScript when required. Aside from their freelance work, they take pleasure in sharing their knowledge by offering courses, as well as attending conferences as a speaker and listener. They constantly seek to enhance their expertise in all facets of software engineering and have a passion for creating software that users appreciate.",
+          "company": "typed.rocks",
+          "imageUrl": "https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-56bb547a-0fe8-4431-b4d9-bb59a6ac1ffa.jpg",
+          "twitterHandle": ""
+        }
+      ],
+      "tags": [
+        {
+          "name": "Deep Dive"
+        },
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "typescript"
+        }
+      ],
+      "timeSlots": []
+    },
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": 0
+  },
+  {
+    "id": 2525,
+    "fromDate": "2023-10-06T10:30:00Z",
+    "toDate": "2023-10-06T16:30:00Z",
+    "overflow": false,
+    "reserved": false,
+    "remark": null,
+    "eventId": 1151,
+    "eventName": "Devoxx Belgium 2023",
+    "room": {
+      "id": 1153,
+      "name": "Exhibition Hall",
+      "weight": 1,
+      "capacity": 200
+    },
+    "streamId": null,
+    "sessionType": {
+      "id": 998,
+      "name": "Safe travels home",
+      "duration": 360,
+      "pause": true,
+      "description": null,
+      "cssColor": null
+    },
+    "track": null,
+    "proposal": null,
+    "audienceLevel": null,
+    "langName": null,
+    "timezone": "Europe/Brussels",
+    "speakers": [],
+    "tags": [],
+    "totalFavourites": null
+  }
+]

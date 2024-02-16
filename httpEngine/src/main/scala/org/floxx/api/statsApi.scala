@@ -10,7 +10,7 @@ import org.http4s.dsl.Http4sDsl
 import zio.interop.catz._
 import org.floxx.domain.ConfDay.DayIndexVar
 import org.floxx.domain.jwt.UserInfo
-import org.floxx.utils.json.CirceValueClassCustomAuto._
+import org.floxx.util.CirceValueClassCustomAuto._
 
 import scala.collection.immutable.SortedMap
 
