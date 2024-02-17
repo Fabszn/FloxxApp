@@ -1,9 +1,9 @@
 package fixtures
 
 import org.floxx.FloxxMainHttp4s
-import org.floxx.env.api.ApiTask
-import org.floxx.env.configuration.config
-import org.floxx.env.configuration.config.Configuration
+import org.floxx.api.ApiTask
+import org.floxx.configuration.config
+import org.floxx.configuration.config.Configuration
 import org.http4s.client.Client
 import sttp.capabilities.fs2.Fs2Streams
 import sttp.client4._

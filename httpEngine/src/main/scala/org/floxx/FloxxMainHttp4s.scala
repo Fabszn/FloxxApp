@@ -2,12 +2,13 @@ package org.floxx
 
 import cats.syntax.all._
 import org.floxx.domain.jwt.UserInfo
-import org.floxx.env.api._
-import org.floxx.env.configuration.config
-import org.floxx.env.configuration.config.{Configuration, GlobalConfig, getConf}
-import org.floxx.env.repository._
-import org.floxx.env.service.trackService.TrackService
-import org.floxx.env.service._
+import org.floxx.api._
+import org.floxx.configuration.config
+import org.floxx.configuration.config.{Configuration, GlobalConfig, getConf}
+import org.floxx.repository._
+import org.floxx.service.trackService.TrackService
+import org.floxx.service._
+import org.floxx.service.http.Http
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
 import org.http4s.server.{AuthMiddleware, Router}
@@ -25,6 +26,7 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       with statService.StatsService
       with adminService.AdminService
       with informationService.InformationService
+      with Http
       with Scope
 
   val server: ZIO[AppEnvironment, Throwable, Unit] = {
@@ -88,7 +90,9 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
         securityService.layer,
         statService.layer,
         informationRepository.layer,
-        informationService.layer
+        informationService.layer,
+        http.backend.layer,
+        http.layer
       )
       .fold[ExitCode](
         _ => {

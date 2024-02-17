@@ -5,11 +5,11 @@ import io.circe.JsonObject
 import io.circe.generic.auto._
 import org.floxx.domain.AuthUser.Mdp
 import org.floxx.domain.User.SimpleUser
-import org.floxx.env.api.ApiTask
-import org.floxx.env.api.entriesPointApi.LoginRequest
-import org.floxx.env.repository._
-import org.floxx.env.service._
-import org.floxx.env.service.securityService.AuthenticatedUser
+import org.floxx.api.ApiTask
+import org.floxx.api.entriesPointApi.LoginRequest
+import org.floxx.repository._
+import org.floxx.service._
+import org.floxx.service.securityService.AuthenticatedUser
 import org.http4s.headers.Authorization
 import sttp.capabilities.fs2.Fs2Streams
 import sttp.client4._
@@ -80,6 +80,8 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
       adminService.layer,
       informationService.layer,
       informationRepository.layer,
+      http.layer,
+      http.backend.layer,
       backendLayer
       )
 }

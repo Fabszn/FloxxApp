@@ -2,15 +2,15 @@ package fixtures
 
 import com.dimafeng.testcontainers.PostgreSQLContainer
 import org.floxx.domain.error.ConfigurationError
-import org.floxx.env.configuration.config.{ rooms, Configuration, GlobalConfig }
-import org.floxx.env.repository.QuillContext
+import org.floxx.configuration.config.{ rooms, Configuration, GlobalConfig }
+import org.floxx.repository.QuillContext
 import org.flywaydb.core.Flyway
 import org.testcontainers.utility.DockerImageName
 import pureconfig.ConfigSource
-import pureconfig.error.ConfigReaderException
+
 import pureconfig.generic.auto._
 import zio._
-import zio.test.TestEnvironment
+
 
 import javax.sql.DataSource
 

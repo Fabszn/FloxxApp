@@ -1,7 +1,7 @@
 package repository
 
 import fixtures.{DataFixtures, PostgresRunnableFixture}
-import org.floxx.env.repository.userRepository
+import org.floxx.repository.userRepository
 import zio._
 import zio.test.Assertion.equalTo
 import zio.test.TestEnvironment
