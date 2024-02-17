@@ -3,7 +3,7 @@ package org.floxx
 import io.circe.{Decoder, Encoder}
 import shapeless.Unwrapped
 
-object util {
+object utils {
 
   object CirceValueClassCustomAuto extends io.circe.generic.AutoDerivation {
 

@@ -100,6 +100,7 @@ package object repository {
       querySchema[Slot](
         "slot",
         _.slotId -> "slotId",
+        _.roomPkId -> "pkid_room",
         _.roomId -> "roomId",
         _.fromTime -> "fromTime",
         _.toTime -> "toTime",

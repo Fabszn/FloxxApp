@@ -45,6 +45,7 @@ trait DataFixtures {
   val slots = Seq(
     Slot(
       Slot.Id("wednesday_neu253_t_09:30-12:30_2022"),
+      Room.PkId(321),
       Room.Id("neu253_t"),
       Slot.FromTime("09:30"),
       Slot.ToTime("12:30"),
@@ -55,6 +56,7 @@ trait DataFixtures {
     ),
     Slot(
       Slot.Id("wednesday_b_amphi_13:30-16:30_2022"),
+      Room.PkId(765),
       Room.Id("b_amphi"),
       Slot.FromTime("13:30"),
       Slot.ToTime("16:30"),
@@ -65,6 +67,7 @@ trait DataFixtures {
     ),
     Slot(
       Slot.Id("wednesday_b_amphi_10:30-11:30_2022"),
+      Room.PkId(987),
       Room.Id("b_amphi"),
       Slot.FromTime("10:30"),
       Slot.ToTime("11:30"),

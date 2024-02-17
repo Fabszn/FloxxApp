@@ -2,13 +2,13 @@ package org.floxx.service
 
 import org.floxx.domain.{ CurrentYear, Room, Slot }
 import org.floxx.domain.User.SimpleUser
-import org.floxx.configuration.config.{ Configuration, GlobalConfig }
+import org.floxx.configuration.config.Configuration
 import org.floxx.repository.cfpRepository.SlotRepo
 import org.floxx.domain
 import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
 import org.floxx.service.http.Http
 import zio._
-//import zio.interop.catz._
+
 
 object trackService {
 
@@ -31,23 +31,27 @@ object trackService {
     def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]]
   }
 
-  case class TrackServiceImpl(http: Http, slotRepo: SlotRepo, config: Configuration) extends TrackService {
+  private case class TrackServiceImpl(http: Http, slotRepo: SlotRepo, config: Configuration) extends TrackService {
     override def loadDataFromCFP(): Task[Long] =
       for {
         cfpslots <- http.loadDatafromCfp()
-        slots: Seq[Slot] = cfpslots.map(
-          s =>
-            Slot(
-              Slot.Id(s"${s.cfpSlotId.value}"),
-              Room.Id(s.roomName.value),
-              FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value)),
-              ToTime(timeUtils.zdt2FormattedTime(s.toDate.value)),
-              s.kind,
-              s.title,
-              Day(timeUtils.zdt2DayOfWeek(s.fromDate.value)),
-              CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
-            )
-        )
+        _ <- ZIO.logInfo(s"slot found ${cfpslots.size}")
+        slots: Seq[Slot] = cfpslots
+          //.filter(_.title.value != "---")
+          .map(
+            s =>
+              Slot(
+                Slot.Id(s"${s.cfpSlotId.value}"),
+                Room.PkId(s.roomId.value),
+                Room.Id(s.roomName.value),
+                FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value)),
+                ToTime(timeUtils.zdt2FormattedTime(s.toDate.value)),
+                s.kind,
+                s.title,
+                Day(timeUtils.zdt2DayOfWeek(s.fromDate.value)),
+                CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
+              )
+          )
         nbLine <- slotRepo.insertSlots(slots)
       } yield nbLine
 
@@ -73,18 +77,6 @@ object trackService {
 
     override def rooms: Task[Map[Room.Id, Room.Name]] =
       config.getRooms.map(rs => rs.map { case (k, v) => Room.Id(k) -> Room.Name(v.getOrElse("None name")) })
-
-    private def computeRoomKey(slots: Seq[domain.Slot], conf: GlobalConfig): Seq[domain.Slot] =
-      slots
-        .flatMap(s => {
-          conf.roomsMapping.get(s.roomId.value).map { r =>
-            val sId = s"${s.day.value}_${s.roomId.value}_${s.fromTime.value}-${s.toTime.value}_${s.yearSlot.value}"
-            s.copy(
-              slotId = domain.Slot.Id(sId),
-              roomId = Room.Id(r.getOrElse(""))
-            )
-          }
-        })
 
   }
 

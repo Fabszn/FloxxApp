@@ -6,7 +6,7 @@ import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.{Room, Slot}
 import org.floxx.configuration.config
 import org.floxx.service.{timeUtils, trackService}
-import org.floxx.util.CirceValueClassCustomAuto._
+import org.floxx.utils.CirceValueClassCustomAuto._
 import org.floxx.domain.Hit
 import org.floxx.domain.jwt.UserInfo
 import org.http4s.AuthedRoutes

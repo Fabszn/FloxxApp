@@ -11,7 +11,7 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.AuthedRoutes
 import zio.interop.catz._
-import org.floxx.util.CirceValueClassCustomAuto._
+import org.floxx.utils.CirceValueClassCustomAuto._
 
 object adminApi {
 

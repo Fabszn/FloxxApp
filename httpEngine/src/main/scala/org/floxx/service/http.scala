@@ -38,7 +38,6 @@ object http {
       config.getConf flatMap { c =>
         (c.cfp.days
           .map { d =>
-            ZIO.logInfo(s"$d ${c.cfp.url} ") *>
             basicRequest
               .get(uri"${c.cfp.url}/${d.dayValue.value}")
               .response(asJson[Seq[CfpSlot]])

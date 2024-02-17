@@ -11,7 +11,7 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import io.scalaland.chimney.dsl._
 import org.floxx.domain.jwt.UserInfo
-import org.floxx.util.CirceValueClassCustomAuto._
+import org.floxx.utils.CirceValueClassCustomAuto._
 import zio.interop.catz._
 
 import java.time.ZonedDateTime

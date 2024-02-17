@@ -6,16 +6,16 @@ import io.circe.generic.semiauto.deriveEncoder
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import org.floxx.domain.AuthUser
-import org.floxx.domain.AuthUser.{Login, Mdp}
+import org.floxx.domain.AuthUser.Mdp
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.error.{AuthentificationError, FloxxError}
 import org.floxx.api.ApiTask
 import org.floxx.configuration.config.{Configuration, GlobalConfig}
 import org.floxx.repository.userRepository.UserRepo
 import org.floxx.domain.jwt.UserInfo
-import org.floxx.service.securityService.{AuthenticatedUser, SecurityService}
+
 import org.http4s.circe.jsonOf
-import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
+import pdi.jwt.{Jwt, JwtAlgorithm}
 import zio.interop.catz._
 import zio._
 

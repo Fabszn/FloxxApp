@@ -3,6 +3,7 @@ package org.floxx
 import cats.effect.IO
 import io.circe.Decoder.Result
 import io.circe._
+import org.floxx.utils.CirceValueClassCustomAuto._
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
 import org.http4s.circe.jsonOf
@@ -16,7 +17,6 @@ import org.floxx.domain.User.SimpleUser
 
 import org.http4s.EntityDecoder
 
-import java.text.SimpleDateFormat
 import java.time.{ ZoneId, ZonedDateTime }
 import scala.util.Try
 
@@ -50,6 +50,10 @@ object domain {
   }
 
   final case class CurrentYear(value: Int) extends AnyVal
+
+  object CurrentYear {
+    implicit val currentYearDecoder: Decoder[CurrentYear] = deriveUnwrappedDecoder[CurrentYear]
+  }
 
   final case class ConfDay(dayIndex: DayIndex, dayValue: DayValue)
 
@@ -129,6 +133,13 @@ object domain {
 
   object Room {
 
+    final case class PkId(value: Long) extends AnyVal
+
+    object PkId {
+      implicit val enc: Encoder[PkId] = deriveUnwrappedEncoder[PkId]
+      implicit val dec: Decoder[PkId] = deriveUnwrappedDecoder[PkId]
+    }
+
     final case class Id(value: String) extends AnyVal
 
     final case class Name(value: String) extends AnyVal
@@ -151,6 +162,7 @@ object domain {
 
   final case class Slot(
       slotId: Slot.Id,
+      roomPkId: Room.PkId,
       roomId: Room.Id,
       fromTime: Slot.FromTime,
       toTime: Slot.ToTime,
@@ -225,19 +237,9 @@ object domain {
         Right(Slot.Title("---"))
       }
 
-    private def zonedDT2Year(m: ZonedDateTime): CurrentYear = {
-      val ldt = new SimpleDateFormat("yyyy")
-      CurrentYear(ldt.format(m).toInt)
-    }
-
   }
 
   object Slot {
-
-    private def millis2Year(m: Long): CurrentYear = {
-      val ldt = new SimpleDateFormat("yyyy")
-      CurrentYear(ldt.format(m).toInt)
-    }
 
     final case class Id(value: String) extends AnyVal
     object Id {
@@ -245,8 +247,16 @@ object domain {
 
     }
     final case class FromTime(value: String) extends AnyVal
+    object FromTime{
+      implicit val idDecoder: Decoder[FromTime] = deriveUnwrappedDecoder[FromTime]
+    }
     final case class ToTime(value: String) extends AnyVal
+    object ToTime{
+      implicit val idDecoder: Decoder[ToTime] = deriveUnwrappedDecoder[ToTime]
+    }
     final case class Day(value: String) extends AnyVal
+
+
     final case class Kind(value: String) extends AnyVal
     object Kind {
       implicit val dec: Decoder[Slot.Kind] = deriveUnwrappedDecoder[Slot.Kind]
@@ -256,35 +266,14 @@ object domain {
       implicit val dec: Decoder[Slot.Title] = deriveUnwrappedDecoder[Slot.Title]
     }
     object Day {
+      implicit val dec: Decoder[Day] = deriveUnwrappedDecoder[Day]
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
     }
 
     implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) =>
       s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
 
-    implicit val decodeSlot: Decoder[Slot] = (c: HCursor) => {
-      for {
-        slotId <- c.downField("slotId").as[String]
-        roomId <- c.downField("roomId").as[String]
-        fromTime <- c.downField("fromTime").as[String]
-        toTime <- c.downField("toTime").as[String]
-        kind <- c.downField("talk").downField("kind").as[Slot.Kind]
-        title <- c.downField("talk").downField("title").as[Slot.Title]
-        day <- c.downField("day").as[String]
-        currentYear <- c.downField("fromTimeMillis").as[Long]
-      } yield {
-        new Slot(
-          Slot.Id(slotId),
-          Room.Id(roomId),
-          FromTime(fromTime),
-          ToTime(toTime),
-          kind,
-          title,
-          Slot.Day(day),
-          millis2Year(currentYear)
-        )
-      }
-    }
+
 
   }
 

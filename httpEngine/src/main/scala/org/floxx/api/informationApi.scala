@@ -5,11 +5,11 @@ import org.floxx.domain.Information.{Content, Title}
 import org.floxx.domain.jwt.UserInfo
 import org.floxx.service.informationService
 import org.http4s.AuthedRoutes
-import org.floxx.util.CirceValueClassCustomAuto._
+import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s.circe.jsonOf
 import org.http4s.dsl.Http4sDsl
-import zio._
+
 import zio.interop.catz._
 
 object informationApi {

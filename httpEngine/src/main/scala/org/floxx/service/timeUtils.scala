@@ -69,6 +69,7 @@ object timeUtils {
       case Kind("Quickie") => config.track.delayAfterQuickie
       case Kind("Keynote") => config.track.delayAfterKeynote
       case Kind("Hands-on Labs") => config.track.delayAfterHol
+      case _ => -1000
     }
 
   def zdt2FormattedTime(zdt:ZonedDateTime):String = zdt.toLocalTime.format(DateTimeFormatter.ofPattern("HH:mm"))

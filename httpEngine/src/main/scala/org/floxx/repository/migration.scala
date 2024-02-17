@@ -1,7 +1,7 @@
 package org.floxx.repository
 
 import org.flywaydb.core.Flyway
-import zio.{RIO, RLayer, Task, ULayer, URIO, URLayer, ZIO, ZLayer}
+import zio._
 
 import javax.sql.DataSource
 

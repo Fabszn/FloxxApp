@@ -1,7 +1,6 @@
 package org.floxx.repository
 
 import org.floxx.domain.AuthUser
-import org.floxx.domain.AuthUser.Login
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.error.DatabaseError
 import zio._
