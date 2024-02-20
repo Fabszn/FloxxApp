@@ -25,7 +25,7 @@ object config {
     override def getRooms: IO[FloxxError,Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
   }
 
-  final case class Cfp(currentYear: CurrentYear, url: String, days: List[ConfDay])
+  final case class Cfp(currentYear: CurrentYear, scheduleUrl: String,roomsUrl: String, days: List[ConfDay])
   final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
   final case class DevMode(isActivated: Boolean = false, currentDay: String, currentTime: String)

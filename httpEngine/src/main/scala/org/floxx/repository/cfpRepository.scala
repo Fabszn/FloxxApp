@@ -25,9 +25,9 @@ object cfpRepository {
 
     def mappingUserSlot: Task[Seq[UserSlot]]
     def insertSlots(slotList: Seq[Slot]): Task[Long]
-    /*@deprecated
-    def addSlots(slots: Seq[Slot]): Task[Int]*/
+    def insertRooms(roomList: Seq[Room]): Task[Long]
     def allSlots: Task[Seq[Slot]]
+    def allRooms: Task[Seq[Room]]
     def allSlotsWithUserId(userID: SimpleUser.Id): Task[Set[Slot]]
     def getSlotById(id: Slot.Id): Task[Option[Slot]]
     def addMapping(m: Mapping): Task[Long]
@@ -45,6 +45,18 @@ object cfpRepository {
               slots
                 .insertValue(s)
                 .onConflictUpdate(_.slotId)((t, e) => t.kind -> e.kind, (t, e) => t.title -> e.title)
+          )
+        )
+      ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
+
+    override def insertRooms(roomList: Seq[Room]): Task[Long] =
+      run(
+        quote(
+          liftQuery(roomList).foreach(
+            s =>
+              room
+                .insertValue(s)
+                .onConflictUpdate(_.id)((t, e) => t.name -> e.name, (t, e) => t.capacity -> e.capacity)
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
@@ -67,6 +79,8 @@ object cfpRepository {
       conf.getConf.flatMap(
         c => run(quote(slots.filter(_.yearSlot == lift(c.cfp.currentYear)))).provideEnvironment(ZEnvironment(dataSource))
       )
+
+    override def allRooms: Task[Seq[Room]] = run(quote(room)).provideEnvironment(ZEnvironment(dataSource))
 
     override def allSlotsByUserId(userId: SimpleUser.Id): Task[Seq[Slot]] =
       conf.getConf flatMap (
@@ -107,6 +121,10 @@ object cfpRepository {
 
   def insertSlots(slotList: Seq[Slot]): RIO[SlotRepo, Long] =
     ZIO.serviceWithZIO[SlotRepo](_.insertSlots(slotList))
+
+
+  def insertRooms(rooms: Seq[Room]): RIO[SlotRepo, Long] =
+    ZIO.serviceWithZIO[SlotRepo](_.insertRooms(rooms))
 
   def addMapping(m: Mapping): RIO[SlotRepo, Long] =
     ZIO.serviceWithZIO[SlotRepo](_.addMapping(m))

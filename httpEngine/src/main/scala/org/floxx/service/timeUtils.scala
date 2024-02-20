@@ -54,11 +54,7 @@ object timeUtils {
     (currentTime.isBefore(trackStartTime.plusMinutes(computeDelayAfterTime(slot.kind, config)))
     || currentTime.isEqual(trackStartTime.plusMinutes(computeDelayAfterTime(slot.kind, config)))) &&
     (currentTime.isBefore(trackEndTime)
-    || currentTime.isEqual(trackEndTime)) &&
-    !(slot.roomId.value.startsWith("22") ||
-    slot.roomId.value.startsWith("23") ||
-    slot.roomId.value.startsWith("21") ||
-    slot.roomId.value.startsWith("20"))
+    || currentTime.isEqual(trackEndTime))
   }
 
   def computeDelayAfterTime(kind: Slot.Kind, config: GlobalConfig): Int =

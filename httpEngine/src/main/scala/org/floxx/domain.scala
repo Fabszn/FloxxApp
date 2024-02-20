@@ -129,40 +129,26 @@ object domain {
 
   }
 
-  case class Room(id: Room.Id, name: Room.Name, capacity: Room.Capacity, setup: Room.Setup)
+  case class Room(id: Room.Id, name: Room.Name, capacity: Room.Capacity)
 
   object Room {
 
-    final case class PkId(value: Long) extends AnyVal
-
-    object PkId {
-      implicit val enc: Encoder[PkId] = deriveUnwrappedEncoder[PkId]
-      implicit val dec: Decoder[PkId] = deriveUnwrappedDecoder[PkId]
-    }
-
-    final case class Id(value: String) extends AnyVal
+    final case class Id(value: Long) extends AnyVal
 
     final case class Name(value: String) extends AnyVal
     final case class Capacity(value: Int) extends AnyVal
-    final case class Setup(value: String) extends AnyVal
 
     object Id {
-      implicit val enc: Encoder[Room.Id] = deriveUnwrappedEncoder[Room.Id]
-      implicit val dec: Decoder[Room.Id] = deriveUnwrappedDecoder[Room.Id]
-
       implicit val ordering: Ordering[Room.Id] = (x: Room.Id, y: Room.Id) => x.value.compareTo(y.value)
+    }
 
-    }
-    object Name {
-      implicit val enc: Encoder[Room.Name] = deriveUnwrappedEncoder[Room.Name]
-      implicit val dec: Decoder[Room.Name] = deriveUnwrappedDecoder[Room.Name]
-    }
+    implicit val roomdecoder:Decoder[Room] = deriveDecoder[Room]
 
   }
 
   final case class Slot(
       slotId: Slot.Id,
-      roomPkId: Room.PkId,
+      roomName: Room.Name,
       roomId: Room.Id,
       fromTime: Slot.FromTime,
       toTime: Slot.ToTime,

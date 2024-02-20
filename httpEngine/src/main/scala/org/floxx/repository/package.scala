@@ -100,7 +100,7 @@ package object repository {
       querySchema[Slot](
         "slot",
         _.slotId -> "slotId",
-        _.roomPkId -> "pkid_room",
+        _.roomName -> "room_name",
         _.roomId -> "roomId",
         _.fromTime -> "fromTime",
         _.toTime -> "toTime",
@@ -140,6 +140,13 @@ package object repository {
       querySchema[Overflow](
         "overflow",
         _.slotId -> "fkslotid"
+      )
+    )
+
+    val room = quote(
+      querySchema[Room](
+        "room",
+        _.id -> "pkid_room",
       )
     )
 

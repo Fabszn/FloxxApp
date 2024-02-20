@@ -9,7 +9,6 @@ import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
 import org.floxx.service.http.Http
 import zio._
 
-
 object trackService {
 
   def layer: RLayer[Http with SlotRepo with Configuration, TrackService] =
@@ -26,9 +25,8 @@ object trackService {
     def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): Task[Seq[domain.Slot]]
     def loadSlot(id: Slot.Id): Task[Option[domain.Slot]]
     def loadAllSlots: Task[Seq[domain.Slot]]
-    def roomById(id: String): Task[Option[String]]
-    def rooms: Task[Map[Room.Id, Room.Name]]
     def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]]
+    def loadRooms(): Task[Seq[domain.Room]]
   }
 
   private case class TrackServiceImpl(http: Http, slotRepo: SlotRepo, config: Configuration) extends TrackService {
@@ -37,22 +35,23 @@ object trackService {
         cfpslots <- http.loadDatafromCfp()
         _ <- ZIO.logInfo(s"slot found ${cfpslots.size}")
         slots: Seq[Slot] = cfpslots
-          //.filter(_.title.value != "---")
+        //.filter(_.title.value != "---")
           .map(
             s =>
               Slot(
-                Slot.Id(s"${s.cfpSlotId.value}"),
-                Room.PkId(s.roomId.value),
-                Room.Id(s.roomName.value),
-                FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value)),
-                ToTime(timeUtils.zdt2FormattedTime(s.toDate.value)),
-                s.kind,
-                s.title,
-                Day(timeUtils.zdt2DayOfWeek(s.fromDate.value)),
-                CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
+                slotId   = Slot.Id(s"${s.cfpSlotId.value}"),
+                roomId   = Room.Id(s.roomId.value),
+                roomName = Room.Name(s.roomName.value),
+                fromTime = FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value)),
+                toTime   = ToTime(timeUtils.zdt2FormattedTime(s.toDate.value)),
+                kind     = s.kind,
+                title    = s.title,
+                day      = Day(timeUtils.zdt2DayOfWeek(s.fromDate.value)),
+                yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
               )
           )
         nbLine <- slotRepo.insertSlots(slots)
+        _ <- http.loadRooms flatMap slotRepo.insertRooms
       } yield nbLine
 
     override def loadSlotByCriterias(isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
@@ -68,16 +67,11 @@ object trackService {
 
     override def loadSlot(id: Slot.Id): Task[Option[domain.Slot]] = slotRepo.getSlotById(id)
 
-    override def roomById(id: String): Task[Option[String]] =
-      config.getRooms.map(_(id))
-
     override def loadAllSlots: Task[Seq[domain.Slot]] = slotRepo.allSlots
 
     override def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]] = slotRepo.allSlotsByUserId(userId)
 
-    override def rooms: Task[Map[Room.Id, Room.Name]] =
-      config.getRooms.map(rs => rs.map { case (k, v) => Room.Id(k) -> Room.Name(v.getOrElse("None name")) })
-
+    override def loadRooms(): Task[Seq[domain.Room]] = slotRepo.allRooms
   }
 
   def readDataFromCfpDevoxx(): RIO[TrackService, Long] = ZIO.serviceWithZIO[TrackService](_.loadDataFromCFP())
@@ -86,10 +80,11 @@ object trackService {
   def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: Slot.Id): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
-  def roomById(id: String): RIO[TrackService, Option[String]]       = ZIO.serviceWithZIO[TrackService](_.roomById(id))
+  def loadRooms: RIO[TrackService, Seq[domain.Room]] = ZIO.serviceWithZIO[TrackService](_.loadRooms())
+
   def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]             = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
   def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))
-  def rooms: RIO[TrackService, Map[Room.Id, Room.Name]] = ZIO.serviceWithZIO[TrackService](_.rooms)
+
 
 }
