@@ -13,14 +13,16 @@
         "@popperjs/core": "^2.11.5",
         "@vueup/vue-quill": "^1.1.1",
         "apexcharts": "^3.35.3",
-        "bootstrap": "^5.1.3",
-        "bootstrap-vue-3": "^0.1.11",
+        "bootstrap": "^5.3.3",
+        "bootstrap-vue-next": "^0.16.5",
+        "core-js": "^3.9.0",
+        "esbuild": "^0.20.1",
         "fetch": "^1.1.0",
-        "gitart-vue-dialog": "^2.0.5",
+        "gitart-vue-dialog": "^3.1.0",
         "lodash": "^4.17.21",
         "mockjs": "^1.1.0",
-        "typescript": "^4.6.4",
-        "vue": "3.2.33",
+        "typescript": "^5.3.3",
+        "vue": "3.4.19",
         "vue-clipboard2": "^0.3.1",
         "vue-lodash": "^2.1.2",
         "vue-router": "^4.0.15",
@@ -34,10 +36,10 @@
         "vuex": "^4.0.2"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^2.3.1",
-        "vite": "^2.9.15",
-        "vite-plugin-mock": "^2.9.6",
-        "vitest": "^0.13.1"
+        "@vitejs/plugin-vue": "^5.0.4",
+        "vite": "^5.1.3",
+        "vite-plugin-mock": "^3.0.1",
+        "vitest": "^1.3.1"
     },
     "scripts": {
         "test": "vitest",

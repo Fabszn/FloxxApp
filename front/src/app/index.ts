@@ -10,9 +10,9 @@ import './floxxStyle.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSync, faSignInAlt, faArrowCircleLeft, faSignOutAlt, faCopy, faPhotoFilm} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { BootstrapVue3 } from 'bootstrap-vue-3'
+import { createBootstrap } from 'bootstrap-vue-next'
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import 'gitart-vue-dialog/dist/style.css'
 import { GDialog } from 'gitart-vue-dialog'
 import Toast from "vue-toastification";
@@ -66,7 +66,10 @@ app.component('GDialog', GDialog)
 app.use(router);
 app.use(lodash);
 app.use(Toast);
-app.use(BootstrapVue3)
+app.use(createBootstrap({
+    components: true,
+    directives: true,
+  }))
 
 
 app.use(store)
