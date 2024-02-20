@@ -52,7 +52,6 @@ object securityService {
     override def checkAuthentification(token: String): IO[AuthentificationError, UserInfo] =
       for {
         config <- conf.getConf.mapError(err => AuthentificationError(err.msg))
-        _ <- ZIO.logInfo(s"Token $token")
         jwtClaim <- ZIO
           .fromTry(
             Jwt.decode(

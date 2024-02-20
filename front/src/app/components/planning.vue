@@ -21,12 +21,12 @@
               <div
                 class="track"
                 v-for="room in composeFilter(
-                  filterByGpr('Maillot', item.rooms),
-                  filterByGpr('Amphi', item.rooms)
+                  filterByGpr(1713, item.rooms),/*'Maillot'*/
+                  filterByGpr(1709, item.rooms) /*'Amphi'*/
                 )"
                 :key="room.roomId"
               >
-                <div class="header">{{ room.roomId }}</div>
+                <div class="header">{{ getRoomName(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -50,10 +50,13 @@
             <div class="grid">
               <div
                 class="track"
-                v-for="room in filterByGpr('Neuilly 25', item.rooms)"
+                v-for="room in composeFilter(
+                  filterByGpr(1706, item.rooms),
+                  filterByGpr(1708, item.rooms) 
+                )"
                 :key="room.roomId"
               >
-                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+                <div class="header">{{ getRoomName(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -76,10 +79,13 @@
             <div class="grid">
               <div
                 class="track"
-                v-for="room in filterByGpr('Neuilly 23', item.rooms)"
+                v-for="room in composeFilter(
+                  filterByGpr(1707, item.rooms),
+                  filterByGpr(1701, item.rooms)
+                )"
                 :key="room.roomId"
               >
-                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+                <div class="header">{{ getRoomName(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -102,10 +108,13 @@
             <div class="grid">
               <div
                 class="track"
-                v-for="room in filterByGpr('Paris 24', item.rooms)"
+                v-for="room in composeFilter(
+                  filterByGpr(1710, item.rooms),
+                  filterByGpr(1712, item.rooms) 
+                )"
                 :key="room.roomId"
               >
-                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+                <div class="header">{{ getRoomName(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -129,12 +138,12 @@
               <div
                 class="track"
                 v-for="room in composeFilter(
-                  filterByGpr('Paris 22', item.rooms),
-                  filterByGpr('Paris 20', item.rooms)
+                  filterByGpr(1711, item.rooms),
+                  filterByGpr(1705, item.rooms)
                 )"
                 :key="room.roomId"
               >
-                <div class="header">{{ cleanHeader(room.roomId) }}</div>
+                <div class="header">{{ getRoomName(room.roomId) }}</div>
 
                 <div
                   v-on:click="show(slot.slot.slotId, slot.user)"
@@ -317,22 +326,25 @@ export default defineComponent({
         });
       }
     },
+    getRoomName(idRoom) {
+       return _.filter(this.$store.state.rooms,  function(r) { return r.id == idRoom} )[0].name
+    },
     refresh: function () {
       loadPlanning.bind(this)();
     },
     composeFilter: (arr1: [], arr2: []) => {
       return _.concat(arr1, arr2);
     },
-    filterByGpr: (groupName: String, rooms) => {
+    filterByGpr: (idRoomRef: Number, rooms) => {
       return _.filter(rooms, (ro) => {
-        return _.startsWith(ro.roomId, groupName);
+        return idRoomRef == ro.roomId;
       });
     },
     cleanHeader: (roomId: String) => {
       return _.split(roomId, " ")[1];
     },
   },
-});
+}); 
 
 function beforeOpen(slotId) {
   shared.securityAccess(this.$router, (p) => {

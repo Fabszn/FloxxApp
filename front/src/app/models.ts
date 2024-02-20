@@ -60,19 +60,12 @@ class Mapping {
     }
 }
 
-class Talk {
-    talkType: string = "";
-    title: string = "";
-    constructor(tt: string, title: string) {
-        this.talkType = tt;
-        this.title = title;
-    }
 
-}
 
 class StatItem {
     slotId: string;
-    talk: Talk;
+    title: string;
+    kind: string;
     percentage: number = 0;
     roomid: string;
     fromtime: string;
@@ -80,7 +73,8 @@ class StatItem {
     day: String;
 
     constructor(si: string,
-        t: Talk,
+        title: string,
+        kind: string,
         perc: number,
         roomid: string,
         ft: string,
@@ -88,7 +82,8 @@ class StatItem {
         day: string
     ) {
         this.slotId = si;
-        this.talk = t;
+        this.title = title;
+        this.kind = kind;
         this.percentage = perc;
         this.roomid = roomid;
         this.fromtime = this.fromtime;

@@ -87,6 +87,18 @@ export default {
                 this.loginFailedMsg = false;
                 console.error(r);
               }
+            )).then(e => fetch("/api/rooms", {
+             method: "GET",
+             headers: shared.tokenHandle() })
+            .then((response) => response.json())
+            .then(
+              (r) => {
+                this.$store.commit("setRooms", r);
+              },
+              (r) => {
+                this.loginFailedMsg = false;
+                console.error(r);
+              }
             )),
           
         ])
