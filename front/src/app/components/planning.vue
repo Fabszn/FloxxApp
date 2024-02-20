@@ -222,6 +222,7 @@ export default defineComponent({
     const selectedUser = ref(null);
     const users = ref(new Array<User>());
     const adminState = false;
+    
 
     return {
       selectedUser,
@@ -240,6 +241,7 @@ export default defineComponent({
       items: {}, //todo -> add type
       actualUserNameSelected: "",
       currentConf: new Conference(),
+      rooms:[]
     };
   },
   mounted() {
@@ -327,7 +329,7 @@ export default defineComponent({
       }
     },
     getRoomName(idRoom) {
-       return _.filter(this.$store.state.rooms,  function(r) { return r.id == idRoom} )[0].name
+            return _.filter(this.rooms,  function(r) { return r.id == idRoom} )[0].name
     },
     refresh: function () {
       loadPlanning.bind(this)();
@@ -391,7 +393,16 @@ function loadPlanning() {
       .then((response) => response.json())
       .then((r) => {
         this.items = r;
-      });
+      }).then(e => 
+      fetch("/api/rooms", {
+      headers: shared.tokenHandle(),
+    })
+      .then((response) => response.json())
+      .then((r) => {
+        this.rooms = r;
+      })
+      )
+    
   });
 }
 </script>
