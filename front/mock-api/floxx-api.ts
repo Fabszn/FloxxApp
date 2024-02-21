@@ -370,7 +370,20 @@ export default [
     {
         url: '/api/days',
         method: 'get',
-        response: {"slotId": "1783","roomName": "Maillot","roomId": 1713,"fromTime": "08:30","toTime": "09:15","kind": "Conference","title": "Conf de test au top","day": "Wednesday","yearSlot": 2024}
+        response: [
+            {
+              "dayIndex": 1,
+              "dayValue": "wednesday"
+            },
+            {
+              "dayIndex": 2,
+              "dayValue": "thursday"
+            },
+            {
+              "dayIndex": 3,
+              "dayValue": "friday"
+            }
+          ]
     }
 
 

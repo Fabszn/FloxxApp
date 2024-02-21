@@ -19,7 +19,7 @@ export default {
     colorByPercentage: function chooseColor(percentage: number): string {
         return cc(percentage)
     },
-    securityAccess: function sa(router, run) {
+    securityAccess:function sa(router, run) {
         var token = sessionStorage.getItem(tokenKey);
         if (_.isNull(token)) {
             router.push("/?authenticate=no")
