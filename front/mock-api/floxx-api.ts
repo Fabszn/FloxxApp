@@ -366,6 +366,24 @@ export default [
         url: '/api/slots/1783',
         method: 'get',
         response: {"slotId": "1783","roomName": "Maillot","roomId": 1713,"fromTime": "08:30","toTime": "09:15","kind": "Conference","title": "Conf de test au top","day": "Wednesday","yearSlot": 2024}
+    },
+    {
+        url: '/api/days',
+        method: 'get',
+        response: [
+            {
+              "dayIndex": 1,
+              "dayValue": "wednesday"
+            },
+            {
+              "dayIndex": 2,
+              "dayValue": "thursday"
+            },
+            {
+              "dayIndex": 3,
+              "dayValue": "friday"
+            }
+          ]
     }
 
 

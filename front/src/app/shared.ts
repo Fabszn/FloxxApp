@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import Vue from 'vue';
+import Vuex, { Store } from 'vuex';
 
 
 
@@ -17,7 +19,7 @@ export default {
     colorByPercentage: function chooseColor(percentage: number): string {
         return cc(percentage)
     },
-    securityAccess: function sa(router, run) {
+    securityAccess:function sa(router, run) {
         var token = sessionStorage.getItem(tokenKey);
         if (_.isNull(token)) {
             router.push("/?authenticate=no")
@@ -34,16 +36,21 @@ export default {
         sessionStorage.clear();
     },
     tokenHandle: function th() {
-        var token: string = sessionStorage.getItem(tokenKey) ?? 'not available';
-        const h = new Headers()
-        h.append('Authorization', token)
-        h.append('Accept', "application/json")
-        return h
+        
+        return getTokenFromSession()
     },
     readAdminEtat: function th() {
         return sessionStorage.getItem(pAdmin) == "true";
-    }
+    },
 
+}
+
+function getTokenFromSession() {
+    var token: string = sessionStorage.getItem(tokenKey) ?? 'not available';
+    const h = new Headers()
+    h.append('Authorization', token)
+    h.append('Accept', "application/json")
+    return h
 }
 
 
