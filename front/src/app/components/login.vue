@@ -9,23 +9,11 @@
     <form id="signup-form" @submit.prevent="processForm">
       <div class="form-group">
         <label for="login">Login</label>
-        <input
-          id="login"
-          type="text"
-          v-model="login"
-          class="form-control"
-          placeholder="Enter login"
-        />
+        <input id="login" type="text" v-model="login" class="form-control" placeholder="Enter login" />
       </div>
       <div class="form-group">
         <label for="mdp">Password</label>
-        <input
-          id="mdp"
-          type="password"
-          class="form-control"
-          v-model="password"
-          placeholder="Enter password"
-        />
+        <input id="mdp" type="password" class="form-control" v-model="password" placeholder="Enter password" />
       </div>
 
       <button type="submit" class="btn btn-primary">
@@ -38,61 +26,60 @@
 <script>
 import _ from "lodash";
 import shared from "../shared";
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
-  data: function () {
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    var email = ""
+    var login = ""
+    var password = ""
+    var loginFailedMsg = true;
+    var notAuthorized = true;
+
+    function processForm() {
+      Promise.all([
+        fetch("/login", {
+          body: JSON.stringify({
+            login: this.login,
+            mdp: this.password,
+          }),
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then(
+            (r) => {
+              shared.storeToken(r.token, r.isAdmin, r.name);
+              store.commit("setUsername", r.name);
+            },
+            (r) => {
+              this.loginFailedMsg = false;
+              console.error(r);
+            }
+          )
+
+      ])
+        .then((v) => router.push("/menu"));
+    }
+
     return {
-      email: "",
-      login: "",
-      password: "",
-      loginFailedMsg: true,
-      notAuthorized: true,
-    };
+      email,
+      login,
+      password,
+      loginFailedMsg,
+      notAuthorized,
+      processForm
+    }
   },
-  created() {
+   created() {
     const a = this.$route.query.authenticate;
     if (a == "no") {
       this.notAuthorized = false;
     }
   },
-  methods: {
-    processForm: function () {
-      Promise.all([
-          fetch("/login", {
-            body: JSON.stringify({
-              login: this.login,
-              mdp: this.password,
-            }),
-            method: "POST",
-          })
-            .then((response) => response.json())
-            .then(
-              (r) => {
-                shared.storeToken(r.token, r.isAdmin, r.name);
-                this.$store.commit("setUsername", r.name);
-              },
-              (r) => {
-                this.loginFailedMsg = false;
-                console.error(r);
-              }
-            ),fetch("/api/days", {
-             method: "GET",
-             headers: shared.tokenHandle() })
-            .then((response) => response.json())
-            .then(
-              (r) => {
-                this.$store.commit("setConfDays", r);
-              },
-              (r) => {
-                this.loginFailedMsg = false;
-                console.error(r);
-              }
-            ),
-          
-        ])
-        .then((v) => this.$router.push("/menu"));
-    },
-  },
+ 
 };
 </script>
 

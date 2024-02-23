@@ -11,6 +11,7 @@
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">
+          
           <tab :name="item.day">
             <p class="kindTitle">Amphi bleu / Maillot</p>
             <div class="grid">
@@ -153,31 +154,38 @@
 import shared from "../shared";
 import { User, Conference, Mapping } from "../models";
 import _ from "lodash";
-import { defineComponent, ref, onMounted, onBeforeMount } from "vue";
+import { defineComponent, onBeforeMount, ref, computed } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
 import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 
 
 export default defineComponent({
   setup() {
+
+
+
     const router = useRouter();
+    const store = useStore();
     const toast = useToast();
     const selectedUser = ref(null);
     const users = ref(new Array<User>());
     const adminState = ref(false);
     const dialogState = ref(false);
-    const items = ref(null);//todo -> add type
+    const items = computed(() => store.state.planning);
+    const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref("");
     const currentConf = ref(new Conference());
-    const rooms = ref(null);
+
 
     function backMenu() {
-      this.$router.push("/menu");
+      router.push("/menu");
     }
 
-    function refresh() {
-      loadPlanning.bind(this)();
+    async function refresh() {
+      await store.dispatch('fetchPlanning')
     }
 
     function getUserId(user) {
@@ -232,7 +240,7 @@ export default defineComponent({
       })
         //.then((response) => response.json())
         .then((p) => {
-          loadPlanning.bind(this)();
+          refresh()
           this.dialogState = false;
           this.toast.success("Red coat removed!");
         });
@@ -251,9 +259,9 @@ export default defineComponent({
           headers: shared.tokenHandle(),
         }).then((p) => {
           this.selectedUser = null;
-          loadPlanning.bind(this)();
           this.dialogState = false;
           this.toast.success("Mapping done!");
+          refresh();
         });
       }
     }
@@ -264,44 +272,14 @@ export default defineComponent({
     function composeFilter(arr1: [], arr2: []) {
       return _.concat(arr1, arr2);
     }
-    function filterByGpr(idRoomRef: Number, rooms) {
-      return _.filter(rooms, (ro) => {
+    function filterByGpr(idRoomRef: Number, currentRooms) {
+      return _.filter(currentRooms, (ro) => {
         return idRoomRef == ro.roomId;
       });
     }
     function cleanHeader(roomId: String) {
       return _.split(roomId, " ")[1];
     }
-
-    function loadPlanning() {
-
-      try {
-        shared.securityAccess(router, async (p) => {
-
-          const roomsResp = await fetch("/api/rooms", {
-            headers: shared.tokenHandle(),
-          })
-          const roomsData = await roomsResp.json()
-          rooms.value = roomsData
-
-
-          const planningResp = await fetch("/api/planning", {
-            headers: shared.tokenHandle(),
-          })
-          const dataP = await planningResp.json()
-        
-          items.value = dataP
-
-         
-
-        })
-      } catch (error) {
-        console.error('Erreur lors de la récupération des données :', error);
-      }
-
-
-    };
-
 
     function beforeOpen(slotId) {
       shared.securityAccess(this.$router, (p) => {
@@ -340,15 +318,16 @@ export default defineComponent({
       }
     }
 
-
-
     onBeforeMount(async () => {
       adminState.value = shared.readAdminEtat();
-      loadPlanning()
+      if (_.isEmpty(store.state.rooms)) {
+            await store.dispatch('fetchRooms');
+            await store.dispatch('fetchPlanning');
+            await store.dispatch('fetchDays');
+        }
+      
+
     });
-
-
-
 
 
 

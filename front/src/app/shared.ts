@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
+import Vuex, { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 
 
@@ -15,11 +16,33 @@ const overflowCssIndex = {
 var tokenKey = "X-Auth-Token"
 var pAdmin = "isAdmin"
 
+
 export default {
-    colorByPercentage: function chooseColor(percentage: number): string {
+
+    checkStore: async function (store) {
+        console.log(store.state)
+        console.log(store.state.rooms)
+        console.log(store.state.planning)
+        console.log(_.isEmpty(store.state.rooms))
+        if (_.isEmpty(store.state.rooms)) {
+            await store.dispatch('fetchRooms');
+            await store.dispatch('fetchPlanning');
+            await store.dispatch('fetchDays');
+        }
+    },
+    colorByPercentage: function (percentage: number): string {
         return cc(percentage)
     },
-    securityAccess:function sa(router, run) {
+
+    tokenHandle: function () {
+        const token: string = sessionStorage.getItem(tokenKey) ?? 'not available';
+        const h = new Headers()
+        h.append('Authorization', token)
+        h.append('Accept', "application/json")
+        return h
+
+    },
+    securityAccess: function (router, run) {
         var token = sessionStorage.getItem(tokenKey);
         if (_.isNull(token)) {
             router.push("/?authenticate=no")
@@ -27,30 +50,17 @@ export default {
             run()
         }
     },
-    storeToken: function st(token: string, isAdmin: string, name: string) {
+    storeToken: function (token: string, isAdmin: string, name: string) {
         sessionStorage.setItem(tokenKey, token);
         sessionStorage.setItem("name", name);
         sessionStorage.setItem(pAdmin, isAdmin);
     },
-    cleanToken: function ch() {
+    cleanToken: function () {
         sessionStorage.clear();
     },
-    tokenHandle: function th() {
-        
-        return getTokenFromSession()
-    },
-    readAdminEtat: function th() {
+    readAdminEtat: function () {
         return sessionStorage.getItem(pAdmin) == "true";
-    },
-
-}
-
-function getTokenFromSession() {
-    var token: string = sessionStorage.getItem(tokenKey) ?? 'not available';
-    const h = new Headers()
-    h.append('Authorization', token)
-    h.append('Accept', "application/json")
-    return h
+    }
 }
 
 
