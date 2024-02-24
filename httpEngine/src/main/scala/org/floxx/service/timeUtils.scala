@@ -73,7 +73,7 @@ object timeUtils {
     }
 
     //filters
-    val isSelected = (currentDay.value.toLowerCase == slot.day.value.toLowerCasea) &&
+    val isSelected = (currentDay.value.toLowerCase == slot.day.value.toLowerCase) &&
       (currentYear == slot.yearSlot) &&
       (currentTime.isAfter(trackStartTime.minusMinutes(config.track.delayBefore))
       || currentTime.isEqual(trackStartTime.minusMinutes(config.track.delayBefore))) &&
