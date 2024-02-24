@@ -1,299 +1,171 @@
 
 
 <template>
-  <div class="container-fluid">
-    <div class="d-flex justify-content-around separate-headfooter">
-      <div>
-        <button
-          v-on:click="backRooms"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
-          <font-awesome-icon icon="arrow-circle-left" />
-        </button>
-      </div>
-
-      <div>
-        <button
-          v-on:click="refresh"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
-          <font-awesome-icon icon="sync" />
-        </button>
-      </div>
-    </div>
-    <div class="screen-title">Overflow</div>
-    <GDialog v-model="dialogDetailsTalkState">
-      <div class="gdialog">
-        <p>
-          {{ selectedConf.confTitle }}
-        </p>
-        <p>Type : {{ selectedConf.confKind }}</p>
-        <p>Salle : {{ selectedConf.room }}</p>
-
-        <div class="separate_b space">
-          <p>{{ selectedConf.twitterMessage() }}</p>
-        </div>
-
-        <div class="buttonmodal" v-if="this.adminState">
-          <button
-            type="button"
-            v-on:click="
-              setOverflowRoomNeuilly(selectedConf.slotId, selectedConf.room)
-            "
-            class="btn btn-secondary"
-          >
-            Overflow Neuilly
-          </button>
-          <button
-            type="button"
-            v-on:click="
-              setOverflowRoomParis(selectedConf.slotId, selectedConf.room)
-            "
-            class="btn btn-secondary"
-          >
-            Overflow Paris
-          </button>
-        </div>
-        <div class="buttonmodal">
-          <button
-            type="button"
-            v-on:click="hideDetailsTalk"
-            class="btn btn-secondary"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </GDialog>
-
-    <GDialog v-model="dialogOverflowState">
-      <div class="gdialog">
-        <div class="buttonmodal">
-          <button
-            type="button"
-            v-on:click="unsetOverflowRoomNeuilly.bind(this)()"
-            class="btn btn-secondary"
-          >
-            Clear Overflow Neuilly
-          </button>
-          <button
-            type="button"
-            v-on:click="unsetOverflowRoomParis.bind(this)()"
-            class="btn btn-secondary"
-          >
-            Clear Overflow Paris
-          </button>
-        </div>
-        <div class="buttonmodal">
-          <button
-            type="button"
-            v-on:click="hideOverflowAction"
-            class="btn btn-secondary"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </GDialog>
-
-    <div class="d-flex justify-content-around separate-headfooter">
-      <div
-        v-bind:class="{
-          overflowMedium: stateAmphiB.dataOS.overflowMedium,
-          overflowRequiered: stateAmphiB.dataOS.overflowRequiered,
-        }"
-        v-on:click="showDetailsTalk('b_amphi')"
-      >
-        <circle-progress
-          :size="globalSize"
-          :reverse="false"
-          line-cap="round"
-          :animation-start-value="0.0"
-          :start-angle="380"
-          insert-mode="append"
-          :thickness="5"
-          :show-percent="true"
-          :percent="stateAmphiB.data.per"
-          :fill-color="stateAmphiB.data.color"
-        />
-        <div class="roomTitleCenter">Amphi B.</div>
-      </div>
+  <div class="d-flex justify-content-around separate-headfooter">
+    <div>
+      <button v-on:click="backRooms" type="button" class="btn btn-secondary navbtn">
+        <font-awesome-icon icon="arrow-circle-left" />
+      </button>
     </div>
 
-    <div
-      v-bind:class="{ overflowinfo: showOverflow }"
-      v-on:click="showOverflowAction()"
-    >
-      <div class="overflow-info-room">
-        {{ infoOverflowNeuilly.data.roomId }}
-      </div>
-      <div class="overflow-info-room">
-        {{ infoOverflowParis.data.roomId }}
-      </div>
-    </div>
-    <div class="d-flex justify-content-around">
-      <div class="flex-column separate">
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state253.dataOS.overflowMedium,
-            overflowRequiered: state253.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('neu253')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="state253.data.color"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="state253.data.per"
-          />
-          <div class="roomTitleCenter">Neuilly 253</div>
-        </div>
-
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state252.dataOS.overflowMedium,
-            overflowRequiered: state252.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('neu252')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="state252.data.color"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="state252.data.per"
-          />
-          <div class="roomTitleCenter">Neuilly 252</div>
-        </div>
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state251.dataOS.overflowMedium,
-            overflowRequiered: state251.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('neu251')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="state251.data.color"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="state251.data.per"
-          />
-          <div class="roomTitleCenter">Neuilly 251</div>
-        </div>
-      </div>
-      <div class="flex-column separate">
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state243.dataOS.overflowMedium,
-            overflowRequiered: state243.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('par243')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :start-angle="380"
-            :fill-color="state243.data.color"
-            :show-percent="true"
-            :percent="state243.data.per"
-            :viewport="true"
-          />
-          <div class="roomTitleCenter">Paris 243</div>
-        </div>
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state242.dataOS.overflowMedium,
-            overflowRequiered: state242.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('par242AB')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="state242.data.color"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :percent="state242.data.per"
-          />
-          <div class="roomTitleCenter">Paris 242AB</div>
-        </div>
-        <div
-          class="space"
-          v-bind:class="{
-            overflowMedium: state241.dataOS.overflowMedium,
-            overflowRequiered: state241.dataOS.overflowRequiered,
-          }"
-          v-on:click="showDetailsTalk('241')"
-        >
-          <circle-progress
-            :size="globalSize"
-            :reverse="false"
-            line-cap="round"
-            :fill-color="state241.data.color"
-            :animation-start-value="0.0"
-            :start-angle="380"
-            insert-mode="append"
-            :thickness="5"
-            :percent="state241.data.per"
-            :show-percent="true"
-          />
-          <div class="roomTitleCenter">Paris 241</div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-around separate-headfooter">
-      <div
-        v-bind:class="{
-          overflowMedium: stateMaillot.dataOS.overflowMedium,
-          overflowRequiered: stateMaillot.dataOS.overflowRequiered,
-        }"
-        v-on:click="showDetailsTalk('c_maillot')"
-      >
-        <circle-progress
-          :size="globalSize"
-          :reverse="false"
-          line-cap="round"
-          :animation-start-value="0.0"
-          :fill-color="stateMaillot.data.color"
-          :start-angle="380"
-          insert-mode="append"
-          :thickness="5"
-          :show-percent="true"
-          :percent="stateMaillot.data.per"
-        />
-        <div class="roomTitleCenter">Maillot</div>
-      </div>
+    <div>
+      <button v-on:click="refresh" type="button" class="btn btn-secondary navbtn">
+        <font-awesome-icon icon="sync" />
+      </button>
     </div>
   </div>
+
+
+  <div class="screen-title">Overflow</div>
+  <GDialog v-model="dialogDetailsTalkState">
+    <div class="gdialog">
+      <p>
+        {{ selectedConf.confTitle }}
+      </p>
+      <p>Type : {{ selectedConf.confKind }}</p>
+      <p>Salle : {{ selectedConf.room }}</p>
+
+      <div class="separate_b space">
+        <p>{{ selectedConf.twitterMessage() }}</p>
+      </div>
+
+      <div class="buttonmodal" v-if="this.adminState">
+        <button type="button" v-on:click="
+          setOverflowRoomNeuilly(selectedConf.slotId, selectedConf.room)
+          " class="btn btn-secondary">
+          Overflow Neuilly
+        </button>
+        <button type="button" v-on:click="
+          setOverflowRoomParis(selectedConf.slotId, selectedConf.room)
+          " class="btn btn-secondary">
+          Overflow Paris
+        </button>
+      </div>
+      <div class="buttonmodal">
+        <button type="button" v-on:click="hideDetailsTalk" class="btn btn-secondary">
+          Close
+        </button>
+      </div>
+    </div>
+  </GDialog>
+
+  <GDialog v-model="dialogOverflowState">
+    <div class="gdialog">
+      <div class="buttonmodal">
+        <button type="button" v-on:click="unsetOverflowRoomNeuilly.bind(this)()" class="btn btn-secondary">
+          Clear Overflow Neuilly
+        </button>
+        <button type="button" v-on:click="unsetOverflowRoomParis.bind(this)()" class="btn btn-secondary">
+          Clear Overflow Paris
+        </button>
+      </div>
+      <div class="buttonmodal">
+        <button type="button" v-on:click="hideOverflowAction" class="btn btn-secondary">
+          Close
+        </button>
+      </div>
+    </div>
+  </GDialog>
+  <!-- top-->
+  <b-carousel id="carousel-1" v-model="slide" no-animation controls indicators  background="rgba(var(--bs-dark-rgb)" img-width="650"
+    img-height="800" style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart" @sliding-end="onSlideEnd">
+    <b-carousel-slide>
+      <div class="d-flex justify-content-around separate-headfooter">
+        <div v-bind:class="{
+          overflowMedium: stateAmphiB.dataOS.overflowMedium,
+          overflowRequiered: stateAmphiB.dataOS.overflowRequiered,
+        }" v-on:click="showDetailsTalk('b_amphi')">
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
+            :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true" :percent="stateAmphiB.data.per"
+            :fill-color="stateAmphiB.data.color" />
+          <div class="roomTitleCenter">Amphi B.</div>
+        </div>
+      </div>
+
+      <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
+        <div class="overflow-info-room">
+          {{ infoOverflowNeuilly.data.roomId }}
+        </div>
+        <div class="overflow-info-room">
+          {{ infoOverflowParis.data.roomId }}
+        </div>
+      </div>
+      <div class="d-flex justify-content-around">
+        <div class="flex-column separate">
+          <div class="space" v-bind:class="{
+            overflowMedium: state253.dataOS.overflowMedium,
+            overflowRequiered: state253.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('neu253')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
+              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+              :percent="state253.data.per" />
+            <div class="roomTitleCenter">Neuilly 253</div>
+          </div>
+
+          <div class="space" v-bind:class="{
+            overflowMedium: state252.dataOS.overflowMedium,
+            overflowRequiered: state252.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('neu252')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
+              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+              :percent="state252.data.per" />
+            <div class="roomTitleCenter">Neuilly 252</div>
+          </div>
+          <div class="space" v-bind:class="{
+            overflowMedium: state251.dataOS.overflowMedium,
+            overflowRequiered: state251.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('neu251')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
+              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+              :percent="state251.data.per" />
+            <div class="roomTitleCenter">Neuilly 251</div>
+          </div>
+        </div>
+        <div class="flex-column separate">
+          <div class="space" v-bind:class="{
+            overflowMedium: state243.dataOS.overflowMedium,
+            overflowRequiered: state243.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('par243')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
+              :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
+            <div class="roomTitleCenter">Paris 243</div>
+          </div>
+          <div class="space" v-bind:class="{
+            overflowMedium: state242.dataOS.overflowMedium,
+            overflowRequiered: state242.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('par242AB')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
+              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+              :percent="state242.data.per" />
+            <div class="roomTitleCenter">Paris 242AB</div>
+          </div>
+          <div class="space" v-bind:class="{
+            overflowMedium: state241.dataOS.overflowMedium,
+            overflowRequiered: state241.dataOS.overflowRequiered,
+          }" v-on:click="showDetailsTalk('241')">
+            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
+              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
+              :percent="state241.data.per" :show-percent="true" />
+            <div class="roomTitleCenter">Paris 241</div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-around separate-headfooter">
+        <div v-bind:class="{
+          overflowMedium: stateMaillot.dataOS.overflowMedium,
+          overflowRequiered: stateMaillot.dataOS.overflowRequiered,
+        }" v-on:click="showDetailsTalk('c_maillot')">
+          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
+            :fill-color="stateMaillot.data.color" :start-angle="380" insert-mode="append" :thickness="5"
+            :show-percent="true" :percent="stateMaillot.data.per" />
+          <div class="roomTitleCenter">Maillot</div>
+        </div>
+      </div>
+    </b-carousel-slide>
+    <b-carousel-slide caption="First slide" text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+      img-src="https://picsum.photos/1024/480/?image=52">
+    </b-carousel-slide >
+  </b-carousel>
 </template>
 
 
@@ -303,6 +175,9 @@ import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import _ from "lodash";
 import shared from "../../shared";
+
+import 'swiper/css';
+
 import {
   TrackHitInfo,
   Conference,
@@ -330,6 +205,9 @@ export default defineComponent({
     const showOverflow = ref(false);
     const globalSize = ref(100);
 
+
+
+
     return {
       stateAmphiB,
       stateMaillot,
@@ -343,7 +221,8 @@ export default defineComponent({
       infoOverflowNeuilly,
       infoOverflowParis,
       showOverflow,
-      adminState
+      adminState,
+
     };
   },
   data: () => ({
@@ -354,6 +233,8 @@ export default defineComponent({
     hits: [],
     fill: { gradient: ["green"] },
     selectedConf: new Conference(),
+    slide: 0,
+    sliding: null
   }),
   mounted: function () {
     shared.securityAccess(this.$router, (p) => {
@@ -362,6 +243,12 @@ export default defineComponent({
     this.adminState = shared.readAdminEtat();
   },
   methods: {
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
+    },
     showDetailsTalk: function (idSlot: string) {
       beforeOpen.bind(this)(idSlot);
       this.dialogDetailsTalkState = true;
@@ -394,8 +281,8 @@ export default defineComponent({
     hideOverflowAction() {
       this.dialogOverflowState = false;
     },
-    progress_end: function () {},
-    progress: function () {},
+    progress_end: function () { },
+    progress: function () { },
     refresh: function () {
       currentTracksWitHitInfo.bind(this)();
     },
@@ -416,7 +303,7 @@ function currentTracksWitHitInfo() {
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
           var currentState: StateRoom = getState.bind(this)(
-            value.hitInfo.hitSlotId
+            "" + value.slot.roomId
           );
 
           if (!_.isUndefined(currentState)) {
@@ -442,21 +329,21 @@ function currentTracksWitHitInfo() {
 }
 
 function getState(key: String) {
-  if (key.includes("par243")) {
+  if (key == "1712") {
     return this.state243;
-  } else if (key.includes("c_maillot")) {
+  } else if (key == "1713") {
     return this.stateMaillot;
-  } else if (key.includes("b_amphi")) {
+  } else if (key == "1709") {
     return this.stateAmphiB;
-  } else if (key.includes("par242AB")) {
+  } else if (key == "1711") {
     return this.state242;
-  } else if (key.includes("par241")) {
+  } else if (key == "1710") {
     return this.state241;
-  } else if (key.includes("neu251")) {
+  } else if (key == "1706") {
     return this.state251;
-  } else if (key.includes("neu252")) {
+  } else if (key == "1707") {
     return this.state252;
-  } else if (key.includes("neu253")) {
+  } else if (key == "1708") {
     return this.state253;
   }
 }
@@ -551,6 +438,11 @@ function initOverflowAffectedRoom(affectedRoom, data) {
   border: 1px solid #fff;
 }
 
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
 .space {
   margin: 20px;
 }
@@ -559,22 +451,27 @@ function initOverflowAffectedRoom(affectedRoom, data) {
   background-color: rgba(221, 247, 119, 0.817);
   border-radius: 10px;
 }
+
 .overflowMedium {
   background-color: rgba(246, 141, 55, 60%);
   border-radius: 10px;
 }
+
 .overflowRequiered {
   background-color: rgba(72, 14, 14, 60%);
   border-radius: 10px;
 }
+
 .roomTitleCenter {
   display: flex;
   justify-content: center;
 }
+
 .overflow-info-room {
   display: flex;
   flex-direction: row;
 }
+
 .overflowinfo {
   border: 4px solid rgba(246, 141, 55, 60%);
   display: flex;

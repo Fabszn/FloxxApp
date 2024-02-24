@@ -323,10 +323,7 @@ export default defineComponent({
       if (_.isEmpty(store.state.rooms)) {
             await store.dispatch('fetchRooms');
             await store.dispatch('fetchPlanning');
-            await store.dispatch('fetchDays');
         }
-      
-
     });
 
 
