@@ -67,9 +67,12 @@
     </div>
   </GDialog>
   <!-- top-->
-  <b-carousel id="carousel-1" v-model="slide"  controls indicators  background="rgba(var(--bs-dark-rgb)" img-width="450"
+  <b-carousel id="carousel-1" v-model="slide" controls indicators background="rgba(var(--bs-dark-rgb)" img-width="450"
     img-height="800" style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart" @sliding-end="onSlideEnd">
+
+
     <b-carousel-slide>
+
       <div class="d-flex justify-content-around separate-headfooter">
         <div v-bind:class="{
           overflowMedium: stateAmphiB.dataOS.overflowMedium,
@@ -81,72 +84,73 @@
           <div class="roomTitleCenter">Amphi B.</div>
         </div>
       </div>
+      <div class="d-flex justify-content-center">
+        <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
+          <div class="overflow-info-room">
+            {{ infoOverflowNeuilly.data.roomId }}
+          </div>
+          <div class="overflow-info-room">
+            {{ infoOverflowParis.data.roomId }}
+          </div>
+        </div>
+        <div class="d-flex justify-content-around">
+          <div class="flex-column separate">
+            <div class="space" v-bind:class="{
+              overflowMedium: state253.dataOS.overflowMedium,
+              overflowRequiered: state253.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu253')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state253.data.per" />
+              <div class="roomTitleCenter">Neuilly 253</div>
+            </div>
 
-      <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
-        <div class="overflow-info-room">
-          {{ infoOverflowNeuilly.data.roomId }}
-        </div>
-        <div class="overflow-info-room">
-          {{ infoOverflowParis.data.roomId }}
-        </div>
-      </div>
-      <div class="d-flex justify-content-around">
-        <div class="flex-column separate">
-          <div class="space" v-bind:class="{
-            overflowMedium: state253.dataOS.overflowMedium,
-            overflowRequiered: state253.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu253')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state253.data.per" />
-            <div class="roomTitleCenter">Neuilly 253</div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state252.dataOS.overflowMedium,
+              overflowRequiered: state252.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu252')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state252.data.per" />
+              <div class="roomTitleCenter">Neuilly 252</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state251.dataOS.overflowMedium,
+              overflowRequiered: state251.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu251')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state251.data.per" />
+              <div class="roomTitleCenter">Neuilly 251</div>
+            </div>
           </div>
-
-          <div class="space" v-bind:class="{
-            overflowMedium: state252.dataOS.overflowMedium,
-            overflowRequiered: state252.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu252')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state252.data.per" />
-            <div class="roomTitleCenter">Neuilly 252</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state251.dataOS.overflowMedium,
-            overflowRequiered: state251.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu251')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state251.data.per" />
-            <div class="roomTitleCenter">Neuilly 251</div>
-          </div>
-        </div>
-        <div class="flex-column separate">
-          <div class="space" v-bind:class="{
-            overflowMedium: state243.dataOS.overflowMedium,
-            overflowRequiered: state243.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('par243')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
-              :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
-            <div class="roomTitleCenter">Paris 243</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state242.dataOS.overflowMedium,
-            overflowRequiered: state242.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('par242AB')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state242.data.per" />
-            <div class="roomTitleCenter">Paris 242AB</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state241.dataOS.overflowMedium,
-            overflowRequiered: state241.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('241')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
-              :percent="state241.data.per" :show-percent="true" />
-            <div class="roomTitleCenter">Paris 241</div>
+          <div class="flex-column separate">
+            <div class="space" v-bind:class="{
+              overflowMedium: state243.dataOS.overflowMedium,
+              overflowRequiered: state243.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('par243')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
+                :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
+              <div class="roomTitleCenter">Paris 243</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state242.dataOS.overflowMedium,
+              overflowRequiered: state242.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('par242AB')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state242.data.per" />
+              <div class="roomTitleCenter">Paris 242AB</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state241.dataOS.overflowMedium,
+              overflowRequiered: state241.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('241')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
+                :percent="state241.data.per" :show-percent="true" />
+              <div class="roomTitleCenter">Paris 241</div>
+            </div>
           </div>
         </div>
       </div>
@@ -162,100 +166,79 @@
         </div>
       </div>
     </b-carousel-slide>
-    <b-carousel-slide caption="First slide" text="Nulla vitae elit libero, a pharetra augue mollis interdum.">
-      <div class="d-flex justify-content-around separate-headfooter">
-        <div v-bind:class="{
-          overflowMedium: stateAmphiB.dataOS.overflowMedium,
-          overflowRequiered: stateAmphiB.dataOS.overflowRequiered,
-        }" v-on:click="showDetailsTalk('b_amphi')">
-          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
-            :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true" :percent="stateAmphiB.data.per"
-            :fill-color="stateAmphiB.data.color" />
-          <div class="roomTitleCenter">Amphi B.</div>
+    <b-carousel-slide>
+      <div class="d-flex justify-content-center">
+        <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
+          <div class="overflow-info-room">
+            {{ infoOverflowNeuilly.data.roomId }}
+          </div>
+          <div class="overflow-info-room">
+            {{ infoOverflowParis.data.roomId }}
+          </div>
         </div>
-      </div>
+        <div class="d-flex justify-content-around">
+          <div class="flex-column separate">
+            <div class="space" v-bind:class="{
+              overflowMedium: state253.dataOS.overflowMedium,
+              overflowRequiered: state253.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu253')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state253.data.per" />
+              <div class="roomTitleCenter">Neuilly 253</div>
+            </div>
 
-      <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
-        <div class="overflow-info-room">
-          {{ infoOverflowNeuilly.data.roomId }}
-        </div>
-        <div class="overflow-info-room">
-          {{ infoOverflowParis.data.roomId }}
-        </div>
-      </div>
-      <div class="d-flex justify-content-around">
-        <div class="flex-column separate">
-          <div class="space" v-bind:class="{
-            overflowMedium: state253.dataOS.overflowMedium,
-            overflowRequiered: state253.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu253')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state253.data.per" />
-            <div class="roomTitleCenter">Neuilly 253</div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state252.dataOS.overflowMedium,
+              overflowRequiered: state252.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu252')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state252.data.per" />
+              <div class="roomTitleCenter">Neuilly 252</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state251.dataOS.overflowMedium,
+              overflowRequiered: state251.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('neu251')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state251.data.per" />
+              <div class="roomTitleCenter">Neuilly 251</div>
+            </div>
           </div>
-
-          <div class="space" v-bind:class="{
-            overflowMedium: state252.dataOS.overflowMedium,
-            overflowRequiered: state252.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu252')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state252.data.per" />
-            <div class="roomTitleCenter">Neuilly 252</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state251.dataOS.overflowMedium,
-            overflowRequiered: state251.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('neu251')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state251.data.per" />
-            <div class="roomTitleCenter">Neuilly 251</div>
-          </div>
-        </div>
-        <div class="flex-column separate">
-          <div class="space" v-bind:class="{
-            overflowMedium: state243.dataOS.overflowMedium,
-            overflowRequiered: state243.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('par243')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
-              :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
-            <div class="roomTitleCenter">Paris 243</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state242.dataOS.overflowMedium,
-            overflowRequiered: state242.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('par242AB')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
-              :percent="state242.data.per" />
-            <div class="roomTitleCenter">Paris 242AB</div>
-          </div>
-          <div class="space" v-bind:class="{
-            overflowMedium: state241.dataOS.overflowMedium,
-            overflowRequiered: state241.dataOS.overflowRequiered,
-          }" v-on:click="showDetailsTalk('241')">
-            <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
-              :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
-              :percent="state241.data.per" :show-percent="true" />
-            <div class="roomTitleCenter">Paris 241</div>
+          <div class="flex-column separate">
+            <div class="space" v-bind:class="{
+              overflowMedium: state243.dataOS.overflowMedium,
+              overflowRequiered: state243.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('par243')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
+                :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
+              <div class="roomTitleCenter">Paris 243</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state242.dataOS.overflowMedium,
+              overflowRequiered: state242.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('par242AB')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
+                :percent="state242.data.per" />
+              <div class="roomTitleCenter">Paris 242AB</div>
+            </div>
+            <div class="space" v-bind:class="{
+              overflowMedium: state241.dataOS.overflowMedium,
+              overflowRequiered: state241.dataOS.overflowRequiered,
+            }" v-on:click="showDetailsTalk('241')">
+              <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
+                :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
+                :percent="state241.data.per" :show-percent="true" />
+              <div class="roomTitleCenter">Paris 241</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-around separate-headfooter">
-        <div v-bind:class="{
-          overflowMedium: stateMaillot.dataOS.overflowMedium,
-          overflowRequiered: stateMaillot.dataOS.overflowRequiered,
-        }" v-on:click="showDetailsTalk('c_maillot')">
-          <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
-            :fill-color="stateMaillot.data.color" :start-angle="380" insert-mode="append" :thickness="5"
-            :show-percent="true" :percent="stateMaillot.data.per" />
-          <div class="roomTitleCenter">Maillot</div>
-        </div>
-      </div>
-    
-    </b-carousel-slide >
+      <div class="box d-flex justify-content-around separate-headfooter"></div>
+    </b-carousel-slide>
   </b-carousel>
 </template>
 
@@ -567,5 +550,9 @@ function initOverflowAffectedRoom(affectedRoom, data) {
   border: 4px solid rgba(246, 141, 55, 60%);
   display: flex;
   justify-content: space-around;
+}
+
+.box {
+  height: 126px;
 }
 </style>
