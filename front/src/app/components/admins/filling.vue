@@ -61,7 +61,7 @@ export default {
   },
   created: function() {
     shared.securityAccess(this.$router, p => {
-      fetch("/api/stats/slots/_filling", {
+      fetch("/api/admin/stats/slots/_filling", {
           headers: shared.tokenHandle()
         })
         .then((response) => response.json())
@@ -77,7 +77,7 @@ export default {
     },
     refresh: function() {
       shared.securityAccess(this.$router, p => {
-            fetch("/api/stats/slots/_filling", {
+            fetch("/api/admin/stats/slots/_filling", {
                 headers: shared.tokenHandle()
               })
               .then((response) => response.json())

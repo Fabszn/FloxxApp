@@ -1,6 +1,6 @@
 package org.floxx
 
-import cats.data.{Kleisli, OptionT}
+import cats.data.{ Kleisli, OptionT }
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import org.floxx.FloxxMainHttp4s.AppEnvironment
@@ -8,10 +8,11 @@ import org.floxx.configuration.config.GlobalConfig
 import org.floxx.domain.jwt.UserInfo
 import org.http4s.Request
 import org.http4s.headers.Authorization
-import pdi.jwt.{Jwt, JwtAlgorithm}
+import pdi.jwt.{ Jwt, JwtAlgorithm }
 import zio._
+import zio.interop.catz.asyncInstance
 
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 package object api {
   type ApiTask[A] = RIO[AppEnvironment, A]
@@ -41,7 +42,9 @@ package object api {
               }
               case Success(jw) => {
                 decode[UserInfo](jw.content).fold(
-                  e => ZIO.logError(s"Decode token -> UserInfo error: ${e.getMessage} ${e.getCause}") *> ZIO.attempt(Option.empty[UserInfo]),
+                  e =>
+                    ZIO.logError(s"Decode token -> UserInfo error: ${e.getMessage} ${e.getCause}") *> ZIO
+                      .attempt(Option.empty[UserInfo]),
                   (user: UserInfo) => ZIO.attempt(Option(user))
                 )
               }
@@ -49,4 +52,19 @@ package object api {
         )
       }
     )
+
+  def authAdmin(kei: Kleisli[OT, Request[ApiTask], UserInfo]): Kleisli[OT, Request[ApiTask], UserInfo] =
+    kei.andThen(
+      Kleisli[OT, UserInfo, UserInfo](
+        ui =>
+          OptionT {
+            ZIO.attempt(if (ui.isAdmin) {
+              Option(ui)
+            } else {
+              Option.empty[UserInfo]
+            })
+          }
+      )
+    )
+
 }

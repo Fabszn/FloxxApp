@@ -4,14 +4,14 @@ import cats.syntax.all._
 import org.floxx.domain.jwt.UserInfo
 import org.floxx.api._
 import org.floxx.configuration.config
-import org.floxx.configuration.config.{Configuration, GlobalConfig, getConf}
+import org.floxx.configuration.config.{ getConf, Configuration, GlobalConfig }
 import org.floxx.repository._
 import org.floxx.service.trackService.TrackService
 import org.floxx.service._
 import org.floxx.service.http.Http
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
-import org.http4s.server.{AuthMiddleware, Router}
+import org.http4s.server.{ AuthMiddleware, Router }
 import org.joda.time.DateTimeZone
 import zio._
 import zio.interop.catz._
@@ -54,19 +54,30 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
 
     authMiddleware(
       hitApi.api <+>
-      SlotApi.api <+>
-      adminApi.api <+>
-      statsApi.api <+>
-      informationApi.api
+      slotApi.api <+>
+      informationApi.api <+> adminApi.api
     )
+
+  }
+
+  def floxxAdminServices(conf: GlobalConfig) = {
+
+    val adminAuthMiddleware: AuthMiddleware[ApiTask, UserInfo] = AuthMiddleware(authAdmin(authUser(conf)))
+
+    adminAuthMiddleware(
+      statsApi.api <+>
+      adminApi.api
+    )
+
   }
 
   def floxxApp(conf: GlobalConfig) =
     Router[ApiTask](
       "/" -> entriesPointApi.api,
+      "/api/admin" -> floxxAdminServices(conf),
       "/api" -> floxxServices(conf),
-      "/" -> StaticApi.api,
-      "/assets" -> StaticApi.api
+      "/" -> staticApi.api,
+      "/assets" -> staticApi.api
     ).orNotFound
 
   override def run =

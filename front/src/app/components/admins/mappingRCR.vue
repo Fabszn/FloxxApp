@@ -210,7 +210,7 @@ function beforeOpen(slotId) {
       });
   });
 
-  fetch("/api/users", {
+  fetch("/api/admin/users", {
     headers: shared.tokenHandle(),
   })
     .then((response) => response.json())
@@ -231,7 +231,7 @@ function computeUser(user) {
 
 function reloadData() {
   shared.securityAccess(this.$router, (v) => {
-    fetch("/api/mapping", {
+    fetch("/api/admin/mapping", {
       headers: shared.tokenHandle(),
     })
       .then((response) => response.json())

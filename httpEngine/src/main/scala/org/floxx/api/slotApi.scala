@@ -3,9 +3,9 @@ package org.floxx.api
 import io.circe.syntax._
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.{ Room, Slot }
+import org.floxx.domain.{Room, Slot}
 import org.floxx.configuration.config
-import org.floxx.service.{ timeUtils, trackService }
+import org.floxx.service.{adminService, timeUtils, trackService}
 import org.floxx.utils.CirceValueClassCustomAuto._
 import org.floxx.domain.Hit
 import org.floxx.domain.jwt.UserInfo
@@ -13,12 +13,11 @@ import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
 import org.http4s.dsl.Http4sDsl
-
 import zio.interop.catz._
 
 import scala.collection.SortedSet
 
-object SlotApi {
+object slotApi {
 
   val dsl = Http4sDsl[ApiTask]
 
@@ -122,6 +121,11 @@ object SlotApi {
 
     case GET -> Root / "rooms" as _ =>
       trackService.loadRooms flatMap (rs => Ok(rs))
+
+    case GET -> Root / "planning" as _ =>
+      adminService.planning flatMap { uss =>
+        Ok(uss)
+      }
 
   }
 

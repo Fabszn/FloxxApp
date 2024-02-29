@@ -20,11 +20,7 @@ var pAdmin = "isAdmin"
 export default {
 
     checkStore: async function (store) {
-        console.log(store.state)
-        console.log(store.state.rooms)
-        console.log(store.state.planning)
-        console.log(_.isEmpty(store.state.rooms))
-        if (_.isEmpty(store.state.rooms)) {
+            if (_.isEmpty(store.state.rooms)) {
             await store.dispatch('fetchRooms');
             await store.dispatch('fetchPlanning');
             await store.dispatch('fetchDays');
