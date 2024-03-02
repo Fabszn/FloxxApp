@@ -2,27 +2,19 @@
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button
-          v-on:click="backMenu"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
       </div>
     </div>
     <div class="screen-title">My Slots</div>
-    <div v-for="item in items" :key="item.day">
+    <div v-for="item in slotItems" :key="item.day">
       <p class="dayTitle">{{ item.day }}</p>
 
       <div v-for="slot in item.slots" :key="slot.slotId">
-        <button
-          type="button"
-          :class="{ active: isCurrentActiveSlot(item.currentActiveSlot, slot) }"
-          class="btn btn-secondary btn-lg block"
-          v-on:click="selectSlot(slot.slotId)"
-        >
-          {{ slot.roomId }} : {{ slot.fromTime }} -
+        <button type="button" :class="{ active: isCurrentActiveSlot(item.currentActiveSlot, slot) }"
+          class="btn btn-secondary btn-lg block" v-on:click="selectSlot(slot.slotId)">
+          {{ getRoomNameById(slot.roomId) }} : {{ slot.fromTime }} -
           {{ slot.toTime }}
         </button>
       </div>
@@ -30,26 +22,37 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import shared from "../shared";
 import _ from "lodash";
-export default {
-  data: function () {
-    return {
-      items: [],
-    };
-  },
-  created: function () {
-    fetch("/api/slots/_currentUser", {
-      headers: shared.tokenHandle(),
-    })
-      .then((response) => response.json())
-      .then((p) => {
-        this.items = p;
-      });
-  },
-  methods: {
-    isCurrentActiveSlot: function (currentActiveSlot, currentSlot) {
+import { onBeforeMount, defineComponent, ref, computed } from 'vue'
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+export default defineComponent({
+  setup() {
+
+    const router = useRouter();
+    const store = useStore();
+    const slotItems = ref([]);
+    const rooms = computed(() => store.state.rooms)
+
+    
+
+    onBeforeMount(async () => {
+      if (_.isEmpty(store.state.rooms)) {
+        await store.dispatch('fetchRooms');
+      }
+
+      fetch("/api/slots/_currentUser", {
+        headers: shared.tokenHandle(),
+      })
+        .then((response) => response.json())
+        .then((p) => {
+          slotItems.value = p;
+        });
+    });
+
+    function isCurrentActiveSlot(currentActiveSlot, currentSlot) {
       function toSlotIdVal(slot) {
         return slot.slotId;
       }
@@ -58,25 +61,37 @@ export default {
         _.map(currentActiveSlot, toSlotIdVal),
         currentSlot.slotId
       );
+    }
+    function selectSlot(idSlot: number) {
+      router.push("/fill/" + idSlot);
+    }
 
-      /*if (_.isNull(currentActiveSlot)) {
-        return false;
-      } else {
-        return currentActiveSlot.slotId.value == currentSlot.slotId.value;
-      }*/
-    },
-    selectSlot: function (idSlot) {
-      this.$router.push("/fill/" + idSlot);
-    },
-    backMenu: function () {
-      this.$router.push("/menu");
-    },
+    function getRoomNameById(roomId:number){
+      return shared.getRoomName(roomId, rooms.value)
+    }
+
+    function backMenu() {
+      router.push("/menu");
+    }
+
+
+    return {
+      slotItems,
+      isCurrentActiveSlot,
+      selectSlot,
+      backMenu,
+      getRoomNameById
+    }
   },
-};
+  methods: {
+
+  }
+
+});
 </script>
 
 
-<style  scoped>
+<style scoped>
 .block {
   width: 100%;
   border: 1px solid #f6f2c9;
@@ -94,7 +109,7 @@ export default {
 
 .dayTitle {
   font-size: 24px;
-  text-transform: capitalize !important ;
+  text-transform: capitalize !important;
   color: cornsilk;
 }
 </style>

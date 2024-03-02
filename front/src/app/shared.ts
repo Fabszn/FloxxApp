@@ -56,7 +56,16 @@ export default {
     },
     readAdminEtat: function () {
         return sessionStorage.getItem(pAdmin) == "true";
-    }
+    },
+    getRoomName: function (roomId: number, rooms) {
+        return _.filter(rooms, function (room){
+          return room.id == roomId 
+          })[0].name
+  
+      }
+
+
+
 }
 
 

@@ -19,7 +19,7 @@
                 filterByGpr(1713, item.rooms),/*'Maillot'*/
                 filterByGpr(1709, item.rooms) /*'Amphi'*/
               )" :key="room.roomId">
-                <div class="header">{{ getRoomName(room.roomId) }}</div>
+                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -40,7 +40,7 @@
                 filterByGpr(1706, item.rooms),
                 filterByGpr(1708, item.rooms)
               )" :key="room.roomId">
-                <div class="header">{{ getRoomName(room.roomId) }}</div>
+                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -60,7 +60,7 @@
                 filterByGpr(1707, item.rooms),
                 filterByGpr(1701, item.rooms)
               )" :key="room.roomId">
-                <div class="header">{{ getRoomName(room.roomId) }}</div>
+                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -80,7 +80,7 @@
                 filterByGpr(1710, item.rooms),
                 filterByGpr(1712, item.rooms)
               )" :key="room.roomId">
-                <div class="header">{{ getRoomName(room.roomId) }}</div>
+                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -100,7 +100,7 @@
                 filterByGpr(1711, item.rooms),
                 filterByGpr(1705, item.rooms)
               )" :key="room.roomId">
-                <div class="header">{{ getRoomName(room.roomId) }}</div>
+                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -265,8 +265,8 @@ export default defineComponent({
         });
       }
     }
-    function getRoomName(idRoom) {
-      return _.filter(rooms.value, function (r) { return r.id == idRoom })[0].name
+    function getRoomNameById(roomId:number){
+      return shared.getRoomName(roomId, rooms.value)
     }
 
     function composeFilter(arr1: [], arr2: []) {
@@ -348,7 +348,7 @@ export default defineComponent({
       hide,
       remove,
       saveMapping,
-      getRoomName,
+      getRoomNameById,
       composeFilter,
       filterByGpr,
       cleanHeader,
