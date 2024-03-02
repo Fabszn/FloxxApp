@@ -40,11 +40,6 @@ export default [
         response: [{ "day": "Wednesday", "slots": [{ "slotId": "63456", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 }, { "slotId": "1783", "roomName": "Maillot", "roomId": 1713, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 }, { "slotId": "1869", "roomName": "Maillot", "roomId": 1713, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 }], "currentActiveSlot": [{ "slotId": "2259", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 }] }, { "day": "Thursday", "slots": [{ "slotId": "2101", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 }], "currentActiveSlot": [{ "slotId": "2259", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 }] }, { "day": "Friday", "slots": [{ "slotId": "2259", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 }], "currentActiveSlot": [{ "slotId": "2259", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 }] }]
     },
     {
-        url: '/api/tracks-infos',
-        method: 'get',
-        response: "Fabrice Test"
-    },
-    {
 
         url: '/api/tracks-infos',
         method: 'get',

@@ -66,12 +66,12 @@
       </div>
     </div>
   </GDialog>
-  <!-- top-->
+  <!-- top
   <b-carousel id="carousel-1" v-model="slide" controls indicators background="rgba(var(--bs-dark-rgb)" img-width="450"
     img-height="800" style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart" @sliding-end="onSlideEnd">
-
-
-    <b-carousel-slide>
+  -->
+  <b-tabs content-class="mt-3">
+    <b-tab title="First floor">
 
       <div class="d-flex justify-content-around separate-headfooter">
         <div v-bind:class="{
@@ -165,8 +165,8 @@
           <div class="roomTitleCenter">Maillot</div>
         </div>
       </div>
-    </b-carousel-slide>
-    <b-carousel-slide>
+    </b-tab>
+    <b-tab title="Second floor" >
       <div class="d-flex justify-content-center">
         <div v-bind:class="{ overflowinfo: showOverflow }" v-on:click="showOverflowAction()">
           <div class="overflow-info-room">
@@ -238,8 +238,8 @@
         </div>
       </div>
       <div class="box d-flex justify-content-around separate-headfooter"></div>
-    </b-carousel-slide>
-  </b-carousel>
+    </b-tab>
+  </b-tabs>
 </template>
 
 
@@ -388,9 +388,8 @@ function currentTracksWitHitInfo() {
       this.hits = tis;
       _.forEach(_.values(tis), (value) => {
         if (!_.isNull(value.hitInfo)) {
-          var currentState: StateRoom = getState.bind(this)(
-            "" + value.slot.roomId
-          );
+
+          var currentState: StateRoom = getState.bind(this)(value.slot.roomId);
 
           if (!_.isUndefined(currentState)) {
             currentState.data.per = _.toInteger(value.hitInfo.percentage);
@@ -414,34 +413,34 @@ function currentTracksWitHitInfo() {
     });
 }
 
-function getState(key: String) {
-  if (key == "1712") {
+function getState(key: number) {
+  if (key == 1712) {
     return this.state243;
-  } else if (key == "1713") {
+  } else if (key == 1713) {
     return this.stateMaillot;
-  } else if (key == "1709") {
+  } else if (key == 1709) {
     return this.stateAmphiB;
-  } else if (key == "1711") {
+  } else if (key == 1711) {
     return this.state242;
-  } else if (key == "1710") {
+  } else if (key == 1710) {
     return this.state241;
-  } else if (key == "1706") {
+  } else if (key == 1706) {
     return this.state251;
-  } else if (key == "1707") {
+  } else if (key == 1707) {
     return this.state252;
-  } else if (key == "1708") {
+  } else if (key == 1708) {
     return this.state253;
-  } else if (key == "1051") {
+  } else if (key == 1051) {
     return this.state151;
-  } else if (key == "1701") {
+  } else if (key == 1701) {
     return this.state152;
-  } else if (key == "1702") {
+  } else if (key == 1702) {
     return this.state153;
-  } else if (key == "1703") {
+  } else if (key == 1703) {
     return this.state141;
-  } else if (key == "1704") {
+  } else if (key == 1704) {
     return this.state142;
-  } else if (key == "1705") {
+  } else if (key == 1705) {
     return this.state143;
   }
 }
@@ -527,6 +526,9 @@ function initOverflowAffectedRoom(affectedRoom, data) {
 </script>
 
 <style  scoped>
+
+
+
 .gdialog {
   width: 100%;
   padding: 30px;
