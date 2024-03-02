@@ -34,7 +34,7 @@ const store = createStore({
         confDays: []
     },
     mutations: {
-        setUsername(state, name) {
+        username(state, name) {
             state.username = name;
         },
         rooms(state, rooms) {
@@ -76,6 +76,16 @@ const store = createStore({
                 context.commit('days', planningData);
             })
         }
+        ,
+        async fetchUserInfo(context) {
+            shared.securityAccess(router, async () => {
+                const usernameResp = await fetch("/api/informations/current-user", {
+                    method: "GET",
+                    headers: shared.tokenHandle() })
+                const usernameData = await usernameResp.text()
+                context.commit('username', usernameData);
+            })
+        }
     }
 });
 
@@ -84,6 +94,8 @@ async function initStore() {
     await store.dispatch('fetchRooms');
     await store.dispatch('fetchPlanning');
     await store.dispatch('fetchDays');
+    await store.dispatch('fetchUserInfo');
+    
 }
 
 initStore().then(() => {

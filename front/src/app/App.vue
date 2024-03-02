@@ -2,7 +2,7 @@
   <div class="d-flex flex-column">
     <router-view />
     <div class="version">
-      {{ version }} - <span> {{ this.$store.state.username }} </span>
+      {{ version }} - <span> {{ username }} </span>
     </div>
     <div id="username"></div>
   </div>
@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       version: "",
+      username: this.$store.username
     };
   },
   mounted() {

@@ -52,11 +52,12 @@ export default {
           .then(
             (r) => {
               shared.storeToken(r.token, r.isAdmin, r.name);
-              store.commit("setUsername", r.name);
+              store.commit("username", r.name);
             },
             (r) => {
               this.loginFailedMsg = false;
-              console.error(r);
+              router.push("/login")
+              
             }
           )
 

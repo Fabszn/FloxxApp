@@ -77,7 +77,7 @@
         <div v-bind:class="{
           overflowMedium: stateAmphiB.dataOS.overflowMedium,
           overflowRequiered: stateAmphiB.dataOS.overflowRequiered,
-        }" v-on:click="showDetailsTalk('b_amphi')">
+        }" v-on:click="showDetailsTalk(1709)">
           <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
             :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true" :percent="stateAmphiB.data.per"
             :fill-color="stateAmphiB.data.color" />
@@ -98,7 +98,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state253.dataOS.overflowMedium,
               overflowRequiered: state253.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu253')">
+            }" v-on:click="showDetailsTalk(1708)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state253.data.per" />
@@ -108,7 +108,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state252.dataOS.overflowMedium,
               overflowRequiered: state252.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu252')">
+            }" v-on:click="showDetailsTalk(1707)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state252.data.per" />
@@ -117,7 +117,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state251.dataOS.overflowMedium,
               overflowRequiered: state251.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu251')">
+            }" v-on:click="showDetailsTalk(1706)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state251.data.per" />
@@ -128,7 +128,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state243.dataOS.overflowMedium,
               overflowRequiered: state243.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('par243')">
+            }" v-on:click="showDetailsTalk(1712)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
                 :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
               <div class="roomTitleCenter">Paris 243</div>
@@ -136,7 +136,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state242.dataOS.overflowMedium,
               overflowRequiered: state242.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('par242AB')">
+            }" v-on:click="showDetailsTalk(1711)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state242.data.per" />
@@ -145,7 +145,7 @@
             <div class="space" v-bind:class="{
               overflowMedium: state241.dataOS.overflowMedium,
               overflowRequiered: state241.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('241')">
+            }" v-on:click="showDetailsTalk(1710)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
                 :percent="state241.data.per" :show-percent="true" />
@@ -158,7 +158,7 @@
         <div v-bind:class="{
           overflowMedium: stateMaillot.dataOS.overflowMedium,
           overflowRequiered: stateMaillot.dataOS.overflowRequiered,
-        }" v-on:click="showDetailsTalk('c_maillot')">
+        }" v-on:click="showDetailsTalk(1713)">
           <circle-progress :size="globalSize" :reverse="false" line-cap="round" :animation-start-value="0.0"
             :fill-color="stateMaillot.data.color" :start-angle="380" insert-mode="append" :thickness="5"
             :show-percent="true" :percent="stateMaillot.data.per" />
@@ -181,58 +181,58 @@
             <div class="space" v-bind:class="{
               overflowMedium: state253.dataOS.overflowMedium,
               overflowRequiered: state253.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu253')">
+            }" v-on:click="showDetailsTalk(1708)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state253.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state253.data.per" />
-              <div class="roomTitleCenter">Neuilly 253</div>
+              <div class="roomTitleCenter">Neuilly 153</div>
             </div>
 
             <div class="space" v-bind:class="{
               overflowMedium: state252.dataOS.overflowMedium,
               overflowRequiered: state252.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu252')">
+            }" v-on:click="showDetailsTalk(1707)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state252.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state252.data.per" />
-              <div class="roomTitleCenter">Neuilly 252</div>
+              <div class="roomTitleCenter">Neuilly 152</div>
             </div>
             <div class="space" v-bind:class="{
               overflowMedium: state251.dataOS.overflowMedium,
               overflowRequiered: state251.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('neu251')">
+            }" v-on:click="showDetailsTalk(1706)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state251.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state251.data.per" />
-              <div class="roomTitleCenter">Neuilly 251</div>
+              <div class="roomTitleCenter">Neuilly 151</div>
             </div>
           </div>
           <div class="flex-column separate">
             <div class="space" v-bind:class="{
               overflowMedium: state243.dataOS.overflowMedium,
               overflowRequiered: state243.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('par243')">
+            }" v-on:click="showDetailsTalk(1705)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :start-angle="380"
                 :fill-color="state243.data.color" :show-percent="true" :percent="state243.data.per" :viewport="true" />
-              <div class="roomTitleCenter">Paris 243</div>
+              <div class="roomTitleCenter">Paris 143</div>
             </div>
             <div class="space" v-bind:class="{
               overflowMedium: state242.dataOS.overflowMedium,
               overflowRequiered: state242.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('par242AB')">
+            }" v-on:click="showDetailsTalk(1704)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state242.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :show-percent="true"
                 :percent="state242.data.per" />
-              <div class="roomTitleCenter">Paris 242AB</div>
+              <div class="roomTitleCenter">Paris 142AB</div>
             </div>
             <div class="space" v-bind:class="{
               overflowMedium: state241.dataOS.overflowMedium,
               overflowRequiered: state241.dataOS.overflowRequiered,
-            }" v-on:click="showDetailsTalk('241')">
+            }" v-on:click="showDetailsTalk(1703)">
               <circle-progress :size="globalSize" :reverse="false" line-cap="round" :fill-color="state241.data.color"
                 :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5"
                 :percent="state241.data.per" :show-percent="true" />
-              <div class="roomTitleCenter">Paris 241</div>
+              <div class="roomTitleCenter">Paris 141</div>
             </div>
           </div>
         </div>
@@ -274,6 +274,12 @@ export default defineComponent({
     const state251 = new StateRoom();
     const state252 = new StateRoom();
     const state253 = new StateRoom();
+    const state143 = new StateRoom();
+    const state141 = new StateRoom();
+    const state142 = new StateRoom();
+    const state151 = new StateRoom();
+    const state152 = new StateRoom();
+    const state153 = new StateRoom();
     const infoOverflowNeuilly = new OverflowRoomState();
     const infoOverflowParis = new OverflowRoomState();
     const showOverflow = ref(false);
@@ -291,6 +297,12 @@ export default defineComponent({
       state251,
       state252,
       state253,
+      state143,
+      state141,
+      state142,
+      state151,
+      state152,
+      state153,
       globalSize,
       infoOverflowNeuilly,
       infoOverflowParis,
@@ -323,7 +335,7 @@ export default defineComponent({
     onSlideEnd(slide) {
       this.sliding = false
     },
-    showDetailsTalk: function (idSlot: string) {
+    showDetailsTalk: function (idSlot: number) {
       beforeOpen.bind(this)(idSlot);
       this.dialogDetailsTalkState = true;
     },
@@ -419,6 +431,18 @@ function getState(key: String) {
     return this.state252;
   } else if (key == "1708") {
     return this.state253;
+  } else if (key == "1051") {
+    return this.state151;
+  } else if (key == "1701") {
+    return this.state152;
+  } else if (key == "1702") {
+    return this.state153;
+  } else if (key == "1703") {
+    return this.state141;
+  } else if (key == "1704") {
+    return this.state142;
+  } else if (key == "1705") {
+    return this.state143;
   }
 }
 
@@ -459,9 +483,9 @@ function unsetAffectedRoom(ar: String) {
 }
 
 function beforeOpen(idSlot) {
-  let currentr = (id: string) => {
+  let currentr = (id: number) => {
     return _.find(this.hits, function (hit) {
-      return hit.hitSlotId.includes(id);
+      return hit.slot.roomId == id;
     });
   };
   let current = currentr(idSlot);

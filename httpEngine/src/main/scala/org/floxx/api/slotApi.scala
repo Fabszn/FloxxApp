@@ -126,6 +126,10 @@ object slotApi {
       adminService.planning flatMap { uss =>
         Ok(uss)
       }
+    case GET -> Root / "days" as _ =>
+      config.getConf flatMap { conf =>
+        Ok(conf.cfp.days)
+      }
 
   }
 

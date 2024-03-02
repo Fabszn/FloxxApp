@@ -1,15 +1,15 @@
 package org.floxx.api
 
+import org.floxx.domain
 import org.floxx.domain.Information
 import org.floxx.domain.Information.{Content, Title}
 import org.floxx.domain.jwt.UserInfo
-import org.floxx.service.informationService
+import org.floxx.service.{informationService, securityService}
 import org.http4s.AuthedRoutes
 import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s.circe.jsonOf
 import org.http4s.dsl.Http4sDsl
-
 import zio.interop.catz._
 
 object informationApi {
@@ -52,6 +52,11 @@ object informationApi {
         _ <- informationService.archiveInfo(Information.Id(infoId))
         informations <- informationService.allInformation
         r <- Ok(informations)
+      } yield r
+    case _ @GET -> Root / "informations"/"current-user" as user =>
+      for {
+        userInformation <- securityService.loadUserById(user.userId)
+        r <- Ok(userInformation.map(u => s"${u.firstName.value} ${u.lastName.value}"))
       } yield r
 
   }
