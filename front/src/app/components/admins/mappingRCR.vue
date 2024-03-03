@@ -44,9 +44,9 @@
     >
       <template v-slot:head(slotId)>Slot</template>
       <template v-slot:head(RedCoat)>Red Coat</template>
-      <template v-slot:cell(slotId)="data">{{
-        data.item.slot.slotId
-      }}</template>
+      <template v-slot:cell(slotId)="data">
+        {{data.item.slot.day + " / " + data.item.slot.roomName   }}<br>
+        {{data.item.slot.fromTime + " > " + data.item.slot.toTime  }}</template>
       <template v-slot:cell(RedCoat)="data">
         <div v-on:click="show(data.item.slot.slotId, data.item.user)">
           {{ handleUser(data.item.user) }}
@@ -119,7 +119,7 @@ export default defineComponent({
       selectedSlotId: "",
       selectedUserId: "",
       actualUserNameSelected: "",
-      items: [],
+      items: ref([]),
       sortBy: "slotId",
       sortDesc: false,
       fields: [
@@ -196,8 +196,8 @@ function beforeOpen(slotId) {
       .then((response) => response.json())
       .then((p) => {
         this.currentConf.updateInfo(
-          p.talk.title,
-          p.talk.talkType,
+          p.title,
+          p.kind,
           p.roomId,
           p.fromTime,
           p.toTime,
