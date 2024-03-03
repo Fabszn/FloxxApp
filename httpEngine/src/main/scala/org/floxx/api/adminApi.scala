@@ -31,6 +31,7 @@ object adminApi {
     implicit val format = jsonOf[ApiTask, Mapping]
   }
 
+
   def api = AuthedRoutes.of[UserInfo, ApiTask] {
 
     case ct @ POST -> Root / "set-user" as _ =>
@@ -44,14 +45,8 @@ object adminApi {
       adminService.mappingUserSlot flatMap { uss =>
         Ok(uss)
       }
-    case GET -> Root / "planning" as _ =>
-      adminService.planning flatMap { uss =>
-        Ok(uss)
-      }
-    case GET -> Root / "days" as _ =>
-      config.getConf flatMap { conf =>
-        Ok(conf.cfp.days)
-      }
+
+
     case _ @ GET -> Root / "users" as _ =>
       adminService.loadUsers flatMap (users => Ok(users))
     case GET -> Root / "healthCheck" as _ => Ok("up and go")

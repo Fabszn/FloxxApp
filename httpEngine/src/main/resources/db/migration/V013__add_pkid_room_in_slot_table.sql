@@ -1,1 +1,4 @@
-ALTER TABLE slot ADD COLUMN IF NOT EXISTS pkid_room bigint;
+ALTER TABLE slot
+RENAME COLUMN roomid TO room_name;
+
+ALTER TABLE slot ADD COLUMN IF NOT EXISTS roomid bigint;

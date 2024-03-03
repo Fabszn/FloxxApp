@@ -340,7 +340,7 @@ export default defineComponent({
     },
     initData() {
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots", {
+        fetch("/api/admin/stats/slots", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())
@@ -349,7 +349,7 @@ export default defineComponent({
           });
       });
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots/_filling/0", {
+        fetch("/api/admin/stats/slots/_filling/0", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())
@@ -365,7 +365,7 @@ export default defineComponent({
       });
       
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots/_filling/1", {
+        fetch("/api/admin/stats/slots/_filling/1", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())
@@ -381,7 +381,7 @@ export default defineComponent({
       });
       
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots/_filling/2", {
+        fetch("/api/admin/stats/slots/_filling/2", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())
@@ -397,7 +397,7 @@ export default defineComponent({
       });
      
       shared.securityAccess(this.$router, (v) => {
-        fetch("/api/stats/slots/_filling/3", {
+        fetch("/api/admin/stats/slots/_filling/3", {
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json())

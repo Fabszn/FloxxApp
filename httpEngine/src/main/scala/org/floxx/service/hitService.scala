@@ -56,7 +56,6 @@ object hitService {
             overflows.find(_.slotId == s.slotId)
           )
         }
-
       } yield {
         filtered
       }

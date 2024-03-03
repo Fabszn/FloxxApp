@@ -4,30 +4,45 @@
     <div><b-spinner label="Loading..."></b-spinner></div>
   </div>
 </template>
+
 <script>
 import _ from "lodash";
 import shared from "../shared";
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { onBeforeMount } from "vue";
 export default {
-  created: function () {
-    fetch("try-reco", {
-      headers: shared.tokenHandle(),
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((p) => {
-        shared.storeToken(p.token, p.isAdmin, p.name);
-        this.$store.commit("setUsername", p.name);
-        this.$router.push("/menu");
+
+
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+
+
+    onBeforeMount(() => {
+      fetch("try-reco", {
+        headers: shared.tokenHandle(),
+        method: "POST",
       })
-      .catch((err) => {
-        console.info("error");
-        this.$router.push("/login");
-      });
-  },
-};
+        .then((response) => response.json())
+        .then((p) => {
+          shared.storeToken(p.token, p.isAdmin, p.name);
+          store.commit("username", p.name);
+          router.push("/menu");
+        })
+        .catch((err) => {
+          router.push("/login");
+        });
+    }
+    )
+
+    return {}
+  }
+}
+
 </script>
 
-<style  scoped>
+<style scoped>
 .spinner {
   display: flex;
   justify-content: center;

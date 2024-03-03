@@ -8,7 +8,7 @@ import zio.interop.catz._
 /**
   * Helper to expose static files of app
   */
-object StaticApi {
+object staticApi {
 
   val dsl = Http4sDsl[ApiTask]
 
