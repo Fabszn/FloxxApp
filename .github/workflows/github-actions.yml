@@ -1,18 +1,27 @@
-name: Floxx Actions
+name: Floxx build and release
+on: [push]
 jobs:
-  integration-test-on-push:
-    on: [push]
+  integration-test-on:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-yarn@v2
+        with:
+             node-version: '1.22.19'
+
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+
       - name: Integration Test
         run: |
           sbt "httpEngine/IntegrationTest/test"
-      - name: Packaging to prod
+      - name: Build frontend and backend
         run: |
-          sbt "httpEngine/dist"
+          sbt "build"
+      - name: list files modified
+        run: |
+          git  status
       - run: echo "🍏 This job's status is ${{ job.status }}."
