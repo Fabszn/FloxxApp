@@ -15,3 +15,4 @@ desktopApp/dist
 front/yarn-error.log
 metals.sbt
 */**/local.conf
+httpEngine/src/main/resources/assets/
