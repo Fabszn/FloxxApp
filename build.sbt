@@ -202,7 +202,7 @@ addCommandAlias(
 )
 addCommandAlias(
   "build2Prod",
-  ";clean;frontProd;floxxCopyFile;dist"
+  ";clean;front/yarnInstall;frontProd;floxxCopyFile;dist"
 )
 
 addCommandAlias(
