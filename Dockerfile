@@ -38,15 +38,7 @@ RUN VERSION=$(cat /app/version.sbt | grep 'version :=' | sed 's/.*"\(.*\)".*/\1/
       unzip floxxserver-${VERSION}.zip &&\
       mv  floxxserver-${VERSION}   floxxserver-current
 
-
-
 WORKDIR /app/floxxserver-current
-
-ENV POSTGRESQL_URI $POSTGRESQL_URI_ARG
-ENV POSTGRESQL_ADDON_USER $POSTGRESQL_ADDON_USER_ARG
-ENV POSTGRESQL_ADDON_PASSWORD $POSTGRESQL_ADDON_PASSWORD_ARG
-ENV DELAY_AFTER $DELAY_AFTER_ARG
-ENV POSTGRESQL_MAX_POOL_SIZE $POSTGRESQL_MAX_POOL_SIZE_ARG
 
 EXPOSE 8080
 
