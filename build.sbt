@@ -193,6 +193,10 @@ addCommandAlias(
   ";frontDev;floxxCopyFile;httpEngine/run"
 )
 addCommandAlias(
+  "build",
+  ";front/yarnInstall;frontProd;floxxCopyFile;httpEngine/clean;httpEngine/compile"
+)
+addCommandAlias(
   "runProd",
   ";frontProd;floxxCopyFile;httpEngine/run"
 )

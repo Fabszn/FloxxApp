@@ -1,0 +1,28 @@
+name: Floxx build and release
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+             node-version: '18'
+             yarn-version: '1.22.19'
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Integration Test
+        run: |
+          sbt "httpEngine/IntegrationTest/test"
+      - name: Build frontend and backend
+        run: |
+          sbt "build"
+      - name: list files modified
+        run: |
+          git  status
+      - run: echo "🍏 This job's status is ${{ job.status }}."
