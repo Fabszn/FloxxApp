@@ -1,17 +1,18 @@
 package org.floxx.configuration
 
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import io.circe
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.parser._
-import io.circe.{ Decoder, Encoder }
+import io.circe.{Decoder, Encoder}
 import org.floxx.domain
-import org.floxx.domain.AuthUser.{ Login, Mdp }
+import org.floxx.domain.AuthUser.{Login, Mdp}
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.{ jwt, CfpSlot }
+import org.floxx.domain.{CfpSlot, CfpSpeaker, Slot, jwt}
 import org.floxx.api.entriesPointApi.LoginRequest
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-import scala.io.{ BufferedSource, Source }
+import scala.io.{BufferedSource, Source}
 
 class JsonParserTest extends AnyFunSuite {
 
@@ -63,11 +64,17 @@ class JsonParserTest extends AnyFunSuite {
     val msgJson: String        = source.mkString
     source.close()
 
-    val result = decode[Seq[CfpSlot]](msgJson)
+    val result: Either[circe.Error, Seq[CfpSlot]] = decode[Seq[CfpSlot]](msgJson)
 
     result match {
       case Left(err) => fail(err.getMessage)
-      case Right(r) => assert(r.nonEmpty)
+      case Right(r) => {
+
+        assert(r.nonEmpty)
+        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).map(_.title) == Seq(Slot.Title("High-Speed DDD (revisited)") ))
+        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).flatMap(_.speakers).size == 1 )
+
+      }
 
     }
 

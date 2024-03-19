@@ -158,5 +158,9 @@ package object repository {
       querySchema[InformationReadStatus]("information_read_status", _.userId -> "userid", _.infoId -> "fkid_information")
     )
 
+    val speaker = quote(
+      querySchema[Speaker]("speaker", _.id -> "pkid_speaker", _.slotId -> "fkid_slot")
+    )
+
   }
 }

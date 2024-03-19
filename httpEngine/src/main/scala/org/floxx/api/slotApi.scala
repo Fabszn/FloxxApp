@@ -1,14 +1,13 @@
 package org.floxx.api
 
 import io.circe.syntax._
+import org.floxx.configuration.config
+import org.floxx.domain.{Hit, Slot}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.{Room, Slot}
-import org.floxx.configuration.config
+import org.floxx.domain.jwt.UserInfo
 import org.floxx.service.{adminService, timeUtils, trackService}
 import org.floxx.utils.CirceValueClassCustomAuto._
-import org.floxx.domain.Hit
-import org.floxx.domain.jwt.UserInfo
 import org.http4s.AuthedRoutes
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.circe.jsonOf
@@ -117,6 +116,12 @@ object slotApi {
         _.fold(
           NotFound(s"None slot found for key ${idSlot}")
         ) { Ok(_) }
+      }
+
+    case GET -> Root / "speakers" / idSlot as _ =>
+      trackService.speakerBy(Slot.Id(idSlot)) flatMap {
+        case Nil => NotFound(s"None speaker found for key ${idSlot}")
+        case speakers => Ok(speakers)
       }
 
     case GET -> Root / "rooms" as _ =>

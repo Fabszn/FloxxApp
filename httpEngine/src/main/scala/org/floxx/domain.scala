@@ -3,21 +3,20 @@ package org.floxx
 import cats.effect.IO
 import io.circe.Decoder.Result
 import io.circe._
-import org.floxx.utils.CirceValueClassCustomAuto._
 import io.circe.generic.extras.semiauto._
-import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
-import org.http4s.circe.jsonOf
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.floxx.domain.AuthUser._
-import org.floxx.domain.ConfDay.{ DayIndex, DayValue }
-import org.floxx.domain.Information.{ Content, DateCreate, Title }
+import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import org.floxx.domain.Information.{Content, DateCreate, Title}
 import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.Overflow.{ AffectedRoom, DateTime, Level }
+import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
-
+import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.EntityDecoder
+import org.http4s.circe.jsonOf
 
-import java.time.{ ZoneId, ZonedDateTime }
+import java.time.{ZoneId, ZonedDateTime}
 import scala.util.Try
 
 object domain {
@@ -142,7 +141,25 @@ object domain {
       implicit val ordering: Ordering[Room.Id] = (x: Room.Id, y: Room.Id) => x.value.compareTo(y.value)
     }
 
-    implicit val roomdecoder:Decoder[Room] = deriveDecoder[Room]
+    implicit val roomdecoder: Decoder[Room] = deriveDecoder[Room]
+
+  }
+
+  final case class Speaker(
+                            id: Speaker.Id,
+                            slotId: Slot.Id,
+                            firstname: Speaker.Firstname,
+                            lastname: Speaker.Lastname,
+                            fullname: Speaker.Fullname,
+                            imageUrl: Option[Speaker.ImageUrl]
+  )
+
+  object Speaker {
+    final case class Id(value: Long) extends AnyVal
+    final case class Firstname(value: String) extends AnyVal
+    final case class Lastname(value: String) extends AnyVal
+    final case class Fullname(value: String) extends AnyVal
+    final case class ImageUrl(value: String) extends AnyVal
 
   }
 
@@ -158,6 +175,27 @@ object domain {
       yearSlot: CurrentYear
   )
 
+  final case class CfpSpeaker(
+                               id: Speaker.Id,
+                               firstName: Speaker.Firstname,
+                               lastName: Speaker.Lastname,
+                               fullName: Speaker.Fullname,
+                               imageUrl: Option[Speaker.ImageUrl]
+  )
+  object CfpSpeaker {
+    def handleSpeakerInfo(c: HCursor): Result[Seq[CfpSpeaker]] =
+      if (c.downField("proposal").downField("speakers").succeeded) {
+        c.downField("proposal").downField("speakers")
+          .focus
+          .fold(Right(Seq.empty[CfpSpeaker]).withLeft[DecodingFailure])(
+            _.as[Seq[CfpSpeaker]]
+          )
+      } else {
+        Right(Seq.empty[CfpSpeaker])
+      }
+
+  }
+
   final case class CfpSlot(
       cfpSlotId: CfpSlot.Id,
       roomId: domain.CfpSlot.RoomId,
@@ -165,7 +203,8 @@ object domain {
       fromDate: CfpSlot.FromDate,
       toDate: CfpSlot.ToDate,
       kind: Slot.Kind,
-      title: Slot.Title
+      title: Slot.Title,
+      speakers: Seq[CfpSpeaker]
   )
 
   object CfpSlot {
@@ -198,6 +237,7 @@ object domain {
         toDate <- c.downField("toDate").as[ToDate]
         kind <- c.downField("sessionType").downField("name").as[Slot.Kind]
         title <- handleTitle(c)
+        speakers <- CfpSpeaker.handleSpeakerInfo(c)
 
       } yield {
         CfpSlot(
@@ -207,7 +247,8 @@ object domain {
           fromDate,
           toDate,
           kind,
-          title
+          title,
+          speakers
         )
       }
     }
@@ -215,9 +256,10 @@ object domain {
     private def handleTitle(c: HCursor): Result[Slot.Title] =
       if (c.downField("proposal").succeeded) {
         c.downField("proposal")
-          .values
+          .downField("title")
+          .focus
           .fold(Right(Slot.Title("---")).withLeft[DecodingFailure])(
-            _ => c.downField("proposal").downField("title").as[Slot.Title]
+            _.as[Slot.Title]
           )
       } else {
         Right(Slot.Title("---"))
@@ -233,15 +275,14 @@ object domain {
 
     }
     final case class FromTime(value: String) extends AnyVal
-    object FromTime{
+    object FromTime {
       implicit val idDecoder: Decoder[FromTime] = deriveUnwrappedDecoder[FromTime]
     }
     final case class ToTime(value: String) extends AnyVal
-    object ToTime{
+    object ToTime {
       implicit val idDecoder: Decoder[ToTime] = deriveUnwrappedDecoder[ToTime]
     }
     final case class Day(value: String) extends AnyVal
-
 
     final case class Kind(value: String) extends AnyVal
     object Kind {
@@ -252,14 +293,12 @@ object domain {
       implicit val dec: Decoder[Slot.Title] = deriveUnwrappedDecoder[Slot.Title]
     }
     object Day {
-      implicit val dec: Decoder[Day] = deriveUnwrappedDecoder[Day]
+      implicit val dec: Decoder[Day]       = deriveUnwrappedDecoder[Day]
       implicit val ordering: Ordering[Day] = (x: Day, y: Day) => x.value.compareTo(y.value)
     }
 
     implicit val ordering: Ordering[Slot] = (x: Slot, y: Slot) =>
       s"${x.fromTime.value}-${x.roomId}".compareTo(s"${y.fromTime.value}-${y.roomId}")
-
-
 
   }
 
