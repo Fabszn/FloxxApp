@@ -204,6 +204,14 @@ class Information {
 }
 
 
+export interface ISpeaker{
+    slotId:string
+    firstname:string
+    lastname:string
+    fullname:string
+    imageUrl:string
+}
+
 export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, OverflowRoomState, Information }
 
 

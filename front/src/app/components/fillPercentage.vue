@@ -2,161 +2,95 @@
   <div class="d-flex flex-column">
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
-        <button
-          v-on:click="backMySlots"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
+        <button v-on:click="backMySlots" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
         &nbsp;
-        <button
-          v-on:click="sendPicture"
-          type="button"
-          class="btn btn-secondary navbtn"
-        >
+        <button v-on:click="sendPicture" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="photo-film" />
         </button>
       </div>
     </div>
 
+    <b-modal id="modal-1">
+      <speaker :slotId=this.$route.params.slotid />
+    </b-modal>
+
     <div class="d-flex flex-column justify-content-center">
       <div class="title separate">{{ title }}</div>
-      <div>{{ kind }} - {{ room }}</div>
+      <div>{{ kind }} - {{ room }} - <b-button v-b-modal.modal-1>Speakers</b-button></div>
+
+      
+
     </div>
 
     <div class="d-flex justify-content-center">
       <div>
-        <circle-progress
-          :size="100"
-          :reverse="false"
-          line-cap="round"
-          :fill-color="currentColor"
-          :animation-start-value="0.0"
-          :start-angle="380"
-          insert-mode="append"
-          :thickness="5"
-          :percent="currentFill"
-          :show-percent="true"
-        />
+        <circle-progress :size="100" :reverse="false" line-cap="round" :fill-color="currentColor"
+          :animation-start-value="0.0" :start-angle="380" insert-mode="append" :thickness="5" :percent="currentFill"
+          :show-percent="true" />
       </div>
     </div>
     <div class="d-flex flex-column align-content-center">
-      <div
-        class="d-flex flex-row justify-content-center justify-content-around"
-      >
+      <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bgreen position"
-            v-on:click="hit(10)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bgreen position" v-on:click="hit(10)">
             10%
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bgreen position"
-            v-on:click="hit(20)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bgreen position" v-on:click="hit(20)">
             20%
           </button>
         </div>
       </div>
-      <div
-        class="d-flex flex-row justify-content-center justify-content-around"
-      >
+      <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bgreen"
-            v-on:click="hit(30)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bgreen" v-on:click="hit(30)">
             30%
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bgreen"
-            v-on:click="hit(40)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bgreen" v-on:click="hit(40)">
             40%
           </button>
         </div>
       </div>
-      <div
-        class="d-flex flex-row justify-content-center justify-content-around"
-      >
+      <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block borange"
-            v-on:click="hit(50)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block borange" v-on:click="hit(50)">
             50%
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block borange"
-            v-on:click="hit(60)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block borange" v-on:click="hit(60)">
             60%
           </button>
         </div>
       </div>
-      <div
-        class="d-flex flex-row justify-content-center justify-content-around"
-      >
+      <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block borange"
-            v-on:click="hit(70)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block borange" v-on:click="hit(70)">
             70%
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bred"
-            v-on:click="hit(80)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(80)">
             80%
           </button>
         </div>
       </div>
-      <div
-        class="d-flex flex-row justify-content-center justify-content-around"
-      >
+      <div class="d-flex flex-row justify-content-center justify-content-around">
         <div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg block bred"
-            v-on:click="hit(90)"
-          >
+          <button type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(90)">
             90%
           </button>
         </div>
         <div>
-          <button
-            v-if="overflow"
-            type="button"
-            class="btn btn-secondary btn-lg block bred"
-            v-on:click="hit(100)"
-          >
+          <button v-if="overflow" type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(100)">
             Over
           </button>
-          <button
-            v-else
-            type="button"
-            class="btn btn-secondary btn-lg block bred"
-            v-on:click="hit(100)"
-          >
+          <button v-else type="button" class="btn btn-secondary btn-lg block bred" v-on:click="hit(100)">
             100%
           </button>
         </div>
@@ -170,13 +104,7 @@
             Give more details.
             <br>
             <br>
-            <vue-slider
-              v-model="value"
-              :adsorb="true"
-              :data="data"
-              :marks="true"
-              @change="ch"
-            ></vue-slider>
+            <vue-slider v-model="value" :adsorb="true" :data="data" :marks="true" @change="ch"></vue-slider>
           </div>
         </div>
         <div class="buttonmodal">
@@ -189,20 +117,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import shared from "../shared";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
+import speaker from "./speaker.vue";
 import _ from "lodash";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
+
 
 export default defineComponent({
   components: {
     CircleProgress,
     VueSlider,
+    speaker
+
   },
   setup() {
     const toast = useToast();
@@ -258,8 +190,8 @@ export default defineComponent({
     });
   },
   methods: {
-    progress_end: function () {},
-    progress: function () {},
+    progress_end: function () { },
+    progress: function () { },
     hit: function (perc) {
       fetch("/api/hit", {
         body: JSON.stringify({
@@ -328,7 +260,7 @@ function initPercentage(perc) {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .limit {
   width: 50%;
 }
@@ -347,15 +279,19 @@ function initPercentage(perc) {
 .bpurple {
   background-color: red;
 }
+
 .bred {
   background-color: #8b0000;
 }
+
 .borange {
   background-color: DarkOrange;
 }
+
 .bgreen {
   background-color: #006400;
 }
+
 .slider {
   padding: 18px 90px;
 }
