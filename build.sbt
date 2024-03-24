@@ -16,7 +16,7 @@ lazy val yarnInstall     = taskKey[Unit]("install front project")
 lazy val httpResourceDir = settingKey[File]("resource directory of http engine")
 lazy val handleFrontFile = taskKey[Unit]("Add, commit, tag, push front files")
 lazy val prodDeliveryTask    = taskKey[Unit]("push last version to prod")
-lazy val gotToMaster     = taskKey[Unit]("put index on master")
+lazy val gotToRelease     = taskKey[Unit]("put index on Release")
 
 def yarnInstall(file: File) =
   Process("yarn install", file) !
@@ -63,9 +63,9 @@ def mergeMaster =
     "git merge master"
   ) !
 
-gotToMaster := {
-  checkout("master")
-  pull("master")
+gotToRelease := {
+  checkout("release")
+  pull("release")
 }
 
 prodDeliveryTask := {
@@ -207,17 +207,17 @@ addCommandAlias(
 
 addCommandAlias(
   "goToProd",
-  ";gotToMaster;frontProd;floxxCopyFile;handleFrontFile;release"
+  ";gotToRelease;frontProd;floxxCopyFile;handleFrontFile;release"
 )
 
 val pushVersionToProd = ReleaseStep(action = st => {
   // extract the build state
   val extracted = Project.extract(st)
   // val releaseVersion = extracted.get(Keys.version)
-  checkout("prod")
-  mergeMaster
-  delivery("prod")
   checkout("master")
+  mergeMaster
+  delivery("master")
+  checkout("release")
   st
 })
 

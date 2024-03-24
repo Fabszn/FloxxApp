@@ -12,7 +12,7 @@ jobs:
 
       - name: add clever branch
         run: |
-          git remote add clever $CLEVER_PROD_ENV
+          git remote add clever ${{ CLEVER_PROD_ENV }}
       - name: push to clever
         run: |
           git push clever master
