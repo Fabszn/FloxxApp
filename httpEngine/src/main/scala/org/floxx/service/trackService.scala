@@ -1,11 +1,11 @@
 package org.floxx.service
 
-import org.floxx.domain.{ CurrentYear, Room, Slot }
-import org.floxx.domain.User.SimpleUser
 import org.floxx.configuration.config.Configuration
-import org.floxx.repository.cfpRepository.SlotRepo
 import org.floxx.domain
-import org.floxx.domain.Slot.{ Day, FromTime, ToTime }
+import org.floxx.domain.Slot.{Day, FromTime, ToTime}
+import org.floxx.domain.User.SimpleUser
+import org.floxx.domain._
+import org.floxx.repository.cfpRepository.SlotRepo
 import org.floxx.service.http.Http
 import zio._
 
@@ -27,6 +27,7 @@ object trackService {
     def loadAllSlots: Task[Seq[domain.Slot]]
     def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]]
     def loadRooms(): Task[Seq[domain.Room]]
+    def speakerBy(slotId: Slot.Id): Task[Seq[Speaker]]
   }
 
   private case class TrackServiceImpl(http: Http, slotRepo: SlotRepo, config: Configuration) extends TrackService {
@@ -50,9 +51,27 @@ object trackService {
                 yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
               )
           )
+        _ <- slotRepo.insertSpeakers(
+          cfpslots.flatMap(
+            cp => mapCpfSpeaker(Slot.Id(s"${cp.cfpSlotId.value}"))(cp.speakers)
+          )
+        )
         nbLine <- slotRepo.insertSlots(slots)
         _ <- http.loadRooms flatMap slotRepo.insertRooms
       } yield nbLine
+
+    private def mapCpfSpeaker(sId: Slot.Id)(cfpSpeaker: Seq[CfpSpeaker]): Seq[Speaker] =
+      cfpSpeaker.map(
+        cs =>
+          Speaker(
+            id        = cs.id,
+            slotId    = sId,
+            firstname = cs.firstName,
+            lastname  = cs.lastName,
+            fullname  = cs.fullName,
+            imageUrl  = cs.imageUrl
+          )
+      )
 
     override def loadSlotByCriterias(isActiveFilter: domain.Slot => Boolean): Task[Seq[domain.Slot]] =
       for {
@@ -72,6 +91,8 @@ object trackService {
     override def loadAllForCurrentUser(userId: SimpleUser.Id): Task[Seq[domain.Slot]] = slotRepo.allSlotsByUserId(userId)
 
     override def loadRooms(): Task[Seq[domain.Room]] = slotRepo.allRooms
+
+    override def speakerBy(slotId: Slot.Id): Task[Seq[Speaker]] = slotRepo.getSpeakerBySlotId(slotId)
   }
 
   def readDataFromCfpDevoxx(): RIO[TrackService, Long] = ZIO.serviceWithZIO[TrackService](_.loadDataFromCFP())
@@ -80,11 +101,11 @@ object trackService {
   def loadSlotByCriterias(userID: SimpleUser.Id, isActiveFunction: domain.Slot => Boolean): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadSlotByCriterias(userID, isActiveFunction))
   def loadSlot(id: Slot.Id): RIO[TrackService, Option[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadSlot(id))
-  def loadRooms: RIO[TrackService, Seq[domain.Room]] = ZIO.serviceWithZIO[TrackService](_.loadRooms())
+  def loadRooms: RIO[TrackService, Seq[domain.Room]]                = ZIO.serviceWithZIO[TrackService](_.loadRooms())
+  def speakerBy(slotId: Slot.Id): RIO[TrackService, Seq[Speaker]]   = ZIO.serviceWithZIO[TrackService](_.speakerBy(slotId))
 
-  def loadAllSlots: RIO[TrackService, Seq[domain.Slot]]             = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
+  def loadAllSlots: RIO[TrackService, Seq[domain.Slot]] = ZIO.serviceWithZIO[TrackService](_.loadAllSlots)
   def loadAllForCurrentUser(userId: SimpleUser.Id): RIO[TrackService, Seq[domain.Slot]] =
     ZIO.serviceWithZIO[TrackService](_.loadAllForCurrentUser(userId))
-
 
 }

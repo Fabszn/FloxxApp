@@ -11,15 +11,17 @@
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">
-          
+
           <tab :name="item.day">
             <p class="kindTitle">Amphi bleu / Maillot</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-                filterByGpr(1713, item.rooms),/*'Maillot'*/
-                filterByGpr(1709, item.rooms) /*'Amphi'*/
-              )" :key="room.roomId">
-                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
+          filterByGpr(1713, item.rooms),/*'Maillot'*/
+          filterByGpr(1709, item.rooms) /*'Amphi'*/
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -37,10 +39,12 @@
             <p class="kindTitle">Neuilly</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-                filterByGpr(1706, item.rooms),
-                filterByGpr(1708, item.rooms)
-              )" :key="room.roomId">
-                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
+          filterByGpr(1706, item.rooms),
+          filterByGpr(1708, item.rooms)
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -57,10 +61,12 @@
             <p class="kindTitle">Labs Neuilly</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-                filterByGpr(1707, item.rooms),
-                filterByGpr(1701, item.rooms)
-              )" :key="room.roomId">
-                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
+          filterByGpr(1707, item.rooms),
+          filterByGpr(1701, item.rooms)
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -77,10 +83,12 @@
             <p class="kindTitle">Paris</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-                filterByGpr(1710, item.rooms),
-                filterByGpr(1712, item.rooms)
-              )" :key="room.roomId">
-                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
+          filterByGpr(1710, item.rooms),
+          filterByGpr(1712, item.rooms)
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -97,10 +105,12 @@
             <p class="kindTitle">Labs Paris</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-                filterByGpr(1711, item.rooms),
-                filterByGpr(1705, item.rooms)
-              )" :key="room.roomId">
-                <div class="header">{{ getRoomNameById(room.roomId) }}</div>
+          filterByGpr(1711, item.rooms),
+          filterByGpr(1705, item.rooms)
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
@@ -159,13 +169,17 @@ import { Tabs, Tab } from "vue3-tabs-component";
 import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import showRoom from "./sub/show-room.vue";
 
 
 
 export default defineComponent({
+  components: {
+    Tabs,
+    Tab,
+    showRoom
+  },
   setup() {
-
-
 
     const router = useRouter();
     const store = useStore();
@@ -179,6 +193,9 @@ export default defineComponent({
     const actualUserNameSelected = ref("");
     const currentConf = ref(new Conference());
 
+    function toNumber(roomId: String): number {
+      return _.toNumber(roomId)
+    }
 
     function backMenu() {
       router.push("/menu");
@@ -265,7 +282,7 @@ export default defineComponent({
         });
       }
     }
-    function getRoomNameById(roomId:number){
+    function getRoomNameById(roomId: number) {
       return shared.getRoomName(roomId, rooms.value)
     }
 
@@ -321,9 +338,9 @@ export default defineComponent({
     onBeforeMount(async () => {
       adminState.value = shared.readAdminEtat();
       if (_.isEmpty(store.state.rooms)) {
-            await store.dispatch('fetchRooms');
-            await store.dispatch('fetchPlanning');
-        }
+        await store.dispatch('fetchRooms');
+        await store.dispatch('fetchPlanning');
+      }
     });
 
 
@@ -338,6 +355,7 @@ export default defineComponent({
       actualUserNameSelected,
       currentConf,
       rooms,
+      toNumber,
       backMenu,
       refresh,
       getUserId,
@@ -355,11 +373,8 @@ export default defineComponent({
       computeUser,
       beforeOpen
     };
-  },
-  components: {
-    Tabs,
-    Tab,
   }
+
 
 });
 
@@ -368,7 +383,7 @@ export default defineComponent({
 
 </script>
 
-<style  scoped>
+<style scoped>
 .header {
   display: flex;
   background-color: #61bf9b;

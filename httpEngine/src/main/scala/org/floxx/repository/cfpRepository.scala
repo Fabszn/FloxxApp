@@ -1,10 +1,10 @@
 package org.floxx.repository
 
+import org.floxx.api.adminApi.Mapping
+import org.floxx.configuration.config.Configuration
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
-import org.floxx.api.adminApi.Mapping
-import org.floxx.configuration.config.Configuration
 import zio._
 
 import javax.sql.DataSource
@@ -30,6 +30,10 @@ object cfpRepository {
     def allRooms: Task[Seq[Room]]
     def allSlotsWithUserId(userID: SimpleUser.Id): Task[Set[Slot]]
     def getSlotById(id: Slot.Id): Task[Option[Slot]]
+    def getSpeakerBySlotId(id: Slot.Id): Task[Seq[Speaker]]
+    def getSpeakerById(id: Speaker.Id): Task[Option[Speaker]]
+
+    def insertSpeakers(speakers: Seq[Speaker]): Task[Long]
     def addMapping(m: Mapping): Task[Long]
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
   }
@@ -56,7 +60,10 @@ object cfpRepository {
             s =>
               room
                 .insertValue(s)
-                .onConflictUpdate(_.id)((t, e) => t.name -> e.name, (t, e) => t.capacity -> e.capacity)
+                .onConflictUpdate(_.id)(
+                  (t, e) => t.name -> e.name,
+                  (t, e) => t.capacity -> e.capacity
+                )
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
@@ -117,11 +124,41 @@ object cfpRepository {
         )
         .provideEnvironment(ZEnvironment(dataSource))
         .map(_.map((UserSlot.apply _).tupled))
+
+    override def getSpeakerBySlotId(id: Slot.Id): Task[Seq[Speaker]] =
+      run(
+        quote(
+          speaker.filter(_.slotId == lift(id))
+        )
+      ).provideEnvironment(ZEnvironment(dataSource))
+
+    override def getSpeakerById(id: Speaker.Id): Task[Option[Speaker]] =
+      run(
+        quote(
+          speaker.filter(_.id == lift(id))
+        )
+      ).provideEnvironment(ZEnvironment(dataSource)).map(_.headOption)
+
+    override def insertSpeakers(speakers: Seq[Speaker]): Task[Long] =
+      run(
+        quote(
+          liftQuery(speakers).foreach(
+            s =>
+              speaker
+                .insertValue(s)
+                .onConflictUpdate(_.id)(
+                  (t, e) => t.firstname -> e.firstname,
+                  (t, e) => t.fullname -> e.fullname,
+                  (t, e) => t.lastname -> e.lastname,
+                  (t, e) => t.imageUrl -> e.imageUrl
+                )
+          )
+        )
+      ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
   }
 
   def insertSlots(slotList: Seq[Slot]): RIO[SlotRepo, Long] =
     ZIO.serviceWithZIO[SlotRepo](_.insertSlots(slotList))
-
 
   def insertRooms(rooms: Seq[Room]): RIO[SlotRepo, Long] =
     ZIO.serviceWithZIO[SlotRepo](_.insertRooms(rooms))
