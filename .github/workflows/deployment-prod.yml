@@ -18,10 +18,9 @@ jobs:
           git remote add clever git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_ee5f195d-39a8-49ad-8649-caf1329d40ee.git
 
       - name: move on prod branch
-        run: git pull origin test_deployement
+        run: git pull origin master
 
       - name: push to clever
-        run: git push clever test_deployement
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: git push clever master
+       
       - run: echo "🍏 This job's status is ${{ job.status }}."
