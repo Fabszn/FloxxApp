@@ -19,6 +19,10 @@ var pAdmin = "isAdmin"
 
 export default {
 
+    toNumber:function (roomId: String): number {
+        return _.toNumber(roomId)
+      },
+
     checkStore: async function (store) {
             if (_.isEmpty(store.state.rooms)) {
             await store.dispatch('fetchRooms');

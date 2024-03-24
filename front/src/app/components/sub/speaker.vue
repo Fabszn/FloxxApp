@@ -1,19 +1,20 @@
 <template>
-    <div class="speaker" v-for="item in speakers">
-        <b-card
+    <div class="speaker p-4" v-for="item in speakers">
+        <b-card bodyBgVariant= 'dark'
             :img-src=item.imageUrl
-            >
+        >
 
-        </b-card>
-
-        <b-card-text>
+            <b-card-text>
             <div class="speaker">
-                {{ item.firstname }}
+                {{ item.firstname }} {{ item.lastname }}
             </div>
             <div class="speaker">
-                {{ item.lastname }}
+                
             </div>
         </b-card-text>
+        </b-card>
+
+        
     </div>
 
 
@@ -22,8 +23,8 @@
 <script setup lang="ts">
 
 import { onBeforeMount, ref, Ref, defineProps } from 'vue';
-import shared from "../shared";
-import { ISpeaker } from '../models'
+import shared from "../../shared";
+import { ISpeaker } from '../../models'
 
 const params = defineProps({
     slotId: String

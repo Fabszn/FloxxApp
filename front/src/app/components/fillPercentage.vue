@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column">
-    <div class="d-flex justify-content-center separate-headfooter">
+    <div class="d-flex justify-content-center">
       <div>
         <button v-on:click="backMySlots" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
@@ -12,16 +12,15 @@
       </div>
     </div>
 
-    <b-modal id="modal-1">
+    <b-modal id="modal-1" body-bg-variant='dark' headerBgVariant='dark' footerBgVariant='dark' button-size="sm" ok-only>
       <speaker :slotId=this.$route.params.slotid />
     </b-modal>
 
     <div class="d-flex flex-column justify-content-center">
-      <div class="title separate">{{ title }}</div>
-      <div>{{ kind }} - {{ room }} - <b-button v-b-modal.modal-1>Speakers</b-button></div>
-
-      
-
+      <div class="p-2">{{ title }}</div>
+      <div v-if="title" class="d-flex justify-content-around p-2">{{ kind }} - <showRoom :roomId=toNumber(room) /> <b-button
+          class="btn-dark btn-sm" v-b-modal.modal-1>Speakers</b-button></div>
+      <div v-else class="d-flex justify-content-around p-2 no-data"> Not data to show</div>
     </div>
 
     <div class="d-flex justify-content-center">
@@ -119,21 +118,24 @@
 
 <script lang="ts">
 import shared from "../shared";
+import showRoom from "./sub/show-room.vue";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
-import speaker from "./speaker.vue";
+import speaker from "./sub/speaker.vue";
 import _ from "lodash";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
+import { onBeforeMount } from "vue";
 
 
 export default defineComponent({
   components: {
     CircleProgress,
     VueSlider,
-    speaker
+    speaker,
+    showRoom
 
   },
   setup() {
@@ -146,6 +148,8 @@ export default defineComponent({
       2: "Moderate",
       3: "Required",
     };
+
+
 
     return {
       currentFill,
@@ -190,6 +194,7 @@ export default defineComponent({
     });
   },
   methods: {
+    toNumber(roomId:String){return _.toNumber(roomId)},
     progress_end: function () { },
     progress: function () { },
     hit: function (perc) {
@@ -294,6 +299,10 @@ function initPercentage(perc) {
 
 .slider {
   padding: 18px 90px;
+}
+
+.no-data {
+  color: gray
 }
 
 @media (max-width: 375px) {

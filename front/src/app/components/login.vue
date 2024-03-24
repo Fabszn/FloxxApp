@@ -15,11 +15,12 @@
         <label for="mdp">Password</label>
         <input id="mdp" type="password" class="form-control" v-model="password" placeholder="Enter password" />
       </div>
-
-      <button type="submit" class="btn btn-primary">
-        Submit
-        <font-awesome-icon icon="sign-in-alt" />
-      </button>
+      <div class="d-flex justify-content-center p-3">
+        <button type="submit" class="btn btn-primary">
+          Submit
+          <font-awesome-icon icon="sign-in-alt" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -57,7 +58,7 @@ export default {
             (r) => {
               this.loginFailedMsg = false;
               router.push("/login")
-              
+
             }
           )
 
@@ -74,13 +75,13 @@ export default {
       processForm
     }
   },
-   created() {
+  created() {
     const a = this.$route.query.authenticate;
     if (a == "no") {
       this.notAuthorized = false;
     }
   },
- 
+
 };
 </script>
 
