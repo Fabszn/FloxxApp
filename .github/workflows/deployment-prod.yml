@@ -2,7 +2,7 @@ name: Floxx release
 on:
   push:
     branches:
-      - prod
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,10 +10,17 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🔎 The name of your branch is ${{ github.ref }}"
 
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
       - name: add clever branch
         run: |
           git remote add clever ${{ CLEVER_PROD_ENV }}
+
+      - name: move on prod branch
+        run: git pull origin master
+
       - name: push to clever
-        run: |
-          git push clever master
+        run: git push clever master
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
