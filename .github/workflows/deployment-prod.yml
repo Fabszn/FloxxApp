@@ -10,6 +10,9 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🔎 The name of your branch is ${{ github.ref }}"
 
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
       - name: add clever branch
         run: |
           git remote add clever git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_ee5f195d-39a8-49ad-8649-caf1329d40ee.git
