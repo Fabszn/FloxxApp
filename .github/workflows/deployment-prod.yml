@@ -22,4 +22,6 @@ jobs:
 
       - name: push to clever
         run: git push clever test_deployement
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
