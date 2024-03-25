@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+env:
+  REPO_CLEVER: ${{secrets.CLEVER_PROD_REPO}}
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,13 +15,9 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: environment
-        env:
-          REPO_CLEVER: ${{secrets.CLEVER_PROD_REPO}}
-
-
+   
       - name: add clever branch
-        run: |
+        run: 
           git remote add clever ${{env.REPO_CLEVER}}
 
       - name: move on prod branch
