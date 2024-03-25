@@ -18,7 +18,7 @@ jobs:
    
       - name: add clever branch
         run: 
-          git remote add clever ${{env.REPO_CLEVER}}
+          git remote add clever $REPO_CLEVER
 
       - name: move on prod branch
         run: git pull origin master
