@@ -1,12 +1,17 @@
 name: Floxx build and release
 on: [push]
+
+env:
+  REPO_CLEVER: ${{secrets.CLEVER_PROD_REPO}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "$REPO_CLEVER"
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🔎 The name of your branch is ${{ github.ref }}"
-
+      
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
