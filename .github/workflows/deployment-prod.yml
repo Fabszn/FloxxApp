@@ -12,10 +12,13 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: environment
+        env:REPO_CLEVER: ${{secrets.CLEVER_PROD_REPO}}
+
 
       - name: add clever branch
         run: |
-          git remote add clever ${{CLEVER_PROD_REPO}}
+          git remote add clever ${{env.REPO_CLEVER}}
 
       - name: move on prod branch
         run: git pull origin master
