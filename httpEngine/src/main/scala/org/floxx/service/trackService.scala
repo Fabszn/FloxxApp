@@ -51,13 +51,13 @@ object trackService {
                 yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
               )
           )
+        _ <- http.loadRooms flatMap slotRepo.insertRooms
+        nbLine <- slotRepo.insertSlots(slots)
         _ <- slotRepo.insertSpeakers(
           cfpslots.flatMap(
             cp => mapCpfSpeaker(Slot.Id(s"${cp.cfpSlotId.value}"))(cp.speakers)
           )
         )
-        nbLine <- slotRepo.insertSlots(slots)
-        _ <- http.loadRooms flatMap slotRepo.insertRooms
       } yield nbLine
 
     private def mapCpfSpeaker(sId: Slot.Id)(cfpSpeaker: Seq[CfpSpeaker]): Seq[Speaker] =
