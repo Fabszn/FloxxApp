@@ -11,6 +11,7 @@
     <div v-for="item in slotItems" :key="item.slotId">
       <button type="button" class="btn btn-secondary btn-lg block" v-on:click="selectSlot(item.slotId)">
         {{ getRoomNameById(item.roomId) }} : {{ item.fromTime }} - {{ item.toTime }}
+        <p> <displayKind :kind="item.kind" /></p>
       </button>
     </div>
   </div>
@@ -22,7 +23,12 @@ import _ from "lodash";
 import { onBeforeMount, defineComponent, ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import displayKind from "./sub/displayKind.vue";
 export default defineComponent({
+  components:{
+    displayKind
+
+  },
   setup() {
 
     const router = useRouter();

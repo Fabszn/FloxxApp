@@ -16,6 +16,7 @@
           class="btn btn-secondary btn-lg block" v-on:click="selectSlot(slot.slotId)">
           {{ getRoomNameById(slot.roomId) }} : {{ slot.fromTime }} -
           {{ slot.toTime }}
+          <p> <displayKind :kind="slot.kind" /></p>
         </button>
       </div>
     </div>
@@ -28,7 +29,12 @@ import _ from "lodash";
 import { onBeforeMount, defineComponent, ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import displayKind from "./sub/displayKind.vue";
 export default defineComponent({
+  components:{
+    displayKind
+
+  },
   setup() {
 
     const router = useRouter();

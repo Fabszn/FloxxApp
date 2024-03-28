@@ -47,16 +47,6 @@ onBeforeMount(async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
 <style scoped>
