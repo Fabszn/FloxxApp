@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div class="d-flex justify-content-center separate-headfooter">
       <div>
@@ -26,9 +27,11 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
-
+                    <displayKind :kind="slot.slot.kind" />
+ 
+ 
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -49,9 +52,9 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
-
+                    <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -71,9 +74,9 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
-
+                    <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -93,9 +96,9 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
-
+                    <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -117,7 +120,7 @@
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
                     {{ slot.slot.fromTime }}
                     {{ slot.slot.toTime }}
-
+                    <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                 </div>
@@ -138,6 +141,7 @@
               {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
+          
           </div>
           <div v-if="adminState">
             <v-select :options="users" v-model="selectedUser"></v-select>
@@ -170,6 +174,8 @@ import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import showRoom from "./sub/show-room.vue";
+import displayKind from "./sub/displayKind.vue";
+import speaker from "./sub/speaker.vue";
 
 
 
@@ -177,7 +183,9 @@ export default defineComponent({
   components: {
     Tabs,
     Tab,
-    showRoom
+    showRoom,
+    displayKind,
+    speaker
   },
   setup() {
 
@@ -397,6 +405,8 @@ export default defineComponent({
 .blockColor {
   background-color: #3399ff;
 }
+
+
 
 .block {
   padding: 14px 28px;
