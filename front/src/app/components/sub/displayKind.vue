@@ -1,6 +1,6 @@
 <template>
 
-    <div class="d-flex justify-content-center blockKindColor rounded-pill m-2 p-2 " v-bind:class="selectCssByKind(kind)">{{ kind }}</div>
+    <div class="d-flex justify-content-center rounded-pill m-1 p-1  " v-bind:class="selectCssByKind(kind)">{{ kind }}</div>
 
 </template>
 
@@ -22,7 +22,11 @@ function selectCssByKind(kind: string): {} {
         break : "Break" == kind,
         lunch_talk : "Lunch Talk" == kind,
         tools_in_action : "Tools-in-Action" == kind,
-        lunch : "Lunch" == kind
+        lunch : "Lunch" == kind,
+        HH_Hands_on_Lab: "2H Hands-on Lab" == kind,
+        other: "Other" == kind,
+        deep_dive: "Deep Dive" == kind,
+        HHH_Hands_on_Lab: "3H Hands-on Lab" == kind
     }
 }
 
@@ -59,7 +63,25 @@ function selectCssByKind(kind: string): {} {
     color:#3f4272;
 }
 
+.HH_Hands_on_Lab {
+    background-color: #bcf7c8;
+    color:#07180a;
+}
 
+.HHH_Hands_on_Lab {
+    background-color: #58e758;
+    color:#142e14;
+}
+
+.other{
+    background-color: #afc0c7;
+    color:#142e14;
+}
+
+.deep_dive{
+    background-color: #c0cceb;
+    color:#142e14;
+}
 
 .default {
     background-color: #1857b6;
