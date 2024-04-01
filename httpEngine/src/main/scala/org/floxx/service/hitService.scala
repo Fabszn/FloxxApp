@@ -23,7 +23,7 @@ object hitService {
 
   trait HitService {
 
-    def hit(hit: Hit): Task[Long]
+    def hit(hit: Hit): Task[Unit]
     def saveOrUpdateOverflow(overflow: Overflow): Task[Long]
     def removeOverflow(slotId: Slot.Id): Task[Unit]
     def saveAffectedRoom(slotId: Slot.Id, affectedRoom: Option[AffectedRoom]): Task[Long]
@@ -35,7 +35,7 @@ object hitService {
 
   case class HitServiceImpl(trackService: TrackService, slotRepo: SlotRepo, hitRepo: HitRepo, config: Configuration)
       extends HitService {
-    override def hit(hit: Hit): Task[Long] = hitRepo.save(hit)
+    override def hit(hit: Hit): Task[Unit] = hitRepo.save(hit)
 
     def transform(hits: Seq[Hit]): Task[Map[Slot.Id, Hit]] =
       ZIO.succeed(hits.groupBy(_.hitSlotId).map { case (k, vs) => (Slot.Id(k), vs.maxBy(_.dateTime)) })
@@ -112,7 +112,7 @@ object hitService {
     override def removeOverflow(slotId: Slot.Id): Task[Unit] = hitRepo.deleteOverflow(slotId)
   }
 
-  def hit(hit: Hit): RIO[HitService, Long] = ZIO.serviceWithZIO[HitService](_.hit(hit))
+  def hit(hit: Hit): RIO[HitService, Unit] = ZIO.serviceWithZIO[HitService](_.hit(hit))
   def tracksWithHitInfoBy(slotId: Slot.Id): RIO[HitService, Option[TrackHitInfo]] =
     ZIO.serviceWithZIO[HitService](_.tracksWithHitInfoBy(slotId))
   def currentTracksWithHitInfo: RIO[HitService, Seq[TrackHitInfo]] =

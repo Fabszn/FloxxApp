@@ -51,7 +51,7 @@ object trackService {
                 yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
               )
           )
-        _ <- http.loadRooms flatMap slotRepo.insertRooms
+        _ <- http.loadRooms() flatMap slotRepo.insertRooms
         nbLine <- slotRepo.insertSlots(slots)
         _ <- slotRepo.insertSpeakers(
           cfpslots.flatMap(

@@ -4,14 +4,16 @@ import io.circe
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.parser._
 import io.circe.{Decoder, Encoder}
+import org.floxx.api.entriesPointApi.LoginRequest
 import org.floxx.domain
 import org.floxx.domain.AuthUser.{Login, Mdp}
 import org.floxx.domain.User.SimpleUser
-import org.floxx.domain.{CfpSlot, CfpSpeaker, Slot, jwt}
-import org.floxx.api.entriesPointApi.LoginRequest
+import org.floxx.domain.{CfpSlot, Slot, jwt}
+import org.floxx.processors.shareHitProcessor.VoxxrinJsonBody
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
+import java.time.ZonedDateTime
 import scala.io.{BufferedSource, Source}
 
 class JsonParserTest extends AnyFunSuite {
@@ -71,12 +73,51 @@ class JsonParserTest extends AnyFunSuite {
       case Right(r) => {
 
         assert(r.nonEmpty)
-        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).map(_.title) == Seq(Slot.Title("High-Speed DDD (revisited)") ))
-        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).flatMap(_.speakers).size == 1 )
+        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).map(_.title) == Seq(Slot.Title("High-Speed DDD (revisited)")))
+        assert(r.filter(_.cfpSlotId == CfpSlot.Id(1790)).flatMap(_.speakers).size == 1)
 
       }
 
     }
+  }
+
+  test("test Encode payload Voxxrin") {
+
+    val source: BufferedSource = Source.fromResource("./voxxrin.json")
+    val msgJson: String        = source.mkString
+    source.close()
+
+    val result: Either[circe.Error, VoxxrinJsonBody] = decode[VoxxrinJsonBody](msgJson)
+
+    result match {
+      case Left(err) => fail(err.getMessage)
+      case Right(r) => {
+
+        assert(r.recordedAt == ZonedDateTime.parse("2024-04-17T06:57:00Z"))
+        assert(r.capacityFillingRatio == 0.5f)
+
+      }
+
+    }
+  }
+
+  test("test Decode payload Voxxrin") {
+
+    val source: BufferedSource = Source.fromResource("./voxxrin.json")
+    val msgJson: String        = source.mkString
+    source.close()
+
+    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:00Z"))
+
+    val result: Either[circe.Error, VoxxrinJsonBody] = decode[VoxxrinJsonBody](msgJson)
+
+    result match {
+      case Left(err) => fail(err.getMessage)
+      case Right(r) =>
+        assert(r == ref)
+
+    }
 
   }
+
 }

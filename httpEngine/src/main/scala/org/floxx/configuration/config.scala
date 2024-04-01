@@ -1,6 +1,7 @@
 package org.floxx.configuration
+import org.floxx.configuration.config.Voxxrin.Token
 import org.floxx.domain.error.FloxxError
-import org.floxx.domain.{ ConfDay, CurrentYear }
+import org.floxx.domain.{ConfDay, CurrentYear}
 import pureconfig._
 import pureconfig.generic.auto._
 import zio._
@@ -24,7 +25,11 @@ object config {
 
     override def getRooms: IO[FloxxError,Map[String, Option[String]]] = ZIO.succeed(rooms.roomsMapping)
   }
-
+  final case class Voxxrin(url:Voxxrin.Url, token:Token)
+  object Voxxrin{
+    final case class Url(value:String) extends AnyVal
+    final case class Token(value:String) extends AnyVal
+  }
   final case class Cfp(currentYear: CurrentYear, scheduleUrl: String,roomsUrl: String, days: List[ConfDay])
   final case class Db(driver: String, url: String, user: String, password: String, maximumPoolSize: Int, minimumIdleSize: Int)
   final case class Floxx(port: Int, secret: String)
@@ -47,7 +52,7 @@ object config {
       db: Db,
       floxx: Floxx,
       track: Track,
-      roomsMapping: Map[String, Option[String]] = rooms.roomsMapping
+      voxxrin: Voxxrin
   )
 
   final case class RoomConf(name: String) extends AnyVal

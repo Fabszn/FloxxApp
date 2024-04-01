@@ -1,6 +1,5 @@
 package org.floxx.api
 
-import org.floxx.domain
 import org.floxx.domain.Information
 import org.floxx.domain.Information.{Content, Title}
 import org.floxx.domain.jwt.UserInfo
