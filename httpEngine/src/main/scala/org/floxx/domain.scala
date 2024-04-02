@@ -7,6 +7,7 @@ import io.circe.generic.extras.semiauto._
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import org.floxx.domain.AuthUser._
 import org.floxx.domain.ConfDay.{DayIndex, DayValue}
+import org.floxx.domain.HitShare.{DateCreation, Percentage, Response, Status}
 import org.floxx.domain.Information.{Content, DateCreate, Title}
 import org.floxx.domain.Mapping.UserSlot
 import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
@@ -16,7 +17,9 @@ import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.EntityDecoder
 import org.http4s.circe.jsonOf
 
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.format.DateTimeFormatter
+import java.time.{ZoneId, ZoneOffset, ZonedDateTime}
+import java.util.UUID
 import scala.util.Try
 
 object domain {
@@ -146,12 +149,12 @@ object domain {
   }
 
   final case class Speaker(
-                            id: Speaker.Id,
-                            slotId: Slot.Id,
-                            firstname: Speaker.Firstname,
-                            lastname: Speaker.Lastname,
-                            fullname: Speaker.Fullname,
-                            imageUrl: Option[Speaker.ImageUrl]
+      id: Speaker.Id,
+      slotId: Slot.Id,
+      firstname: Speaker.Firstname,
+      lastname: Speaker.Lastname,
+      fullname: Speaker.Fullname,
+      imageUrl: Option[Speaker.ImageUrl]
   )
 
   object Speaker {
@@ -176,16 +179,17 @@ object domain {
   )
 
   final case class CfpSpeaker(
-                               id: Speaker.Id,
-                               firstName: Speaker.Firstname,
-                               lastName: Speaker.Lastname,
-                               fullName: Speaker.Fullname,
-                               imageUrl: Option[Speaker.ImageUrl]
+      id: Speaker.Id,
+      firstName: Speaker.Firstname,
+      lastName: Speaker.Lastname,
+      fullName: Speaker.Fullname,
+      imageUrl: Option[Speaker.ImageUrl]
   )
   object CfpSpeaker {
     def handleSpeakerInfo(c: HCursor): Result[Seq[CfpSpeaker]] =
       if (c.downField("proposal").downField("speakers").succeeded) {
-        c.downField("proposal").downField("speakers")
+        c.downField("proposal")
+          .downField("speakers")
           .focus
           .fold(Right(Seq.empty[CfpSpeaker]).withLeft[DecodingFailure])(
             _.as[Seq[CfpSpeaker]]
@@ -392,6 +396,28 @@ object domain {
 
   }
 
+  case class HitShare(
+      id: HitShare.Id,
+      slotId: Slot.Id,
+      roomId: Room.Id,
+      perc: Percentage,
+      status: Status,
+      dateCreation: DateCreation,
+      response: Option[Response] = Option.empty[Response]
+  )
+
+  object HitShare {
+    final case class Id(value: UUID) extends AnyVal
+    final case class Percentage(value: Long) extends AnyVal
+    final case class Status(value: Boolean) extends AnyVal
+    final case class DateCreation(value: ZonedDateTime) extends AnyVal
+    final case class Response(value: String) extends AnyVal
+    object DateCreation {
+      def now(): DateCreation = DateCreation(ZonedDateTime.now(ZoneOffset.UTC))
+    }
+
+  }
+
   final case class InformationReadStatus(userId: SimpleUser.Id, infoId: Information.Id)
 
   object jwt {
@@ -422,6 +448,7 @@ object domain {
     final case class DatabaseError(msg: String) extends FloxxError
 
     final case class ConfigurationError(msg: String) extends FloxxError
+    final case class ShareItError(msg: String) extends FloxxError
 
   }
 

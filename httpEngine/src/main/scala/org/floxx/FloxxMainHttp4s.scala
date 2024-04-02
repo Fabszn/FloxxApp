@@ -1,17 +1,21 @@
 package org.floxx
 
 import cats.syntax.all._
-import org.floxx.domain.jwt.UserInfo
 import org.floxx.api._
 import org.floxx.configuration.config
-import org.floxx.configuration.config.{ getConf, Configuration, GlobalConfig }
+import org.floxx.configuration.config.{Configuration, GlobalConfig, getConf}
+import org.floxx.domain.jwt.UserInfo
+import org.floxx.processors.pipelines.shareHitPipeline
+import org.floxx.processors.pipelines.shareHitPipeline.ShareHitPipeline
+import org.floxx.processors.shareHitProcessor.ShareHitProcessor
+import org.floxx.processors.{pipelines, shareHitProcessor}
 import org.floxx.repository._
-import org.floxx.service.trackService.TrackService
 import org.floxx.service._
 import org.floxx.service.http.Http
+import org.floxx.service.trackService.TrackService
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.implicits._
-import org.http4s.server.{ AuthMiddleware, Router }
+import org.http4s.server.{AuthMiddleware, Router}
 import org.joda.time.DateTimeZone
 import zio._
 import zio.interop.catz._
@@ -26,22 +30,26 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       with statService.StatsService
       with adminService.AdminService
       with informationService.InformationService
+      with ShareHitPipeline
+      with ShareHitProcessor
       with Http
       with Scope
 
-  val server: ZIO[AppEnvironment, Throwable, Unit] = {
+  val app: ZIO[AppEnvironment, Throwable, Unit] = {
     ZIO.runtime[AppEnvironment].flatMap { _ =>
       {
         for {
           conf <- getConf
-          server <- BlazeServerBuilder[ApiTask]
+          server <- (BlazeServerBuilder[ApiTask]
             .bindHttp(conf.floxx.port, "0.0.0.0")
             .withHttpApp(floxxApp(conf))
             .serve
             .compile
-            .drain
+            .drain).fork
+          shareHitPipeline <- pipelines.shareHitPipeline.run.fork
+          _ <- server.join <*> shareHitPipeline.join
         } yield {
-          server
+          ()
         }
       }
     }
@@ -86,10 +94,12 @@ object FloxxMainHttp4s extends zio.ZIOAppDefault {
       config.layer,
       QuillContext.dataSourceLayer,
       migration.layer
-    ) *> server
+    ) *> app
       .provide(
         Scope.default,
         config.layer,
+        shareHitPipeline.layer,
+        shareHitProcessor.layer,
         QuillContext.dataSourceLayer,
         hitRepository.layer,
         cfpRepository.layer,

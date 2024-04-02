@@ -150,6 +150,16 @@ package object repository {
       )
     )
 
+    val hitShare = quote(
+      querySchema[HitShare](
+        "hit_share",
+        _.id -> "pkid_hit_share",
+        _.slotId -> "fkid_slot",
+        _.roomId -> "fkid_room",
+        _.dateCreation -> "date_creation"
+      )
+    )
+
     val information = quote(
       querySchema[Information]("informations", _.id -> "pkid_information")
     )

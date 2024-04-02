@@ -153,6 +153,7 @@ lazy val httpEngine = (project in file("httpEngine"))
     libraryDependencies ++= testcontainers,
     libraryDependencies ++= sttp,
     libraryDependencies += scalaTest,
+    libraryDependencies += http4sLogging,
     libraryDependencies += chimney,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         % "logback-classic" % "1.1.7",

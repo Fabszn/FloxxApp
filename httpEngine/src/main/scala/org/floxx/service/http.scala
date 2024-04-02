@@ -1,22 +1,42 @@
 package org.floxx.service
 
-import org.floxx.domain
-import org.floxx.domain.{ CfpSlot, Room }
-import org.floxx.domain.error.{ FloxxError, LoadCfpDataError }
+import cats.implicits._
+import io.circe.syntax._
 import org.floxx.configuration.config.Configuration
+import org.floxx.domain
+import org.floxx.domain.error.{FloxxError, LoadCfpDataError, ShareItError}
+import org.floxx.domain.{CfpSlot, Room}
+import org.floxx.processors.shareHitProcessor.VoxxrinJsonBody
 import sttp.capabilities.zio.ZioStreams
 import sttp.client4._
-import sttp.client4.httpclient.zio.HttpClientZioBackend
 import sttp.client4.circe._
+import sttp.client4.httpclient.zio.HttpClientZioBackend
+import sttp.client4.logging.slf4j.Slf4jLoggingBackend
+import sttp.client4.logging.{LogConfig, LogLevel}
+import sttp.model.HeaderNames
 import zio._
 import zio.interop.catz._
-import cats.implicits._
 
 object http {
 
   object backend {
     val layer: ZLayer[Any, Throwable, WebSocketStreamBackend[Task, ZioStreams]] = ZLayer {
-      HttpClientZioBackend() //.flatMap { backend => backend. }
+      HttpClientZioBackend().flatMap { backend =>
+        ZIO.attempt(
+          Slf4jLoggingBackend(
+            backend,
+            LogConfig(
+              logRequestBody            = true,
+              logRequestHeaders         = true,
+              logResponseHeaders        = true,
+              logResponseBody           = true,
+              includeTiming             = true,
+              sensitiveHeaders          = HeaderNames.SensitiveHeaders,
+              beforeRequestSendLogLevel = LogLevel.Info
+            )
+          )
+        )
+      }
     }
   }
 
@@ -31,6 +51,8 @@ object http {
   trait Http {
     def loadDatafromCfp(): IO[FloxxError, Seq[domain.CfpSlot]]
     def loadRooms(): IO[FloxxError, Seq[domain.Room]]
+
+    def shareHit(roomId: Room.Id, body: VoxxrinJsonBody): IO[FloxxError, String]
   }
 
   final case class HttpService(config: Configuration, backend: WebSocketStreamBackend[Task, ZioStreams]) extends Http {
@@ -61,6 +83,15 @@ object http {
           .flatMap(r => ZIO.fromEither(r.body.leftMap(responseError => LoadCfpDataError(responseError.getMessage))))
       }
 
-  }
+    override def shareHit(roomId: Room.Id, body: VoxxrinJsonBody): IO[FloxxError, String] = config.getConf flatMap { c =>
+      basicRequest
+        .post(uri"${c.voxxrin.url.value}/${roomId.value}/stats?token=${c.voxxrin.token.value}")
+        .body(body.asJson)
+        .contentType("application/json")
+        .send(backend)
+        .mapError(err => ShareItError(err.getMessage))
+        .flatMap(r => ZIO.fromEither(r.body.leftMap(responseError => ShareItError(responseError))))
+    }
 
+  }
 }
