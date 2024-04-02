@@ -7,6 +7,8 @@ import org.floxx.domain.AuthUser.Mdp
 import org.floxx.domain.User.SimpleUser
 import org.floxx.api.ApiTask
 import org.floxx.api.entriesPointApi.LoginRequest
+import org.floxx.processors.pipelines.shareHitPipeline
+import org.floxx.processors.shareHitProcessor
 import org.floxx.repository._
 import org.floxx.service._
 import org.floxx.service.securityService.AuthenticatedUser
@@ -73,6 +75,8 @@ object EngineTest extends ZIOSpecDefault with HttpAppFixture with DataFixtures{
       cfpRepository.layer,
       statsRepository.layer,
       userRepository.layer,
+      shareHitPipeline.layer,
+      shareHitProcessor.layer,
       hitService.layer,
       securityService.layer,
       statService.layer,
