@@ -20,6 +20,7 @@ object Dependencies {
     lazy val shapelessVersion           = "2.3.3"
     lazy val sttpVersion                = "3.5.1"
     lazy val scalaTestVersion           = "3.2.13"
+    lazy val http4sLoggingVersion           = "4.0.0-M8"
 
   }
 
@@ -78,6 +79,7 @@ object Dependencies {
     "com.softwaremill.sttp.client4" %% "fs2" % sttpZioClient,
     "com.softwaremill.sttp.client4" %% "http4s-backend" % sttpZioClient
   )
+  lazy val http4sLogging = "com.softwaremill.sttp.client4" %% "slf4j-backend" % http4sLoggingVersion
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 

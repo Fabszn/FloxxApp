@@ -13,26 +13,25 @@ object pipelines {
       for {
         hitRepo <- ZIO.service[HitRepo]
         processor <- ZIO.service[ShareHitProcessor]
-      } yield ShareHitPipelineService(hitRepo,processor)
+      } yield ShareHitPipelineService(hitRepo, processor)
     }
 
-    trait ShareHitPipeline{
-      def run : Task[Unit]
+    trait ShareHitPipeline {
+      def run: Task[Unit]
     }
 
-    private final case class ShareHitPipelineService(hitRepo: HitRepo, shareHitProcessor: ShareHitProcessor) extends ShareHitPipeline{
-      override def run: Task[Unit] = {
+    private final case class ShareHitPipelineService(hitRepo: HitRepo, shareHitProcessor: ShareHitProcessor)
+        extends ShareHitPipeline {
+      override def run: Task[Unit] =
         ZIO.logInfo("start stream Share Hit") *>
-        hitRepo.
-        streamHitShare
-        .run(ZSink.foreach(shareHitProcessor.process))
-        .schedule(Schedule.spaced(10.seconds))
-        .flatMap(_ => ZIO.unit)
-        .retry(Schedule.exponential(30.second))
-      }
+        hitRepo.streamHitShare
+          .run(ZSink.foreach(shareHitProcessor.process))
+          .tapError(er => ZIO.logError(s"pipeline error : ${er}"))
+          .schedule(Schedule.spaced(10.seconds))
+          .flatMap(_ => ZIO.unit)
+          .retry(Schedule.exponential(30.second))
 
     }
-
 
     def run: RIO[ShareHitPipeline, Unit] = ZIO.serviceWithZIO[ShareHitPipeline](_.run)
 

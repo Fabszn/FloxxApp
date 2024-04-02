@@ -4,7 +4,6 @@ import cats.implicits._
 import io.circe.syntax._
 import org.floxx.configuration.config.Configuration
 import org.floxx.domain
-import org.floxx.domain.CfpSlot.RoomId
 import org.floxx.domain.error.{FloxxError, LoadCfpDataError, ShareItError}
 import org.floxx.domain.{CfpSlot, Room}
 import org.floxx.processors.shareHitProcessor.VoxxrinJsonBody
@@ -12,6 +11,9 @@ import sttp.capabilities.zio.ZioStreams
 import sttp.client4._
 import sttp.client4.circe._
 import sttp.client4.httpclient.zio.HttpClientZioBackend
+import sttp.client4.logging.slf4j.Slf4jLoggingBackend
+import sttp.client4.logging.{LogConfig, LogLevel}
+import sttp.model.HeaderNames
 import zio._
 import zio.interop.catz._
 
@@ -19,7 +21,22 @@ object http {
 
   object backend {
     val layer: ZLayer[Any, Throwable, WebSocketStreamBackend[Task, ZioStreams]] = ZLayer {
-      HttpClientZioBackend() //.flatMap { backend => backend. }
+      HttpClientZioBackend().flatMap { backend =>
+        ZIO.attempt(
+          Slf4jLoggingBackend(
+            backend,
+            LogConfig(
+              logRequestBody            = true,
+              logRequestHeaders         = true,
+              logResponseHeaders        = true,
+              logResponseBody           = true,
+              includeTiming             = true,
+              sensitiveHeaders          = HeaderNames.SensitiveHeaders,
+              beforeRequestSendLogLevel = LogLevel.Info
+            )
+          )
+        )
+      }
     }
   }
 

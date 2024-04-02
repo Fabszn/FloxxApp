@@ -107,7 +107,7 @@ class JsonParserTest extends AnyFunSuite {
     val msgJson: String        = source.mkString
     source.close()
 
-    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:00Z"))
+    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:00Z").toString)
 
     val result: Either[circe.Error, VoxxrinJsonBody] = decode[VoxxrinJsonBody](msgJson)
 

@@ -17,7 +17,8 @@ import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.EntityDecoder
 import org.http4s.circe.jsonOf
 
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.format.DateTimeFormatter
+import java.time.{ZoneId, ZoneOffset, ZonedDateTime}
 import java.util.UUID
 import scala.util.Try
 
@@ -412,7 +413,7 @@ object domain {
     final case class DateCreation(value: ZonedDateTime) extends AnyVal
     final case class Response(value: String) extends AnyVal
     object DateCreation {
-      def now(): DateCreation = DateCreation(ZonedDateTime.now())
+      def now(): DateCreation = DateCreation(ZonedDateTime.now(ZoneOffset.UTC))
     }
 
   }
