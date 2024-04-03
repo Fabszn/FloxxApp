@@ -2,7 +2,7 @@ package org.floxx.api
 
 import io.circe.syntax._
 import org.floxx.configuration.config
-import org.floxx.domain.{Hit, Slot}
+import org.floxx.domain.{Hit, Slot, Speaker}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain.jwt.UserInfo
@@ -104,7 +104,7 @@ object slotApi {
         )
         rep <- {
           slot match {
-            case Nil => NotFound("None active slot has been found")
+            case Nil => NotFound(List.empty[Slot])
             case s => Ok(s)
           }
 
@@ -114,13 +114,13 @@ object slotApi {
     case GET -> Root / "slots" / idSlot as _ =>
       trackService.loadSlot(Slot.Id(idSlot)) flatMap {
         _.fold(
-          NotFound(s"None slot found for key ${idSlot}")
+          NotFound(Option.empty[Slot])
         ) { Ok(_) }
       }
 
     case GET -> Root / "speakers" / idSlot as _ =>
       trackService.speakerBy(Slot.Id(idSlot)) flatMap {
-        case Nil => NotFound(s"None speaker found for key ${idSlot}")
+        case Nil => NotFound(List.empty[Speaker])
         case speakers => Ok(speakers)
       }
 

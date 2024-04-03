@@ -30,8 +30,6 @@
                     {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
- 
- 
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -55,6 +53,7 @@
                     {{ slot.slot.fromTime }} - 
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
+                   
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -140,6 +139,10 @@
             <p>
               {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
+            </p>
+            <p>
+              <p>Speaker(s) {{ currentConf.slotId.toString() }}</p>
+              <speaker :slotId=currentConf.slotId.toString() :withPicture="false" />
             </p>
           
           </div>
@@ -394,7 +397,7 @@ export default defineComponent({
 <style scoped>
 .header {
   display: flex;
-  background-color: #61bf9b;
+  background-color: #044169;
   padding: 14px 28px;
   font-size: 20px;
   cursor: pointer;
@@ -428,7 +431,7 @@ export default defineComponent({
 
 .affectedBox {
   font-weight: bold;
-  background-color: rgb(4, 55, 38) !important;
+  background-color: #022b53 !important;
 }
 
 .affected {
