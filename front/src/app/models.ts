@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { reactive, ref } from "@vue/runtime-core";
 
-class Hit {
+export class Hit {
     hitid: string;
     hitSlotId: string;
     percentage: number;
@@ -16,24 +16,33 @@ class Hit {
     }
 }
 
-class Slot {
+export class Slot {
     slotId: string;
     roomId: string;
     fromTime: string;
     toTime: string;
-    talk?: string;
-    day: string
+    kind: string;
+    title:string;
+    day: string;
 }
 
 class TrackHitInfo {
     hitSlotId: string;
     slot: Slot;
     hitInfo?: Hit;
+    overflow:IOverflow;
     constructor(hitSlotId, slot, hitInfo) {
         this.hitSlotId = hitSlotId;
         this.slot = slot;
         this.hitInfo = hitInfo;
     }
+}
+
+export interface IOverflow{
+    slotId:string;
+    level:number;
+    datetime:string,
+    affectedRoom:string
 }
 
 class User {

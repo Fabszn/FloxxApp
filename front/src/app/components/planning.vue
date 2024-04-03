@@ -8,7 +8,6 @@
         </button>
       </div>
     </div>
-    <div class="screen-title">Planning</div>
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">
@@ -27,11 +26,9 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
- 
- 
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -52,9 +49,10 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
+
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -74,7 +72,7 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
@@ -96,7 +94,7 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
@@ -133,19 +131,27 @@
 
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
-        <div class="modalinfo">
-          <div>
+        <div class="d-flex flex-row justify-content-around">
+          <div class="info-talk">
             <p>{{ currentConf.confTitle }}</p>
             <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
               {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
-          
+            <div v-if="adminState">
+              <v-select :options="users" v-model="selectedUser"></v-select>
+            </div>
           </div>
-          <div v-if="adminState">
-            <v-select :options="users" v-model="selectedUser"></v-select>
+          <div class="speaker-list">
+            <p>
+            <p>Speaker(s)</p>
+            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true
+              :externalSpeaker=currentSpeakers />
+            </p>
+
           </div>
+
         </div>
 
         <div class="buttonmodal">
@@ -166,7 +172,7 @@
 
 <script lang="ts">
 import shared from "../shared";
-import { User, Conference, Mapping } from "../models";
+import { User, Conference, Mapping, ISpeaker } from "../models";
 import _ from "lodash";
 import { defineComponent, onBeforeMount, ref, computed } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
@@ -200,6 +206,7 @@ export default defineComponent({
     const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref("");
     const currentConf = ref(new Conference());
+    const currentSpeakers = ref(new Array<ISpeaker>());
 
     function toNumber(roomId: String): number {
       return _.toNumber(roomId)
@@ -311,7 +318,7 @@ export default defineComponent({
         fetch("/api/slots/" + slotId, {
           headers: shared.tokenHandle(),
         })
-          .then((response) => response.json())
+          .then((response) => response.json()) //TODO  to be refactor with interface
           .then((p) => {
             this.currentConf.updateInfo(
               p.title,
@@ -321,6 +328,14 @@ export default defineComponent({
               p.toTime,
               p.slotId
             );
+          });
+
+        fetch("/api/speakers/" + slotId, {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p: Array<ISpeaker>) => {
+            currentSpeakers.value = p;
           });
 
         fetch("/api/users", {
@@ -362,6 +377,7 @@ export default defineComponent({
       items,
       actualUserNameSelected,
       currentConf,
+      currentSpeakers,
       rooms,
       toNumber,
       backMenu,
@@ -394,7 +410,7 @@ export default defineComponent({
 <style scoped>
 .header {
   display: flex;
-  background-color: #61bf9b;
+  background-color: #044169;
   padding: 14px 28px;
   font-size: 20px;
   cursor: pointer;
@@ -428,7 +444,7 @@ export default defineComponent({
 
 .affectedBox {
   font-weight: bold;
-  background-color: rgb(4, 55, 38) !important;
+  background-color: #022b53 !important;
 }
 
 .affected {
@@ -445,9 +461,17 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
+
+  .info-talk{
+    font-size: 12px;
+  }
+  .speaker-list{
+    font-size: 12px;
+  }
+
   .header {
     display: flex;
-    background-color: #61bf9b;
+    background-color: #044169;
     padding: 7px 14px;
     font-size: 10px;
     cursor: pointer;

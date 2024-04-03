@@ -5,15 +5,15 @@
         <button v-on:click="backMySlots" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="arrow-circle-left" />
         </button>
-        &nbsp;
+       <!-- &nbsp;
         <button v-on:click="sendPicture" type="button" class="btn btn-secondary navbtn">
           <font-awesome-icon icon="photo-film" />
-        </button>
+        </button>-->
       </div>
     </div>
 
     <b-modal id="modal-1" body-bg-variant='dark' headerBgVariant='dark' footerBgVariant='dark' button-size="sm" ok-only>
-      <speaker :slotId=this.$route.params.slotid />
+      <speaker :slotId=this.$route.params.slotid :externalSource=false />
     </b-modal>
 
     <div class="d-flex flex-column justify-content-center">
@@ -124,6 +124,7 @@ import CircleProgress from "vue3-circle-progress";
 import { defineComponent, ref } from "@vue/runtime-core";
 import { useToast } from "vue-toastification";
 import speaker from "./sub/speaker.vue";
+import {TrackHitInfo, Slot} from "../models"
 import _ from "lodash";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
@@ -178,13 +179,14 @@ export default defineComponent({
         headers: shared.tokenHandle(),
       })
         .then((response) => response.json())
-        .then((p) => {
+        .then((p:TrackHitInfo) => {
           this.title = p.slot.title;
           this.kind = p.slot.kind;
           this.room = p.slot.roomId;
           this.day = p.slot.day;
           this.fromTime = p.slot.fromTime;
-          initPercentage.bind(this)(p.hitInfo.percentage);
+          
+          initPercentage.bind(this)(p.hitInfo);
           if (_.isNull(p.overflow)) {
             this.value = 0;
           } else {
@@ -254,12 +256,12 @@ export default defineComponent({
   },
 });
 
-function initPercentage(perc) {
-  if (!_.isNull(perc)) {
-    this.currentFill = perc;
-    this.currentColor = shared.colorByPercentage(perc);
-    if (perc == 100) {
-      this.switchOverflow.bind(this)(perc);
+function initPercentage(hitInfo) {
+  if (!_.isNull(hitInfo)) {
+    this.currentFill = hitInfo.percentage;
+    this.currentColor = shared.colorByPercentage(hitInfo.percentage);
+    if (hitInfo.percentage == 100) {
+      this.switchOverflow.bind(this)(hitInfo.percentage);
     }
   }
 }
