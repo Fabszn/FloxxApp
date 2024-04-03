@@ -8,7 +8,6 @@
         </button>
       </div>
     </div>
-    <div class="screen-title">Planning</div>
     <div>
       <tabs>
         <div v-for="item in items" :key="item.day">
@@ -132,23 +131,27 @@
 
     <GDialog v-model="dialogState">
       <div class="floxxmodal over">
-        <div class="modalinfo">
-          <div>
+        <div class="d-flex flex-row justify-content-around">
+          <div class="info-talk">
             <p>{{ currentConf.confTitle }}</p>
             <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
               {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
               {{ actualUserNameSelected }}
             </p>
+            <div v-if="adminState">
+              <v-select :options="users" v-model="selectedUser"></v-select>
+            </div>
+          </div>
+          <div class="speaker-list">
             <p>
             <p>Speaker(s)</p>
-            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true :externalSpeaker=currentSpeakers />
+            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true
+              :externalSpeaker=currentSpeakers />
             </p>
 
           </div>
-          <div v-if="adminState">
-            <v-select :options="users" v-model="selectedUser"></v-select>
-          </div>
+
         </div>
 
         <div class="buttonmodal">
@@ -203,7 +206,7 @@ export default defineComponent({
     const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref("");
     const currentConf = ref(new Conference());
-    const currentSpeakers = ref( new Array<ISpeaker>());
+    const currentSpeakers = ref(new Array<ISpeaker>());
 
     function toNumber(roomId: String): number {
       return _.toNumber(roomId)
@@ -458,9 +461,17 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
+
+  .info-talk{
+    font-size: 12px;
+  }
+  .speaker-list{
+    font-size: 12px;
+  }
+
   .header {
     display: flex;
-    background-color: #61bf9b;
+    background-color: #044169;
     padding: 7px 14px;
     font-size: 10px;
     cursor: pointer;

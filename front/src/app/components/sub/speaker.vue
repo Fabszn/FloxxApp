@@ -1,6 +1,6 @@
 <template>
     <div v-if="isExistsSpeaker(selectSource())">
-        <div class="speaker p-4" v-for="item in selectSource()">
+        <div class="speaker p-1" v-for="item in selectSource()">
             <div v-if="params.withPicture">
                 <b-card bodyBgVariant='dark' :img-src=computePicture(item.imageUrl)>
                     <b-card-text>
@@ -12,9 +12,10 @@
             </div>
             <div v-else>
                 <div class="speaker">
-                    <p>
-                        {{ item.firstname }} {{ item.lastname }}
-                    </p>
+                    <ul>
+
+                        <li>{{ item.firstname }} {{ item.lastname }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
