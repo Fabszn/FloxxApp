@@ -93,7 +93,7 @@ class JsonParserTest extends AnyFunSuite {
       case Left(err) => fail(err.getMessage)
       case Right(r) => {
 
-        assert(r.recordedAt == ZonedDateTime.parse("2024-04-17T06:57:00Z"))
+        assert(r.recordedAt == "2024-04-17T06:57:57Z")
         assert(r.capacityFillingRatio == 0.5f)
 
       }
@@ -107,7 +107,7 @@ class JsonParserTest extends AnyFunSuite {
     val msgJson: String        = source.mkString
     source.close()
 
-    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:00Z").toString)
+    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:57Z").toString)
 
     val result: Either[circe.Error, VoxxrinJsonBody] = decode[VoxxrinJsonBody](msgJson)
 
