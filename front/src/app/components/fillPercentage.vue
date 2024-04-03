@@ -13,7 +13,7 @@
     </div>
 
     <b-modal id="modal-1" body-bg-variant='dark' headerBgVariant='dark' footerBgVariant='dark' button-size="sm" ok-only>
-      <speaker :slotId=this.$route.params.slotid />
+      <speaker :slotId=this.$route.params.slotid :externalSource=false />
     </b-modal>
 
     <div class="d-flex flex-column justify-content-center">

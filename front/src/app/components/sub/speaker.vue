@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isExistsSpeaker(speakers)">
-        <div class="speaker p-4" v-for="item in speakers">
+    <div v-if="isExistsSpeaker(selectSource())">
+        <div class="speaker p-4" v-for="item in selectSource()">
             <div v-if="params.withPicture">
                 <b-card bodyBgVariant='dark' :img-src=computePicture(item.imageUrl)>
                     <b-card-text>
@@ -12,7 +12,6 @@
             </div>
             <div v-else>
                 <div class="speaker">
-
                     <p>
                         {{ item.firstname }} {{ item.lastname }}
                     </p>
@@ -21,7 +20,7 @@
         </div>
     </div>
     <div v-else>
-        <div class="speaker p-4">No speaker found</div>
+        <div class="speaker p-2">No speaker found</div>
     </div>
 
 
@@ -43,9 +42,27 @@ const params = defineProps({
     withPicture: {
         type: Boolean,
         default: true
+    },
+    externalSource: {
+        type: Boolean,
+        required: true
+    },
+    externalSpeaker: {
+        type: Array<ISpeaker>,
+        required: false,
+        default: new Array<ISpeaker>
     }
 });
-const speakers: Ref<ISpeaker[]> = ref([])
+const speakers: Ref<Array<ISpeaker>> = ref(new Array<ISpeaker>())
+
+function selectSource(): Array<ISpeaker> {
+    if (params.externalSource) {
+        return params.externalSpeaker;
+    } else {
+        return speakers.value;
+    }
+}
+
 
 function isExistsSpeaker(speakers: Array<ISpeaker>) {
     return !_.isEmpty(speakers)
@@ -64,15 +81,15 @@ function computePicture(urlImage: string) {
 
 
 onBeforeMount(async () => {
-    fetch("/api/speakers/" + params.slotId, {
-        headers: shared.tokenHandle(),
-    })
-        .then((response) => response.json())
-        .then((p: ISpeaker[]) => {
-
-            speakers.value = p;
-            console.log(p);
-        });
+    if (!params.externalSource) {
+        fetch("/api/speakers/" + params.slotId, {
+            headers: shared.tokenHandle(),
+        })
+            .then((response) => response.json())
+            .then((p: ISpeaker[]) => {
+                speakers.value = p;
+            });
+    }
 
 })
 

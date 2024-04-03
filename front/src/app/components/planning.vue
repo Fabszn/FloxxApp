@@ -27,7 +27,7 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
@@ -50,10 +50,10 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
-                   
+
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                   <div v-else></div>
@@ -73,7 +73,7 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
@@ -95,7 +95,7 @@
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div v-if="isSlotShouldBeDisplay(slot.user)">
-                    {{ slot.slot.fromTime }} - 
+                    {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
@@ -141,10 +141,10 @@
               {{ actualUserNameSelected }}
             </p>
             <p>
-              <p>Speaker(s) {{ currentConf.slotId.toString() }}</p>
-              <speaker :slotId=currentConf.slotId.toString() :withPicture="false" />
+            <p>Speaker(s)</p>
+            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true :externalSpeaker=currentSpeakers />
             </p>
-          
+
           </div>
           <div v-if="adminState">
             <v-select :options="users" v-model="selectedUser"></v-select>
@@ -169,7 +169,7 @@
 
 <script lang="ts">
 import shared from "../shared";
-import { User, Conference, Mapping } from "../models";
+import { User, Conference, Mapping, ISpeaker } from "../models";
 import _ from "lodash";
 import { defineComponent, onBeforeMount, ref, computed } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
@@ -203,6 +203,7 @@ export default defineComponent({
     const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref("");
     const currentConf = ref(new Conference());
+    const currentSpeakers = ref( new Array<ISpeaker>());
 
     function toNumber(roomId: String): number {
       return _.toNumber(roomId)
@@ -314,7 +315,7 @@ export default defineComponent({
         fetch("/api/slots/" + slotId, {
           headers: shared.tokenHandle(),
         })
-          .then((response) => response.json())
+          .then((response) => response.json()) //TODO  to be refactor with interface
           .then((p) => {
             this.currentConf.updateInfo(
               p.title,
@@ -324,6 +325,14 @@ export default defineComponent({
               p.toTime,
               p.slotId
             );
+          });
+
+        fetch("/api/speakers/" + slotId, {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p: Array<ISpeaker>) => {
+            currentSpeakers.value = p;
           });
 
         fetch("/api/users", {
@@ -365,6 +374,7 @@ export default defineComponent({
       items,
       actualUserNameSelected,
       currentConf,
+      currentSpeakers,
       rooms,
       toNumber,
       backMenu,
