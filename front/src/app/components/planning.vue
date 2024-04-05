@@ -25,13 +25,13 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                  <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" />
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
-                  <div v-else></div>
+                  
                 </div>
               </div>
             </div>
@@ -48,14 +48,14 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                  <div>
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" />
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
 
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
-                  <div v-else></div>
+                  
                 </div>
               </div>
             </div>
@@ -71,13 +71,13 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                  <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" />
+                    <displayKind :kind="slot.slot.kind"  :activate="isSlotShouldBeDisplay(slot.user)"/>
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
-                  <div v-else></div>
+                
                 </div>
               </div>
             </div>
@@ -93,13 +93,13 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                  <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" />
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
-                  <div v-else></div>
+                
                 </div>
               </div>
             </div>
@@ -115,10 +115,10 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div v-if="isSlotShouldBeDisplay(slot.user)">
+                  <div>
                     {{ slot.slot.fromTime }}
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" />
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
                     <div class="affected">{{ displayUser(slot.user) }}</div>
                   </div>
                 </div>
@@ -237,6 +237,7 @@ export default defineComponent({
         affectedBox: !_.isNull(user),
         userIdVal: !_.isNull(user),
         blockColor: _.isNull(user) && this.adminState,
+        deactivate: _.isNull(user) && !this.adminState
       };
     }
 
@@ -420,6 +421,11 @@ export default defineComponent({
 
 .blockColor {
   background-color: #3399ff;
+}
+
+.deactivate {
+  background-color: #2a2e31;
+  
 }
 
 
