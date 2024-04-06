@@ -1,6 +1,4 @@
 <template>
-  
-  
   <div>
     <input
       type="file"
@@ -12,9 +10,8 @@
     <button type="button" v-on:click="sendPhoto" class="btn btn-secondary">
       Send
     </button>
-    <div>
-    Number of people : <input v-model="nbPersonne"/>
-  </div>
+    <div>Number of people : </div>
+    <div> <span > {{ nbPersonne }} </span></div>
   </div>
 </template>
 
@@ -44,7 +41,8 @@ export default defineComponent({
       fetch("https://floxx-ia.cleverapps.io/photo", {
         method: "POST",
         body: formData,
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((res) => {
           this.nbPersonne = res.nbp;
         })
