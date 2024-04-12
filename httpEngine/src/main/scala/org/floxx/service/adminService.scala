@@ -1,8 +1,8 @@
 package org.floxx.service
 
 import org.floxx.domain.ConfDay.DayIndex
-import org.floxx.domain.Mapping.UserSlot
-import org.floxx.domain.{ ConfDay, Planning, PlanningDayItem }
+import org.floxx.domain.Mapping.SlotUsers
+import org.floxx.domain.{ConfDay, Planning, PlanningDayItem}
 import org.floxx.api.adminApi.Mapping
 import org.floxx.configuration.config.Configuration
 import org.floxx.repository.cfpRepository.SlotRepo
@@ -15,11 +15,11 @@ object adminService {
   trait AdminService {
     def insertUserSlotMapping(mapping: Mapping): Task[Long]
     def loadUsers: Task[Seq[SimpleUser]]
-    def mappingUserSlot: Task[Seq[UserSlot]]
+    def mappingUserSlot: Task[Seq[SlotUsers]]
     def planning: Task[Seq[Planning]]
   }
 
-  case class AdminServiceImpl(slotRepo: SlotRepo, userRepo: UserRepo, conf: Configuration) extends AdminService {
+  private case class AdminServiceImpl(slotRepo: SlotRepo, userRepo: UserRepo, conf: Configuration) extends AdminService {
 
     override def insertUserSlotMapping(mapping: Mapping): Task[Long] = slotRepo.addMapping(mapping)
 
@@ -29,18 +29,17 @@ object adminService {
     override def planning: Task[Seq[Planning]] =
       conf.getConf flatMap (config => slotRepo.mappingUserSlot flatMap groupBy flatMap order(config.cfp.days))
 
-    override def mappingUserSlot: Task[Seq[UserSlot]] = slotRepo.mappingUserSlot
+    override def mappingUserSlot: Task[Seq[SlotUsers]] = slotRepo.mappingUserSlot
   }
-  private def groupBy(us: Seq[UserSlot]): Task[Seq[Planning]] =
+  private def groupBy(us: Seq[SlotUsers]): Task[Seq[Planning]] =
     ZIO.attempt(
       us.groupBy(_.slot.day)
         .map {
-          case (d, slot) => {
+          case (d, slot) =>
             Planning(
               d,
-              slot.groupBy(_.slot.roomId).toSeq.sortBy(_._1).map(f => PlanningDayItem(f._1, f._2.sortBy(identity[UserSlot])))
+              slot.groupBy(_.slot.roomId).toSeq.sortBy(_._1).map(f => PlanningDayItem(f._1, f._2.sortBy(identity[SlotUsers])))
             )
-          }
         }
         .toSeq
     )
@@ -69,7 +68,7 @@ object adminService {
   def loadUsers: RIO[AdminService, Seq[SimpleUser]] =
     ZIO.serviceWithZIO[AdminService](_.loadUsers)
 
-  def mappingUserSlot: RIO[AdminService, Seq[UserSlot]] =
+  def mappingUserSlot: RIO[AdminService, Seq[SlotUsers]] =
     ZIO.serviceWithZIO[AdminService](_.mappingUserSlot)
 
   def planning: RIO[AdminService, Seq[Planning]] =

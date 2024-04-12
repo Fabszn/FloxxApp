@@ -38,10 +38,7 @@
 
             <p class="kindTitle">Neuilly</p>
             <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1706, item.rooms),
-          filterByGpr(1708, item.rooms)
-        )" :key="room.roomId">
+              <div class="track" v-for="room in composeFilter(filterByGpr(1706, item.rooms),filterByGpr(1708, item.rooms))" :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>

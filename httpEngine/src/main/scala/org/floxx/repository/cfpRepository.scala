@@ -2,7 +2,7 @@ package org.floxx.repository
 
 import org.floxx.api.adminApi.Mapping
 import org.floxx.configuration.config.Configuration
-import org.floxx.domain.Mapping.UserSlot
+import org.floxx.domain.Mapping.{SlotUsers, UserSlot}
 import org.floxx.domain.User.SimpleUser
 import org.floxx.domain._
 import zio._
@@ -23,7 +23,7 @@ object cfpRepository {
 
   trait SlotRepo {
 
-    def mappingUserSlot: Task[Seq[UserSlot]]
+    def mappingUserSlot: Task[Seq[SlotUsers]]
     def insertSlots(slotList: Seq[Slot]): Task[Long]
     def insertRooms(roomList: Seq[Room]): Task[Long]
     def allSlots: Task[Seq[Slot]]
@@ -38,7 +38,7 @@ object cfpRepository {
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
   }
 
-  case class SlotRepoService(dataSource: DataSource, conf: Configuration) extends SlotRepo {
+  private case class SlotRepoService(dataSource: DataSource, conf: Configuration) extends SlotRepo {
     import QuillContext._
 
     override def insertSlots(slotList: Seq[Slot]): Task[Long] =
@@ -48,7 +48,12 @@ object cfpRepository {
             s =>
               slots
                 .insertValue(s)
-                .onConflictUpdate(_.slotId)((t, e) => t.kind -> e.kind, (t, e) => t.title -> e.title, (t, e) => t.fromTime -> e.fromTime, (t, e) => t.toTime -> e.toTime)
+                .onConflictUpdate(_.slotId)(
+                  (t, e) => t.kind -> e.kind,
+                  (t, e) => t.title -> e.title,
+                  (t, e) => t.fromTime -> e.fromTime,
+                  (t, e) => t.toTime -> e.toTime
+                )
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
@@ -110,7 +115,7 @@ object cfpRepository {
     override def getSlotById(id: Slot.Id): Task[Option[Slot]] =
       run(quote(slots.filter(s => s.slotId == lift(id)))).map(_.headOption).provideEnvironment(ZEnvironment(dataSource))
 
-    override def mappingUserSlot: Task[Seq[UserSlot]] =
+    override def mappingUserSlot: Task[Seq[SlotUsers]] =
       conf.getConf
         .flatMap(
           c =>
@@ -124,6 +129,10 @@ object cfpRepository {
         )
         .provideEnvironment(ZEnvironment(dataSource))
         .map(_.map((UserSlot.apply _).tupled))
+        .map(groupUsersBySlotId)
+
+    private def groupUsersBySlotId(userSlots: Seq[UserSlot]): Seq[SlotUsers] =
+      userSlots.groupBy(_.slot).map { case (slot, userSlots: Seq[UserSlot]) => SlotUsers(userSlots.flatMap(_.user), slot) }.toSeq
 
     override def getSpeakerBySlotId(id: Slot.Id): Task[Seq[Speaker]] =
       run(
@@ -166,7 +175,7 @@ object cfpRepository {
   def addMapping(m: Mapping): RIO[SlotRepo, Long] =
     ZIO.serviceWithZIO[SlotRepo](_.addMapping(m))
 
-  def mappingUserSlot: RIO[SlotRepo, Seq[UserSlot]] =
+  def mappingUserSlot: RIO[SlotRepo, Seq[SlotUsers]] =
     ZIO.serviceWithZIO[SlotRepo](_.mappingUserSlot)
 
 }
