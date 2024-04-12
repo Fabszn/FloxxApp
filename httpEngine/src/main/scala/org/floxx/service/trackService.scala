@@ -9,8 +9,12 @@ import org.floxx.repository.cfpRepository.SlotRepo
 import org.floxx.service.http.Http
 import zio._
 
+import java.time.ZoneId
+
 object trackService {
 
+
+  val zoneIdRef = ZoneId.of("Europe/Paris")
   def layer: RLayer[Http with SlotRepo with Configuration, TrackService] =
     ZLayer {
       for {
@@ -43,12 +47,12 @@ object trackService {
                 slotId   = Slot.Id(s"${s.cfpSlotId.value}"),
                 roomId   = Room.Id(s.roomId.value),
                 roomName = Room.Name(s.roomName.value),
-                fromTime = FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value)),
-                toTime   = ToTime(timeUtils.zdt2FormattedTime(s.toDate.value)),
+                fromTime = FromTime(timeUtils.zdt2FormattedTime(s.fromDate.value.atZoneSameInstant(zoneIdRef))),
+                toTime   = ToTime(timeUtils.zdt2FormattedTime(s.toDate.value.atZoneSameInstant(zoneIdRef))),
                 kind     = s.kind,
                 title    = s.title,
-                day      = Day(timeUtils.zdt2DayOfWeek(s.fromDate.value)),
-                yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value))
+                day      = Day(timeUtils.zdt2DayOfWeek(s.fromDate.value.atZoneSameInstant(zoneIdRef))),
+                yearSlot = CurrentYear(timeUtils.zdt2Year(s.fromDate.value.atZoneSameInstant(zoneIdRef)))
               )
           )
         _ <- http.loadRooms() flatMap slotRepo.insertRooms

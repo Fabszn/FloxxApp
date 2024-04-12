@@ -13,7 +13,7 @@ import org.floxx.processors.shareHitProcessor.VoxxrinJsonBody
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-import java.time.ZonedDateTime
+import java.time.{ ZoneId, ZonedDateTime}
 import scala.io.{BufferedSource, Source}
 
 class JsonParserTest extends AnyFunSuite {
@@ -81,6 +81,40 @@ class JsonParserTest extends AnyFunSuite {
     }
   }
 
+  test("test Encode payload Cfp 2024 for FromDate and toDate with the right offset") {
+
+    val source: BufferedSource = Source.fromResource("./cfpDevoxx24.json")
+    val msgJson: String        = source.mkString
+    source.close()
+
+    val result: Either[circe.Error, Seq[CfpSlot]] = decode[Seq[CfpSlot]](msgJson)
+
+    result match {
+      case Left(err) => fail(err.getMessage)
+      case Right(r) => {
+
+        assert(r.nonEmpty)
+        assert(
+          r.filter(_.cfpSlotId == CfpSlot.Id(62501)).map(_.fromDate.value.atZoneSameInstant(ZoneId.of("Europe/Paris"))) == Seq(
+            ZonedDateTime.parse("2024-04-17T09:00+02:00[Europe/Paris]"))
+            //OffsetDateTime.parse("2024-04-17T07:00:00Z").atZoneSameInstant(ZoneId.of("Europe/Paris")))
+
+        )
+        assert(
+          r.filter(_.cfpSlotId == CfpSlot.Id(62501)).map(_.toDate.value.atZoneSameInstant(ZoneId.of("Europe/Paris"))) == Seq(
+            ZonedDateTime.parse("2024-04-17T09:25+02:00[Europe/Paris]"))
+            // OffsetDateTime.parse("2024-04-17T07:25:00Z").atZoneSameInstant(ZoneId.of("Europe/Paris"))
+
+        )
+
+
+      }
+
+    }
+  }
+
+
+
   test("test Encode payload Voxxrin") {
 
     val source: BufferedSource = Source.fromResource("./voxxrin.json")
@@ -107,7 +141,10 @@ class JsonParserTest extends AnyFunSuite {
     val msgJson: String        = source.mkString
     source.close()
 
-    val ref = VoxxrinJsonBody(0.5f, ZonedDateTime.parse("2024-04-17T06:57:57Z").toString)
+    val ref = VoxxrinJsonBody(
+      0.5f,
+      ZonedDateTime.parse("2024-04-17T06:57:57Z").toString
+    )
 
     val result: Either[circe.Error, VoxxrinJsonBody] = decode[VoxxrinJsonBody](msgJson)
 
