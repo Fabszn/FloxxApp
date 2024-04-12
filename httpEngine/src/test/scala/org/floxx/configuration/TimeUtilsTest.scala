@@ -2,12 +2,14 @@ package org.floxx.configuration
 
 import org.floxx.configuration.config.GlobalConfig
 import org.floxx.domain.Slot._
-import org.floxx.domain.{ CurrentYear, Room, Slot }
+import org.floxx.domain.{CurrentYear, Room, Slot}
 import org.floxx.service.timeUtils
 import org.joda.time.LocalTime
 import org.scalatest.funsuite.AnyFunSuite
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
+
+import java.time.{OffsetDateTime, ZoneId}
 
 class TimeUtilsTest extends AnyFunSuite {
 
@@ -60,6 +62,19 @@ class TimeUtilsTest extends AnyFunSuite {
 
     assert(resultSlot1)
     assert(!resultSlot2)
+  }
+
+  test("Test timeUtils.zdt2FormattedTime") {
+
+    val refZonedDateTime1 = OffsetDateTime.parse("2024-04-17T07:00:00Z").atZoneSameInstant(ZoneId.of("Europe/Paris"))
+    val refZonedDateTime2 = OffsetDateTime.parse("2024-04-17T07:25:00Z").atZoneSameInstant(ZoneId.of("Europe/Paris"))
+
+    val computedTime1 = timeUtils.zdt2FormattedTime(refZonedDateTime1)
+    val computedTime2 = timeUtils.zdt2FormattedTime(refZonedDateTime2)
+
+    assert(computedTime1 == "09:00")
+    assert(computedTime2 == "09:25")
+
   }
 
 }

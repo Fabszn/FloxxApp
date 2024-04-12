@@ -17,8 +17,7 @@ import org.floxx.utils.CirceValueClassCustomAuto._
 import org.http4s.EntityDecoder
 import org.http4s.circe.jsonOf
 
-import java.time.format.DateTimeFormatter
-import java.time.{ZoneId, ZoneOffset, ZonedDateTime}
+import java.time.{OffsetDateTime, ZoneId, ZoneOffset, ZonedDateTime}
 import java.util.UUID
 import scala.util.Try
 
@@ -223,11 +222,11 @@ object domain {
     object RoomId {
       implicit val roomIdDecoder: Decoder[RoomId] = deriveUnwrappedDecoder[RoomId]
     }
-    final case class FromDate(value: ZonedDateTime) extends AnyVal
+    final case class FromDate(value: OffsetDateTime) extends AnyVal
     object FromDate {
       implicit val fromDateDecoder: Decoder[FromDate] = deriveUnwrappedDecoder[FromDate]
     }
-    final case class ToDate(value: ZonedDateTime) extends AnyVal
+    final case class ToDate(value: OffsetDateTime) extends AnyVal
     object ToDate {
       implicit val toDateDecoder: Decoder[ToDate] = deriveUnwrappedDecoder[ToDate]
     }
