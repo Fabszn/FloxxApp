@@ -27,7 +27,7 @@ export default [
     {
         url: '/api/informations/current-user',
         method: 'get',
-        response: "Fab test"
+        response: "Fabrise from mock"
     },
     {
         url: '/api/slots/_current',
