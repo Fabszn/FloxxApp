@@ -25,6 +25,7 @@ object cfpRepository {
 
     def mappingUserSlot: Task[Seq[SlotUsers]]
     def insertSlots(slotList: Seq[Slot]): Task[Long]
+    def deleteMapping(m: Mapping): Task[Long]
     def insertRooms(roomList: Seq[Room]): Task[Long]
     def allSlots: Task[Seq[Slot]]
     def allRooms: Task[Seq[Room]]
@@ -74,17 +75,25 @@ object cfpRepository {
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)
 
     override def addMapping(m: Mapping): Task[Long] = {
-      m.userId
-        .fold(run(quote(userSlots.filter(_.slotId == lift(m.slotId)).delete)))(
-          _ =>
-            run(
-              quote(
-                userSlots
-                  .insertValue(lift(m))
-                  .onConflictUpdate(_.slotId)((t, e) => t.userId -> e.userId)
-              )
+      run(
+        quote(
+          userSlots
+            .insert(
+              _.slotId -> lift(m.slotId),
+              _.userId -> lift(m.userId: Option[SimpleUser.Id])
             )
         )
+      )
+    }.provideEnvironment(ZEnvironment(dataSource))
+
+    override def deleteMapping(m: Mapping): Task[Long] = {
+      run(
+        quote(
+          userSlots
+            .filter(mapping => (mapping.slotId == lift(m.slotId)) && (mapping.userId == lift(m.userId: Option[SimpleUser.Id])))
+            .delete
+        )
+      )
     }.provideEnvironment(ZEnvironment(dataSource))
 
     override def allSlots: Task[Seq[Slot]] =

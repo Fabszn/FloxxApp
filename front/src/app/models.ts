@@ -22,7 +22,7 @@ export class Slot {
     fromTime: string;
     toTime: string;
     kind: string;
-    title:string;
+    title: string;
     day: string;
 }
 
@@ -30,7 +30,7 @@ class TrackHitInfo {
     hitSlotId: string;
     slot: Slot;
     hitInfo?: Hit;
-    overflow:IOverflow;
+    overflow: IOverflow;
     constructor(hitSlotId, slot, hitInfo) {
         this.hitSlotId = hitSlotId;
         this.slot = slot;
@@ -38,11 +38,11 @@ class TrackHitInfo {
     }
 }
 
-export interface IOverflow{
-    slotId:string;
-    level:number;
-    datetime:string,
-    affectedRoom:string
+export interface IOverflow {
+    slotId: string;
+    level: number;
+    datetime: string,
+    affectedRoom: string
 }
 
 class User {
@@ -213,12 +213,19 @@ class Information {
 }
 
 
-export interface ISpeaker{
-    slotId:string
-    firstname:string
-    lastname:string
-    fullname:string
-    imageUrl:string
+export interface UserSlot {
+    userId: string,
+    nom: string,
+    prenom: string
+}
+
+
+export interface ISpeaker {
+    slotId: string
+    firstname: string
+    lastname: string
+    fullname: string
+    imageUrl: string
 }
 
 export { TrackHitInfo, User, Conference, StateRoom, Mapping, StatItem, OverflowRoomState, Information }

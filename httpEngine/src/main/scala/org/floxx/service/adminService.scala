@@ -14,6 +14,7 @@ object adminService {
 
   trait AdminService {
     def insertUserSlotMapping(mapping: Mapping): Task[Long]
+    def deleteUserSlotMapping(mapping: Mapping): Task[Long]
     def loadUsers: Task[Seq[SimpleUser]]
     def mappingUserSlot: Task[Seq[SlotUsers]]
     def planning: Task[Seq[Planning]]
@@ -22,6 +23,8 @@ object adminService {
   private case class AdminServiceImpl(slotRepo: SlotRepo, userRepo: UserRepo, conf: Configuration) extends AdminService {
 
     override def insertUserSlotMapping(mapping: Mapping): Task[Long] = slotRepo.addMapping(mapping)
+
+    override def deleteUserSlotMapping(mapping: Mapping): Task[Long] = slotRepo.deleteMapping(mapping)
 
     override def loadUsers: Task[Seq[SimpleUser]] =
       userRepo.allUsers
@@ -64,6 +67,9 @@ object adminService {
 
   def insertUserSlotMapping(mapping: Mapping): RIO[AdminService, Long] =
     ZIO.serviceWithZIO[AdminService](_.insertUserSlotMapping(mapping))
+
+  def deleteUserSlotMapping(mapping: Mapping): RIO[AdminService, Long] =
+    ZIO.serviceWithZIO[AdminService](_.deleteUserSlotMapping(mapping))
 
   def loadUsers: RIO[AdminService, Seq[SimpleUser]] =
     ZIO.serviceWithZIO[AdminService](_.loadUsers)
