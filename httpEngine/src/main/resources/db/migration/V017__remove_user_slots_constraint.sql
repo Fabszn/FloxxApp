@@ -1,0 +1,1 @@
+alter table user_slots  drop  constraint if exists user_slots_pkey;

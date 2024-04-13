@@ -66,7 +66,6 @@ export default {
         })
         .then((response) => response.json())
         .then(p => {
-          console.log(p)
           this.items = p;
         });
     });

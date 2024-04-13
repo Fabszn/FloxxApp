@@ -23,13 +23,15 @@
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
-                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                    </div>
                   </div>
                   
                 </div>
@@ -38,22 +40,21 @@
 
             <p class="kindTitle">Neuilly</p>
             <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1706, item.rooms),
-          filterByGpr(1708, item.rooms)
-        )" :key="room.roomId">
+              <div class="track" v-for="room in composeFilter(filterByGpr(1706, item.rooms),filterByGpr(1708, item.rooms))" :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div>
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
 
-                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                    </div>
                   </div>
                   
                 </div>
@@ -69,13 +70,15 @@
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind"  :activate="isSlotShouldBeDisplay(slot.user)"/>
-                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <displayKind :kind="slot.slot.kind"  :activate="isSlotShouldBeDisplay(slot.users)"/>
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                    </div>
                   </div>
                 
                 </div>
@@ -91,13 +94,15 @@
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div >
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
-                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
                   </div>
                 
                 </div>
@@ -113,13 +118,15 @@
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
 
-                <div v-on:click="show(slot.slot.slotId, slot.user)" v-bind:class="isAffectedClass(slot.user)"
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
                   <div>
                     {{ slot.slot.fromTime }}
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.user)" />
-                    <div class="affected">{{ displayUser(slot.user) }}</div>
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -136,11 +143,14 @@
             <p>{{ currentConf.confTitle }}</p>
             <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
-              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} - RedCoat :
-              {{ actualUserNameSelected }}
+              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} 
+            </p>
+            <p>
+              RedCoat(s) :
+              <showRc  :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=currentConf.slotId.toString() />
             </p>
             <div v-if="adminState">
-              <v-select :options="users" v-model="selectedUser"></v-select>
+              <v-select :options="userList" v-model="selectedUser"></v-select>
             </div>
           </div>
           <div class="speaker-list">
@@ -158,9 +168,9 @@
           <button type="button" v-on:click="hide" class="btn btn-secondary">
             Close
           </button>
-          <button type="button" v-on:click="remove" class="btn btn-secondary" v-if="adminState">
+          <!--<button type="button" v-on:click="remove" class="btn btn-secondary" v-if="adminState">
             Remove
-          </button>
+          </button>-->
           <button type="button" v-on:click="saveMapping" class="btn btn-secondary" v-if="adminState">
             Save
           </button>
@@ -172,7 +182,7 @@
 
 <script lang="ts">
 import shared from "../shared";
-import { User, Conference, Mapping, ISpeaker } from "../models";
+import { User, Conference, Mapping, ISpeaker, UserSlot } from "../models";
 import _ from "lodash";
 import { defineComponent, onBeforeMount, ref, computed } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
@@ -180,6 +190,7 @@ import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import showRoom from "./sub/show-room.vue";
+import showRc from "./sub/show-rc.vue";
 import displayKind from "./sub/displayKind.vue";
 import speaker from "./sub/speaker.vue";
 
@@ -191,7 +202,8 @@ export default defineComponent({
     Tab,
     showRoom,
     displayKind,
-    speaker
+    speaker,
+    showRc
   },
   setup() {
 
@@ -199,12 +211,12 @@ export default defineComponent({
     const store = useStore();
     const toast = useToast();
     const selectedUser = ref(null);
-    const users = ref(new Array<User>());
+    const userList = ref(new Array<User>());
     const adminState = ref(false);
     const dialogState = ref(false);
     const items = computed(() => store.state.planning);
     const rooms = computed(() => store.state.rooms)
-    const actualUserNameSelected = ref("");
+    const actualUserNameSelected = ref(Array<UserSlot>);
     const currentConf = ref(new Conference());
     const currentSpeakers = ref(new Array<ISpeaker>());
 
@@ -228,56 +240,45 @@ export default defineComponent({
       }
     }
 
-    function isAffectedClass(user) {
+    function isAffectedClass(users:Array<UserSlot>) {
       var userIdVal = "NoData";
-      if (!_.isNull(user)) {
-        userIdVal = user.userId;
+      if ((_.size(users) != 0)) {
+        userIdVal = "users.userId";
       }
       return {
-        affectedBox: !_.isNull(user),
-        userIdVal: !_.isNull(user),
-        blockColor: _.isNull(user) && this.adminState,
-        deactivate: _.isNull(user) && !this.adminState
+        affectedBox: (_.size(users) != 0),
+        userIdVal: (_.size(users) != 0),
+        blockColor: (_.size(users) == 0) && this.adminState,
+        deactivate: (_.size(users) == 0) && !this.adminState
       };
     }
 
-    function isSlotShouldBeDisplay(user) {
+    function isSlotShouldBeDisplay(users) {
       //if no user and mode admin then hide block
-      return (_.isNull(user) && this.adminState) || !_.isNull(user);
+      return (_.size(users)==0 && this.adminState) || !(_.size(users)==0);
     }
-    function displayUser(user) {
-      if (_.isNull(user)) {
-        return "-";
+    function displayUsers(users:Array<UserSlot>) :Array<String>{
+      if (_.size(users) == 0) {
+        return ["-"];
       } else {
-        return user.prenom + " " + _.upperCase(user.nom.substring(0, 1)) + ".";
+        return _.map(users, (u:UserSlot) => u.prenom + " " + _.upperCase(u.nom.substring(0, 1)) + ".")
       }
     }
 
-    function show(idSlot, currentUser: User) {
-      this.actualUserNameSelected = computeUser(currentUser);
+    function show(idSlot, currentUsers: Array<UserSlot>) {
+      this.actualUserNameSelected = currentUsers;
       beforeOpen.bind(this)(idSlot);
       this.dialogState = true;
     }
 
     function hide() {
       this.selectedUser = null;
+      this.refresh();
       this.$forceUpdate();
       this.dialogState = false;
     }
 
-    function remove() {
-      fetch("/api/set-user", {
-        body: JSON.stringify({ slotId: this.currentConf.slotId }),
-        method: "POST",
-        headers: shared.tokenHandle(),
-      })
-        //.then((response) => response.json())
-        .then((p) => {
-          refresh()
-          this.dialogState = false;
-          this.toast.success("Red coat removed!");
-        });
-    }
+   
     function saveMapping() {
       if (_.isNull(this.selectedUser)) {
         this.toast.error("Red coat must be filled");
@@ -344,7 +345,7 @@ export default defineComponent({
         })
           .then((response) => response.json())
           .then((p) => {
-            this.users = _.map(p, (u) => {
+            this.userList = _.map(p, (u) => {
               return new User(u.userId, u.nom, u.prenom);
             });
           });
@@ -371,7 +372,7 @@ export default defineComponent({
 
     return {
       selectedUser,
-      users,
+      userList,
       toast,
       adminState,
       dialogState,
@@ -386,10 +387,10 @@ export default defineComponent({
       getUserId,
       isAffectedClass,
       isSlotShouldBeDisplay,
-      displayUser,
+      displayUsers,
       show,
       hide,
-      remove,
+      //remove,
       saveMapping,
       getRoomNameById,
       composeFilter,

@@ -37,6 +37,12 @@ object adminApi {
         _ <- adminService.insertUserSlotMapping(mapping)
         r <- Created(s"Mapping has been inserted")
       } yield r
+    case ct @ PUT -> Root / "del-mapping" as _ =>
+      for {
+        mapping <- ct.req.as[Mapping]
+        _ <- adminService.deleteUserSlotMapping(mapping)
+        r <- Created(s"Mapping has been deleted")
+      } yield r
 
     case GET -> Root / "mapping" as _ =>
       adminService.mappingUserSlot flatMap { uss =>

@@ -9,7 +9,7 @@ import org.floxx.domain.AuthUser._
 import org.floxx.domain.ConfDay.{DayIndex, DayValue}
 import org.floxx.domain.HitShare.{DateCreation, Percentage, Response, Status}
 import org.floxx.domain.Information.{Content, DateCreate, Title}
-import org.floxx.domain.Mapping.UserSlot
+import org.floxx.domain.Mapping.{SlotUsers, UserSlot}
 import org.floxx.domain.Overflow.{AffectedRoom, DateTime, Level}
 import org.floxx.domain.Slot.Day
 import org.floxx.domain.User.SimpleUser
@@ -107,10 +107,11 @@ object domain {
 
   object Mapping {
     case class UserSlot(user: Option[User.SimpleUser], slot: Slot)
+    case class SlotUsers(users: Seq[User.SimpleUser], slot: Slot)
 
-    object UserSlot {
+    object SlotUsers {
 
-      implicit val ordering: Ordering[UserSlot] = (x: UserSlot, y: UserSlot) =>
+      implicit val ordering: Ordering[SlotUsers] = (x: SlotUsers, y: SlotUsers) =>
         x.slot.fromTime.value.compareTo(y.slot.fromTime.value)
     }
   }
@@ -305,7 +306,7 @@ object domain {
 
   }
 
-  final case class PlanningDayItem(roomId: Room.Id, slots: Seq[UserSlot])
+  final case class PlanningDayItem(roomId: Room.Id, slots: Seq[SlotUsers])
   final case class Planning(day: Day, rooms: Seq[PlanningDayItem])
 
   case class TrackHitInfo(

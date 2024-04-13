@@ -87,7 +87,7 @@ export default [
         
     },
     {
-        url: '/api/admin/users',
+        url: '/api/users',
         method: 'get',
         response: ({ query }) => {
             return [{ "userId": "arn-her", "nom": "Heritier", "prenom": "Arnaud" }, { "userId": "fab-szn", "nom": "Sznajderman", "prenom": "Fabrice" }, { "userId": "fre-cam", "nom": "Camblor", "prenom": "Frédéric" }, { "userId": "adr-ysn", "nom": "Ysnel", "prenom": "Adrien" }, { "userId": "ala-reg", "nom": "Regnier", "prenom": "Alain" }, { "userId": "ben-dis", "nom": "Dissert", "prenom": "Benoît" }, { "userId": "car-chu", "nom": "Chuong", "prenom": "Caroline" }, { "userId": "cha-sab", "nom": "Sabourdin", "prenom": "Charles" }, { "userId": "dam-vie", "nom": "Viennot", "prenom": "Damien" }, { "userId": "dav-dew", "nom": "Dewalle", "prenom": "David" }, { "userId": "emm-fel", "nom": "Feller", "prenom": "Emmanuel" }, { "userId": "est-lan", "nom": "Landry", "prenom": "Estelle" }, { "userId": "fla-leb", "nom": "Lebarbe", "prenom": "Flavien" }, { "userId": "fra-kal", "nom": "Kalb", "prenom": "Franck" }, { "userId": "gab-kas", "nom": "Kastenbaum", "prenom": "Gabriel" }, { "userId": "gui-lou", "nom": "Lours", "prenom": "Guillaume" }, { "userId": "hor-gon", "nom": "Gonzalez", "prenom": "Horacio" }, { "userId": "jea-sir", "nom": "Sirot", "prenom": "Jean-Christophe" }, { "userId": "kaj-ras", "nom": "Rashid", "prenom": "Kajin" }, { "userId": "kev-lau", "nom": "Laurent", "prenom": "Kevin" }, { "userId": "mar-ter", "nom": "Terrier", "prenom": "Marie" }, { "userId": "mau-cah", "nom": "Cahuet Laurent", "prenom": "Maude" }, { "userId": "ste-bra", "nom": "Bran", "prenom": "Stephane" }, { "userId": "kha-mau", "nom": "Tuong", "prenom": "khanh " }, { "userId": "gau-de", "nom": "de Saint-Martin Lacace", "prenom": "Gautier" }, { "userId": "jea-gir", "nom": "Girard", "prenom": "Jean-Francois" }, { "userId": "bab-cis", "nom": "Ciss", "prenom": "Babacar" }, { "userId": "eri-lem", "nom": "Lemerdy", "prenom": "Eric" }];
@@ -142,7 +142,5406 @@ export default [
         url: '/api/planning',
         method: 'get',
         response: ({ query }) => {
-            return [{ "day": "Wednesday", "rooms": [{ "roomId": 1051, "slots": [{ "user": null, "slot": { "slotId": "63453", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63467", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1775", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1785", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12905", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63475", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1856", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1877", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1888", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1701, "slots": [{ "user": null, "slot": { "slotId": "12904", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1854", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63486", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1702, "slots": [{ "user": null, "slot": { "slotId": "63459", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63466", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1776", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1786", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12907", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63479", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1860", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1865", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1871", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1879", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1887", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1703, "slots": [{ "user": null, "slot": { "slotId": "63457", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63464", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1778", "roomName": "Paris 141", "roomId": 1703, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1790", "roomName": "Paris 141", "roomId": 1703, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12908", "roomName": "Paris 141", "roomId": 1703, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63481", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1857", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1878", "roomName": "Paris 141", "roomId": 1703, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1889", "roomName": "Paris 141", "roomId": 1703, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1704, "slots": [{ "user": null, "slot": { "slotId": "12903", "roomName": "Paris 142", "roomId": 1704, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1851", "roomName": "Paris 142", "roomId": 1704, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63485", "roomName": "Paris 142", "roomId": 1704, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1705, "slots": [{ "user": null, "slot": { "slotId": "63458", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63463", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1777", "roomName": "Paris 143", "roomId": 1705, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1787", "roomName": "Paris 143", "roomId": 1705, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12909", "roomName": "Paris 143", "roomId": 1705, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63478", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1859", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1866", "roomName": "Paris 143", "roomId": 1705, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1872", "roomName": "Paris 143", "roomId": 1705, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1882", "roomName": "Paris 143", "roomId": 1705, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1893", "roomName": "Paris 143", "roomId": 1705, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1706, "slots": [{ "user": null, "slot": { "slotId": "63452", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63461", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1779", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1792", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12911", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63477", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1855", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1880", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1892", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1707, "slots": [{ "user": null, "slot": { "slotId": "63455", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63462", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1781", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1788", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12913", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63476", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1861", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1867", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1873", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1881", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1894", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1708, "slots": [{ "user": null, "slot": { "slotId": "12901", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1852", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63484", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1709, "slots": [{ "user": null, "slot": { "slotId": "62501", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1752", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1780", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1791", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1862", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1868", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1876", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1884", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1891", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1710, "slots": [{ "user": null, "slot": { "slotId": "63454", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63460", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1782", "roomName": "Paris 241", "roomId": 1710, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1789", "roomName": "Paris 241", "roomId": 1710, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12914", "roomName": "Paris 241", "roomId": 1710, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63480", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1858", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1885", "roomName": "Paris 241", "roomId": 1710, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1895", "roomName": "Paris 241", "roomId": 1710, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1711, "slots": [{ "user": null, "slot": { "slotId": "63451", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63465", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1784", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1793", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12916", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63482", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1864", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1870", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1874", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1883", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1890", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1712, "slots": [{ "user": null, "slot": { "slotId": "12902", "roomName": "Paris 243", "roomId": 1712, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1853", "roomName": "Paris 243", "roomId": 1712, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63487", "roomName": "Paris 243", "roomId": 1712, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1713, "slots": [{ "user": null, "slot": { "slotId": "63456", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63468", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1783", "roomName": "Maillot", "roomId": 1713, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "Une conf au top", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63483", "roomName": "Maillot", "roomId": 1713, "fromTime": "09:15", "toTime": "09:35", "kind": "Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1794", "roomName": "Maillot", "roomId": 1713, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63488", "roomName": "Maillot", "roomId": 1713, "fromTime": "10:20", "toTime": "11:30", "kind": "Lunch", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12917", "roomName": "Maillot", "roomId": 1713, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63474", "roomName": "Maillot", "roomId": 1713, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1863", "roomName": "Maillot", "roomId": 1713, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1869", "roomName": "Maillot", "roomId": 1713, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1875", "roomName": "Maillot", "roomId": 1713, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1886", "roomName": "Maillot", "roomId": 1713, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1714, "slots": [{ "user": null, "slot": { "slotId": "62503", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "05:30", "toTime": "07:00", "kind": "Breakfast", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63469", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "08:00", "toTime": "08:30", "kind": "Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1897", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "12:15", "toTime": "12:35", "kind": "Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1898", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "13:20", "toTime": "13:40", "kind": "Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1899", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "14:30", "toTime": "15:00", "kind": "Coffee Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "1901", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "15:30", "toTime": "15:50", "kind": "Break", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }, { "roomId": 1715, "slots": [{ "user": null, "slot": { "slotId": "63612", "roomName": "Salle Ternes", "roomId": 1715, "fromTime": "17:00", "toTime": "21:00", "kind": "Speakers Dinner", "title": "---", "day": "Wednesday", "yearSlot": 2024 } }] }] }, { "day": "Thursday", "rooms": [{ "roomId": 1051, "slots": [{ "user": null, "slot": { "slotId": "2115", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2141", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2163", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2184", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2207", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63494", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2241", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2287", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12918", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1701, "slots": [{ "user": null, "slot": { "slotId": "2199", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2233", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63489", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1702, "slots": [{ "user": null, "slot": { "slotId": "2116", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2143", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2164", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2181", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2212", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63601", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2250", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2262", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2273", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2288", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12923", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1703, "slots": [{ "user": null, "slot": { "slotId": "2114", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2142", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2161", "roomName": "Paris 141", "roomId": 1703, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2182", "roomName": "Paris 141", "roomId": 1703, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2211", "roomName": "Paris 141", "roomId": 1703, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63495", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2242", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2292", "roomName": "Paris 141", "roomId": 1703, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12920", "roomName": "Paris 141", "roomId": 1703, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1704, "slots": [{ "user": null, "slot": { "slotId": "2202", "roomName": "Paris 142", "roomId": 1704, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2234", "roomName": "Paris 142", "roomId": 1704, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63491", "roomName": "Paris 142", "roomId": 1704, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1705, "slots": [{ "user": null, "slot": { "slotId": "2112", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2145", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2160", "roomName": "Paris 143", "roomId": 1705, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2183", "roomName": "Paris 143", "roomId": 1705, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2213", "roomName": "Paris 143", "roomId": 1705, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63498", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2249", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2261", "roomName": "Paris 143", "roomId": 1705, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2274", "roomName": "Paris 143", "roomId": 1705, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2291", "roomName": "Paris 143", "roomId": 1705, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12922", "roomName": "Paris 143", "roomId": 1705, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1706, "slots": [{ "user": null, "slot": { "slotId": "2117", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2144", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2162", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2179", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2210", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63500", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2243", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2289", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12925", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2330", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2335", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1707, "slots": [{ "user": null, "slot": { "slotId": "2113", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2146", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2159", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2180", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2214", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63496", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2252", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2265", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2275", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2290", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12924", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2329", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2336", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1708, "slots": [{ "user": null, "slot": { "slotId": "2200", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2235", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63490", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2333", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2340", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1709, "slots": [{ "user": null, "slot": { "slotId": "2101", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2139", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2168", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2186", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2251", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2266", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2276", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2293", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12929", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1710, "slots": [{ "user": null, "slot": { "slotId": "2119", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2147", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2167", "roomName": "Paris 241", "roomId": 1710, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2185", "roomName": "Paris 241", "roomId": 1710, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2216", "roomName": "Paris 241", "roomId": 1710, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63493", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2244", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2294", "roomName": "Paris 241", "roomId": 1710, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12927", "roomName": "Paris 241", "roomId": 1710, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2332", "roomName": "Paris 241", "roomId": 1710, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2339", "roomName": "Paris 241", "roomId": 1710, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1711, "slots": [{ "user": null, "slot": { "slotId": "2118", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2148", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2166", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2188", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2215", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63497", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2254", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2263", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2277", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2296", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12928", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "15:50", "toTime": "16:20", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2334", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2337", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1712, "slots": [{ "user": null, "slot": { "slotId": "2201", "roomName": "Paris 243", "roomId": 1712, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2236", "roomName": "Paris 243", "roomId": 1712, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63492", "roomName": "Paris 243", "roomId": 1712, "fromTime": "15:00", "toTime": "16:30", "kind": "Other", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2331", "roomName": "Paris 243", "roomId": 1712, "fromTime": "17:00", "toTime": "18:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2338", "roomName": "Paris 243", "roomId": 1712, "fromTime": "18:00", "toTime": "19:00", "kind": "BOF", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1713, "slots": [{ "user": null, "slot": { "slotId": "2120", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2149", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2165", "roomName": "Maillot", "roomId": 1713, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2187", "roomName": "Maillot", "roomId": 1713, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2232", "roomName": "Maillot", "roomId": 1713, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63602", "roomName": "Maillot", "roomId": 1713, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2253", "roomName": "Maillot", "roomId": 1713, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2264", "roomName": "Maillot", "roomId": 1713, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2278", "roomName": "Maillot", "roomId": 1713, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2295", "roomName": "Maillot", "roomId": 1713, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63611", "roomName": "Maillot", "roomId": 1713, "fromTime": "17:00", "toTime": "21:00", "kind": "The Voxx", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }, { "roomId": 1714, "slots": [{ "user": null, "slot": { "slotId": "2342", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "05:30", "toTime": "07:00", "kind": "Breakfast", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2344", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "08:00", "toTime": "08:30", "kind": "Coffee Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2346", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "09:15", "toTime": "09:35", "kind": "Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2348", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "10:20", "toTime": "11:30", "kind": "Lunch", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2350", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "12:15", "toTime": "12:35", "kind": "Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2285", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "13:20", "toTime": "13:40", "kind": "Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2402", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "14:30", "toTime": "15:00", "kind": "Coffee Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2327", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "15:30", "toTime": "15:50", "kind": "Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12932", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "16:20", "toTime": "16:40", "kind": "Break", "title": "---", "day": "Thursday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2405", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "17:00", "toTime": "20:00", "kind": "Meet and Greet", "title": "---", "day": "Thursday", "yearSlot": 2024 } }] }] }, { "day": "Friday", "rooms": [{ "roomId": 1051, "slots": [{ "user": null, "slot": { "slotId": "2121", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2154", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2170", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2189", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2220", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63603", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2246", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12933", "roomName": "Neuilly 151", "roomId": 1051, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1701, "slots": [{ "user": null, "slot": { "slotId": "2203", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2237", "roomName": "Neuilly 152", "roomId": 1701, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1702, "slots": [{ "user": null, "slot": { "slotId": "2123", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2150", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2172", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2190", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2221", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63604", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2255", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2267", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2279", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12934", "roomName": "Neuilly 153", "roomId": 1702, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1703, "slots": [{ "user": null, "slot": { "slotId": "2125", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2152", "roomName": "Paris 141", "roomId": 1703, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2174", "roomName": "Paris 141", "roomId": 1703, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2191", "roomName": "Paris 141", "roomId": 1703, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2222", "roomName": "Paris 141", "roomId": 1703, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63607", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2245", "roomName": "Paris 141", "roomId": 1703, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12939", "roomName": "Paris 141", "roomId": 1703, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1704, "slots": [{ "user": null, "slot": { "slotId": "2205", "roomName": "Paris 142", "roomId": 1704, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2238", "roomName": "Paris 142", "roomId": 1704, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1705, "slots": [{ "user": null, "slot": { "slotId": "2126", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2151", "roomName": "Paris 143", "roomId": 1705, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2169", "roomName": "Paris 143", "roomId": 1705, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2192", "roomName": "Paris 143", "roomId": 1705, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2223", "roomName": "Paris 143", "roomId": 1705, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63608", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2256", "roomName": "Paris 143", "roomId": 1705, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2268", "roomName": "Paris 143", "roomId": 1705, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2280", "roomName": "Paris 143", "roomId": 1705, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12937", "roomName": "Paris 143", "roomId": 1705, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1706, "slots": [{ "user": null, "slot": { "slotId": "2124", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2153", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2173", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2194", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2226", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63605", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2247", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12940", "roomName": "Neuilly 251", "roomId": 1706, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1707, "slots": [{ "user": null, "slot": { "slotId": "2122", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2155", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2171", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2193", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2227", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63606", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2257", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2270", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2281", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12936", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2341", "roomName": "Neuilly 252AB", "roomId": 1707, "fromTime": "15:45", "toTime": "16:30", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1708, "slots": [{ "user": null, "slot": { "slotId": "2206", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2240", "roomName": "Neuilly 253", "roomId": 1708, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1709, "slots": [{ "user": null, "slot": { "slotId": "2111", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:00", "toTime": "07:25", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2140", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2175", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2195", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2259", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2269", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2284", "roomName": "Amphi bleu", "roomId": 1709, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1710, "slots": [{ "user": null, "slot": { "slotId": "2127", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2157", "roomName": "Paris 241", "roomId": 1710, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2177", "roomName": "Paris 241", "roomId": 1710, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2197", "roomName": "Paris 241", "roomId": 1710, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2228", "roomName": "Paris 241", "roomId": 1710, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63609", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2248", "roomName": "Paris 241", "roomId": 1710, "fromTime": "11:30", "toTime": "14:30", "kind": "Deep Dive", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12938", "roomName": "Paris 241", "roomId": 1710, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1711, "slots": [{ "user": null, "slot": { "slotId": "2128", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2156", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2176", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2196", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2231", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "10:35", "toTime": "10:50", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "63610", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:00", "toTime": "11:15", "kind": "Lunch Talk", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2260", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2271", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2282", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12941", "roomName": "Paris 242AB", "roomId": 1711, "fromTime": "15:00", "toTime": "15:30", "kind": "Tools-in-Action", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1712, "slots": [{ "user": null, "slot": { "slotId": "2204", "roomName": "Paris 243", "roomId": 1712, "fromTime": "08:30", "toTime": "10:30", "kind": "2H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2239", "roomName": "Paris 243", "roomId": 1712, "fromTime": "11:30", "toTime": "14:30", "kind": "3H Hands-on Lab", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1713, "slots": [{ "user": null, "slot": { "slotId": "2129", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:00", "toTime": "07:20", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2158", "roomName": "Maillot", "roomId": 1713, "fromTime": "07:35", "toTime": "08:00", "kind": "Keynote", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2178", "roomName": "Maillot", "roomId": 1713, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2198", "roomName": "Maillot", "roomId": 1713, "fromTime": "09:35", "toTime": "10:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "70851", "roomName": "Maillot", "roomId": 1713, "fromTime": "10:30", "toTime": "11:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2258", "roomName": "Maillot", "roomId": 1713, "fromTime": "11:30", "toTime": "12:15", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2272", "roomName": "Maillot", "roomId": 1713, "fromTime": "12:35", "toTime": "13:20", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2283", "roomName": "Maillot", "roomId": 1713, "fromTime": "13:40", "toTime": "14:25", "kind": "Conference", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 1714, "slots": [{ "user": null, "slot": { "slotId": "2343", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "06:00", "toTime": "07:00", "kind": "Breakfast", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2345", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "08:00", "toTime": "08:30", "kind": "Coffee Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2347", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "09:15", "toTime": "09:35", "kind": "Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2349", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "10:20", "toTime": "11:30", "kind": "Lunch", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2401", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "12:15", "toTime": "12:35", "kind": "Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2286", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "13:20", "toTime": "13:40", "kind": "Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "2403", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "14:30", "toTime": "15:00", "kind": "Coffee Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }, { "user": null, "slot": { "slotId": "12943", "roomName": "Hall Maillot", "roomId": 1714, "fromTime": "15:30", "toTime": "15:45", "kind": "Break", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }, { "roomId": 20951, "slots": [{ "user": null, "slot": { "slotId": "21001", "roomName": "Lobby Neuilly", "roomId": 20951, "fromTime": "10:20", "toTime": "11:35", "kind": "Café Philoxx", "title": "---", "day": "Friday", "yearSlot": 2024 } }] }] }]
+            return  [
+                {
+                  "day": "Wednesday",
+                  "rooms": [
+                    {
+                      "roomId": 1051,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63453",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:00",
+                            "toTime": "07:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63467",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1775",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "React Server Components : Effet de mode ou réel progrès ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1785",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Le SQL pour les nerds",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12905",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Partagez simplement vos Java CLI Apps",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63475",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Que restera-t-il de mon site web dans 50 ans ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1856",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Équilibrez le Stress, Maximisez la Collaboration : communiquez sans heurts à l’aide de la Process Communication (deep-dive intro)",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1877",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "SQLite, la base de données la plus répandue au monde et pourtant méconnue !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1888",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Bye-bye les race-conditions, détectons-les avant nos utilisateur·rice·s !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1701,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12904",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Chasse aux erreurs AWS : un atelier CTF !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1854",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Mission: Playwright 🎭, the Cypress killer by Microsoft",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63486",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: Immutable.js",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1702,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63459",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:00",
+                            "toTime": "07:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63466",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1776",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "CSS renaît de ses cendres: (re)devenez copains avec votre feuille de style",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1786",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Going AOT: Everything you need to know about GraalVM for Java applications",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12907",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "SOPS, Passez un savon à vos secrets en clair !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63479",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Qu'est ce que les champignons nous apprennent sur l'intelligence artificielle?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1860",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Quality & Security Gate dans nos chaines CI⚡CD",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1865",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Infuser du métier dans les autorisations avec ReBAC",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1871",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Transcendez les frontières linguistiques avec des APIs de Machine Learning sur mesure : embarquez dans le développement d’une solution de transcription temps réel de vos contenus multimédias !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1879",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "11 tricks to improve your productivity and reduce your frustration with Kubernetes",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1887",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Creating a documentation site for users with AsciiDoc and Antora",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1703,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63457",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:00",
+                            "toTime": "07:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63464",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1778",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Domptez le multi-plateforme",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1790",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Jeux en ligne, mais comment ça lag pas ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12908",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": " Révolutionnez votre expérience utilisateur avec les Progressive Web Apps",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63481",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Je me suis fait voler la carte de crédit de ma banque en ligne et mon téléphone portable... C'est grave docteur ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1857",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Utiliser les IA Génératives avec Java : Au delà des simples chatbots",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1878",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "asdf, un outil pour toutes vos versions",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1889",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Dimensionnez correctement vos déploiements Kubernetes",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1704,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12903",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Unconference - Management et Leadership",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1851",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "OpenTelemetry Hands-On",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63485",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: Quarkus",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1705,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63458",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:00",
+                            "toTime": "07:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63463",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1777",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Butcher Virtual Threads like a pro!",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1787",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Elasticsearch data streams, un condensé de bonnes pratiques pour vos données temporelles",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12909",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Sécuriser son infrastructure Cloud: une première baseline",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63478",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Comment bien planter un side project ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1859",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Quelle est la place des introverti·e·s dans une équipe agile ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1866",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Advanced Software Teaming",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1872",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Multi-Cloud & On Premise, dépassons les frontières ! Tirez le meilleur de chacun des mondes. ",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1882",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "(Neo)Vim en 2024",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1893",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "A Java lambda is all you need for distributed background jobs!",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1706,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63452",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63461",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1779",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Linux Kernel Functional Testing ou comment builder et tester des millions de noyaux Linux",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1792",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Sécurité du GenAI & des LLM: Une nouvelle ère d'Hacking éthique",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12911",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Back on Track: Navigating the Return to Work after Parental Leave",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63477",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Conception des packages génériques \"slices\" et \"maps\" en Go",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1855",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Cloud Native apps with Micronaut 4 and GraalVM",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1880",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "La recherche sous stéroïdes - une histoire de sémantique",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1892",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "De la Data science oui, mais en Kotlin !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1707,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63455",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63462",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1781",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "A Healthy diet for your Java application",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1788",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "200 équipes, 1 objectif : Maturité DevOps à grande échelle",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12913",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "TDD n'est pas vraiment votre type ? Venez découvrir Canon TDD ",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63476",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Faut-il privilégier la performance ou la lisibilité ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1861",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Du Clic à la Conversation : remplaçons boutons et formulaires par un LLM !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1867",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Tout ce que vous n'avez jamais voulu savoir sur les fuseaux horaires",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1873",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Hacker le TDAH : Stratégies pour le développeur moderne",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1881",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Mettre en place un RAG Open Source en 30 minutes ",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1894",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Surveillance de la sécurité des applications Java avec les outils du JDK et les événements JFR",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1708,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12901",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Hands-on Gemini, the Google DeepMind LLM",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1852",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Toutes et tous Mercenaires de Devops!",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63484",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Toutes et tous Mercenaires de Devops!",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1709,
+                      "slots": [
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "62501",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "Bienvenue à Devoxx France 2024",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1752",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "IA en médecine : où en sommes-nous ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1780",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Instrumenter vos applications natives Spring Boot et Quarkus avec OpenTelemetry",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "arn-her",
+                              "nom": "Heritier",
+                              "prenom": "Arnaud"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "1791",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "High-Speed DDD (revisited)",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1862",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Bootiful Spring Boot 3.3",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1868",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Sauve un dév, écris une doc !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "arn-her",
+                              "nom": "Heritier",
+                              "prenom": "Arnaud"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "1876",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "⚡Une application résiliente, dans un monde partiellement dégradé ⚡",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1884",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Observabilité : dépoussiérer Prometheus avec VictoriaMetrics",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1891",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "La fin des mots de passes partagés avec Vault et Boundary ",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1710,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63454",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63460",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1782",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Confidentialité des données sur les offres SaaS Kafka ou Pulsar",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1789",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Comment intégrer du hardware à une suite de test full software",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12914",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "V, comme Vautledétour",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63480",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "La positive alt-itude ! Un outil d'inclusion pour votre accessibilité.",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1858",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Les systèmes distribués: Dans le quotidien du data engineer",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1885",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Implémentation du Zero Trust dans un cluster Kubernetes avec Istio",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1895",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": " 🌴 Youpi dansons la Kapoeira, en testant nos kafka streams 🕺 💃",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1711,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63451",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63465",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1784",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Datacenter-as-Code : les arcanes de notre build system omniscient basé sur Nix.",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1793",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Vous pouvez venir à ce talk les yeux fermés",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12916",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Comment inclure l’inclusivité dès les premières étapes de conception d’un service ou d’un produit digital ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63482",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Passer d'une application Flutter mobile à une application Web de production en 2 mois, c'est possible !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1864",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Histoire de l'ALTO et du Xerox PARC",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1870",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Michelin(e), 120 ans, est passée à l'IaC",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1874",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Crafting your own RAG system: Leveraging 30+ LLMs for enhanced performance",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1883",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Picocli : mets du Java dans ton terminal !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1890",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Réduisez votre coût d'entrée avec Nix",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1712,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12902",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Refactorer votre code vers le Data Oriented Programming",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1853",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "🍳 Recette pour des environnements aux petits oignons pour ton déploiement continu 🚀",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63487",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: Spring Boot",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1713,
+                      "slots": [
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            },
+                            {
+                              "userId": "ede-azi",
+                              "nom": "AZIAHOME",
+                              "prenom": "Edem"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "63456",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63468",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "arn-her",
+                              "nom": "Heritier",
+                              "prenom": "Arnaud"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "1783",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Notre dépendance à l'Open Source est effrayante. SLSA, SBOM et Sigstore à la rescousse",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63483",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "11:15",
+                            "toTime": "11:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1794",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "La doc va bien, ne t'en fais pas",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63488",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "12:20",
+                            "toTime": "13:30",
+                            "kind": "Lunch",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12917",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Tabby, mon \"Copilot\" libre",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63474",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Comment merger sa PR en 10 secondes ? Avez-vous essayé les mob code review ?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1863",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "📝 ✅ La checklist ultime pour rendre vos applications cloud native !",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "1869",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Nous somme tous rassemblés - We are all to gather",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1875",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Les équipes distribuées, ça peut marcher?",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1886",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "CTRL+ALT+MAISON: Un exploration fantastique de la domotique",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1714,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "62503",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "07:30",
+                            "toTime": "09:00",
+                            "kind": "Breakfast",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63469",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "10:00",
+                            "toTime": "10:30",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1897",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "14:15",
+                            "toTime": "14:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1898",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "15:20",
+                            "toTime": "15:40",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1899",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "16:30",
+                            "toTime": "17:00",
+                            "kind": "Coffee Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "1901",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "17:30",
+                            "toTime": "17:50",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1715,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63612",
+                            "roomName": "Salle Ternes",
+                            "roomId": 1715,
+                            "fromTime": "19:30",
+                            "toTime": "23:30",
+                            "kind": "Speakers Dinner",
+                            "title": "---",
+                            "day": "Wednesday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "day": "Thursday",
+                  "rooms": [
+                    {
+                      "roomId": 1051,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2115",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2141",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2163",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Rendez-moi mon front !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2184",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Panorama des risques, vulnérabilités et pistes pour une utilisation plus sûre de l'IA générative",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2207",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Architecture Hexagonale: Comment venir à bout du code spaghetti ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63494",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "La recherche sous stéroïdes ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2241",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Day of the Dukentacle : la meilleure façon de prévoir le futur, c'est de le fabriquer soi-même",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2287",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Qui de Deno ou Bun arrivera en production ? Retour d'expérience sur la mise en oeuvre des alternatives à Node.js",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12918",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "C'est pas le réseau, ça ping Marty !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1701,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2199",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Fundamentals of Migration Engineering with OpenRewrite",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2233",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Viens comme tu es et apprends à coder ta première IA",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63489",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: Micronaut",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1702,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2116",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2143",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2164",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Cyber Resilience Act : 36 mois pour préparer vos chaînes DevOps !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2181",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Rendre une application multitenant sans embêter les développeurs",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2212",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Comment nous utilisons Kotlin et Gradle pour faire évoluer la communauté WireMock",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63601",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Mais non, c'est pas une erreur de CORS",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2250",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Porter le Flambeau du Clean Code à l’ère du GenAI",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2262",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Password-less apps: implementing WebAuthN",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2273",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "La base de données : une structure de données sophistiquée et spéciale",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2288",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Monster AI : l'odyssée de Back Market vers une plateforme IA générative sur-mesure",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12923",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Taskfile, le Makefile sous stéroïde !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1703,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2114",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2142",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2161",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Quand la cybersécurité n'est pas qu'une affaire de failles ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2182",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "La recherche à l'ère de l'IA",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2211",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": " La fin des mots de passes oubliés - Authentification Biométriques",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63495",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Garbage Collectors : Battle Royale",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2242",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Pulumi, ou comment gérer votre infrastructure avec votre langage préféré",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2292",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Serverless & JVM : construisez votre benchmark pour dépasser les idées reçues",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12920",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "SurrealDB : La Révolution des Bases de Données ✨ NewSQL ✨",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1704,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2202",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "✏️ Apprendre à faire du sketchnoting avec Ane et Aurélie",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2234",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Generative AI in Practice: A Hands-on Codelab",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63491",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: OpenRewrite",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1705,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2112",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2145",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2160",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Comment Back Market a reconditionné sa plateforme en changeant de Cloud Provider",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2183",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Faire simple, la clé de la durabilité",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2213",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "aCropalypse Now, à la recherche du PNG disparu",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63498",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Il n'est jamais trop tard pour redevenir junior",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2249",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Ma vie en vente flash sur le Dark Web ?!",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2261",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "L'AGC : retour sur l'ordinateur qui a amené l'humanité sur la Lune",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2274",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "10 Incredible Things you can do with Micronaut & GraalVM",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2291",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Réussir le grand écart à l'aide d'OpenRewrite",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12922",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Visualize more, spend less: Unlock data visualizations with Apache Superset ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1706,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2117",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2144",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2162",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Work it smarter, dev it better, Ship it faster, Test it stronger",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2179",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Au cœur de la ruche eBPF!",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2210",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Les bugs de 1843 à nos jours",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63500",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Astro: Une Nouvelle Ère de Lazy Loading Efficace",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2243",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Construire son Assistant Intelligent avec Hugging Face et Elasticsearch",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2289",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "React Server Components 101",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12925",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Au Cœur de l'Odyssée: Migrer une application d'Angular 10 à 17",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2330",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "Staff42 - Meetup pour Staff Engineers (H/F)",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2335",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "BOF des JUG Leaders",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1707,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2113",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2146",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2159",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Apache Pulsar : enfin une alternative à Kafka ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2180",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "How JavaScript Happened: A Short History of Programming Languages",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2214",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Testcontainers : Simplifiez vos tests d'intégration et vos développements",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63496",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "XPath 4.0, XQuery 4.0, XSLT 4.0 : avancée des standards",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2252",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Multi Kubernetes, Multi Régions, Au-secours !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2265",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Indexation SQL au delà des simples colonnes: Expressions, fragments de texte, attributs JSON et requêtes Top-N",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2275",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "IA ou IA pas ? Nous l’IA qui remplace les devs on y croit pas (encore) !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2290",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Orchestrer ses workflows métiers avec Temporal",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12924",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Comment écrire des mails pourris de qualité ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2329",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "GitLab : passé, présent et futur",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2336",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "Parlons de sécurité Kubernetes",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1708,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2200",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Access management orienté métier avec ReBAC",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2235",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": " Maîtriser Angular 17: Développement Avancé et Techniques Novatrices",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63490",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Toutes et tous Mercenaires de Devops!",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2333",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "BoF Paris Scala User Group: Projet Loom, quels impacts du côté de Scala ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2340",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "BOF Duchess France",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1709,
+                      "slots": [
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2101",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "Programming’s Greatest Mistakes",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2139",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "Un monde shooté aux métaux",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2168",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "GatewayAPI, 10 ans de maturation pour une nouvelle API Kubernetes",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2186",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Automatiser ses contrôles de sécurité : Arrêtez de cacher vos failles à côté des monstres sous votre lit !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2251",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Java rencontre l'IA : Comment intégrer les LLMs dans vos applications avec LangChain4j",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2266",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Les nouveautés de Java 21",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2276",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Debugguez votre salaire ! Mes stratégies gagnantes pour réussir sa négociation salariale",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2293",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Renovate/Dependabot, ou comment reprendre le contrôle sur la mise à jour de ses dépendances",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12929",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "De Compose à Kubernetes, Same player shoot again",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1710,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2119",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2147",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2167",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "A hitchhikers guide to observe (Java) applications in Kubernetes",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2185",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Highly available Identity and Access Management with multi-site Keycloak deployments in the cloud",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2216",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Angular Deferrable Views : Amélioration de la performance d'une application et de l'expérience utilisateur ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63493",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Daltonien, mais pourquoi je vois rien ? ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2244",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Beyond Estimates (Estimates and \"NoEstimates\") - Let's Explore the Possibilities",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2294",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Renforçons notre Developer eXperience pour faire face aux menaces d'obsolescence et de vulnérabilité",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12927",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "CyberPeace Miners : introduction à la cybersécurité avec Minecraft",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2332",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "BOF OpenTelemetry",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2339",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "Keycloak Birds-of-a-Feather session",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1711,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2118",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2148",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2166",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "What’s new in Traefik v3?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2188",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Trying to be Barbie in Ken's Mojo Dojo Casa House",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2215",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Je délègue tous mes tests à une IA",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63497",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "/e/OS, mon smartphone Android sans Google",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2254",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Using OpenTelemetry, Splunk, and CI(Jenkins) to deliver a Monitoring Solution for Financial Software (Murex) ",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2263",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Comment réduire son empreinte carbone grâce à un calendrier de mise à l’échelle automatique ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2277",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Retour aux sources de l'authentification unique : Kerberos",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2296",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Builds Reproductibles avec Apache Maven",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12928",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "17:50",
+                            "toTime": "18:20",
+                            "kind": "Tools-in-Action",
+                            "title": "Testons notre CSS !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2334",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "Créer un meetup ? mais quelle drôle d'idée !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2337",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "Archilocus, c'est LA place des architectes IT.",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1712,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2201",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Comprendre l'IA: construisez votre propre ChatGPT d'entreprise avec LangChain4J",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2236",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "fp-ts : Quand TypeScript devient fonctionnel",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63492",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "17:00",
+                            "toTime": "18:30",
+                            "kind": "Other",
+                            "title": "Meet with an OSS project: LangChain4j",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2331",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "19:00",
+                            "toTime": "19:55",
+                            "kind": "BOF",
+                            "title": "BOF : Meetup Search & Data",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2338",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "20:00",
+                            "toTime": "20:55",
+                            "kind": "BOF",
+                            "title": "BoF TypeScript",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1713,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2120",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2149",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2165",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Revue de code : on n'est pas venu-e-s pour souffrir !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2187",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Comment K8S a changé le monde de l'Ops",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2232",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Green washing ou RSE pragmatique, si on choisissait ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63602",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "C4 model, la solution pour standardiser mes schémas d'architecture ?",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2253",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "La fin des archis event-based ? Orchestration avec Temporal",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2264",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Rendez vos applications Kafka plus robustes",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2278",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Et l'ANSSI dit \"Voici comment sécuriser un container\"",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2295",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Instrumentez vos applications Java avec OpenTelemetry !",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63611",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "19:00",
+                            "toTime": "23:00",
+                            "kind": "The Voxx",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1714,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2342",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "07:30",
+                            "toTime": "09:00",
+                            "kind": "Breakfast",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2344",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "10:00",
+                            "toTime": "10:30",
+                            "kind": "Coffee Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2346",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "11:15",
+                            "toTime": "11:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2348",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "12:20",
+                            "toTime": "13:30",
+                            "kind": "Lunch",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2350",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "14:15",
+                            "toTime": "14:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2285",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "15:20",
+                            "toTime": "15:40",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2402",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "16:30",
+                            "toTime": "17:00",
+                            "kind": "Coffee Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2327",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "17:30",
+                            "toTime": "17:50",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12932",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "18:20",
+                            "toTime": "18:40",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2405",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "19:00",
+                            "toTime": "22:00",
+                            "kind": "Meet and Greet",
+                            "title": "---",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 77401,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "77351",
+                            "roomName": "Salle Ternes",
+                            "roomId": 77401,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Fresque",
+                            "title": "La Fresque Du Climat",
+                            "day": "Thursday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "day": "Friday",
+                  "rooms": [
+                    {
+                      "roomId": 1051,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2121",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2154",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2170",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Keeping Your Java Hot by Solving the JVM Warmup Problem",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2189",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Naviguer dans le Labyrinthe de la Gestion de Dépendances",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2220",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Apprivoiser la guitare ET la programmation fonctionnelle !",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63603",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": " De la couleurs dans nos Apps",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2246",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "De l'Orchestration à la Chorégraphie, de la Pratique à la Théorie",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12933",
+                            "roomName": "Neuilly 151",
+                            "roomId": 1051,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Réconcilions Kafka, SQL et Parquet",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1701,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2203",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Les développeurs attaqués ! Du conflit à la conversation avec l'Aïkido Verbal",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2237",
+                            "roomName": "Neuilly 152",
+                            "roomId": 1701,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Travaillez vos réflexions architecturales en kata",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1702,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2123",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2150",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2172",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "La compression Web : comment (re)prendre le contrôle ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2190",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Hibernate Search 7: Nouveautés et cas pratiques de la recherche full-text et vectorielle Java",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2221",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "C'est une bonne situation ça, Staff Engineer ? 😉",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63604",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "cod == doc",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2255",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Il en est où Henri Motte ? Petit état des lieux du télétravail",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2267",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Super Tech'Rex World 🦖 : L'assembleur contre-attaque 🌟",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2279",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Comment rendre une web app accessible à une personne non voyante ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12934",
+                            "roomName": "Neuilly 153",
+                            "roomId": 1702,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Développement de Malware : Backdoor asynchrone reposant sur des API publiques",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1703,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2125",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2152",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2174",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Refonte d'un Access Management avec ReBAC",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2191",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Comment ça marche l'IA Generative ? LLM, RAG sous le capot.",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2222",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Comment j'ai trouvé le sens de la vie grâce à WebAssembly ",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63607",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "ADR: Le chaînon manquant",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2245",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Des silos au Platform Engineering en passant par le DevOps : adopter GitOps et aller au-delà de l’hype",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12939",
+                            "roomName": "Paris 141",
+                            "roomId": 1703,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Mais au fait, ça marche comment les service accounts ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1704,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2205",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Serverless : Éviter le vendor locking en construisant sa propre plateforme FaaS avec OpenFaaS et Kubernetes",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2238",
+                            "roomName": "Paris 142",
+                            "roomId": 1704,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Le Grand Braquage: Hacker une machine pour ensuite mieux défendre",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1705,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2126",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:00",
+                            "toTime": "07:20",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2151",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "07:35",
+                            "toTime": "08:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2169",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Dépannage des bases de données pour les devs",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2192",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Sous le capot d'une application JVM - Java Flight Recorder / Java Mission Control",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2223",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "🚀 Vers l'infini et l'au-delà : exploration des mondes secrets d'Internet",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63608",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Comment orchestrer l'IA générative pour qu'elle code à votre place le front-end d'une page en moins de 2min.",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2256",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Détection de Fraude chez Floa (Groupe BNP Paribas)",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2268",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Apache Flink - Data Processing en temps réel",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2280",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Software teaming : onboarding, remote, productivité, 4 ans dans la vie d’une équipe",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12937",
+                            "roomName": "Paris 143",
+                            "roomId": 1705,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Monorepo intelligent et CI rapide avec Nx",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1706,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2124",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2153",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2173",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Au-delà des paris : PMU redéfinit l'expérience de son service de streaming de données temps réel sur AWS!",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2194",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Rhythm 'n Rust : Construire un Synthétiseur de A à Z en Rust",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2226",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Unifié et Universel, le JavaScript avec UnJS",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63605",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Accélérez vos patchs mobiles en prod avec Shorebird & Flutter",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2247",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Angular : le renouveau",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12940",
+                            "roomName": "Neuilly 251",
+                            "roomId": 1706,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Réinventer l'exploration des bases de données avec Azimutt",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1707,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2122",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2155",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2171",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "L'IA et qualité de code : Construire une synergie avec l’intelligence humaine",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2193",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Et si on divisait par 4 l'empreinte carbone du numérique ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2227",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "Interagir avec votre documentation technique via l'Intelligence Artificielle Générative",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63606",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "AssertJ comme un pro",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2257",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Netty, découvrez LE framework IO pour la JVM",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2270",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Créer sa propre VM avec compilation JIT pour les nuls",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2281",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Programmation Parallèle SIMD avec l'API Vector",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12936",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Tout ce que vous avez toujours voulu savoir sur les CNI (Container Network Interface) dans Kubernetes",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2341",
+                            "roomName": "Neuilly 252AB",
+                            "roomId": 1707,
+                            "fromTime": "17:45",
+                            "toTime": "18:30",
+                            "kind": "Conference",
+                            "title": "Les Cast Codeurs en chair, en os et en béret",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1708,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2206",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "LangChain4j en Action - Créez des Applications avec LLMs",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2240",
+                            "roomName": "Neuilly 253",
+                            "roomId": 1708,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "Apprendre le Machine Learning avec le Titanic",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1709,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2111",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "Comment modéliser l’état du monde en 2100 ? Le Rapport Meadows",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2140",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "Cybersécurité et cyberdéfense : un sujet géopolitique",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2175",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Model Mitosis : ne plus se tromper entre les microservices et le monolithe",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2195",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "L’architecture micro frontend : comment transformer son site web en puzzle géant collaboratif",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2259",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Au-delà des heures : La semaine de 4 jours comme levier d’égalité",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2269",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Des tests fonctionnels aux tests de performance. Robustum, un exemple d’implémentation.",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2284",
+                            "roomName": "Amphi bleu",
+                            "roomId": 1709,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": " L'Architecture Hexagonale par la pratique, le live coding qui rendra vos applications plus pérennes",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1710,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2127",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2157",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2177",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "JSol'Ex : traitement d'images solaires en Java",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2197",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "Understanding 5 languages memory models (or most of them)",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2228",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "/react fait du slack",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63609",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "SQLite en Wasm... pourquoi faire et comment?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2248",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "Deep Dive",
+                            "title": "Cap sur Gradle 9",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12938",
+                            "roomName": "Paris 241",
+                            "roomId": 1710,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Accessibilité du web : du design au code comment tendre vers davantage d’inclusion ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1711,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2128",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2156",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2176",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "La communauté des Scrum Master chez AXA : naissance et vie d'un collectif",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2196",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": "All-In sur l'Innovation: La Plateforme Poker Winamax",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2231",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "12:35",
+                            "toTime": "12:50",
+                            "kind": "Lunch Talk",
+                            "title": "String Templates - Syntactic sugar or useful improvement?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "63610",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:00",
+                            "toTime": "13:15",
+                            "kind": "Lunch Talk",
+                            "title": "Elevating Pull Requests: The Role of Conventional Comments",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2260",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Le trop méconnu (mais néanmoins incroyable) org-mode d’Emacs",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2271",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Beyond the Pod: Privilege Escalation in Kubernetes",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2282",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "Architecture d’une protection anti-bot",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12941",
+                            "roomName": "Paris 242AB",
+                            "roomId": 1711,
+                            "fromTime": "17:00",
+                            "toTime": "17:30",
+                            "kind": "Tools-in-Action",
+                            "title": "Apache Lucene : de l'indexation textuelle à l'intelligence artificielle",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1712,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2204",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "10:30",
+                            "toTime": "12:30",
+                            "kind": "2H Hands-on Lab",
+                            "title": "Si j’étais un hacker, comment est-ce que je prendrais le contrôle de votre cluster Kubernetes ",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2239",
+                            "roomName": "Paris 243",
+                            "roomId": 1712,
+                            "fromTime": "13:30",
+                            "toTime": "16:30",
+                            "kind": "3H Hands-on Lab",
+                            "title": "RAGtime : Discuter avec vos propres données",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1713,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2129",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:00",
+                            "toTime": "09:25",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2158",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "09:35",
+                            "toTime": "10:00",
+                            "kind": "Keynote",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2178",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "10:30",
+                            "toTime": "11:15",
+                            "kind": "Conference",
+                            "title": "Au-delà du Craft : Revisitez Votre Relation avec le Software Craft",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2198",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "11:35",
+                            "toTime": "12:20",
+                            "kind": "Conference",
+                            "title": " L’IA et le handicap : progrès ou exclusion ?",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "70851",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "12:30",
+                            "toTime": "13:15",
+                            "kind": "Conference",
+                            "title": "Speechless Live @ Devoxx ",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [
+                            {
+                              "userId": "fab-szn",
+                              "nom": "Sznajderman",
+                              "prenom": "Fabrice"
+                            }
+                          ],
+                          "slot": {
+                            "slotId": "2258",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "13:30",
+                            "toTime": "14:15",
+                            "kind": "Conference",
+                            "title": "Le cauchemar des attaquants : une infrastructure sans secret",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2272",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "14:35",
+                            "toTime": "15:20",
+                            "kind": "Conference",
+                            "title": "Papa, dessine moi un mouton 🐑 !",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2283",
+                            "roomName": "Maillot",
+                            "roomId": 1713,
+                            "fromTime": "15:40",
+                            "toTime": "16:25",
+                            "kind": "Conference",
+                            "title": "J'ai terminé les 9 Advents of Code : Leçons Apprises",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 1714,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2343",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "08:00",
+                            "toTime": "09:00",
+                            "kind": "Breakfast",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2345",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "10:00",
+                            "toTime": "10:30",
+                            "kind": "Coffee Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2347",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "11:15",
+                            "toTime": "11:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2349",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "12:20",
+                            "toTime": "13:30",
+                            "kind": "Lunch",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2401",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "14:15",
+                            "toTime": "14:35",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2286",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "15:20",
+                            "toTime": "15:40",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "12943",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "15:30",
+                            "toTime": "15:45",
+                            "kind": "Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        },
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "2403",
+                            "roomName": "Hall Maillot",
+                            "roomId": 1714,
+                            "fromTime": "16:30",
+                            "toTime": "17:00",
+                            "kind": "Coffee Break",
+                            "title": "---",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "roomId": 20951,
+                      "slots": [
+                        {
+                          "users": [],
+                          "slot": {
+                            "slotId": "21001",
+                            "roomName": "Lobby Neuilly",
+                            "roomId": 20951,
+                            "fromTime": "12:30",
+                            "toTime": "14:15",
+                            "kind": "Café Philoxx",
+                            "title": "Café Philoxx",
+                            "day": "Friday",
+                            "yearSlot": 2024
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            
+            
 
 
         }
