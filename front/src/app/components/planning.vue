@@ -38,9 +38,31 @@
               </div>
             </div>
 
-            <p class="kindTitle">Neuilly</p>
+            <p class="kindTitle">Neuilly floor 1</p>
             <div class="grid">
-              <div class="track" v-for="room in composeFilter(filterByGpr(1706, item.rooms),filterByGpr(1708, item.rooms))" :key="room.roomId">
+              <div class="track" v-for="room in composeFilter(filterByGpr(1702, item.rooms),filterByGpr(1051, item.rooms))" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }} -
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Neuilly floor 2</p>
+            <div class="grid">
+              <div class="track" v-for="room in composeFilter(filterByGpr(1707, item.rooms),filterByGpr(1706, item.rooms))" :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
@@ -63,7 +85,7 @@
             <p class="kindTitle">Labs Neuilly</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-          filterByGpr(1707, item.rooms),
+          filterByGpr(1708, item.rooms),
           filterByGpr(1701, item.rooms)
         )" :key="room.roomId">
                 <div class="header">
@@ -84,10 +106,10 @@
                 </div>
               </div>
             </div>
-            <p class="kindTitle">Paris</p>
+            <p class="kindTitle">Labs Paris</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
-          filterByGpr(1710, item.rooms),
+          filterByGpr(1704, item.rooms),
           filterByGpr(1712, item.rooms)
         )" :key="room.roomId">
                 <div class="header">
@@ -108,11 +130,35 @@
                 </div>
               </div>
             </div>
-            <p class="kindTitle">Labs Paris</p>
+            <p class="kindTitle">Paris floor 1</p>
+            <div class="grid">
+              <div class="track" v-for="room in composeFilter(
+          filterByGpr(1705, item.rooms),
+          filterByGpr(1703, item.rooms)
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Paris floor 2</p>
             <div class="grid">
               <div class="track" v-for="room in composeFilter(
           filterByGpr(1711, item.rooms),
-          filterByGpr(1705, item.rooms)
+          filterByGpr(1710, item.rooms)
+
         )" :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
@@ -303,6 +349,9 @@ export default defineComponent({
       return shared.getRoomName(roomId, rooms.value)
     }
 
+    function composeFilter3(arr1: [], arr2: [],arr3: []) {
+      return _.concat(composeFilter(arr1,arr2), arr3);
+    }
     function composeFilter(arr1: [], arr2: []) {
       return _.concat(arr1, arr2);
     }
@@ -394,6 +443,7 @@ export default defineComponent({
       saveMapping,
       getRoomNameById,
       composeFilter,
+      composeFilter3,
       filterByGpr,
       cleanHeader,
       computeUser,
