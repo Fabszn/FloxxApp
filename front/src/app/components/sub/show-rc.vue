@@ -1,10 +1,11 @@
 <template>
     <div v-for="item in redCoats">
-       
-            
-                {{ formatUserTodisplay(item) }}  <span v-if="isEdit"><button type="button"  class="btn btn-secondary"  v-on:click="remove(item.userId)">X</button> </span>
-            
-        
+
+
+        {{ formatUserTodisplay(item) }} <span v-if="isEdit"><button type="button" class="btn btn-secondary"
+                v-on:click="remove(item.userId)">X</button> </span>
+
+
     </div>
 </template>
 
@@ -12,7 +13,7 @@
 import shared from "../../shared";
 import { Ref, ref, onBeforeMount, computed } from "vue";
 import { _ } from 'lodash';
-import { UserSlot,Mapping } from "../../models";
+import { UserSlot, Mapping } from "../../models";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
@@ -37,23 +38,22 @@ function formatUserTodisplay(u: UserSlot): String {
 }
 
 
-function remove(uId:String) {
-    console.log(params.slotId)
+function remove(uId: String) {
     let mapping = new Mapping(
-          uId,
-          params.slotId
-        );
-      fetch("/api/del-mapping", {
+        uId,
+        params.slotId
+    );
+    fetch("/api/del-mapping", {
         body: JSON.stringify(mapping),
         method: "PUT",
         headers: shared.tokenHandle(),
-      })
-        .then((p) => {
-          //refresh()
-        //  this.dialogState = false;
-          toast.success("Red coat removed!");
-        });
-    }
+    }).then((p) => {
+        _.remove(params.redCoats, (rc: UserSlot) => rc.userId == uId)
+        toast.success("Red coat removed!");
+    }).catch(err => {
+        toast.error("An error occured : " +err);
+    });
+}
 
 
 

@@ -416,7 +416,6 @@ function currentTracksWitHitInfo() {
           var currentState: StateRoom = getState.bind(this)(value.slot.roomId);
 
           if (!_.isUndefined(currentState)) {
-            console.log(value.slot.roomName)  
             currentState.data.roomId = value.slot.roomId;
             currentState.data.per = _.toInteger(value.hitInfo.percentage);
             currentState.data.color = shared.colorByPercentage(
