@@ -9,7 +9,7 @@
     </div>
     <div class="screen-title">All actives slots</div>
     <div v-for="item in slotItems" :key="item.slotId">
-      <button type="button" class="btn btn-secondary btn-lg block" v-on:click="selectSlot(item.slotId)">
+      <button type="button" class="btn btn-secondary btn-lg block m-1" v-on:click="selectSlot(item.slotId)">
         {{ getRoomNameById(item.roomId) }} : {{ item.fromTime }} - {{ item.toTime }}
         <p> <displayKind :kind="item.kind" /></p>
       </button>

@@ -17,7 +17,7 @@
     <div>
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToMySlots"
       >
         My slots
@@ -26,7 +26,7 @@
     <div>
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToAllActSlots"
       >
         All actives' slots
@@ -35,7 +35,7 @@
     <div>
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToOverf"
       >
         Overflow
@@ -44,7 +44,7 @@
     <div>
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToInformations"
       >
         Informations
@@ -58,7 +58,7 @@
     <div>
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToPlanning"
       >
         Planning
@@ -68,7 +68,7 @@
     <div v-if="adminState">
       <button
         type="button"
-        class="btn btn-secondary btn-lg block"
+        class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToStat"
       >
         Admin.

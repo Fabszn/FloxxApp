@@ -13,7 +13,7 @@
 
       <div v-for="slot in item.slots" :key="slot.slotId">
         <button type="button" :class="{ active: isCurrentActiveSlot(item.currentActiveSlot, slot) }"
-          class="btn btn-secondary btn-lg block" v-on:click="selectSlot(slot.slotId)">
+          class="btn btn-secondary btn-lg block m-1" v-on:click="selectSlot(slot.slotId)">
           {{ getRoomNameById(slot.roomId) }} : {{ slot.fromTime }} -
           {{ slot.toTime }}
           <p> <displayKind :kind="slot.kind" /></p>
