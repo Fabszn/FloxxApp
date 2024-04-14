@@ -87,12 +87,14 @@ object timeUtils {
 
   def computeDelayAfterTime(kind: Slot.Kind, config: GlobalConfig): Int =
     kind match {
-      case Kind("University") => config.track.delayAfterUniversity
+      case Kind("Deep Dive") => config.track.delayAfterUniversity
       case Kind("Tools-in-Action") => config.track.delayAfterTia
       case Kind("Conference") => config.track.delayAfterConf
-      case Kind("Quickie") => config.track.delayAfterQuickie
+      case Kind("Lunch Talk") => config.track.delayAfterQuickie
       case Kind("Keynote") => config.track.delayAfterKeynote
-      case Kind("Hands-on Labs") => config.track.delayAfterHol
+      case Kind("Circulation") => 0
+      case Kind("Accueil") => 0
+      case Kind("2H Hands-on Lab") | Kind("3H Hands-on Lab")  => config.track.delayAfterHol
       case _ => -1000
     }
 
