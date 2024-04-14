@@ -35,6 +35,7 @@ object cfpRepository {
     def getSpeakerById(id: Speaker.Id): Task[Option[Speaker]]
 
     def insertSpeakers(speakers: Seq[Speaker]): Task[Long]
+    def cleanSpeakersTable: Task[Long]
     def addMapping(m: Mapping): Task[Long]
     def allSlotsByUserId(user: SimpleUser.Id): Task[Seq[Slot]]
   }
@@ -157,6 +158,12 @@ object cfpRepository {
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.headOption)
 
+    override def cleanSpeakersTable: Task[Long] = run(
+      quote(
+        speaker.delete
+      )
+    ).provideEnvironment(ZEnvironment(dataSource))
+
     override def insertSpeakers(speakers: Seq[Speaker]): Task[Long] =
       run(
         quote(
@@ -164,12 +171,6 @@ object cfpRepository {
             s =>
               speaker
                 .insertValue(s)
-                .onConflictUpdate(_.id)(
-                  (t, e) => t.firstname -> e.firstname,
-                  (t, e) => t.fullname -> e.fullname,
-                  (t, e) => t.lastname -> e.lastname,
-                  (t, e) => t.imageUrl -> e.imageUrl
-                )
           )
         )
       ).provideEnvironment(ZEnvironment(dataSource)).map(_.sum)

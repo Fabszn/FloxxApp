@@ -57,6 +57,7 @@ object trackService {
           )
         _ <- http.loadRooms() flatMap slotRepo.insertRooms
         nbLine <- slotRepo.insertSlots(slots)
+        _ <- slotRepo.cleanSpeakersTable
         _ <- slotRepo.insertSpeakers(
           cfpslots.flatMap(
             cp => mapCpfSpeaker(Slot.Id(s"${cp.cfpSlotId.value}"))(cp.speakers)

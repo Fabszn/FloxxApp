@@ -1,0 +1,1 @@
+alter table speaker  drop  constraint if exists pkid_speaker;
