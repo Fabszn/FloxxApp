@@ -25,22 +25,24 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div >
+                  <div>
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
 
             <p class="kindTitle">Neuilly floor 1</p>
             <div class="grid">
-              <div class="track" v-for="room in composeFilter(filterByGpr(1702, item.rooms),filterByGpr(1051, item.rooms))" :key="room.roomId">
+              <div class="track"
+                v-for="room in composeFilter(filterByGpr(1702, item.rooms), filterByGpr(1051, item.rooms))"
+                :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
@@ -53,16 +55,18 @@
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
 
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
             <p class="kindTitle">Neuilly floor 2</p>
             <div class="grid">
-              <div class="track" v-for="room in composeFilter(filterByGpr(1707, item.rooms),filterByGpr(1706, item.rooms))" :key="room.roomId">
+              <div class="track"
+                v-for="room in composeFilter(filterByGpr(1707, item.rooms), filterByGpr(1706, item.rooms))"
+                :key="room.roomId">
                 <div class="header">
                   <showRoom :roomId=toNumber(room.roomId) />
                 </div>
@@ -75,10 +79,10 @@
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
 
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
@@ -94,15 +98,15 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div >
+                  <div>
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind"  :activate="isSlotShouldBeDisplay(slot.users)"/>
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId  />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
-                
+
                 </div>
               </div>
             </div>
@@ -118,15 +122,15 @@
 
                 <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
                   class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div >
+                  <div>
                     {{ slot.slot.fromTime }} -
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
-                
+
                 </div>
               </div>
             </div>
@@ -147,7 +151,7 @@
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
                 </div>
@@ -171,7 +175,100 @@
                     {{ slot.slot.toTime }}
                     <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
                     <div class="affected">
-                      <showRc  :red-coats=slot.users :slot-id=slot.slot.slotId />
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Logistique Accueil</p>
+            <div class="grid">
+              <div class="track" v-for="room in 
+          filterByGpr(1, item.rooms)" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Logistique Etage 1</p>
+            <div class="grid">
+              <div class="track" v-for="room in composeFilter(
+          filterByGpr(2, item.rooms),
+          filterByGpr(4, item.rooms)
+
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Logistique Etage 2</p>
+            <div class="grid">
+              <div class="track" v-for="room in composeFilter(
+          filterByGpr(5, item.rooms),
+          filterByGpr(3, item.rooms)
+
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="kindTitle">Logistique Soutien</p>
+            <div class="grid">
+              <div class="track" v-for="room in composeFilter(
+          filterByGpr(6, item.rooms),
+          filterByGpr(7, item.rooms)
+
+        )" :key="room.roomId">
+                <div class="header">
+                  <showRoom :roomId=toNumber(room.roomId) />
+                </div>
+
+                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
+                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
+                  <div>
+                    {{ slot.slot.fromTime }}
+                    {{ slot.slot.toTime }}
+                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
+                    <div class="affected">
+                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
                     </div>
                   </div>
                 </div>
@@ -189,11 +286,11 @@
             <p>{{ currentConf.confTitle }}</p>
             <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
             <p>
-              {{ currentConf.fromTime }} -> {{ currentConf.toTime }} 
+              {{ currentConf.fromTime }} -> {{ currentConf.toTime }}
             </p>
             <p>
               RedCoat(s) :
-              <showRc  :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=currentConf.slotId.toString() />
+              <showRc :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=currentConf.slotId.toString() />
             </p>
             <div v-if="adminState">
               <v-select :options="userList" v-model="selectedUser"></v-select>
@@ -286,7 +383,7 @@ export default defineComponent({
       }
     }
 
-    function isAffectedClass(users:Array<UserSlot>) {
+    function isAffectedClass(users: Array<UserSlot>) {
       var userIdVal = "NoData";
       if ((_.size(users) != 0)) {
         userIdVal = "users.userId";
@@ -301,13 +398,13 @@ export default defineComponent({
 
     function isSlotShouldBeDisplay(users) {
       //if no user and mode admin then hide block
-      return (_.size(users)==0 && this.adminState) || !(_.size(users)==0);
+      return (_.size(users) == 0 && this.adminState) || !(_.size(users) == 0);
     }
-    function displayUsers(users:Array<UserSlot>) :Array<String>{
+    function displayUsers(users: Array<UserSlot>): Array<String> {
       if (_.size(users) == 0) {
         return ["-"];
       } else {
-        return _.map(users, (u:UserSlot) => u.prenom + " " + _.upperCase(u.nom.substring(0, 1)) + ".")
+        return _.map(users, (u: UserSlot) => u.prenom + " " + _.upperCase(u.nom.substring(0, 1)) + ".")
       }
     }
 
@@ -324,7 +421,7 @@ export default defineComponent({
       this.dialogState = false;
     }
 
-   
+
     function saveMapping() {
       if (_.isNull(this.selectedUser)) {
         this.toast.error("Red coat must be filled");
@@ -349,8 +446,8 @@ export default defineComponent({
       return shared.getRoomName(roomId, rooms.value)
     }
 
-    function composeFilter3(arr1: [], arr2: [],arr3: []) {
-      return _.concat(composeFilter(arr1,arr2), arr3);
+    function composeFilter3(arr1: [], arr2: [], arr3: []) {
+      return _.concat(composeFilter(arr1, arr2), arr3);
     }
     function composeFilter(arr1: [], arr2: []) {
       return _.concat(arr1, arr2);
@@ -476,7 +573,7 @@ export default defineComponent({
 
 .deactivate {
   background-color: #2a2e31;
-  
+
 }
 
 
@@ -519,10 +616,11 @@ export default defineComponent({
 
 @media screen and (max-width: 600px) {
 
-  .info-talk{
+  .info-talk {
     font-size: 12px;
   }
-  .speaker-list{
+
+  .speaker-list {
     font-size: 12px;
   }
 

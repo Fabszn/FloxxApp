@@ -6,6 +6,9 @@
 </template>
 
 <script setup lang="ts">
+import _default from 'vuex';
+import _ from "lodash"
+
 
 
 const params = defineProps({
@@ -36,13 +39,14 @@ function selectCssByKind(kind: string): {} {
             HH_Hands_on_Lab: "2H Hands-on Lab" == kind,
             other: "Other" == kind,
             deep_dive: "Deep Dive" == kind,
+            logistique: _.size(_.filter(["Accueil","Circulation"], (c) => c == kind)) != 0,
             HHH_Hands_on_Lab: "3H Hands-on Lab" == kind
 
         }
     } else {
         return {
-             deactivate: params.activate 
-            }
+            deactivate: params.activate
+        }
     }
 }
 
@@ -99,6 +103,11 @@ function selectCssByKind(kind: string): {} {
 .deep_dive {
     background-color: #c0cceb;
     color: #142e14;
+}
+
+.logistique {
+    background-color: #791e03;
+    color: #fa9992;
 }
 
 .default {
