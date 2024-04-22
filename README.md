@@ -1,4 +1,4 @@
-# Requierments
+# Requirements
 
  Java 11
  sbt
@@ -37,7 +37,7 @@ Locally :
 1) from the root directory run docker-compose up (should start postgres DB)
 2) sbt runDev
    2.1) Front part will be build 
-   2.2) app will connect to DB and create shema database automaticaly if doesn't exists
+   2.2) app will connect to DB and create schema database automatically if it doesn't exist
 3) from browser : http://localhost:8081
 
 ## Work on UI
@@ -56,9 +56,5 @@ Locally :
 1) ensure that your index is clean and fully pushed.
 2) checkout release branch
 2) Run `sbt goToProd` 
-   1) Process il plugged on remote origin, So take care that remote corresponding to prod target environment
+   1) Process is plugged on remote origin, So take care that remote corresponding to prod target environment
 3) and then just follow the process
-
-
- 
-
