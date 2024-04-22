@@ -38,7 +38,7 @@
         class="btn btn-secondary btn-lg block m-1"
         v-on:click="navToOverf"
       >
-        Overflow
+        Live rooms attendances
       </button>
     </div>
     <div>
