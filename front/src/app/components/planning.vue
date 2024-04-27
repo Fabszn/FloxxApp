@@ -44,6 +44,22 @@
 
 
   </div>
+
+  <div class="overlay">
+    <div class="content">
+      <p>
+        This screen must be vizalized on landscape mode
+      </p>
+      <p>
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary navbtn">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </p>
+
+    </div>
+
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -282,12 +298,66 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@media only screen and (orientation:portrait) and (max-width: 600px) {
+
+  .responsive-grid {
+    display: flex;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fond semi-transparent pour l'effet d'overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(187, 158, 158);
+    padding: 20px;
+    color: black;
+    width: 80%;
+    height: 80%;
+    border-radius: 5px;
+    /* Autres styles de votre choix */
+  }
+
+}
+
+@media only screen and (orientation:landscape) and (max-width: 600px) {
+
+  .responsive-grid {
+    display: flex;
+  }
+
+
+
+  .content {
+    display: none;
+  }
+
+}
+
+
+
 @media only screen and (min-width: 1280px) {
 
   .responsive-grid {
     display: flex;
   }
 
+  .content {
+    display: none;
+  }
 
 }
 </style>
