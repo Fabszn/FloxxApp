@@ -1,3 +1,15 @@
+
+.global-structure-app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.global-title{
+    display: flex;
+    
+    justify-content: center;
+}
+
 .tabs-component {
     margin: 4em 0;
 }

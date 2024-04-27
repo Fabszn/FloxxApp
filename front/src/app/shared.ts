@@ -63,7 +63,10 @@ export default {
     },
     getRoomName: function (roomId: number, rooms) {
         return _.filter(rooms, function (room){
-          return room.id == roomId 
+            console.log(room.id)
+            console.log(roomId)
+            
+            return room.id == roomId 
           })[0].name
   
       }

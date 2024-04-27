@@ -1,6 +1,6 @@
 <template>
 
-    <div class="d-flex justify-content-center rounded-pill m-1 p-1  " v-bind:class="selectCssByKind(kind)">{{ kind }}
+    <div class="d-flex justify-content-center  m-1 p-1  " v-bind:class="selectCssByKind(kind)">{{ kind }}
     </div>
 
 </template>
@@ -39,7 +39,7 @@ function selectCssByKind(kind: string): {} {
             HH_Hands_on_Lab: "2H Hands-on Lab" == kind,
             other: "Other" == kind,
             deep_dive: "Deep Dive" == kind,
-            logistique: _.size(_.filter(["Accueil","Circulation"], (c) => c == kind)) != 0,
+            logistique: _.size(_.filter(["Accueil", "Circulation"], (c) => c == kind)) != 0,
             HHH_Hands_on_Lab: "3H Hands-on Lab" == kind
 
         }
@@ -57,7 +57,6 @@ function selectCssByKind(kind: string): {} {
 .conference {
     background-color: #c2a68c;
     color: #3b1e02;
-    ;
 }
 
 .keynote {
@@ -119,4 +118,25 @@ function selectCssByKind(kind: string): {} {
     background-color: #2e3133;
     color: rgb(17, 16, 15)
 }
+
+@media screen and (min-width: 1280px) {
+
+    
+    .HH_Hands_on_Lab {
+        background-color: #bcf7c8;
+        color: #07180a;
+        font-size: 5px;
+    }
+
+    .HHH_Hands_on_Lab {
+        background-color: #58e758;
+        color: #142e14;
+        font-size: 8px;
+    }
+}
+
+
+
+
+
 </style>

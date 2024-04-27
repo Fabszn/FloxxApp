@@ -16,7 +16,7 @@ export class Hit {
     }
 }
 
-export class Slot {
+export interface Slot {
     slotId: string;
     roomId: string;
     fromTime: string;
@@ -24,6 +24,23 @@ export class Slot {
     kind: string;
     title: string;
     day: string;
+}
+
+
+export interface IPlanning {
+    day: string;
+    rooms: Array<IItemPlanning>;
+}
+
+export interface IItemPlanning {
+    roomId: string;
+    slots: Array<ISlotItem>;
+    
+}
+
+export interface ISlotItem {
+    slot: Slot;
+    users: Array<UserSlot>;
 }
 
 class TrackHitInfo {

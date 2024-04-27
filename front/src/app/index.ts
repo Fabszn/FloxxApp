@@ -18,6 +18,7 @@ import { GDialog } from 'gitart-vue-dialog'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import shared from "./shared";
+import { IPlanning } from './models.js';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -62,18 +63,18 @@ const store = createStore({
                 const planningResp = await fetch("/api/planning", {
                     method: "GET",
                     headers: shared.tokenHandle() })
-                const planningData = await planningResp.json()
+                const planningData:IPlanning = await planningResp.json()
                 context.commit('planning', planningData);
                
             })
         },
         async fetchDays(context) {
             shared.securityAccess(router, async () => {
-                const planningResp = await fetch("/api/days", {
+                const daysResp = await fetch("/api/days", {
                     method: "GET",
                     headers: shared.tokenHandle() })
-                const planningData = await planningResp.json()
-                context.commit('days', planningData);
+                const daysData = await daysResp.json()
+                context.commit('days', daysData);
             })
         }
         ,
