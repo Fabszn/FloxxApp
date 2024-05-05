@@ -383,7 +383,7 @@ export default defineComponent({
       }
     }
 
-    function isAffectedClass(users: Array<UserSlot>) {
+    function isAffectedClass(users: Array<curriedAddUserSlot>) {
       var userIdVal = "NoData";
       if ((_.size(users) != 0)) {
         userIdVal = "users.userId";

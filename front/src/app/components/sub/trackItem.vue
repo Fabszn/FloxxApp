@@ -7,8 +7,8 @@
                 <showRoom :roomId=toNumber(room.roomId) />
             </div>
 
-            <div v-bind:class="isAffectedClass(slotItem.users)" class="block" v-for="slotItem in room.slots"
-                :key="slotItem.slot.slotId">
+            <div :on-click="openGDiag(slotItem.slot.slotId,slotItem.users)" v-bind:class="isAffectedClass(slotItem.users)"
+                class="block" v-for="slotItem in room.slots" :key="slotItem.slot.slotId">
                 <div>
                     {{ slotItem.slot.fromTime }} -
                     {{ slotItem.slot.toTime }}
@@ -17,6 +17,7 @@
                         <showRc :red-coats=slotItem.users :slot-id=slotItem.slot.slotId />
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -35,13 +36,22 @@ import showRc from "./show-rc.vue";
 import displayKind from "./displayKind.vue";
 import speaker from "./speaker.vue";
 import shared from "../../shared";
+import { PropType, Ref, ref } from "vue";
 
 const params = defineProps({
     trackItems: {
         type: Array<IItemPlanning>,
         required: true
+    },
+    showTrackDetails: {
+        type: Function as PropType<(a1:string,a2:Array<UserSlot>) => null>,
+        required: true
     }
+
+
 });
+const dialogState: Ref<Boolean> = ref(false)
+const currentslotId: Ref<String> = ref("-1")
 
 
 function filterByGpr(idRoomRef: Number, currentRooms) {
@@ -68,6 +78,10 @@ function isAffectedClass(users: Array<UserSlot>) {
 function isSlotShouldBeDisplay(users) {
     //if no user and mode admin then hide block
     return (_.size(users) == 0 && shared.readAdminEtat()) || !(_.size(users) == 0);
+}
+
+function openGDiag(slotId: String, currentUsers: Array<UserSlot>) {
+    params.showTrackDetails(slotId,currentUsers)
 }
 
 
@@ -104,6 +118,7 @@ function isSlotShouldBeDisplay(users) {
     display: flex;
     flex-direction: row;
     justify-content: center;
+
 }
 
 .track {
@@ -129,40 +144,47 @@ function isSlotShouldBeDisplay(users) {
     justify-content: center;
 }
 
-@media screen and (min-width: 400px) {
+
+@media only screen and (orientation:landscape) and (max-height: 600px) {
 
     .grid {
-        display: inline-block;
+        display: grid;
+        flex-flow: row wrap;
 
     }
 
-    
-
-    .info-talk {
-        font-size: 12px;
-    }
-
-    .speaker-list {
-        font-size: 12px;
-    }
 
     .header {
         display: flex;
         background-color: #044169;
-        padding: 7px 14px;
-        font-size: 10px;
+        font-size: 12px;
         cursor: pointer;
-        margin: 2px;
+        margin: 5px;
         justify-content: center;
     }
 
     .block {
-        padding: 7px 14px;
-        font-size: 8px;
+
+        font-size: 15px;
         cursor: pointer;
-        margin: 2px;
+        margin: 5px;
     }
 
+    .kindTitle {
+        font-size: 12px;
+        color: cornsilk;
+        justify-content: center;
+    }
+
+
+}
+
+@media screen and (orientation:portrait) and (min-width: 400px) {
+
+    .grid {
+        display: none;
+
+    }
 
 }
 
