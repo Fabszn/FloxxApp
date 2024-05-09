@@ -171,6 +171,18 @@ class StateRoom {
     }
 }
 
+export interface IConference {
+    title: string;
+    roomName:string;
+    roomId:number;
+    kind: string;
+    day
+    fromTime: string;
+    toTime: string;
+    slotId: number;
+}
+
+
 
 class Conference {
     confTitle: string = "";

@@ -174,7 +174,7 @@ export default [
         ]
     },
     {
-        url: '/api/slots/63456',
+        url: '/api/slots/1792',
         method: 'get',
         response: { "slotId": "1783", "roomName": "Maillot", "roomId": 1713, "fromTime": "08:30", "toTime": "09:15", "kind": "Conference", "title": "Conf de test au top", "day": "Wednesday", "yearSlot": 2024 }
     },

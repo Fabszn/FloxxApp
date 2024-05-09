@@ -21,6 +21,7 @@
         "gitart-vue-dialog": "^3.1.0",
         "lodash": "^4.17.21",
         "mockjs": "^1.1.0",
+        "monads-typescript": "^1.1.1",
         "typescript": "^5.3.3",
         "vue": "3.4.19",
         "vue-clipboard2": "^0.3.1",

@@ -15,45 +15,45 @@
 
           <tab :name="item.day">
             <div class="responsive-grid">
-              <trackItem :showTrackDetails=curriedShow :trackItems="filterByGpr(1713, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1709, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1702, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1051, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1707, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1706, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1708, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1701, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1704, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1712, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1705, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1703, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1711, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1710, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(1, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(2, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(4, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(5, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(3, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(6, item.rooms)" />
-              <trackItem :showTrackDetails=show :trackItems="filterByGpr(7, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1713, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1709, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1702, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1051, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1707, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1706, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1708, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1701, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1704, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1712, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1705, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1703, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1711, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1710, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(2, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(4, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(5, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(3, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(6, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(7, item.rooms)" />
             </div>
           </tab>
         </div>
       </tabs>
     </div>
 
-    <GDialog :v-model=dialogState>
+    <GDialog ref="diaglogRef" v-model=dialogState>
       <div class="floxxmodal over">
         <div class="d-flex flex-row justify-content-around">
           <div class="info-talk">
-            <p>{{ currentConf.confTitle }}</p>
-            <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
+            <p>{{ currentConf.map(c => c.title).getOrElse("No title") }}</p>
+            <p>{{ currentConf.map(c => c.roomName).getOrElse("No room name") }} - {{ currentConf.map(c => c.kind).getOrElse("no kind") }}</p>
             <p>
-              {{ currentConf.fromTime }} -> {{ currentConf.toTime }}
+              {{ currentConf.map(c => c.fromTime).getOrElse("no from time") }} -> {{ currentConf.map(c => c.toTime).getOrElse("no to time") }}
             </p>
             <p>
               RedCoat(s) :
-              <showRc :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=currentConf.slotId.toString() />
+              <showRc :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=handleSlotId(currentConf) />
             </p>
             <div v-if="adminState">
               <v-select :options="userList" v-model="selectedUser"></v-select>
@@ -62,7 +62,7 @@
           <div class="speaker-list">
             <p>
             <p>Speaker(s)</p>
-            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true
+            <speaker :slotId=handleSlotId(currentConf) :withPicture="false" :externalSource=true
               :externalSpeaker=currentSpeakers />
             </p>
 
@@ -106,7 +106,7 @@
 
 <script lang="ts">
 import shared from "../shared";
-import { User, Conference, Mapping, ISpeaker, UserSlot, IPlanning } from "../models";
+import { User, Conference, Mapping, ISpeaker, UserSlot, IPlanning,IConference } from "../models";
 import _ from "lodash";
 import { defineComponent, onBeforeMount, ref, computed, Ref } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
@@ -118,6 +118,8 @@ import showRc from "./sub/show-rc.vue";
 import displayKind from "./sub/displayKind.vue";
 import speaker from "./sub/speaker.vue";
 import trackItem from "./sub/trackItem.vue";
+import { maybe, Maybe, None } from 'monads-typescript';
+
 
 
 
@@ -142,19 +144,20 @@ export default defineComponent({
     const items: Ref<Array<IPlanning>> = computed(() => store.state.planning);
     const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref(Array<UserSlot>);
-    const currentConf = ref(new Conference());
+    const currentConf: Ref<Maybe<IConference>> = ref<Maybe<IConference>>(new None<IConference>());
     const currentSpeakers = ref(new Array<ISpeaker>());
     const dialogState: Ref<Boolean> = ref(false)
-    const showDetails = (fake, idSlot,currentUsers) => {
+    /*const showDetails = (fake, idSlot,currentUsers) => {
       show(idSlot, currentUsers)
+    }*/
+    const diaglogRef = ref(null)
+
+    /*const curriedShow = ref(showDetails.bind(null, null))*/
+
+
+    function toNumber(roomId: String): number {
+      return _.toNumber(roomId)
     }
-
-    const curriedShow = ref(showDetails.bind(null, null))
-
-
-      function toNumber(roomId: String): number {
-        return _.toNumber(roomId)
-      }
 
     function backMenu() {
       router.push("/menu");
@@ -191,158 +194,157 @@ export default defineComponent({
     }
     function displayUsers(users: Array<UserSlot>): Array<String> {
       if (_.size(users) == 0) {
-        return ["-"];
+        return ["-"];String
       } else {
         return _.map(users, (u: UserSlot) => u.prenom + " " + _.upperCase(u.nom.substring(0, 1)) + ".")
       }
     }
 
-    function show(idSlot, currentUsers: Array<UserSlot>) {
-      return function () {
-        console.error("show")
-        /*this.actualUserNameSelected = currentUsers;
+    function show() {
+      return function (idSlot: String, currentUsers: Array<UserSlot>) {
+        this.actualUserNameSelected = currentUsers;
         beforeOpen.bind(this)(idSlot);
-        this.dialogState = true;*/
+        dialogState.value = true;
       }
+    }
 
-      function hide() {
-        this.selectedUser = null;
-        this.refresh();
-        this.$forceUpdate();
-        this.dialogState = false;
-      }
+    function hide() {
+      this.selectedUser = null;
+      this.refresh();
+      this.$forceUpdate();
+      this.dialogState = false;
+    }
 
-
-      function saveMapping() {
-        if (_.isNull(this.selectedUser)) {
-          this.toast.error("Red coat must be filled");
-        } else {
-          let mapping = new Mapping(
-            this.selectedUser.id,
-            this.currentConf.slotId
-          );
-          fetch("/api/set-user", {
-            body: JSON.stringify(mapping),
-            method: "POST",
-            headers: shared.tokenHandle(),
-          }).then((p) => {
-            this.selectedUser = null;
-            this.dialogState = false;
-            this.toast.success("Mapping done!");
-            refresh();
-          });
-        }
-      }
-      function getRoomNameById(roomId: number) {
-        return shared.getRoomName(roomId, rooms.value)
-      }
-
-      function composeFilter3(arr1: [], arr2: [], arr3: []) {
-        return _.concat(composeFilter(arr1, arr2), arr3);
-      }
-      function composeFilter(arr1: [], arr2: []) {
-        return _.concat(arr1, arr2);
-      }
-      function filterByGpr(idRoomRef: Number, currentRooms) {
-        return _.filter(currentRooms, (ro) => {
-          return idRoomRef == ro.roomId;
-        });
-      }
-      function cleanHeader(roomId: String) {
-        return _.split(roomId, " ")[1];
-      }
-
-      function beforeOpen(slotId) {
-        shared.securityAccess(this.$router, (p) => {
-          fetch("/api/slots/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-            .then((response) => response.json()) //TODO  to be refactor with interface
-            .then((p) => {
-              this.currentConf.updateInfo(
-                p.title,
-                p.kind,
-                p.roomId,
-                p.fromTime,
-                p.toTime,
-                p.slotId
-              );
-            });
-
-          fetch("/api/speakers/" + slotId, {
-            headers: shared.tokenHandle(),
-          })
-            .then((response) => response.json())
-            .then((p: Array<ISpeaker>) => {
-              currentSpeakers.value = p;
-            });
-
-          fetch("/api/users", {
-            headers: shared.tokenHandle(),
-          })
-            .then((response) => response.json())
-            .then((p) => {
-              this.userList = _.map(p, (u) => {
-                return new User(u.userId, u.nom, u.prenom);
-              });
-            });
-        });
-      }
-
-      function computeUser(user) {
-        if (_.isNull(user)) {
-          return "-";
-        } else {
-          return user.prenom + " " + user.nom;
-        }
-      }
-
-      onBeforeMount(async () => {
-        adminState.value = shared.readAdminEtat();
-        if (_.isEmpty(store.state.rooms)) {
-          await store.dispatch('fetchRooms');
-          await store.dispatch('fetchPlanning');
-        }
-      });
-
-
-
-      return {
-        selectedUser,
-        userList,
-        toast,
-        adminState,
-        dialogState,
-        items,
-        actualUserNameSelected,
-        currentConf,
-        currentSpeakers,
-        rooms,
-        curriedShow,
-        toNumber,
-        backMenu,
-        refresh,
-        getUserId,
-        isAffectedClass,
-        isSlotShouldBeDisplay,
-        displayUsers,
-        show,
-        hide,
-        //remove,
-        saveMapping,
-        getRoomNameById,
-        composeFilter,
-        composeFilter3,
-        filterByGpr,
-        cleanHeader,
-        computeUser,
-        //beforeOpen,
-        
-      };
+    function handleSlotId(conf:Maybe<IConference>):string {
+      return conf.map(c => c.slotId.toString()).getOrElse("")
     }
 
 
-  });
+    function saveMapping() {
+      if (_.isNull(this.selectedUser)) {
+        this.toast.error("Red coat must be filled");
+      } else {
+        let mapping = new Mapping(
+          this.selectedUser.id,
+          this.currentConf.slotId
+        );
+        fetch("/api/set-user", {
+          body: JSON.stringify(mapping),
+          method: "POST",
+          headers: shared.tokenHandle(),
+        }).then((p) => {
+          this.selectedUser = null;
+          this.dialogState = false;
+          this.toast.success("Mapping done!");
+          refresh();
+        });
+      }
+    }
+    function getRoomNameById(roomId: number) {
+      return shared.getRoomName(roomId, rooms.value)
+    }
+
+    function composeFilter3(arr1: [], arr2: [], arr3: []) {
+      return _.concat(composeFilter(arr1, arr2), arr3);
+    }
+    function composeFilter(arr1: [], arr2: []) {
+      return _.concat(arr1, arr2);
+    }
+    function filterByGpr(idRoomRef: Number, currentRooms) {
+      return _.filter(currentRooms, (ro) => {
+        return idRoomRef == ro.roomId;
+      });
+    }
+    function cleanHeader(roomId: String) {
+      return _.split(roomId, " ")[1];
+    }
+
+    function beforeOpen(slotId) {
+      shared.securityAccess(this.$router, (p) => {
+        fetch("/api/slots/" + slotId, {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json()) //TODO  to be refactor with interface
+          .then((p: IConference) => {
+            
+            currentConf.value = maybe(p);
+          }).catch(error => console.error("An error occured >> " + error));
+
+        fetch("/api/speakers/" + slotId, {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p: Array<ISpeaker>) => {
+            currentSpeakers.value = p;
+          });
+
+        fetch("/api/users", {
+          headers: shared.tokenHandle(),
+        })
+          .then((response) => response.json())
+          .then((p) => {
+            this.userList = _.map(p, (u) => {
+              return new User(u.userId, u.nom, u.prenom);
+            });
+          });
+      });
+    }
+
+    function computeUser(user) {
+      if (_.isNull(user)) {
+        return "-";
+      } else {
+        return user.prenom + " " + user.nom;
+      }
+    }
+
+    onBeforeMount(async () => {
+      adminState.value = shared.readAdminEtat();
+      if (_.isEmpty(store.state.rooms)) {
+        await store.dispatch('fetchRooms');
+        await store.dispatch('fetchPlanning');
+      }
+    });
+
+
+
+    return {
+      selectedUser,
+      userList,
+      toast,
+      adminState,
+      dialogState,
+      items,
+      actualUserNameSelected,
+      currentConf,
+      currentSpeakers,
+      rooms,
+      show,
+      //curriedShow,
+      toNumber,
+      backMenu,
+      refresh,
+      getUserId,
+      isAffectedClass,
+      isSlotShouldBeDisplay,
+      displayUsers,
+      hide,
+      //remove,
+      saveMapping,
+      getRoomNameById,
+      composeFilter,
+      composeFilter3,
+      filterByGpr,
+      cleanHeader,
+      computeUser,
+      handleSlotId
+      //beforeOpen,
+
+    };
+  }
+
+
+});
 
 
 

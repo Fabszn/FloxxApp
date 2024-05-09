@@ -7,8 +7,9 @@
                 <showRoom :roomId=toNumber(room.roomId) />
             </div>
 
-            <div :on-click="openGDiag(slotItem.slot.slotId,slotItem.users)" v-bind:class="isAffectedClass(slotItem.users)"
-                class="block" v-for="slotItem in room.slots" :key="slotItem.slot.slotId">
+            <div @click="openGDiag(slotItem.slot.slotId, slotItem.users)"
+                v-bind:class="isAffectedClass(slotItem.users)" class="block" v-for="slotItem in room.slots"
+                :key="slotItem.slot.slotId">
                 <div>
                     {{ slotItem.slot.fromTime }} -
                     {{ slotItem.slot.toTime }}
@@ -44,7 +45,7 @@ const params = defineProps({
         required: true
     },
     showTrackDetails: {
-        type: Function as PropType<(a1:string,a2:Array<UserSlot>) => null>,
+        type: Function as PropType<(a1: String, a2: Array<UserSlot>) => void>,
         required: true
     }
 
@@ -81,11 +82,12 @@ function isSlotShouldBeDisplay(users) {
 }
 
 function openGDiag(slotId: String, currentUsers: Array<UserSlot>) {
-    params.showTrackDetails(slotId,currentUsers)
+    console.log("track");
+    params.showTrackDetails(slotId, currentUsers);
 }
 
-
 </script>
+
 <style scoped>
 .header {
     display: flex;
