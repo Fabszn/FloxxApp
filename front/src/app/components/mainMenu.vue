@@ -142,7 +142,7 @@ button:hover {
   border: 1px solid #f6f2c9;
   background-color: #265830;
   padding: 14px 28px;
-  font-size: 16px;
+  font-size: 1.5em;
   cursor: pointer;
   text-align: center;
 }

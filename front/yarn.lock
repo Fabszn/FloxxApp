@@ -1265,6 +1265,11 @@ mockjs@^1.1.0:
   dependencies:
     commander "*"
 
+monads-typescript@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/monads-typescript/-/monads-typescript-1.1.1.tgz#6bd80bc03af269788e1748ac53f6f2ad63dd4af0"
+  integrity sha512-ZLZnImUxHLGJmge1MGnbK5fxVH9+RS9QBla+MuS6yktXHAxffo47b45xTnRzAT4deHEUW0AjUwNziuUmUDQhWQ==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

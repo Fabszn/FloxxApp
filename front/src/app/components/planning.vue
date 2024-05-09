@@ -9,288 +9,51 @@
       </div>
     </div>
     <div>
+
       <tabs>
-        <div v-for="item in items" :key="item.day">
+        <div v-for="item in items" :key=item.day>
 
           <tab :name="item.day">
-            <p class="kindTitle">Amphi bleu / Maillot</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1713, item.rooms),/*'Maillot'*/
-          filterByGpr(1709, item.rooms) /*'Amphi'*/
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }} -
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <p class="kindTitle">Neuilly floor 1</p>
-            <div class="grid">
-              <div class="track"
-                v-for="room in composeFilter(filterByGpr(1702, item.rooms), filterByGpr(1051, item.rooms))"
-                :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }} -
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Neuilly floor 2</p>
-            <div class="grid">
-              <div class="track"
-                v-for="room in composeFilter(filterByGpr(1707, item.rooms), filterByGpr(1706, item.rooms))"
-                :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }} -
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Labs Neuilly</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1708, item.rooms),
-          filterByGpr(1701, item.rooms)
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }} -
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Labs Paris</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1704, item.rooms),
-          filterByGpr(1712, item.rooms)
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }} -
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Paris floor 1</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1705, item.rooms),
-          filterByGpr(1703, item.rooms)
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Paris floor 2</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(1711, item.rooms),
-          filterByGpr(1710, item.rooms)
-
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Logistique Accueil</p>
-            <div class="grid">
-              <div class="track" v-for="room in 
-          filterByGpr(1, item.rooms)" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Logistique Etage 1</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(2, item.rooms),
-          filterByGpr(4, item.rooms)
-
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Logistique Etage 2</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(5, item.rooms),
-          filterByGpr(3, item.rooms)
-
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="kindTitle">Logistique Soutien</p>
-            <div class="grid">
-              <div class="track" v-for="room in composeFilter(
-          filterByGpr(6, item.rooms),
-          filterByGpr(7, item.rooms)
-
-        )" :key="room.roomId">
-                <div class="header">
-                  <showRoom :roomId=toNumber(room.roomId) />
-                </div>
-
-                <div v-on:click="show(slot.slot.slotId, slot.users)" v-bind:class="isAffectedClass(slot.users)"
-                  class="block" v-for="slot in room.slots" :key="slot.slot.slotId">
-                  <div>
-                    {{ slot.slot.fromTime }}
-                    {{ slot.slot.toTime }}
-                    <displayKind :kind="slot.slot.kind" :activate="isSlotShouldBeDisplay(slot.users)" />
-                    <div class="affected">
-                      <showRc :red-coats=slot.users :slot-id=slot.slot.slotId />
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="responsive-grid">
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1713, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1709, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1702, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1051, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1707, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1706, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1708, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1701, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1704, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1712, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1705, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1703, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1711, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1710, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(1, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(2, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(4, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(5, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(3, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(6, item.rooms)" />
+              <trackItem :showTrackDetails="show()" :trackItems="filterByGpr(7, item.rooms)" />
             </div>
           </tab>
         </div>
       </tabs>
     </div>
 
-    <GDialog v-model="dialogState">
+    <GDialog ref="diaglogRef" v-model=dialogState>
       <div class="floxxmodal over">
         <div class="d-flex flex-row justify-content-around">
           <div class="info-talk">
-            <p>{{ currentConf.confTitle }}</p>
-            <p>{{ currentConf.room }} / {{ currentConf.confKind }}</p>
+            <p>{{ currentConf.map(c => c.title).getOrElse("No title") }}</p>
+            <p>{{ currentConf.map(c => c.roomName).getOrElse("No room name") }} - {{ currentConf.map(c => c.kind).getOrElse("no kind") }}</p>
             <p>
-              {{ currentConf.fromTime }} -> {{ currentConf.toTime }}
+              {{ currentConf.map(c => c.fromTime).getOrElse("no from time") }} -> {{ currentConf.map(c => c.toTime).getOrElse("no to time") }}
             </p>
             <p>
               RedCoat(s) :
-              <showRc :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=currentConf.slotId.toString() />
+              <showRc :red-coats=actualUserNameSelected :is-edit="adminState" :slot-id=handleSlotId(currentConf) />
             </p>
             <div v-if="adminState">
               <v-select :options="userList" v-model="selectedUser"></v-select>
@@ -299,7 +62,7 @@
           <div class="speaker-list">
             <p>
             <p>Speaker(s)</p>
-            <speaker :slotId=currentConf.slotId.toString() :withPicture="false" :externalSource=true
+            <speaker :slotId=handleSlotId(currentConf) :withPicture="false" :externalSource=true
               :externalSpeaker=currentSpeakers />
             </p>
 
@@ -320,14 +83,32 @@
         </div>
       </div>
     </GDialog>
+
+
   </div>
+
+  <div class="overlay">
+    <div class="content">
+      <p>
+        This screen must be visualized on landscape mode
+      </p>
+      <p>
+        <button v-on:click="backMenu" type="button" class="btn btn-secondary navbtn">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </button>
+      </p>
+    </div>
+  </div>
+
+
+
 </template>
 
 <script lang="ts">
 import shared from "../shared";
-import { User, Conference, Mapping, ISpeaker, UserSlot } from "../models";
+import { User, Conference, Mapping, ISpeaker, UserSlot, IPlanning,IConference } from "../models";
 import _ from "lodash";
-import { defineComponent, onBeforeMount, ref, computed } from "vue";
+import { defineComponent, onBeforeMount, ref, computed, Ref } from "vue";
 import { Tabs, Tab } from "vue3-tabs-component";
 import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router';
@@ -336,6 +117,9 @@ import showRoom from "./sub/show-room.vue";
 import showRc from "./sub/show-rc.vue";
 import displayKind from "./sub/displayKind.vue";
 import speaker from "./sub/speaker.vue";
+import trackItem from "./sub/trackItem.vue";
+import { maybe, Maybe, None } from 'monads-typescript';
+
 
 
 
@@ -346,7 +130,8 @@ export default defineComponent({
     showRoom,
     displayKind,
     speaker,
-    showRc
+    showRc,
+    trackItem
   },
   setup() {
 
@@ -356,12 +141,19 @@ export default defineComponent({
     const selectedUser = ref(null);
     const userList = ref(new Array<User>());
     const adminState = ref(false);
-    const dialogState = ref(false);
-    const items = computed(() => store.state.planning);
+    const items: Ref<Array<IPlanning>> = computed(() => store.state.planning);
     const rooms = computed(() => store.state.rooms)
     const actualUserNameSelected = ref(Array<UserSlot>);
-    const currentConf = ref(new Conference());
+    const currentConf: Ref<Maybe<IConference>> = ref<Maybe<IConference>>(new None<IConference>());
     const currentSpeakers = ref(new Array<ISpeaker>());
+    const dialogState: Ref<Boolean> = ref(false)
+    /*const showDetails = (fake, idSlot,currentUsers) => {
+      show(idSlot, currentUsers)
+    }*/
+    const diaglogRef = ref(null)
+
+    /*const curriedShow = ref(showDetails.bind(null, null))*/
+
 
     function toNumber(roomId: String): number {
       return _.toNumber(roomId)
@@ -402,16 +194,18 @@ export default defineComponent({
     }
     function displayUsers(users: Array<UserSlot>): Array<String> {
       if (_.size(users) == 0) {
-        return ["-"];
+        return ["-"];String
       } else {
         return _.map(users, (u: UserSlot) => u.prenom + " " + _.upperCase(u.nom.substring(0, 1)) + ".")
       }
     }
 
-    function show(idSlot, currentUsers: Array<UserSlot>) {
-      this.actualUserNameSelected = currentUsers;
-      beforeOpen.bind(this)(idSlot);
-      this.dialogState = true;
+    function show() {
+      return function (idSlot: String, currentUsers: Array<UserSlot>) {
+        this.actualUserNameSelected = currentUsers;
+        beforeOpen.bind(this)(idSlot);
+        dialogState.value = true;
+      }
     }
 
     function hide() {
@@ -419,6 +213,10 @@ export default defineComponent({
       this.refresh();
       this.$forceUpdate();
       this.dialogState = false;
+    }
+
+    function handleSlotId(conf:Maybe<IConference>):string {
+      return conf.map(c => c.slotId.toString()).getOrElse("")
     }
 
 
@@ -467,16 +265,10 @@ export default defineComponent({
           headers: shared.tokenHandle(),
         })
           .then((response) => response.json()) //TODO  to be refactor with interface
-          .then((p) => {
-            this.currentConf.updateInfo(
-              p.title,
-              p.kind,
-              p.roomId,
-              p.fromTime,
-              p.toTime,
-              p.slotId
-            );
-          });
+          .then((p: IConference) => {
+            
+            currentConf.value = maybe(p);
+          }).catch(error => console.error("An error occured >> " + error));
 
         fetch("/api/speakers/" + slotId, {
           headers: shared.tokenHandle(),
@@ -527,6 +319,8 @@ export default defineComponent({
       currentConf,
       currentSpeakers,
       rooms,
+      show,
+      //curriedShow,
       toNumber,
       backMenu,
       refresh,
@@ -534,7 +328,6 @@ export default defineComponent({
       isAffectedClass,
       isSlotShouldBeDisplay,
       displayUsers,
-      show,
       hide,
       //remove,
       saveMapping,
@@ -544,7 +337,9 @@ export default defineComponent({
       filterByGpr,
       cleanHeader,
       computeUser,
-      beforeOpen
+      handleSlotId
+      //beforeOpen,
+
     };
   }
 
@@ -557,88 +352,52 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.header {
+.responsive-grid {
   display: flex;
-  background-color: #044169;
-  padding: 14px 28px;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 5px;
-  justify-content: center;
 }
 
-.blockColor {
-  background-color: #3399ff;
-}
-
-.deactivate {
-  background-color: #2a2e31;
-
+.overlay {
+  display: none;
 }
 
 
-
-.block {
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 5px;
-}
-
-.track {
-  display: flex;
-  flex-direction: column;
-}
-
-.grid {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.affectedBox {
-  font-weight: bold;
-  background-color: #022b53 !important;
-}
-
-.affected {
-  font-weight: bold;
-  color: aquamarine;
-}
-
-.kindTitle {
-  display: flex;
-  font-size: 24px;
-  text-transform: capitalize !important;
-  color: cornsilk;
-  justify-content: center;
-}
-
-@media screen and (max-width: 600px) {
-
-  .info-talk {
-    font-size: 12px;
-  }
-
-  .speaker-list {
-    font-size: 12px;
-  }
-
-  .header {
+@media only screen and (orientation:landscape) and (max-width: 900px) {
+  .responsive-grid {
     display: flex;
-    background-color: #044169;
-    padding: 7px 14px;
-    font-size: 10px;
-    cursor: pointer;
-    margin: 2px;
-    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  .block {
-    padding: 7px 14px;
-    font-size: 13px;
-    cursor: pointer;
-    margin: 2px;
+}
+
+@media only screen and (orientation:portrait) and (max-width: 600px) {
+
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fond semi-transparent pour l'effet d'overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(187, 158, 158);
+    padding: 20px;
+    color: black;
+    width: 80%;
+    height: 80%;
+    border-radius: 5px;
+    /* Autres styles de votre choix */
+  }
+
 }
 </style>
